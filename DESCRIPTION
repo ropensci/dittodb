@@ -20,3 +20,9 @@ Description: Testing and documenting code that communicates with remote
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    RSQLite,
+    nycflights13
+Suggests: 
+    usethis,
+    testthat
