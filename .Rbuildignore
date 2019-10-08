@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 nycflights13
+^\.travis\.yml$

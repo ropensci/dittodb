@@ -22,7 +22,8 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     RSQLite,
-    nycflights13
+    DBI
 Suggests: 
     usethis,
-    testthat
+    testthat,
+    nycflights13
