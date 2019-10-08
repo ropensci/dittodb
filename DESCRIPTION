@@ -1,0 +1,22 @@
+Package: dbtest
+Title: A Test Environment for DB Requests
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Testing and documenting code that communicates with remote
+  databases can be painful. Dealing with authentication, server state,
+  and other complications can make testing seem too costly to
+  bother with. But it doesn't need to be that hard. This package enables one
+  to test all of the logic on the R sides of the database in your package
+  without requiring access to the remote service. It also allows one to safely
+  record real query results to use as test fixtures. The ability to save
+  query results and load them offline also enables one to write vignettes and
+  other dynamic documents that can be distributed without access to a live
+  server.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
