@@ -7,7 +7,7 @@
 #' nycflights13_sqlite()
 
 nycflights13_sqlite <- function() {
-  nycflights13_db <- src_sqlite(":memory:", create = TRUE)
+  nycflights13_db <- src_sqlite("nycflights13/nycflights13.sqlite", create = TRUE)
 
   copy_to(nycflights13_db, nycflights13::flights,
           name = "flights",
@@ -15,11 +15,13 @@ nycflights13_sqlite <- function() {
             c("year", "month", "day"),
             "carrier",
             "tailnum"
-          ))
+          ),
+          temporary = FALSE)
 
   copy_to(nycflights13_db, nycflights13::airlines,
           name = "airlines",
-          indexes = list("carrier")
+          indexes = list("carrier"),
+          temporary = FALSE
           )
 
   return(nycflights13_db)

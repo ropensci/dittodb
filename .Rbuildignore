@@ -1,4 +1,5 @@
 ^dbtest\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-nycflights13
+^nycflights13$
+^\.travis\.yml$

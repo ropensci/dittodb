@@ -21,8 +21,13 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    RSQLite,
-    nycflights13
-Suggests: 
-    usethis,
+    DBI,
+    digest,
+    methods,
     testthat
+Suggests: 
+    nycflights13,
+    RSQLite,
+    spelling
+RoxygenNote: 6.1.1
+Language: en-US
