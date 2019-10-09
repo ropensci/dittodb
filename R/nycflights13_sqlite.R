@@ -7,7 +7,7 @@
 #' @examples
 #' nycflights13_sqlite()
 
-nycflights13_sqlite <- function() {
+nycflights13_sqlite <- function(use = "dplyr") {
   all <- utils::data(package = "nycflights13")$results[, 3]
 
   unique_index <- list(
@@ -21,24 +21,48 @@ nycflights13_sqlite <- function() {
     weather =  list(c("year", "month", "day"), "origin")
   )
 
-  db <- dplyr::src_sqlite(":memory:", create = TRUE)
+  if (use == "dplyr") {
+    db <- dplyr::src_sqlite(":memory:", create = TRUE)
 
-  tables <- setdiff(all, dplyr::src_tbls(db))
+    tables <- setdiff(all, dplyr::src_tbls(db))
 
-  # Create missing tables
-  for (table in tables) {
-    df <- getExportedValue("nycflights13", table)
-    message("Creating table: ", table)
+    # Create missing tables
+    for (table in tables) {
+      df <- getExportedValue("nycflights13", table)
+      message("Creating table: ", table)
 
-    dplyr::copy_to(
-      db,
-      df,
-      name = table,
-      unique_indexes = unique_index[[table]],
-      indexes = index[[table]],
-      temporary = FALSE
-    )
+      dplyr::copy_to(
+        db,
+        df,
+        name = table,
+        unique_indexes = unique_index[[table]],
+        indexes = index[[table]],
+        temporary = FALSE
+      )
+    }
+  } else {
+    if (use == "DBI") {
+      db <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+
+      tables <- setdiff(all, DBI::dbListTables(db))
+
+      # Create missing tables
+      for (table in tables) {
+        df <- getExportedValue("nycflights13", table)
+        message("Creating table: ", table)
+
+        DBI::dbWriteTable(
+          db,
+          table,
+          df,
+          unique_indexes = unique_index[[table]],
+          indexes = index[[table]],
+          temporary = FALSE
+        )
+      }
+    } else {
+      stop()
+    }
   }
-
   return(db)
 }
