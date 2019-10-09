@@ -1,9 +1,5 @@
 context("Test fixture")
 
-test_that("The fixture is what we expect", {
-  expect_true(file.exists(test_path("data/nycflights13.sqlite")))
-})
-
 con <- DBI::dbConnect(RSQLite::SQLite(), test_path("data/nycflights13.sqlite"))
 
 test_that("The fixture is what we expect", {

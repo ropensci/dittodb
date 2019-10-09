@@ -24,6 +24,5 @@ Imports:
     RSQLite,
     DBI
 Suggests: 
-    usethis,
     testthat,
     nycflights13
