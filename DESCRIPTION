@@ -24,9 +24,10 @@ Imports:
     DBI,
     digest,
     methods,
-    testthat
+    testthat,
+    dplyr,
+    nycflights13
 Suggests: 
-    nycflights13,
     RSQLite,
     spelling
 RoxygenNote: 6.1.1
