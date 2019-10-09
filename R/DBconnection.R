@@ -30,6 +30,8 @@ NULL
 setMethod(
   "dbSendQuery", signature("DBIMockConnection", "character"),
   function(conn, statement, ...) {
+    # create a new mock result with the type and a hash of the statement.
+    # TODO: extract the type from the statement instead of hard coding it.
     return(new("DBIMockResult", type = "SELECT", hash = hash(statement)))
   }
 )
@@ -73,7 +75,10 @@ turn_on_fetch_tracing <- function() {
         signature = c(conn = "DBIConnection", statement = "character"))
 }
 
-
+# TODO: should this function also include some specifications of the original
+# connection? During tests those won't matter, but for setup and interactive
+# debugging it could be helpful to try and fallback to a real connection if
+# the mock connection isn't working for some reason.
 dbMockConnect <- function(...) {
   return(new("DBIMockConnection"))
 }
