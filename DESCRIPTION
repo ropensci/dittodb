@@ -23,9 +23,11 @@ LazyData: true
 Imports: 
     DBI,
     digest,
-    RSQLite,
-    methods
+    methods,
+    testthat
 Suggests: 
-    testthat,
-    nycflights13
+    nycflights13,
+    RSQLite,
+    spelling
 RoxygenNote: 6.1.1
+Language: en-US

@@ -1,6 +1,7 @@
 context("Test fixture")
 library(DBI)
 
+# testing against built-in sqlite database
 con <- DBI::dbConnect(RSQLite::SQLite(), test_path("data/nycflights13.sqlite"))
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -17,9 +18,9 @@ test_that("The fixture is what we expect", {
     )
   )
 })
-
 DBI::dbDisconnect(con)
 
+# test with the mock db using the mocks in the tests/testthat/mocks/ directory
 with_mock_dbi({
   con <- DBI::dbConnect(RSQLite::SQLite(), test_path("data/nycflights13.sqlite"))
   test_that("We can mock it", {
