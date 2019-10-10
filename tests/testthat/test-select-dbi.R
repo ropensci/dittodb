@@ -23,7 +23,7 @@ test_that("The fixture is what we expect", {
 DBI::dbDisconnect(con)
 
 with_mock_db({
-  con <- DBI::dbConnect(RSQLite::SQLite(), test_path("data/nycflights13.sqlite"))
+  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   test_that("We can mock it", {
     expect_is(
       con,
