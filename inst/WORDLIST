@@ -2,3 +2,4 @@ dbFetchQuery
 DBIMockConnection
 DBIMockResult
 dbSendQuery
+dplyr
