@@ -4,7 +4,7 @@
 \alias{nycflights13_sqlite}
 \title{Create an in-memory SQLite database for testing}
 \usage{
-nycflights13_sqlite()
+nycflights13_sqlite(use = "dplyr")
 }
 \value{
 A xxx object
