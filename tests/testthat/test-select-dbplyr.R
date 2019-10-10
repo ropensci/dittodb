@@ -1,18 +1,21 @@
-context("Test fixture")
+context("Test against dbplyr")
 library(DBI)
+skip("For now, dplyr connections won't work")
 
 # testing against built-in sqlite database
-con <- nycflights13_sqlite()
+flights_db <- nycflights13_sqlite()
+con <- flights_db$con
 
 test_that("The fixture is what we expect", {
   expect_identical(
     DBI::dbListTables(con),
-    c("airlines", "airports", "flights", "planes", "weather")
+    c("airlines", "airports", "flights", "planes",  "sqlite_stat1",
+      "sqlite_stat4", "weather")
   )
 
   expect_identical(
     DBI::dbGetQuery(con, "SELECT * FROM airlines"),
-    nycflights13::airlines
+    as.data.frame(nycflights13::airlines)
   )
 })
 

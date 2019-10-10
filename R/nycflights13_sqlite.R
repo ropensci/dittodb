@@ -1,12 +1,15 @@
 #' Create an in-memory SQLite database for testing
 #'
+#' @param use should the connection use/return a dplyr-based or DBI-based connection?
+#'
 #' @return A xxx object
 #' @importFrom dplyr src_sqlite src_tbls copy_to
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' nycflights13_sqlite()
-
+#' }
 nycflights13_sqlite <- function(use = "dplyr") {
   all <- utils::data(package = "nycflights13")$results[, 3]
 

@@ -4,7 +4,10 @@
 \alias{nycflights13_sqlite}
 \title{Create an in-memory SQLite database for testing}
 \usage{
-nycflights13_sqlite()
+nycflights13_sqlite(use = "dplyr")
+}
+\arguments{
+\item{use}{should the connection use/return a dplyr-based or DBI-based connection?}
 }
 \value{
 A xxx object
@@ -13,5 +16,7 @@ A xxx object
 Create an in-memory SQLite database for testing
 }
 \examples{
+\dontrun{
 nycflights13_sqlite()
+}
 }
