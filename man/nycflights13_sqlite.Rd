@@ -16,5 +16,7 @@ A xxx object
 Create an in-memory SQLite database for testing
 }
 \examples{
+\dontrun{
 nycflights13_sqlite()
+}
 }
