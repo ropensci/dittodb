@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^nycflights13$
 ^\.travis\.yml$
+^codecov\.yml$
