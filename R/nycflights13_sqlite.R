@@ -7,8 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' nycflights13_sqlite()
-
+#' }
 nycflights13_sqlite <- function(use = "dplyr") {
   all <- utils::data(package = "nycflights13")$results[, 3]
 
