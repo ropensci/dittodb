@@ -6,6 +6,9 @@
 \usage{
 nycflights13_sqlite(use = "dplyr")
 }
+\arguments{
+\item{use}{should the connection use/return a dplyr-based or DBI-based connection?}
+}
 \value{
 A xxx object
 }
