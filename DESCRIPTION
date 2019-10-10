@@ -28,8 +28,9 @@ Imports:
     dplyr,
     nycflights13
 Suggests: 
+    dbplyr,
+    covr,
     RSQLite,
-    spelling,
-    covr
+    spelling
 RoxygenNote: 6.1.1
 Language: en-US
