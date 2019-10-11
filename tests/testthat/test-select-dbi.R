@@ -90,9 +90,9 @@ with_mock_db({
   })
 })
 
-# we can use a new path
+# we can use a new path (and with a named argument)
 with_mock_db({
-  con <- DBI::dbConnect(RSQLite::SQLite(), "new_db")
+  con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "new_db")
   test_that("The connection has a new path", {
     expect_identical(con@path, "new_db")
 
