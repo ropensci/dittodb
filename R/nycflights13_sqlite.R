@@ -1,16 +1,19 @@
 #' Create an in-memory SQLite database for testing
 #'
-#' @param use should the connection use/return a dplyr-based or DBI-based connection?
+#' @param sqlite logical, when FALSE the function shall use odbc
+#' @param ... additional parameters to connect to a database
 #'
-#' @return A xxx object
-#' @importFrom dplyr src_sqlite src_tbls copy_to
+#' @return RSQLite object
+#' @importFrom DBI dbConnect
+#' @importFrom RSQLite SQLite
+#' @importFrom dplyr copy_to
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' nycflights13_sqlite()
+#' nycflights13_sql(type = "sqlite")
 #' }
-nycflights13_sqlite <- function(use = "dplyr") {
+nycflights13_sql <- function(sqlite = TRUE, ...) {
   all <- utils::data(package = "nycflights13")$results[, 3]
 
   unique_index <- list(
@@ -24,48 +27,28 @@ nycflights13_sqlite <- function(use = "dplyr") {
     weather =  list(c("year", "month", "day"), "origin")
   )
 
-  if (use == "dplyr") {
-    db <- dplyr::src_sqlite(":memory:", create = TRUE)
-
-    tables <- setdiff(all, dplyr::src_tbls(db))
-
-    # Create missing tables
-    for (table in tables) {
-      df <- getExportedValue("nycflights13", table)
-      message("Creating table: ", table)
-
-      dplyr::copy_to(
-        db,
-        df,
-        name = table,
-        unique_indexes = unique_index[[table]],
-        indexes = index[[table]],
-        temporary = FALSE
-      )
-    }
+  if (sqlite == TRUE) {
+    con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   } else {
-    if (use == "DBI") {
-      db <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-
-      tables <- setdiff(all, DBI::dbListTables(db))
-
-      # Create missing tables
-      for (table in tables) {
-        df <- getExportedValue("nycflights13", table)
-        message("Creating table: ", table)
-
-        DBI::dbWriteTable(
-          db,
-          table,
-          df,
-          unique_indexes = unique_index[[table]],
-          indexes = index[[table]],
-          temporary = FALSE
-        )
-      }
-    } else {
-      stop()
-    }
+    con <- DBI::dbConnect(odbc::odbc(), ...)
   }
-  return(db)
+
+  tables <- setdiff(all, dbListTables(con))
+
+  # Create missing tables
+  for (table in tables) {
+    df <- getExportedValue("nycflights13", table)
+    message("Creating table: ", table)
+
+    dplyr::copy_to(
+      con,
+      df,
+      name = table,
+      unique_indexes = unique_index[[table]],
+      indexes = index[[table]],
+      temporary = FALSE
+    )
+  }
+
+  return(con)
 }
