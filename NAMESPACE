@@ -2,6 +2,7 @@
 
 export(nycflights13_sqlite)
 export(with_mock_db)
+exportClasses(DBIMockConnection)
 exportMethods(dbClearResult)
 exportMethods(dbDisconnect)
 exportMethods(dbFetch)
