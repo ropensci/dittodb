@@ -7,7 +7,7 @@
 #' @export
 with_mock_db <- function (expr) {
   with_mock(
-    dbConnect = dbMockConnect,
+    dbConnect = function(...) dbMockConnect(...),
     .env = "DBI",
     expr)
 }

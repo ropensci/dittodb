@@ -28,6 +28,8 @@ Imports:
     dplyr,
     nycflights13
 Suggests: 
+    dbplyr,
+    covr,
     RSQLite,
     spelling
 RoxygenNote: 6.1.1
