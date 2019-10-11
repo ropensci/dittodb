@@ -3,5 +3,19 @@
 language: R
 cache: packages
 
+r:
+  - oldrel
+  - release
+  - devel
+os:
+- linux
+- osx
+matrix:
+  exclude:
+  - os: osx
+    r: oldrel
+  - os: osx
+    r: devel
+
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - test $TRAVIS_R_VERSION_STRING = "release" && test $TRAVIS_OS_NAME = "linux" && Rscript -e 'covr::codecov()'
