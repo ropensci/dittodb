@@ -11,3 +11,17 @@ test_that("path operations work", {
     "Couldn't find the file at not-here.R"
   )
 })
+
+
+test_that("path sanitization", {
+  expect_identical(
+    db_path_sanitize(":memory:"),
+    "_memory_"
+    )
+
+  long_path <- paste0(rep(letters, 11), collapse =)
+  expect_identical(
+    db_path_sanitize(long_path),
+    substr(long_path, 1, 255)
+  )
+})

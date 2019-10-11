@@ -28,9 +28,6 @@ setMethod(
   function(conn, ...) return(NULL)
 )
 
-#' @importFrom digest digest
-hash <- function (string, n=6) substr(digest(string), 1, n)
-
 # TODO: should this function also include some specifications of the original
 # connection? During tests those won't matter, but for setup and interactive
 # debugging it could be helpful to try and fallback to a real connection if
@@ -39,6 +36,19 @@ dbMockConnect <- function(drv, ...) {
   # find a place to store the data
   dots <- list(...)
 
+  path <- get_dbname(dots)
+
+  return(new("DBIMockConnection", path = path))
+}
+
+
+#' Get the `dbname` from a connection call
+#'
+#' @param dots from the argument being passed to the connection
+#'
+#' @return the name, sanitized if needed
+#' @export
+get_dbname <- function(dots) {
   # look through dots to grab either dbname or the first unnammed argument
   named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
   unnamed_dbname <- length(dots) > 0 &&
@@ -51,6 +61,5 @@ dbMockConnect <- function(drv, ...) {
   } else {
     stop("There was no dbname, so I don't know where to look for mocks.")
   }
-
-  return(new("DBIMockConnection", path = path))
+  return(db_path_sanitize(path))
 }
