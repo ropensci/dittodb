@@ -1,6 +1,5 @@
 context("Test against dbplyr")
 library(DBI)
-skip("For now, dplyr connections won't work")
 
 # testing against built-in sqlite database
 flights_db <- nycflights13_sqlite()
@@ -21,6 +20,7 @@ test_that("The fixture is what we expect", {
 
 rm(con)
 
+skip("For now, dplyr connections won't work")
 # test with the mock db using the mocks in the tests/testthat/mocks/ directory
 with_mock_db({
   con <- nycflights13_sqlite()
