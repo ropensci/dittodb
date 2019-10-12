@@ -19,7 +19,13 @@ NULL
 #' @import DBI
 #' @rdname mock-db-methods
 #' @export
-setClass("DBIMockConnection", slots = c(path = "character"), contains = "DBIConnection")
+setClass("DBIMockConnection",
+         slots = c(
+           # TODO: change path to dbname to better reflect what's going on
+           path = "character",
+           original_class = "character"
+          ),
+         contains = "DBIConnection")
 
 #' @rdname mock-db-methods
 #' @export
@@ -36,9 +42,17 @@ dbMockConnect <- function(drv, ...) {
   # find a place to store the data
   dots <- list(...)
 
+  # TODO: is there a more programatic way to do this?
+  if (inherits(drv, "SQLiteDriver")) {
+    original_class <- "SQLiteConnection"
+  } else {
+    warning(drv, " is an unknown driver, dbtest will have limited functionality.")
+    original_class <- "unknown"
+  }
+
   path <- get_dbname(dots)
 
-  return(new("DBIMockConnection", path = path))
+  return(new("DBIMockConnection", path = path, original_class = original_class))
 }
 
 
@@ -63,3 +77,31 @@ get_dbname <- function(dots) {
   }
   return(db_path_sanitize(path))
 }
+
+
+# DBI methods from the respective DBI DB implementations
+# TODO: make a list of these so that it's not just copy/paste?
+
+#' @rdname mock-db-methods
+#'
+#' @importFrom methods getMethod
+#'
+#' @export
+setMethod(
+  "dbListTables", signature("DBIMockConnection"),
+  function(conn, ...) {
+    getMethod("dbListTables", signature = conn@original_class)(conn, ...)
+  }
+)
+
+#' @rdname mock-db-methods
+#'
+#' @export
+setMethod(
+  "dbBegin", signature("DBIMockConnection"),
+  function(conn, ...) {
+    getMethod("dbBegin", signature = conn@original_class)(conn, ...)
+  }
+)
+
+

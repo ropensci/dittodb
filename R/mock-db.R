@@ -5,9 +5,10 @@
 #' @return nothing
 #' @importFrom testthat with_mock
 #' @export
-with_mock_db <- function (expr) {
+with_mock_db <- function(expr) {
   with_mock(
     dbConnect = function(...) dbMockConnect(...),
     .env = "DBI",
-    expr)
+    expr
+  )
 }

@@ -1,4 +1,6 @@
 context("Recording db interactions")
+# TODO: Figure out why if this is run after a section `with_mock_db` it errors
+# during testing. It doesn't appear to impact interactive use.
 
 # use a temp directory so we don't have to cleanup later
 temp_dir <- tempdir()

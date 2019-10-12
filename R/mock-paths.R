@@ -22,16 +22,16 @@
 #' a character vector. If `new` is provided, the updated value will be returned
 #' invisibly.
 #' @examples
-#' identical(.mockPaths(), c(".", "tests/testthat/."))
+#' identical(.mockPaths(), c("tests/testthat/", "."))
 #' .mockPaths("/var/somewhere/else")
-#' identical(.mockPaths(), c("/var/somewhere/else", ".", "tests/testthat/."))
+#' identical(.mockPaths(), c("/var/somewhere/else", "tests/testthat/", "."))
 #' .mockPaths(NULL)
-#' identical(.mockPaths(), c(".", "tests/testthat/."))
+#' identical(.mockPaths(), c("tests/testthat/", "."))
 #' @rdname mockPaths
 #' @export
 .mockPaths <- function (new) {
   # use both "." and testthat::test_path(".") in case they are different
-  def <- unique(c(".", "tests/testthat/"))
+  def <- unique(c("tests/testthat/", "."))
 
   current <- getOption("dbtest.mock.paths", default = def)
   if (missing(new)) {

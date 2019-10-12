@@ -27,8 +27,8 @@ setMethod(
     if (n != -1) {
       warning("dbFetch `n` is ignored while mocking databases.")
     }
-
-    return(read_file(make_path(res@path, res@type, res@hash)))
+    path <- make_path(res@path, res@type, res@hash)
+    return(read_file(find_file(path)))
   }
 )
 

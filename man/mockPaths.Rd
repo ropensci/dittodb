@@ -34,9 +34,9 @@ This function is an extension of [httptest::.mockPaths()] from
 [httptest](https://CRAN.R-project.org/package=httptest)
 }
 \examples{
-identical(.mockPaths(), c(".", "tests/testthat/."))
+identical(.mockPaths(), c("tests/testthat/", "."))
 .mockPaths("/var/somewhere/else")
-identical(.mockPaths(), c("/var/somewhere/else", ".", "tests/testthat/."))
+identical(.mockPaths(), c("/var/somewhere/else", "tests/testthat/", "."))
 .mockPaths(NULL)
-identical(.mockPaths(), c(".", "tests/testthat/."))
+identical(.mockPaths(), c("tests/testthat/", "."))
 }

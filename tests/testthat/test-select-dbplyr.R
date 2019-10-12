@@ -19,8 +19,12 @@ test_that("The fixture is what we expect", {
 
 rm(con)
 
-skip("For now, dplyr connections won't work")
-# test with the mock db using the mocks in the tests/testthat/mocks/ directory
+skip("For now, dplyr connections don't work")
+# test with the mock db using some captured mocks
+start_capturing()
+con <- nycflights13_sql(sqlite = TRUE, use = "dplyr")
+stop_capturing()
+
 with_mock_db({
   con <- nycflights13_sql(sqlite = TRUE, use = "dplyr")
 

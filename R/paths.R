@@ -21,18 +21,17 @@ make_path <- function(path, type, hash) {
 #' @importFrom digest digest
 hash <- function (string, n=6) substr(digest(string), 1, n)
 
-ensure_file <- function(file_path) {
-  if (!file.exists(file_path)) {
-    return(FALSE)
-  }
-  return(TRUE)
-}
+read_file <- function(file_path) source(file_path)$value
 
-read_file <- function(file_path) {
-  if (!ensure_file(file_path)) {
-    stop("Couldn't find the file at ", file_path)
+# search through .mockPaths() to find a file, returning the first
+find_file <- function(file_path) {
+  for (mock_path in .mockPaths()) {
+    path_to_check <- file.path(mock_path, file_path)
+    if (file.exists(path_to_check)) {
+      return(path_to_check)
+    }
   }
 
-  return(source(file_path)$value)
+  stop("Couldn't find the file ", file_path, " in any of the mock directories.")
 }
 
