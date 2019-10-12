@@ -1,4 +1,3 @@
-acronis
 Codecov
 dbFetchQuery
 DBIMockConnection
@@ -8,8 +7,5 @@ dbSendQuery
 dplyr
 fs
 https
-kb
-LPT
-NUL
-PRN
-wikipedia
+odbc
+RSQLite

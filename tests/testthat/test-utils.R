@@ -13,3 +13,11 @@ test_that("can check for packages", {
     fixed = TRUE
   )
 })
+
+
+test_that("path sanitization", {
+  expect_identical(
+    db_path_sanitize(":memory:"),
+    "_memory_"
+  )
+})
