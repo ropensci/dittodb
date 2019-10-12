@@ -2,7 +2,7 @@ context("Test fixture")
 library(DBI)
 
 # testing against built-in sqlite database
-con <- nycflights13_sqlite(use = "DBI")
+con <- nycflights13_sql(sqlite = TRUE)
 
 test_that("The fixture is what we expect", {
   expect_identical(

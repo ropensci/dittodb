@@ -8,7 +8,7 @@ test_that("We can capture db interactions", {
 
   start_capturing()
 
-  con <- nycflights13_sqlite(use = "DBI")
+  con <- nycflights13_sql(sqlite = TRUE)
 
   # our state has been updated
   expect_identical(.dbtest_env$db_path, "_memory_")

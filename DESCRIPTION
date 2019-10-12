@@ -24,13 +24,14 @@ Imports:
     DBI,
     digest,
     methods,
-    testthat,
-    dplyr,
-    nycflights13
+    testthat
 Suggests: 
-    dbplyr,
     covr,
+    dplyr,
+    nycflights13,
+    odbc,
     RSQLite,
+    dbplyr,
     spelling
 RoxygenNote: 6.1.1
 Language: en-US
