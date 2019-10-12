@@ -6,9 +6,15 @@
 \alias{stop_capturing}
 \title{Capture and record database transactions and save them as mocks}
 \usage{
-start_capturing()
+start_capturing(path)
 
 stop_capturing()
+}
+\arguments{
+\item{path}{the path to record mocks.}
+}
+\value{
+NULL (invisibily)
 }
 \description{
 Capture and record database transactions and save them as mocks

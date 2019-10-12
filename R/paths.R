@@ -7,11 +7,7 @@
 #' @return a constructed path to a mock
 #' @export
 make_path <- function(path, type, hash) {
-  path_out <- lapply(
-    c(path, paste0(type, "-", hash, ".R")),
-    db_path_sanitize
-  )
-  path_out <- do.call(file.path, path_out)
+  path_out <- file.path(path, db_path_sanitize(paste0(type, "-", hash, ".R")))
   return(path_out)
 }
 

@@ -1,3 +1,4 @@
+api
 Codecov
 dbFetchQuery
 DBIMockConnection
@@ -7,5 +8,9 @@ dbSendQuery
 dplyr
 fs
 https
+httptest
+invisibily
+libPaths
+mockPaths
 odbc
 RSQLite
