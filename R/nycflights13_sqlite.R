@@ -12,7 +12,9 @@
 #' \dontrun{
 #' nycflights13_sql(type = "sqlite")
 #' }
-nycflights13_sql <- function(sqlite = TRUE, use = "DBI", ...) {
+nycflights13_sql <- function(sqlite = TRUE, use = c("DBI", "dplyr"), ...) {
+  use <- match.arg(use)
+
   all <- utils::data(package = "nycflights13")$results[, 3]
 
   unique_index <- list(
@@ -36,7 +38,22 @@ nycflights13_sql <- function(sqlite = TRUE, use = "DBI", ...) {
 
   tables <- setdiff(all, dbListTables(con))
 
-  if (use == "dplyr") {
+  if (use == "DBI") {
+    # Create missing tables
+    for (table in tables) {
+      df <- getExportedValue("nycflights13", table)
+      message("Creating table: ", table)
+
+      DBI::dbWriteTable(
+        con,
+        table,
+        df,
+        unique_indexes = unique_index[[table]],
+        indexes = index[[table]],
+        temporary = FALSE
+      )
+    }
+  } else if (use == "dplyr") {
     check_for_pkg("dplyr")
     # Create missing tables
     for (table in tables) {
@@ -47,21 +64,6 @@ nycflights13_sql <- function(sqlite = TRUE, use = "DBI", ...) {
         con,
         df,
         name = table,
-        unique_indexes = unique_index[[table]],
-        indexes = index[[table]],
-        temporary = FALSE
-      )
-    }
-  } else {
-    # Create missing tables
-    for (table in tables) {
-      df <- getExportedValue("nycflights13", table)
-      message("Creating table: ", table)
-
-      DBI::dbWriteTable(
-        con,
-        table,
-        df,
         unique_indexes = unique_index[[table]],
         indexes = index[[table]],
         temporary = FALSE

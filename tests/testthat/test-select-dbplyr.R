@@ -22,7 +22,7 @@ rm(con)
 skip("For now, dplyr connections won't work")
 # test with the mock db using the mocks in the tests/testthat/mocks/ directory
 with_mock_db({
-  con <- nycflights13_sql(sqlite = TRUE)
+  con <- nycflights13_sql(sqlite = TRUE, use = "dplyr")
 
   # nycflights13_sqlite(use == "DBI") returns
   # unable to find an inherited method for function ‘dbListTables’ for signature ‘"DBIMockConnection"’
