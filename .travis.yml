@@ -7,7 +7,7 @@ addons:
   mariadb: 10.4
 
 before_script:
-  - sudo mariadb -e 'create database testing;'
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo mariadb -e 'create database testing;'; fi
 
 r:
   - oldrel
