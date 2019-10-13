@@ -61,6 +61,12 @@ start_capturing <- function(path) {
   quietly(trace(
     "dbSendQuery",
     exit = quote({
+      if (getOption("dbtest.debug", FALSE)) {
+        message(
+          "The statement: \n", statement,
+          "\nis being hased to: ", hash(statement)
+        )
+      }
       .dbtest_env$curr_file_path <- make_path(
         .dbtest_env$db_path,
         strsplit(statement, " ")[[1]][1],
@@ -76,6 +82,12 @@ start_capturing <- function(path) {
     exit = quote(dput(ans, .dbtest_env$curr_file_path)),
     print = getOption("dbtest.debug", FALSE),
     where = asNamespace("DBI")
+  ))
+
+  quietly(trace(
+    "dbGetRowsAffected",
+    exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
+    print = getOption("dbtest.debug", FALSE)
   ))
 
   return(invisible(NULL))

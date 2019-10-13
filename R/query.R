@@ -1,7 +1,9 @@
 setMethod(
   "dbGetRowsAffected", signature("DBIMockResult"),
-  # TODO: this should be mocked/read not just return 0
-  function(res, n, ...) return(0)
+  function(res, n, ...) {
+    path <- make_path(res@path, res@type, res@hash)
+    return(read_file(find_file(path)))
+  }
 )
 
 setMethod(

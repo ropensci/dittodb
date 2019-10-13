@@ -19,7 +19,10 @@ make_path <- function(path, type, hash) {
 #' @return a hash for the string
 #' @export
 #' @importFrom digest digest
-hash <- function (string, n=6) substr(digest(string), 1, n)
+hash <- function (string, n=6) {
+  string <- ignore_dbplyr_unique_names(string)
+  return(substr(digest(string), 1, n))
+}
 
 read_file <- function(file_path) source(file_path)$value
 

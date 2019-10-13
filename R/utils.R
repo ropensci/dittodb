@@ -43,3 +43,7 @@ db_path_sanitize <- function(filename, replacement = "_") {
 
   return(filename)
 }
+
+ignore_dbplyr_unique_names <- function(statement) {
+  return(gsub("`zzz[[:digit:]]+`", "`removed_unique_dplyr_name`", statement))
+}

@@ -3,7 +3,8 @@ setClass("DBIMockResult",
          slots = c(
            "type" = "character",
            "hash" = "character",
-           "path" = "character"
+           "path" = "character",
+           "statement" = "character"
          ),
          contains = "DBIResult")
 
@@ -15,7 +16,13 @@ setMethod(
   function(conn, statement, ...) {
     # create a new mock result with the type and a hash of the statement.
     # TODO: extract the type from the statement instead of hard coding it.
-    return(new("DBIMockResult", type = "SELECT", hash = hash(statement), path = conn@path))
+    if (getOption("dbtest.debug", FALSE)) {
+      message(
+        "Sending a query for the statement: \n", statement,
+        "\nis being hased to: ", hash(statement)
+      )
+    }
+    return(new("DBIMockResult", type = "SELECT", hash = hash(statement), path = conn@path, statement = statement))
   }
 )
 
