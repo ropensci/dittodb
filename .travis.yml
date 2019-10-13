@@ -3,6 +3,12 @@
 language: R
 cache: packages
 
+addons:
+  mariadb: 10.4
+
+before_script:
+  - sudo mysql -e 'create database testing;'
+
 r:
   - oldrel
   - release
