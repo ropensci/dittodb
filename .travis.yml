@@ -7,7 +7,7 @@ addons:
   mariadb: 10.4
 
 before_script:
-  - sudo mysql -e 'create database testing;'
+  - sudo mariadb -e 'create database testing;'
 
 r:
   - oldrel
