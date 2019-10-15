@@ -102,6 +102,8 @@ with_mock_path(path = "postgres_integration", {
       )
     })
 
+    test_that("fake failure", expect_true(FALSE))
+
     dbDisconnect(con)
   })
 })
