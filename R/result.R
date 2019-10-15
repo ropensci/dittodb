@@ -1,5 +1,7 @@
+#' @rdname mock-db-methods
 #' @import DBI
-setClass("DBIMockResult",
+#' @export
+DBIMockResult <- setClass("DBIMockResult",
          slots = c(
            "type" = "character",
            "hash" = "character",

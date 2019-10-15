@@ -7,6 +7,8 @@
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
 \alias{dbBegin,DBIMockConnection-method}
+\alias{DBIMockResult-class}
+\alias{DBIMockResult}
 \alias{dbSendQuery,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
 \alias{dbClearResult,DBIMockResult-method}
