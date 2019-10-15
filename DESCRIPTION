@@ -30,16 +30,16 @@ Imports:
     DBI,
     digest,
     methods,
-    testthat
+    testthat,
+    glue
 Suggests: 
     covr,
-    dplyr,
     nycflights13,
     odbc,
     RMariaDB,
     RPostgres,
     RSQLite,
-    dbplyr,
-    spelling
+    spelling,
+    RPostgreSQL
 RoxygenNote: 6.1.1
 Language: en-US
