@@ -1,6 +1,7 @@
 api
 Codecov
 dbFetchQuery
+dbi
 DBIMockConnection
 DBIMockResult
 dbname
@@ -12,5 +13,7 @@ httptest
 invisibily
 libPaths
 mockPaths
-odbc
-RSQLite
+nycflights
+RSQLiteConnection
+sql
+standardised
