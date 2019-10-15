@@ -39,7 +39,6 @@ quietly <- function (expr) {
 }
 
 
-
 #' @rdname capture_requests
 #' @export
 start_capturing <- function(path) {

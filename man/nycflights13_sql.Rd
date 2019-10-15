@@ -4,10 +4,13 @@
 \alias{nycflights13_sql}
 \title{Create an in-memory SQLite database for testing}
 \usage{
-nycflights13_sql(sqlite = TRUE, use = c("DBI", "dplyr"), ...)
+nycflights13_sql(con, sqlite = FALSE, use = c("DBI", "dplyr"), ...)
 }
 \arguments{
-\item{sqlite}{logical, when FALSE the function shall use odbc}
+\item{con}{a DBI connection to use}
+
+\item{sqlite}{logical, when FALSE the function shall use the connection
+specified with `con` (or odbc if there is no `con`; default: FALSE)}
 
 \item{use}{should the connection use/return a dplyr-based or DBI-based
 connection? (default: DBI)}

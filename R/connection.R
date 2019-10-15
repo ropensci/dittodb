@@ -46,7 +46,7 @@ dbMockConnect <- function(drv, ...) {
   if (inherits(drv, "SQLiteDriver")) {
     original_class <- "SQLiteConnection"
   } else {
-    warning(drv, " is an unknown driver, dbtest will have limited functionality.")
+    warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
     original_class <- "unknown"
   }
 

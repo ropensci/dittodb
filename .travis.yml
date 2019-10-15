@@ -3,19 +3,25 @@
 language: R
 cache: packages
 
-addons:
-  mariadb: 10.4
+# linux builds should be able to use the docker set up, but have been
+# segfaulting on connection with either MariaDB or RPostgres
+before_install:
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh postgres-travis-macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh mariadb-travis-macos.sh; fi
 
 before_script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo mariadb -e 'create database testing;'; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_MARIA=true; fi
+  # we have to install from source, or else we get `result_fetch(res@ptr, n = n)`
+  - R -q -e 'install.packages("RMariaDB", type = "source");'
 
 r:
   - oldrel
   - release
   - devel
 os:
-- linux
-- osx
+  - linux
+  - osx
 matrix:
   exclude:
   - os: osx

@@ -36,6 +36,8 @@ Suggests:
     dplyr,
     nycflights13,
     odbc,
+    RMariaDB,
+    RPostgres,
     RSQLite,
     dbplyr,
     spelling
