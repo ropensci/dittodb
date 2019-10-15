@@ -34,12 +34,13 @@ Imports:
     glue
 Suggests: 
     covr,
+    dplyr,
+    dbplyr,
     nycflights13,
     odbc,
     RMariaDB,
     RPostgres,
     RSQLite,
-    spelling,
-    RPostgreSQL
+    spelling
 RoxygenNote: 6.1.1
 Language: en-US
