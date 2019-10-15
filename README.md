@@ -5,10 +5,10 @@
 <!-- badges: end -->
 
 
-dbtest is a package that makes testing against databases easy. When writing code that relies on interactions with databases, testing has been difficult without recreating test databases in your CI environment, or resorting to using SQLite databases instead of the database engines you have in production. Both have their downsides: recreating database infrastructure is slow, error prone, and hard to iterate with. Using SQLite works well, right up until you use a feature (like (a full outer join)[https://www.sqlite.org/omitted.html]) or has (quirks)[https://www.sqlite.org/quirks.html] that might differ from your production database. dbtest solves this by recording database interactions, saving them as mocks, and then replying them seamlessly during testing. This means that if you can get a query from your database, you can record the response and reliably reproduce that response in tests.
+dbtest is a package that makes testing against databases easy. When writing code that relies on interactions with databases, testing has been difficult without recreating test databases in your CI environment, or resorting to using SQLite databases instead of the database engines you have in production. Both have their downsides: recreating database infrastructure is slow, error prone, and hard to iterate with. Using SQLite works well, right up until you use a feature (like [a full outer join](https://www.sqlite.org/omitted.html)) or has [quirks](https://www.sqlite.org/quirks.html) that might differ from your production database. dbtest solves this by recording database interactions, saving them as mocks, and then replying them seamlessly during testing. This means that if you can get a query from your database, you can record the response and reliably reproduce that response in tests.
 
 ## A quick example
-Say we have a Postgres database with some (nycflights)[https://CRAN.R-project.org/package=nycflights13] data in it and we are writing functions that query this data that we want to test.
+Say we have a Postgres database with some [nycflights](https://CRAN.R-project.org/package=nycflights13) data in it and we are writing functions that query this data that we want to test.
 
 For example, we have the simple function that retrieves one airline:
 
