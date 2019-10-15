@@ -1,5 +1,5 @@
-# stop the travis mariadb
-sudo service mysql stop || true
+# before running this, make sure to stop the travis mariadb
+# sudo service mysql stop || true
 
 docker pull mariadb
 

@@ -1,5 +1,5 @@
-# stop the travis postgres
-sudo /etc/init.d/postgresql stop || true
+# before running this, make sure stop the travis postgres
+# sudo /etc/init.d/postgresql stop || true
 
 docker pull postgres
 

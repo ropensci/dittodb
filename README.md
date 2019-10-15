@@ -36,6 +36,7 @@ con <- DBI::dbConnect(
 
 get_an_airline(con)
 DBI::dbDisconnect(con)
+
 stop_capturing()
 ```
 
