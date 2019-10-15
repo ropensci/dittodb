@@ -4,13 +4,12 @@
 \alias{nycflights13_sql}
 \title{Create a standardised database for testing}
 \usage{
-nycflights13_sql(con, schema = "public", method = c("dbi", "dplyr"),
-  ...)
+nycflights13_sql(con, schema = "", method = c("dbi", "dplyr"), ...)
 }
 \arguments{
 \item{con}{an SQL connection (i.e a PostgreSQL connection)}
 
-\item{schema}{schema to write the tables ("public" by default)}
+\item{schema}{schema to write the tables ("", or no schema by default)}
 
 \item{method}{should the tables be created with DBI methods or dplyr methods?
 (either "dbi" or "dplyr"; "dbi" by default)}

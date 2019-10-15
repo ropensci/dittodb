@@ -4,7 +4,7 @@
 #' from the [`nycflights2013`] dataset.
 #'
 #' @param con an SQL connection (i.e a PostgreSQL connection)
-#' @param schema schema to write the tables ("public" by default)
+#' @param schema schema to write the tables ("", or no schema by default)
 #' @param method should the tables be created with DBI methods or dplyr methods?
 #'  (either "dbi" or "dplyr"; "dbi" by default)
 #' @param ... additional parameters to connect to a database
@@ -22,7 +22,7 @@
 #' nycflights13_sql(psql_con, schema = "nycflights13")
 #' }
 nycflights13_sql <- function(con,
-                             schema = "public",
+                             schema = "",
                              method = c("dbi", "dplyr"),
                              ...) {
   method <- match.arg(method)
