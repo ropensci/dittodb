@@ -1,0 +1,108 @@
+context("RPostgreSQL")
+library(RPostgreSQL)
+skip_locally("use postgres-docker.sh and test manually")
+
+# setup the database that will be mocked and then tested
+con <- DBI::dbConnect(
+  RPostgreSQL::PostgreSQL(),
+  dbname = "nycflights",
+  host = "127.0.0.1",
+  user = "travis",
+  password = ""
+)
+
+con <- nycflights13_sql(con, schema = "public")
+
+test_that("The fixture is what we expect", {
+  expect_identical(
+    dbListTables(con),
+    c("airlines", "airports", "flights", "planes", "weather")
+  )
+
+  expect_identical(
+    dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+    data.frame(
+      carrier = c("9E", "AA"),
+      name = c("Endeavor Air Inc.", "American Airlines Inc."),
+      stringsAsFactors = FALSE
+    )
+  )
+})
+
+DBI::dbDisconnect(con)
+
+
+with_mock_path(path = "postgres_integration", {
+  start_capturing()
+
+  con <- DBI::dbConnect(
+    RPostgreSQL::PostgreSQL(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = "travis",
+    password = ""
+  )
+
+  # dbGetQuery is different for RPostgreSQL and isn't simply a warpper around
+  # dbSendQuery(), dbFetch()
+  res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
+  DBI::dbFetch(res)
+  res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 1")
+  DBI::dbFetch(res)
+
+  DBI::dbDisconnect(con)
+  stop_capturing()
+
+  with_mock_db({
+    con <- DBI::dbConnect(
+      RPostgreSQL::PostgreSQL(),
+      dbname = "nycflights",
+      host = "127.0.0.1",
+      user = "travis",
+      password = ""
+    )
+
+    test_that("Our connection is a mock connection", {
+      expect_is(
+        con,
+        "DBIMockConnection"
+      )
+    })
+
+    test_that("We can use mocks for dbGetQeury", {
+      expect_identical(
+        dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+        data.frame(
+          carrier = c("9E", "AA"),
+          name = c("Endeavor Air Inc.", "American Airlines Inc."),
+          stringsAsFactors = FALSE
+        )
+      )
+    })
+
+    test_that("We can use mocks for dbSendQuery", {
+      result <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
+      expect_identical(
+        dbFetch(result),
+        data.frame(
+          carrier = c("9E", "AA"),
+          name = c("Endeavor Air Inc.", "American Airlines Inc."),
+          stringsAsFactors = FALSE
+        )
+      )
+    })
+
+    test_that("A different query uses a different mock", {
+      expect_identical(
+        dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"),
+        data.frame(
+          carrier = c("9E"),
+          name = c("Endeavor Air Inc."),
+          stringsAsFactors = FALSE
+        )
+      )
+    })
+
+    dbDisconnect(con)
+  })
+})

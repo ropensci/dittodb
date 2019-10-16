@@ -78,7 +78,12 @@ start_capturing <- function(path) {
 
   quietly(trace(
     "dbFetch",
-    exit = quote(dput(ans, .dbtest_env$curr_file_path)),
+    exit = quote({
+      if (dbtest_debug_level(1)) {
+        message("Writing to ", .dbtest_env$curr_file_path)
+      }
+      dput(ans, .dbtest_env$curr_file_path)
+    }),
     print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))

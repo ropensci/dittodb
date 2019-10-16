@@ -95,7 +95,8 @@ nycflights13_sql <- function(con,
         df,
         unique_indexes = unique_index[[table]],
         indexes = index[[table]],
-        temporary = FALSE
+        temporary = FALSE,
+        row.names = FALSE
       )
     }
   } else {
