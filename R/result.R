@@ -2,13 +2,14 @@
 #' @import DBI
 #' @export
 DBIMockResult <- setClass("DBIMockResult",
-         slots = c(
-           "type" = "character",
-           "hash" = "character",
-           "path" = "character",
-           "statement" = "character"
-         ),
-         contains = "DBIResult")
+  slots = c(
+    "type" = "character",
+    "hash" = "character",
+    "path" = "character",
+    "statement" = "character"
+  ),
+  contains = "DBIResult"
+)
 
 #' @rdname mock-db-methods
 #' @importFrom methods setMethod new

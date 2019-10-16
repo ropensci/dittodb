@@ -8,7 +8,7 @@
 NULL
 
 # borrowed from httptest
-safe_untrace <- function (what, where=sys.frame()) {
+safe_untrace <- function(what, where = sys.frame()) {
   ## If you attempt to untrace a function (1) that isn't exported from
   ## whatever namespace it lives in and (2) that isn't currently traced,
   ## it errors. This prevents that so that it's always safe to call `untrace`
@@ -21,15 +21,15 @@ safe_untrace <- function (what, where=sys.frame()) {
   }
 
   if (inherits(
-    try(get(what, env), silent=TRUE),
+    try(get(what, env), silent = TRUE),
     c("functionWithTrace", "standardGenericWithTrace")
   )) {
-    quietly(untrace(what, where=where))
+    quietly(untrace(what, where = where))
   }
 }
 
 # borrowed from httptest
-quietly <- function (expr) {
+quietly <- function(expr) {
   env <- parent.frame()
   if (dbtest_debug_level(2)) {
     eval(expr, env)
@@ -52,7 +52,7 @@ start_capturing <- function(path) {
     exit = quote({
       .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
-      }),
+    }),
     print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))
@@ -99,7 +99,7 @@ start_capturing <- function(path) {
 
 #' @rdname capture_requests
 #' @export
-stop_capturing <- function () {
+stop_capturing <- function() {
   for (func in c("dbSendQuery", "dbFetch", "dbConnect")) {
     safe_untrace(func, asNamespace("DBI"))
   }

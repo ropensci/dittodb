@@ -29,7 +29,7 @@
 #' identical(.mockPaths(), c("tests/testthat/", "."))
 #' @rdname mockPaths
 #' @export
-.mockPaths <- function (new) {
+.mockPaths <- function(new) {
   # use both "." and testthat::test_path(".") in case they are different
   def <- unique(c("tests/testthat/", "."))
 
@@ -44,12 +44,12 @@
   } else {
     ## We're adding one or more paths
     current <- unique(c(new, current))
-    options(dbtest.mock.paths=current)
+    options(dbtest.mock.paths = current)
     return(invisible(current))
   }
 }
 
-with_mock_path <- function (path, expr, replace = FALSE) {
+with_mock_path <- function(path, expr, replace = FALSE) {
   oldmp <- .mockPaths()
   if (replace) {
     options(dbtest.mock.paths = path)
