@@ -1,7 +1,6 @@
 context("RPostgreSQL")
 library(RPostgreSQL)
-# skip_env("postgres")
-# skip_locally("use postgres-docker.sh and test manually")
+skip_locally("use postgres-docker.sh and test manually")
 
 # setup the database that will be mocked and then tested
 con <- DBI::dbConnect(
@@ -44,7 +43,8 @@ with_mock_path(path = "postgres_integration", {
     password = ""
   )
 
-  # dbGetQuery is different for RPostgreSQL
+  # dbGetQuery is different for RPostgreSQL and isn't simply a warpper around
+  # dbSendQuery(), dbFetch()
   res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
   DBI::dbFetch(res)
   res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 1")
