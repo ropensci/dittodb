@@ -42,10 +42,31 @@ stop_capturing()
 
 This will run the query from `get_an_airline()`, and save the response in a mock directory and file. Then, when we are testing, we can use the following:
 
-```
+```r
+# With RPostgres package
 with_mock_db({
   con <- DBI::dbConnect(
     RPostgres::Postgres(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = "travis",
+    password = ""
+  )
+  
+  test_that("We get one airline", {
+    one_airline <- get_an_airline()
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+
+# With RPostgreSQL package
+
+with_mock_db({
+  con <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
     dbname = "nycflights",
     host = "127.0.0.1",
     user = "travis",

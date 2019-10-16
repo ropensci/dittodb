@@ -31,34 +31,43 @@ nycflights13_sql <- function(con,
 
   unique_index <- list(
     airlines = list("carrier"),
-    planes =   list("tailnum")
+    planes = list("tailnum")
   )
 
   index <- list(
     airports = list("faa"),
-    flights =  list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
-    weather =  list(c("year", "month", "day"), "origin")
+    flights = list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
+    weather = list(c("year", "month", "day"), "origin")
   )
 
   if (inherits(con, "SQLiteConnection") | schema == "") {
     # we don't have schema information or it's not compatible, proceed without.
     remote_tables <- dbListTables(con)
   } else {
-    remote_schemas <- DBI::dbGetQuery(con,
-                                      glue::glue_sql("SELECT schema_name FROM information_schema.schemata",
-                                                     .con = con))
+    remote_schemas <- DBI::dbGetQuery(
+      con,
+      glue::glue_sql("SELECT schema_name FROM information_schema.schemata",
+        .con = con
+      )
+    )
 
     remote_schemas <- as.character(remote_schemas$schema_name)
 
     if (any(schema %in% remote_schemas) == FALSE) {
-      DBI::dbGetQuery(con,
-                      glue::glue_sql("CREATE SCHEMA {`schema`}",
-                                     .con = con))
+      DBI::dbGetQuery(
+        con,
+        glue::glue_sql("CREATE SCHEMA {`schema`}",
+          .con = con
+        )
+      )
     }
 
-    remote_tables <- DBI::dbGetQuery(con,
-                                     glue::glue_sql("SELECT table_name FROM information_schema.tables WHERE table_schema={schema}",
-                                                    .con = con))
+    remote_tables <- DBI::dbGetQuery(
+      con,
+      glue::glue_sql("SELECT table_name FROM information_schema.tables WHERE table_schema={schema}",
+        .con = con
+      )
+    )
 
     remote_tables <- as.character(remote_tables$table_name)
   }
@@ -141,4 +150,3 @@ nycflights13_sqlite <- function(...) {
 
   return(invisible(sqlite_con))
 }
-

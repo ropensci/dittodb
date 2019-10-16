@@ -20,12 +20,13 @@ NULL
 #' @rdname mock-db-methods
 #' @export
 setClass("DBIMockConnection",
-         slots = c(
-           # TODO: change path to dbname to better reflect what's going on
-           path = "character",
-           original_class = "character"
-          ),
-         contains = "DBIConnection")
+  slots = c(
+    # TODO: change path to dbname to better reflect what's going on
+    path = "character",
+    original_class = "character"
+  ),
+  contains = "DBIConnection"
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -66,7 +67,7 @@ get_dbname <- function(dots) {
   # look through dots to grab either dbname or the first unnammed argument
   named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
   unnamed_dbname <- length(dots) > 0 &&
-    ( is.null(names(dots[1])) || names(dots[1]) == "" )
+    (is.null(names(dots[1])) || names(dots[1]) == "")
   # if there is no name, or it's empty
   if (named_dbname) {
     path <- dots$dbname
@@ -103,5 +104,3 @@ setMethod(
     getMethod("dbBegin", signature = conn@original_class)(conn, ...)
   }
 )
-
-
