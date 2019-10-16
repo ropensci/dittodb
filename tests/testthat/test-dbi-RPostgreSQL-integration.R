@@ -11,7 +11,7 @@ con <- DBI::dbConnect(
   password = ""
 )
 
-con <- nycflights13_sql(con)
+con <- nycflights13_sql(con, schema = "public")
 
 test_that("The fixture is what we expect", {
   expect_identical(
