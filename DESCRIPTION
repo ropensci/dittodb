@@ -40,6 +40,7 @@ Suggests:
     odbc,
     RMariaDB,
     RPostgres,
+    RPostgreSQL,
     RSQLite,
     spelling,
     withr

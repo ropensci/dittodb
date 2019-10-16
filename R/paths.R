@@ -19,7 +19,7 @@ make_path <- function(path, type, hash) {
 #' @return a hash for the string
 #' @export
 #' @importFrom digest digest
-hash <- function (string, n=6) {
+hash <- function(string, n = 6) {
   string <- ignore_dbplyr_unique_names(string)
   return(substr(digest(string), 1, n))
 }
@@ -37,4 +37,3 @@ find_file <- function(file_path) {
 
   stop("Couldn't find the file ", file_path, " in any of the mock directories.")
 }
-
