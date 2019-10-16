@@ -6,6 +6,7 @@ cache: packages
 # linux builds should be able to use the docker set up, but have been
 # segfaulting on connection with either MariaDB or RPostgres
 before_install:
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo /etc/init.d/postgresql stop || true; sh postgres-docker.sh; fi
   - if [ $TRAVIS_OS_NAME = "osx" ]; then sh postgres-travis-macos.sh; fi
   - if [ $TRAVIS_OS_NAME = "osx" ]; then sh mariadb-travis-macos.sh; fi
 
