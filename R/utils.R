@@ -47,3 +47,19 @@ db_path_sanitize <- function(filename, replacement = "_") {
 ignore_dbplyr_unique_names <- function(statement) {
   return(gsub("`zzz[[:digit:]]+`", "`removed_unique_dplyr_name`", statement))
 }
+
+#' Get the dbtest debug level and evaluate if it is above a level
+#'
+#' @param level the level to test against (greater than or equal to)
+#'
+#' @return logical
+#' @export
+#'
+#' @keywords internal
+#'
+#' @examples
+#' dbtest_debug_level(0)
+#' dbtest_debug_level(2)
+dbtest_debug_level <- function(level) {
+  return(getOption("dbtest.debug", 0) >= level)
+}

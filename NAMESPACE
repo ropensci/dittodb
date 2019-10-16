@@ -3,6 +3,7 @@
 export(.dbtest_env)
 export(.mockPaths)
 export(db_path_sanitize)
+export(dbtest_debug_level)
 export(get_dbname)
 export(hash)
 export(make_path)

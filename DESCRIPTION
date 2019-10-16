@@ -41,6 +41,7 @@ Suggests:
     RMariaDB,
     RPostgres,
     RSQLite,
-    spelling
+    spelling,
+    withr
 RoxygenNote: 6.1.1
 Language: en-US

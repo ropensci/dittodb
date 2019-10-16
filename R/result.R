@@ -18,7 +18,7 @@ setMethod(
   function(conn, statement, ...) {
     # create a new mock result with the type and a hash of the statement.
     # TODO: extract the type from the statement instead of hard coding it.
-    if (getOption("dbtest.debug", FALSE)) {
+    if (dbtest_debug_level(1)) {
       message(
         "Sending a query for the statement: \n", statement,
         "\nis being hased to: ", hash(statement)

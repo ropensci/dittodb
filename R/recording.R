@@ -31,7 +31,7 @@ safe_untrace <- function (what, where=sys.frame()) {
 # borrowed from httptest
 quietly <- function (expr) {
   env <- parent.frame()
-  if (getOption("dbtest.debug", FALSE)) {
+  if (dbtest_debug_level(2)) {
     eval(expr, env)
   } else {
     suppressMessages(eval(expr, env))
@@ -53,14 +53,14 @@ start_capturing <- function(path) {
       .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
       }),
-    print = getOption("dbtest.debug", FALSE),
+    print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))
 
   quietly(trace(
     "dbSendQuery",
     exit = quote({
-      if (getOption("dbtest.debug", FALSE)) {
+      if (dbtest_debug_level(1)) {
         message(
           "The statement: \n", statement,
           "\nis being hased to: ", hash(statement)
@@ -72,21 +72,21 @@ start_capturing <- function(path) {
         hash(statement)
       )
     }),
-    print = getOption("dbtest.debug", FALSE),
+    print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))
 
   quietly(trace(
     "dbFetch",
     exit = quote(dput(ans, .dbtest_env$curr_file_path)),
-    print = getOption("dbtest.debug", FALSE),
+    print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))
 
   quietly(trace(
     "dbGetRowsAffected",
     exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
-    print = getOption("dbtest.debug", FALSE)
+    print = dbtest_debug_level(2)
   ))
 
   return(invisible(NULL))
