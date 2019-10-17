@@ -33,7 +33,7 @@ test_that("The fixture is what we expect", {
 DBI::dbDisconnect(con)
 
 
-with_mock_path(path = "postgres_integration", {
+with_mock_path(path = file.path(temp_dir, "postgres_integration"), {
   start_capturing()
 
   con <- DBI::dbConnect(

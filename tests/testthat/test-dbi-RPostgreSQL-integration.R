@@ -1,5 +1,6 @@
 context("RPostgreSQL")
 library(RPostgreSQL)
+
 skip_locally("use postgres-docker.sh and test manually")
 
 # setup the database that will be mocked and then tested
@@ -11,7 +12,7 @@ con <- DBI::dbConnect(
   password = ""
 )
 
-con <- nycflights13_sql(con, schema = "public")
+con <- nycflights13_sql(con, schema = "new_one")
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -32,7 +33,7 @@ test_that("The fixture is what we expect", {
 DBI::dbDisconnect(con)
 
 
-with_mock_path(path = "postgres_integration", {
+with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   start_capturing()
 
   con <- DBI::dbConnect(
