@@ -11,12 +11,10 @@ sleep 5
 n=0
 until [ $n -ge 15 ]
 do
-  docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "CREATE DATABASE nycflights;" && break  # substitute your command here
+  sh .mariadb.reset.sh && break  # substitute your command here
   n=$[ $n+1 ]
   sleep 5
 done
-
-docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "CREATE USER IF NOT EXISTS travis@'%'; GRANT ALL ON *.* TO travis@'%'; FLUSH PRIVILEGES;"
 
 # docker stop dbtest-mariadb
 # docker rm dbtest-mariadb

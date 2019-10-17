@@ -7,8 +7,8 @@ cache: packages
 # segfaulting on connection with either MariaDB or RPostgres
 before_install:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo /etc/init.d/postgresql stop || true; sh postgres-docker.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh postgres-travis-macos.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh mariadb-travis-macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh .travis.postgres.macos.sh; sh .postgres.reset.macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh .travis.mariadb.macos.sh; sh .maraidb.reset.macos.sh; fi
 
 before_script:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
@@ -31,11 +31,10 @@ matrix:
     r: devel
 
 
-# clean up databases so they are not cached between runs
+# recreate the databases so they are not cached between runs (and they can be used by codecovr)
 before_cache:
-  - if [ $TRAVIS_OS_NAME = "linux" ]; then docker exec -it dbtest-postgres psql -U travis -c "DROP DATABASE nycflights;"; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then dropdb nycflights; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then sudo mysql -u root -e "DROP DATABASE nycflights;"; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then sh .postgres.reset.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh .postgres.reset.macos.sh; sh .mariadb.reset.macos.sh; fi
 
 
 after_success:
