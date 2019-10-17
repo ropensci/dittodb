@@ -16,8 +16,7 @@ do
   sleep 5
 done
 
-# docker exec -it -e PGPASSWORD=r2N5y7V -e POSTGRES_USER=travis dbtest-postgres psql -U travis -c "CREATE USER IF NOT EXISTS travis@'%' IDENTIFIED BY ''; GRANT ALL ON *.* TO travis@'%'; FLUSH PRIVILEGES;"
-#
+
 # docker stop dbtest-postgres
 # docker rm dbtest-postgres
 #

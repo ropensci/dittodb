@@ -8,7 +8,7 @@ cache: packages
 before_install:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo /etc/init.d/postgresql stop || true; sh postgres-docker.sh; fi
   - if [ $TRAVIS_OS_NAME = "osx" ]; then sh .travis.postgres.macos.sh; sh .postgres.reset.macos.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh .travis.mariadb.macos.sh; sh .maraidb.reset.macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh .travis.mariadb.macos.sh; sh .mariadb.reset.macos.sh; fi
 
 before_script:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
