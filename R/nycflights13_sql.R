@@ -53,7 +53,7 @@ nycflights13_sql <- function(con,
 
     remote_schemas <- as.character(remote_schemas$schema_name)
 
-    if (any(schema %in% remote_schemas) == FALSE) {
+    if (!(schema %in% remote_schemas)) {
       DBI::dbGetQuery(
         con,
         glue::glue_sql("CREATE SCHEMA {`schema`}",
@@ -76,11 +76,11 @@ nycflights13_sql <- function(con,
   tables <- setdiff(local_tables, remote_tables)
 
   if (method == "dbi") {
-    message("dplyr was not found, using DBI instead to create the database")
+    message("using DBI to create the database")
 
     # Create missing tables
     for (table in tables) {
-      df <- getExportedValue("nycflights13", table)
+      df <- head(getExportedValue("nycflights13", table), 1000)
       message("Creating table: ", table)
 
       if (schema != "") {
@@ -101,11 +101,11 @@ nycflights13_sql <- function(con,
     }
   } else {
     check_for_pkg("dplyr")
-    message("dplyr was found, using it to create the database")
+    message("using dplyr to create the database")
 
     # Create missing tables
     for (table in tables) {
-      df <- getExportedValue("nycflights13", table)
+      df <- head(getExportedValue("nycflights13", table), 1000)
       message("Creating table: ", table)
 
       if (schema != "") {
@@ -120,7 +120,8 @@ nycflights13_sql <- function(con,
         name = table_name,
         unique_indexes = unique_index[[table]],
         indexes = index[[table]],
-        temporary = FALSE
+        temporary = FALSE,
+        row.names = FALSE
       )
     }
   }

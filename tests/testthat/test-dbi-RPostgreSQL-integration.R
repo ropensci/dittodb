@@ -12,16 +12,16 @@ con <- DBI::dbConnect(
   password = ""
 )
 
-con <- nycflights13_sql(con, schema = "new_one")
+con <- nycflights13_sql(con, schema = "RPostgreSQL")
 
 test_that("The fixture is what we expect", {
-  expect_identical(
-    dbListTables(con),
-    c("airlines", "airports", "flights", "planes", "weather")
-  )
+  # we check just that the tables are there since other tests will add other tables
+  expect_true(all(
+    c("airlines", "airports", "flights", "planes", "weather") %in% dbListTables(con)
+   ))
 
   expect_identical(
-    dbGetQuery(con, "SELECT * FROM new_one.airlines LIMIT 2"),
+    dbGetQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 2"),
     data.frame(
       carrier = c("9E", "AA"),
       name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -46,12 +46,12 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
   # dbGetQuery is different for RPostgreSQL and isn't simply a warpper around
   # dbSendQuery(), dbFetch()
-  res <- dbSendQuery(con, "SELECT * FROM new_one.airlines LIMIT 2")
+  res <- dbSendQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 2")
   DBI::dbFetch(res)
-  res <- dbSendQuery(con, "SELECT * FROM new_one.airlines LIMIT 1")
+  res <- dbSendQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 1")
   DBI::dbFetch(res)
 
-  dbGetQuery(con, "SELECT * FROM new_one.airlines LIMIT 3")
+  dbGetQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 3")
 
   DBI::dbDisconnect(con)
   stop_capturing()
@@ -74,7 +74,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
     test_that("We can use mocks for dbGetQeury", {
       expect_identical(
-        dbGetQuery(con, "SELECT * FROM new_one.airlines LIMIT 2"),
+        dbGetQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 2"),
         data.frame(
           carrier = c("9E", "AA"),
           name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -84,7 +84,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
     })
 
     test_that("We can use mocks for dbSendQuery", {
-      result <- dbSendQuery(con, "SELECT * FROM new_one.airlines LIMIT 2")
+      result <- dbSendQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 2")
       expect_identical(
         dbFetch(result),
         data.frame(
@@ -97,7 +97,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
     test_that("A different query uses a different mock", {
       expect_identical(
-        dbGetQuery(con, "SELECT * FROM new_one.airlines LIMIT 1"),
+        dbGetQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 1"),
         data.frame(
           carrier = c("9E"),
           name = c("Endeavor Air Inc."),
@@ -107,7 +107,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
     })
 
     test_that("our dbGetQuery() only mock worked", {
-      out <- dbGetQuery(con, "SELECT * FROM new_one.airlines LIMIT 3")
+      out <- dbGetQuery(con, "SELECT * FROM RPostgreSQL.airlines LIMIT 3")
       expect_is(out, "data.frame")
       expect_equal(nrow(out), 3)
     })

@@ -14,11 +14,10 @@ con <- DBI::dbConnect(
 con <- nycflights13_sql(con)
 
 test_that("The fixture is what we expect", {
-  # Sometimes the order changes depending on the system
-  expect_setequal(
-    dbListTables(con),
-    c("airlines", "planes", "weather", "airports", "flights")
-  )
+  # we check just that the tables are there since other tests will add other tables
+  expect_true(all(
+    c("airlines", "airports", "flights", "planes", "weather") %in% dbListTables(con)
+  ))
 
   expect_identical(
     dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
