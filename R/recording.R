@@ -89,6 +89,18 @@ start_capturing <- function(path) {
   ))
 
   quietly(trace(
+    "fetch",
+    exit = quote({
+      if (dbtest_debug_level(1)) {
+        message("Writing to ", .dbtest_env$curr_file_path)
+      }
+      dput(ans, .dbtest_env$curr_file_path)
+    }),
+    print = dbtest_debug_level(2),
+    where = asNamespace("DBI")
+  ))
+
+  quietly(trace(
     "dbGetRowsAffected",
     exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
     print = dbtest_debug_level(2)

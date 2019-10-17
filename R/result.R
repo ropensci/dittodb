@@ -1,12 +1,20 @@
 #' @rdname mock-db-methods
 #' @import DBI
 #' @export
-DBIMockResult <- setClass("DBIMockResult",
+setClass("DBIMockResult",
   slots = c(
-    "type" = "character",
-    "hash" = "character",
-    "path" = "character",
-    "statement" = "character"
+    type = "character",
+    hash = "character",
+    path = "character",
+    statement = "character",
+    fetched = "logical"
+  ),
+  prototype = list(
+    type = NA_character_,
+    hash = NA_character_,
+    path = NA_character_,
+    statement = NA_character_,
+    fetched = FALSE
   ),
   contains = "DBIResult"
 )
@@ -29,18 +37,24 @@ setMethod(
   }
 )
 
+mock_fetch <- function(res, n, ...) {
+  if (n != -1) {
+    warning("dbFetch `n` is ignored while mocking databases.")
+  }
+  path <- make_path(res@path, res@type, res@hash)
+  return(read_file(find_file(path)))
+}
+
 #' @rdname mock-db-methods
 #' @export
-setMethod(
-  "dbFetch", signature("DBIMockResult"),
-  function(res, n, ...) {
-    if (n != -1) {
-      warning("dbFetch `n` is ignored while mocking databases.")
-    }
-    path <- make_path(res@path, res@type, res@hash)
-    return(read_file(find_file(path)))
-  }
-)
+setMethod("dbFetch", signature("DBIMockResult"), mock_fetch)
+
+# All new DBI drivers should use dbFetch, but some old ones (like RPostgreSQL)
+# use only fetch, so we need to mock both. The complication is that DBI's
+# dbFetch by default simply calls fetch which might lead to duplication
+#' @rdname mock-db-methods
+#' @export
+setMethod("fetch", signature("DBIMockResult"), mock_fetch)
 
 #' @rdname mock-db-methods
 #' @export

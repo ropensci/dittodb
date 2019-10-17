@@ -50,6 +50,8 @@ with_mock_path(path = "postgres_integration", {
   res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 1")
   DBI::dbFetch(res)
 
+  dbGetQuery(con, "SELECT * FROM airlines LIMIT 3")
+
   DBI::dbDisconnect(con)
   stop_capturing()
 
@@ -101,6 +103,12 @@ with_mock_path(path = "postgres_integration", {
           stringsAsFactors = FALSE
         )
       )
+    })
+
+    test_that("our dbGetQuery() only mock worked", {
+      out <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 3")
+      expect_is(out, "data.frame")
+      expect_equal(nrow(out), 3)
     })
 
     dbDisconnect(con)
