@@ -11,7 +11,7 @@ sleep 5
 n=0
 until [ $n -ge 15 ]
 do
-  sh mariadb-reset.sh && break  # substitute your command here
+  bash db-setup/mariadb-reset.sh && break  # substitute your command here
   n=$[ $n+1 ]
   sleep 5
 done
