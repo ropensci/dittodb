@@ -3,7 +3,6 @@
 ^LICENSE\.md$
 ^\.travis\.yml$
 ^codecov\.yml$
-docker.sh$
-macos
+^db-setup
 .sh$
 ^CODE_OF_CONDUCT\.md$
