@@ -15,7 +15,7 @@ Say we have a Postgres database with some [nycflights](https://CRAN.R-project.or
 
 For example, we have the simple function that retrieves one airline:
 
-```
+```r
 get_an_airline <- function(con) {
   return(dbGetQuery(con, "SELECT carrier, name FROM airlines LIMIT 1"))
 }
@@ -24,7 +24,7 @@ get_an_airline <- function(con) {
 
 But we want to make sure that this function returns what we expect. To do this, we first record the response we get from the production database:
 
-```
+```r
 start_capturing()
 
 con <- DBI::dbConnect(
@@ -62,10 +62,33 @@ with_mock_db({
     expect_equal(one_airline$name, "Endeavor Air Inc.")
   })
 })
+```
 
-# With RPostgreSQL package
+All without having to ever set a database up on Travis 🎉
 
-with_mock_db({
+
+Alternatively, any other driver could be used:
+```
+rwstart_capturing()
+
+con <- DBI::dbConnect(
+  drv = DBI::dbDriver("PostgreSQL"),
+  dbname = "nycflights",
+  host = "127.0.0.1",
+  user = "travis",
+  password = ""
+)
+
+get_an_airline(con)
+DBI::dbDisconnect(con)
+
+stop_capturing()
+```
+
+and then
+
+```r
+ith_mock_db({
   con <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "nycflights",
@@ -84,4 +107,3 @@ with_mock_db({
 })
 ```
 
-All without having to ever set a database up on Travis 🎉
