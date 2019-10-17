@@ -6,3 +6,4 @@
 docker.sh$
 macos
 .sh$
+^CODE_OF_CONDUCT\.md$

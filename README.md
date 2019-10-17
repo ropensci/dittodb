@@ -68,8 +68,8 @@ All without having to ever set a database up on Travis 🎉
 
 
 Alternatively, any other driver could be used:
-```
-rwstart_capturing()
+```r
+start_capturing()
 
 con <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
@@ -88,7 +88,7 @@ stop_capturing()
 and then
 
 ```r
-ith_mock_db({
+with_mock_db({
   con <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "nycflights",
@@ -106,4 +106,15 @@ ith_mock_db({
   })
 })
 ```
+
+P## Installation
+Currently, dbtest is not on CRAN. You can install from source, or use `devtools`:
+
+```r
+devtools::install_github("jonkeane/dbtest")
+```
+
+---
+
+lease note that the 'dbtest' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
