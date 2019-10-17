@@ -11,6 +11,7 @@
 #'
 #' @importFrom DBI dbListTables dbWriteTable
 #' @importFrom glue glue_sql
+#' @importFrom utils head
 #'
 #' @return the connection given in `con` invisibly, generally called for the side effects
 #' of writing to the  database

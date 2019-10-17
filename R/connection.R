@@ -46,6 +46,8 @@ dbMockConnect <- function(drv, ...) {
   # TODO: is there a more programatic way to do this?
   if (inherits(drv, "SQLiteDriver")) {
     original_class <- "SQLiteConnection"
+  } else if (inherits(drv, "PostgreSQLDriver")) {
+    original_class <- "PostgreSQLConnection"
   } else {
     warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
     original_class <- "unknown"
@@ -92,15 +94,5 @@ setMethod(
   "dbListTables", signature("DBIMockConnection"),
   function(conn, ...) {
     getMethod("dbListTables", signature = conn@original_class)(conn, ...)
-  }
-)
-
-#' @rdname mock-db-methods
-#'
-#' @export
-setMethod(
-  "dbBegin", signature("DBIMockConnection"),
-  function(conn, ...) {
-    getMethod("dbBegin", signature = conn@original_class)(conn, ...)
   }
 )

@@ -6,7 +6,6 @@
 \alias{DBIMockConnection-class}
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
-\alias{dbBegin,DBIMockConnection-method}
 \alias{DBIMockResult-class}
 \alias{dbSendQuery,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
@@ -17,8 +16,6 @@
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
-
-\S4method{dbBegin}{DBIMockConnection}(conn, ...)
 
 \S4method{dbSendQuery}{DBIMockConnection,character}(conn, statement, ...)
 
