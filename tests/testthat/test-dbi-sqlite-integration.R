@@ -1,5 +1,4 @@
 context("Test fixture")
-library(DBI)
 
 # testing against built-in sqlite database
 con <- nycflights13_sqlite()

@@ -1,5 +1,4 @@
 context("Test against dbplyr")
-library(DBI)
 
 # testing against built-in sqlite database
 con <- nycflights13_sqlite(method = "dplyr")

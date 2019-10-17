@@ -1,5 +1,6 @@
 context("MariaDB")
 library(RMariaDB)
+
 skip_env("mariadb")
 skip_locally("use mariadb-docker.sh and test manually")
 

@@ -1,6 +1,5 @@
 context("Recording db interactions")
-# TODO: Figure out why if this is run after a section `with_mock_db` it errors
-# during testing. It doesn't appear to impact interactive use.
+# This should be run first so that the .dbtest_env environment is clean.
 
 test_that("We can capture db interactions", {
   # our state environment is empty
