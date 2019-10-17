@@ -19,6 +19,7 @@ with_mock_path(path = "new_mock_path", {
         )
       )
     })
+    dbDisconnect(con)
   })
 })
 

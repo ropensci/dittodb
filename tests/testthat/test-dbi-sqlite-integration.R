@@ -108,5 +108,7 @@ with_mock_db({
       )
     )
   })
+
+  dbDisconnect(con)
 })
 

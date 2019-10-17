@@ -48,7 +48,6 @@ with_mock_path(path = file.path(temp_dir, "mariadb_integration"), {
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
 
   DBI::dbDisconnect(con)
-
   stop_capturing()
 
 

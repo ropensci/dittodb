@@ -14,6 +14,8 @@ capture_output({
         "The statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to: f2090b",
         fixed = TRUE
       )
+
+      dbDisconnect(con)
       stop_capturing()
 
       with_mock_db({
@@ -23,6 +25,7 @@ capture_output({
           "Sending a query for the statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to: f2090b",
           fixed = TRUE
         )
+        dbDisconnect(con)
       })
     })
   })
@@ -44,6 +47,7 @@ capture_output({
         "The statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to: f2090b",
         fixed = TRUE
       )
+      dbDisconnect(con)
       stop_capturing()
 
       with_mock_db({
@@ -53,6 +57,7 @@ capture_output({
           "Sending a query for the statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to: f2090b",
           fixed = TRUE
         )
+        dbDisconnect(con)
       })
     })
   })

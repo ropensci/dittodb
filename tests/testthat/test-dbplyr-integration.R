@@ -17,7 +17,7 @@ test_that("The fixture is what we expect", {
   )
 })
 
-rm(con)
+dbDisconnect(con)
 
 # test with the mock db using some captured mocks
 start_capturing()
@@ -26,6 +26,8 @@ dbListTables(con) # we have to list tables in order to have the mocks work below
 
 # record mocks for a few queries we are planning to execute below
 DBI::dbGetQuery(con, "SELECT * FROM airlines")
+
+dbDisconnect(con)
 stop_capturing()
 
 # now try the whole thing again, but this time with the mock db.
@@ -45,4 +47,6 @@ with_mock_db({
       as.data.frame(nycflights13::airlines)
     )
   })
+
+  dbDisconnect(con)
 })
