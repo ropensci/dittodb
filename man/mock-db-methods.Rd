@@ -10,6 +10,7 @@
 \alias{dbSendQuery,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
 \alias{fetch,DBIMockResult,ANY-method}
+\alias{fetch,DBIMockResult-method}
 \alias{dbClearResult,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{

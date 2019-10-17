@@ -12,7 +12,6 @@
 #' @param n number of results to fetch (ignored)
 #' @param ... arguments passed on inside of the methods
 #'
-#'
 #' @name mock-db-methods
 NULL
 
