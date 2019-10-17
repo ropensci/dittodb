@@ -33,9 +33,9 @@ matrix:
 
 # clean up databases so they are not cached between runs
 before_cache:
-  - if [ $TRAVIS_OS_NAME = "linux" ]; then docker exec -it dbtest-postgres psql -U travis -c "CREATE DATABASE nycflights;" || true
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then dropdb nycflights || true
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then sudo mysql -u root -e "DROP DATABASE nycflights;" || true
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then docker exec -it dbtest-postgres psql -U travis -c "CREATE DATABASE nycflights;"; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then dropdb nycflights; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sudo mysql -u root -e "DROP DATABASE nycflights;"; fi
 
 
 after_success:
