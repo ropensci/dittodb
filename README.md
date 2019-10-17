@@ -107,7 +107,7 @@ with_mock_db({
 })
 ```
 
-P## Installation
+## Installation
 Currently, dbtest is not on CRAN. You can install from source, or use `devtools`:
 
 ```r
@@ -116,5 +116,5 @@ devtools::install_github("jonkeane/dbtest")
 
 ---
 
-lease note that the 'dbtest' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the 'dbtest' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
