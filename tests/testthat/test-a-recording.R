@@ -8,8 +8,6 @@ test_that("We can capture db interactions", {
   expect_null(.dbtest_env$db_path)
 
   start_capturing()
-
-
   con <- nycflights13_sqlite()
 
   # our state has been updated
@@ -33,6 +31,17 @@ test_that("We can capture db interactions", {
   # clear result, disconnect
   dbClearResult(result)
   dbDisconnect(con)
+  stop_capturing()
+})
 
+test_that("We can specify the path when starting capture", {
+  new_path <- file.path(temp_dir, "start_capture_path")
+  start_capturing(new_path)
+  con <- nycflights13_sqlite()
+
+  # our state has been updated
+  expect_identical(.dbtest_env$db_path, file.path(new_path, "_memory_"))
+
+  dbDisconnect(con)
   stop_capturing()
 })

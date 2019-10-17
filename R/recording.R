@@ -76,26 +76,24 @@ start_capturing <- function(path) {
     where = asNamespace("DBI")
   ))
 
+  #' @export
+  recordFetch <- quote({
+    if (dbtest_debug_level(1)) {
+      message("Writing to ", .dbtest_env$curr_file_path)
+    }
+    dput(ans, .dbtest_env$curr_file_path)
+  })
+
   quietly(trace(
     "dbFetch",
-    exit = quote({
-      if (dbtest_debug_level(1)) {
-        message("Writing to ", .dbtest_env$curr_file_path)
-      }
-      dput(ans, .dbtest_env$curr_file_path)
-    }),
+    exit = recordFetch,
     print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))
 
   quietly(trace(
     "fetch",
-    exit = quote({
-      if (dbtest_debug_level(1)) {
-        message("Writing to ", .dbtest_env$curr_file_path)
-      }
-      dput(ans, .dbtest_env$curr_file_path)
-    }),
+    exit = recordFetch,
     print = dbtest_debug_level(2),
     where = asNamespace("DBI")
   ))
@@ -118,6 +116,7 @@ start_capturing <- function(path) {
 #' @export
 stop_capturing <- function() {
   for (func in c("dbSendQuery", "dbFetch", "dbConnect")) {
-    safe_untrace(func, asNamespace("DBI"))
+    safe_untrace(func, "DBI")
+    safe_untrace(func)
   }
 }
