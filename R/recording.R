@@ -47,6 +47,9 @@ start_capturing <- function(path) {
     .mockPaths(path)
   }
 
+  # TODO: need to trace _where_ the user sees the functions not just DBI
+  # https://github.com/nealrichardson/httptest/blob/master/R/trace.R#L30-L39
+
   quietly(trace(
     "dbConnect",
     exit = quote({
@@ -68,7 +71,7 @@ start_capturing <- function(path) {
       }
       .dbtest_env$curr_file_path <- make_path(
         .dbtest_env$db_path,
-        strsplit(statement, " ")[[1]][1],
+        get_type(statement),
         hash(statement)
       )
     }),

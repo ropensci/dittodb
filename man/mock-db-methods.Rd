@@ -9,7 +9,7 @@
 \alias{DBIMockResult-class}
 \alias{dbSendQuery,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
-\alias{fetch,DBIMockResult-method}
+\alias{fetch,DBIMockResult,ANY-method}
 \alias{dbClearResult,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
@@ -21,7 +21,7 @@
 
 \S4method{dbFetch}{DBIMockResult}(res, n = -1, ...)
 
-\S4method{fetch}{DBIMockResult}(res, n = -1, ...)
+\S4method{fetch}{DBIMockResult,ANY}(res, n = -1, ...)
 
 \S4method{dbClearResult}{DBIMockResult}(res, n, ...)
 }
