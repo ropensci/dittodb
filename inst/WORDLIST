@@ -12,11 +12,10 @@ https
 httptest
 invisibily
 libPaths
+Lifecycle
 mockPaths
 nycflights
 Postgres
 RSQLiteConnection
 sql
-sqlite
 standardised
-www
