@@ -104,4 +104,3 @@ with_mock_path(path = file.path(temp_dir, "mariadb_integration"), {
     dbDisconnect(con)
   })
 })
-

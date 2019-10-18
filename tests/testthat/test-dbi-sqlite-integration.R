@@ -94,7 +94,6 @@ with_mock_db({
   con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "new_db")
   test_that("The connection has a new path", {
     expect_identical(con@path, "new_db")
-
   })
 
   test_that("We can use mocks from the new path", {
@@ -110,4 +109,3 @@ with_mock_db({
 
   dbDisconnect(con)
 })
-

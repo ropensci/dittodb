@@ -6,8 +6,10 @@ con <- nycflights13_sqlite(method = "dplyr")
 test_that("The fixture is what we expect", {
   expect_identical(
     DBI::dbListTables(con),
-    c("airlines", "airports", "flights", "planes",  "sqlite_stat1",
-      "sqlite_stat4", "weather")
+    c(
+      "airlines", "airports", "flights", "planes", "sqlite_stat1",
+      "sqlite_stat4", "weather"
+    )
   )
 
   expect_identical(

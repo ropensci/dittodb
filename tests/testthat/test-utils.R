@@ -36,7 +36,7 @@ test_that("we can remove the unique dbplyr names", {
   expect_identical(
     ignore_dbplyr_unique_names(with_unique_where),
     paste0(expected, "\n WHERE (0 = 1)")
-    )
+  )
 })
 
 test_that("debugging helper", {
@@ -46,12 +46,12 @@ test_that("debugging helper", {
   expect_false(dbtest_debug_level(2))
   expect_false(dbtest_debug_level(3))
   withr::with_options(
-    c("dbtest.debug" = 2),
-    {
+    c("dbtest.debug" = 2), {
       expect_true(dbtest_debug_level(-1))
       expect_true(dbtest_debug_level(0))
       expect_true(dbtest_debug_level(1))
       expect_true(dbtest_debug_level(2))
       expect_false(dbtest_debug_level(3))
-    })
+    }
+  )
 })
