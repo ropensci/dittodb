@@ -66,7 +66,9 @@ quietly <- function(expr) {
 }
 
 # borrowed from httptest
-trace_dbi <- function (..., where_list = list(sys.frame()),  print = dbtest_debug_level(2)) {
+trace_dbi <- function (...,
+                       where_list = list(sys.frame(), asNamespace("DBI")),
+                       print = dbtest_debug_level(2)) {
   for (place in where_list) {
     quietly(trace(..., print = print, where = place))
   }
@@ -86,8 +88,7 @@ start_capturing <- function(path) {
     exit = quote({
       .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
-    }),
-    where_list = c(sys.frame(), asNamespace("DBI"))
+    })
   ))
 
   quietly(trace_dbi(
@@ -104,8 +105,7 @@ start_capturing <- function(path) {
         get_type(statement),
         hash(statement)
       )
-    }),
-    where_list = c(sys.frame(), asNamespace("DBI"))
+    })
   ))
 
   #' @export
@@ -118,14 +118,12 @@ start_capturing <- function(path) {
 
   quietly(trace_dbi(
     "dbFetch",
-    exit = recordFetch,
-    where_list = c(sys.frame(), asNamespace("DBI"))
+    exit = recordFetch
   ))
 
   quietly(trace_dbi(
     "fetch",
-    exit = recordFetch,
-    where_list = c(sys.frame(), asNamespace("DBI"))
+    exit = recordFetch
   ))
 
   quietly(trace_dbi(
