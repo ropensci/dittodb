@@ -17,3 +17,4 @@ a hash for the string
 \description{
 Make a (short) hash from a string
 }
+\keyword{internal}

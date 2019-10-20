@@ -63,6 +63,9 @@ dbMockConnect <- function(drv, ...) {
 #' @param dots from the argument being passed to the connection
 #'
 #' @return the name, sanitized if needed
+#'
+#' @keywords internal
+#'
 #' @export
 get_dbname <- function(dots) {
   # look through dots to grab either dbname or the first unnammed argument

@@ -141,6 +141,7 @@ start_capturing <- function(path) {
 #' an environment for dbtest storing state
 #'
 #' @export
+#' @keywords internal
 .dbtest_env <- new.env(parent = emptyenv())
 
 #' @rdname capture_requests

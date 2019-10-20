@@ -28,6 +28,8 @@ check_for_pkg <- function(package) {
 #' @return the sanitized string
 #' @export
 #'
+#' @keywords internal
+#'
 #' @examples
 #' db_path_sanitize('this:string"has?issues')
 db_path_sanitize <- function(filename, replacement = "_") {

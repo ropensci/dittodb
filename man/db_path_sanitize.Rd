@@ -22,3 +22,4 @@ Inspired by the [fs](https://CRAN.R-project.org/package=fs) package's
 \examples{
 db_path_sanitize('this:string"has?issues')
 }
+\keyword{internal}

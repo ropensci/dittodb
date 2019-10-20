@@ -1,0 +1,17 @@
+url: https://jonkeane.com/dbtest
+navbar:
+  title: dbtest
+  type: default
+reference:
+- title: Capturing and testing
+  contents:
+  - capture_requests
+  - with_mock_db
+  - .mockPaths
+- title: Mock DB methods
+  contents:
+  - mock-db-methods
+- title: Test DB creation
+  contents:
+  - nycflights13_sql
+  - nycflights13_sqlite
