@@ -120,6 +120,10 @@ start_capturing <- function(path) {
 #' @export
 stop_capturing <- function() {
   for (func in c("dbSendQuery", "dbFetch", "dbConnect")) {
+    # make sure we untrace the function:
+    # * from the DBI namespace
+    # * from the DBI environment
+    # * as it is seen by the user (default for safe_untrace)
     safe_untrace(func, asNamespace("DBI"))
     safe_untrace(func, "DBI")
     safe_untrace(func)
