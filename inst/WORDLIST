@@ -1,5 +1,6 @@
 api
 Codecov
+dbConnect
 dbFetchQuery
 dbi
 DBIMockConnection
