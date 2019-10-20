@@ -28,6 +28,8 @@ check_for_pkg <- function(package) {
 #' @return the sanitized string
 #' @export
 #'
+#' @keywords internal
+#'
 #' @examples
 #' db_path_sanitize('this:string"has?issues')
 db_path_sanitize <- function(filename, replacement = "_") {
@@ -63,3 +65,13 @@ ignore_dbplyr_unique_names <- function(statement) {
 dbtest_debug_level <- function(level) {
   return(getOption("dbtest.debug", 0) >= level)
 }
+
+#' Get the type of an SQL statement
+#'
+#' @param statement the statement to extract the first word from
+#'
+#' @return the first word in the statement
+#' @export
+#'
+#' @keywords internal
+get_type <- function(statement) return(strsplit(statement, " ")[[1]][1])

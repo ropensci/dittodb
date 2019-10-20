@@ -11,11 +11,38 @@ start_capturing(path)
 stop_capturing()
 }
 \arguments{
-\item{path}{the path to record mocks.}
+\item{path}{the path to record mocks (default if missing: the first path in
+`.mockPaths()`.}
 }
 \value{
 NULL (invisibily)
 }
 \description{
-Capture and record database transactions and save them as mocks
+When creating database fixtures, it can sometimes be helpful to see record the
+responses from the database for use in crafting tests.
+}
+\details{
+You can start
+capturing with `start_capturing()` and end it with `stop_capturing`. All
+queries run against a database will be executed like normal, but their
+responses will be saved to the mock path given, so that if you use the same
+queries later inside of a [`with_mock_db`] block, the database functions will
+return as if they had been run against the database.
+
+_note_ You should always call [`DBI::dbConnect`] inside of the capturing
+block. When you connect to the database, dbtest sets up the mocks for the
+specific database you're connecting to when you call [`DBI::dbConnect`].
+}
+\examples{
+\dontrun{
+start_capturing()
+con <- dbConnect(RSQLite::SQLite(), "memory")
+
+df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
+res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
+df_2 <- dbFetch(res)
+
+dbDisconnect(con)
+stop_capturing()
+}
 }

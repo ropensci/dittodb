@@ -1,10 +1,12 @@
 context("MariaDB")
-library(RMariaDB)
 
 skip_env("mariadb")
 skip_locally("use mariadb-docker.sh and test manually")
 
-con <- DBI::dbConnect(
+library("RMariaDB")
+
+
+con <- dbConnect(
   RMariaDB::MariaDB(),
   dbname = "nycflights",
   host = "127.0.0.1",
@@ -30,13 +32,13 @@ test_that("The fixture is what we expect", {
   )
 })
 
-DBI::dbDisconnect(con)
+dbDisconnect(con)
 
 
 with_mock_path(path = file.path(temp_dir, "mariadb_integration"), {
   start_capturing()
 
-  con <- DBI::dbConnect(
+  con <- dbConnect(
     RMariaDB::MariaDB(),
     dbname = "nycflights",
     host = "127.0.0.1",
@@ -47,12 +49,12 @@ with_mock_path(path = file.path(temp_dir, "mariadb_integration"), {
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
 
-  DBI::dbDisconnect(con)
+  dbDisconnect(con)
   stop_capturing()
 
 
   with_mock_db({
-    con <- DBI::dbConnect(
+    con <- dbConnect(
       RMariaDB::MariaDB(),
       dbname = "nycflights",
       host = "127.0.0.1",

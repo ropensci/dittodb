@@ -5,12 +5,12 @@ con <- nycflights13_sqlite()
 
 test_that("The fixture is what we expect", {
   expect_identical(
-    DBI::dbListTables(con),
+    dbListTables(con),
     c("airlines", "airports", "flights", "planes", "weather")
   )
 
   expect_identical(
-    DBI::dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+    dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
     data.frame(
       carrier = c("9E", "AA"),
       name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -19,11 +19,11 @@ test_that("The fixture is what we expect", {
   )
 })
 
-DBI::dbDisconnect(con)
+dbDisconnect(con)
 
 with_mock_db({
   # ":memory:" is non-portable, so using something close, but portable
-  con <- DBI::dbConnect(RSQLite::SQLite(), "memory")
+  con <- dbConnect(RSQLite::SQLite(), "memory")
   test_that("Our connection is a mock connection", {
     expect_is(
       con,
@@ -68,12 +68,12 @@ with_mock_db({
 
   test_that("Error handling", {
     expect_error(
-      DBI::dbConnect(RSQLite::SQLite()),
+      dbConnect(RSQLite::SQLite()),
       "There was no dbname, so I don't know where to look for mocks."
     )
 
     expect_error(
-      DBI::dbConnect(RSQLite::SQLite(), dbname = ""),
+      dbConnect(RSQLite::SQLite(), dbname = ""),
       "There was no dbname, so I don't know where to look for mocks."
     )
 
@@ -91,7 +91,7 @@ with_mock_db({
 
 # we can use a new path (and with a named argument)
 with_mock_db({
-  con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "new_db")
+  con <- dbConnect(RSQLite::SQLite(), dbname = "new_db")
   test_that("The connection has a new path", {
     expect_identical(con@path, "new_db")
   })

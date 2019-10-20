@@ -15,3 +15,4 @@ the name, sanitized if needed
 \description{
 Get the `dbname` from a connection call
 }
+\keyword{internal}

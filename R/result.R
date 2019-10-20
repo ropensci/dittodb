@@ -33,7 +33,7 @@ setMethod(
         "\nis being hased to: ", hash(statement)
       )
     }
-    return(new("DBIMockResult", type = "SELECT", hash = hash(statement), path = conn@path, statement = statement))
+    return(new("DBIMockResult", type = get_type(statement), hash = hash(statement), path = conn@path, statement = statement))
   }
 )
 
@@ -47,14 +47,18 @@ mock_fetch <- function(res, n, ...) {
 
 #' @rdname mock-db-methods
 #' @export
-setMethod("dbFetch", signature("DBIMockResult"), mock_fetch)
+setMethod("dbFetch", signature("DBIMockResult", "ANY"), mock_fetch)
 
 # All new DBI drivers should use dbFetch, but some old ones (like RPostgreSQL)
 # use only fetch, so we need to mock both. The complication is that DBI's
 # dbFetch by default simply calls fetch which might lead to duplication
+
+# the @alaises shouldn't be necesary here, but neverthless is.
 #' @rdname mock-db-methods
+#' @aliases fetch,DBIMockResult-method
 #' @export
-setMethod("fetch", signature("DBIMockResult"), mock_fetch)
+setMethod("fetch", signature("DBIMockResult", "ANY"), mock_fetch)
+
 
 #' @rdname mock-db-methods
 #' @export

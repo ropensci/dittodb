@@ -4,7 +4,7 @@ context("Mock paths")
 with_mock_path(path = "new_mock_path", {
   # we can use an entirely different mock path (and with a named argument)
   with_mock_db({
-    con <- DBI::dbConnect(RSQLite::SQLite(), dbname = "new_db")
+    con <- dbConnect(RSQLite::SQLite(), dbname = "new_db")
     test_that("The connection has a new path", {
       expect_identical(con@path, "new_db")
     })

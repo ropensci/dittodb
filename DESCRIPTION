@@ -13,6 +13,8 @@ Authors@R: c(
           email = "mvargas@dcc.uchile.cl",
           comment = c(ORCID = "0000-0003-1017-7574"))         
   )
+URL: https://jonkeane.com/dbtest, https://github.com/jonkeane/dbtest
+BugReports: https://github.com/jonkeane/dbtest/issues
 Description: Testing and documenting code that communicates with remote
   databases can be painful. Dealing with authentication, server state,
   and other complications can make testing seem too costly to

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • dbtest</title>
+<title>Get the type of an SQL statement — get_type • dbtest</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get the type of an SQL statement — get_type" />
+
+<meta property="og:description" content="Get the type of an SQL statement" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -94,90 +97,44 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get the type of an SQL statement</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>get_type.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Get the type of an SQL statement</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-capturing-and-testing" class="hasAnchor"><a href="#section-capturing-and-testing" class="anchor"></a>Capturing and testing</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="capture_requests.html">start_capturing()</a></code> <code><a href="capture_requests.html">stop_capturing()</a></code> </p>
-        </td>
-        <td><p>Capture and record database transactions and save them as mocks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="with_mock_db.html">with_mock_db()</a></code> </p>
-        </td>
-        <td><p>Run the DBI queries inside against a mocked db</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mockPaths.html">.mockPaths()</a></code> </p>
-        </td>
-        <td><p>Set an alternate directory for mock API fixtures</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-mock-db-methods" class="hasAnchor"><a href="#section-mock-db-methods" class="anchor"></a>Mock DB methods</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="mock-db-methods.html">dbDisconnect(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbSendQuery(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbFetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbClearResult(<i>&lt;DBIMockResult&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Methods for interacting with DB mocks instead of an actual database</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-test-db-creation" class="hasAnchor"><a href="#section-test-db-creation" class="anchor"></a>Test DB creation</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="nycflights13_sql.html">nycflights13_sql()</a></code> </p>
-        </td>
-        <td><p>Create a standardised database for testing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nycflights13_sqlite.html">nycflights13_sqlite()</a></code> </p>
-        </td>
-        <td><p>Create an in-memory SQLite database for testing</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>get_type</span>(<span class='no'>statement</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>statement</th>
+      <td><p>the statement to extract the first word from</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>the first word in the statement</p>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-capturing-and-testing">Capturing and testing</a></li>
-      <li><a href="#section-mock-db-methods">Mock DB methods</a></li>
-      <li><a href="#section-test-db-creation">Test DB creation</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
+
   </div>
 </div>
 

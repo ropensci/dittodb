@@ -11,4 +11,4 @@
 \description{
 an environment for dbtest storing state
 }
-\keyword{datasets}
+\keyword{internal}

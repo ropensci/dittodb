@@ -19,3 +19,4 @@ a constructed path to a mock
 \description{
 make a mock path
 }
+\keyword{internal}

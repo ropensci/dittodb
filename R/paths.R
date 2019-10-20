@@ -5,6 +5,9 @@
 #' @param hash the hash of the query
 #'
 #' @return a constructed path to a mock
+#'
+#' @keywords internal
+#'
 #' @export
 make_path <- function(path, type, hash) {
   path_out <- file.path(path, db_path_sanitize(paste0(type, "-", hash, ".R")))
@@ -17,8 +20,12 @@ make_path <- function(path, type, hash) {
 #' @param n how long should the hash be? (default: 6)
 #'
 #' @return a hash for the string
-#' @export
+#'
 #' @importFrom digest digest
+#'
+#' @keywords internal
+#'
+#' @export
 hash <- function(string, n = 6) {
   string <- ignore_dbplyr_unique_names(string)
   return(substr(digest(string), 1, n))

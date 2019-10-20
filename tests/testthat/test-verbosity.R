@@ -19,7 +19,7 @@ capture_output({
       stop_capturing()
 
       with_mock_db({
-        con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+        con <- dbConnect(RSQLite::SQLite(), ":memory:")
         expect_message(
           dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
           "Sending a query for the statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to: f2090b",
@@ -52,7 +52,7 @@ capture_output({
       stop_capturing()
 
       with_mock_db({
-        con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+        con <- dbConnect(RSQLite::SQLite(), ":memory:")
         expect_message(
           dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
           "Sending a query for the statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to: f2090b",
