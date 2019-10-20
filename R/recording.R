@@ -38,6 +38,13 @@ quietly <- function(expr) {
   }
 }
 
+# borrowed from httptest
+trace_dbi <- function (..., where_list = list(sys.frame()),  print = dbtest_debug_level(2)) {
+  for (place in where_list) {
+    quietly(trace(..., print = print, where = place))
+  }
+}
+
 
 #' @rdname capture_requests
 #' @export
@@ -47,20 +54,16 @@ start_capturing <- function(path) {
     .mockPaths(path)
   }
 
-  # TODO: need to trace _where_ the user sees the functions not just DBI
-  # https://github.com/nealrichardson/httptest/blob/master/R/trace.R#L30-L39
-
-  quietly(trace(
+  quietly(trace_dbi(
     "dbConnect",
     exit = quote({
       .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
     }),
-    print = dbtest_debug_level(2),
-    where = asNamespace("DBI")
+    where_list = c(sys.frame(), asNamespace("DBI"))
   ))
 
-  quietly(trace(
+  quietly(trace_dbi(
     "dbSendQuery",
     exit = quote({
       if (dbtest_debug_level(1)) {
@@ -75,8 +78,7 @@ start_capturing <- function(path) {
         hash(statement)
       )
     }),
-    print = dbtest_debug_level(2),
-    where = asNamespace("DBI")
+    where_list = c(sys.frame(), asNamespace("DBI"))
   ))
 
   #' @export
@@ -87,24 +89,23 @@ start_capturing <- function(path) {
     dput(ans, .dbtest_env$curr_file_path)
   })
 
-  quietly(trace(
+  quietly(trace_dbi(
     "dbFetch",
     exit = recordFetch,
-    print = dbtest_debug_level(2),
-    where = asNamespace("DBI")
+    where_list = c(sys.frame(), asNamespace("DBI"))
   ))
 
-  quietly(trace(
+  quietly(trace_dbi(
     "fetch",
     exit = recordFetch,
-    print = dbtest_debug_level(2),
-    where = asNamespace("DBI")
+    where_list = c(sys.frame(), asNamespace("DBI"))
   ))
 
-  quietly(trace(
+  quietly(trace_dbi(
     "dbGetRowsAffected",
     exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
-    print = dbtest_debug_level(2)
+    print = dbtest_debug_level(2),
+    where_list = list(topenv(parent.frame())) # the default for trace
   ))
 
   return(invisible(NULL))
@@ -119,6 +120,7 @@ start_capturing <- function(path) {
 #' @export
 stop_capturing <- function() {
   for (func in c("dbSendQuery", "dbFetch", "dbConnect")) {
+    safe_untrace(func, asNamespace("DBI"))
     safe_untrace(func, "DBI")
     safe_untrace(func)
   }

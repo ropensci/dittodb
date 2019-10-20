@@ -1,10 +1,12 @@
 context("RPostgreSQL")
-library(RPostgreSQL)
 
 skip_locally("use postgres-docker.sh and test manually")
 
+library(RPostgreSQL)
+
+
 # setup the database that will be mocked and then tested
-con <- DBI::dbConnect(
+con <- dbConnect(
   RPostgreSQL::PostgreSQL(),
   dbname = "nycflights",
   host = "127.0.0.1",
@@ -30,13 +32,13 @@ test_that("The fixture is what we expect", {
   )
 })
 
-DBI::dbDisconnect(con)
+dbDisconnect(con)
 
 
 with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   start_capturing()
 
-  con <- DBI::dbConnect(
+  con <- dbConnect(
     RPostgreSQL::PostgreSQL(),
     dbname = "nycflights",
     host = "127.0.0.1",
@@ -47,17 +49,17 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   # dbGetQuery is different for RPostgreSQL and isn't simply a warpper around
   # dbSendQuery(), dbFetch()
   res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
-  DBI::dbFetch(res)
+  dbFetch(res)
   res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
-  DBI::dbFetch(res)
+  dbFetch(res)
 
   dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
 
-  DBI::dbDisconnect(con)
+  dbDisconnect(con)
   stop_capturing()
 
   with_mock_db({
-    con <- DBI::dbConnect(
+    con <- dbConnect(
       RPostgreSQL::PostgreSQL(),
       dbname = "nycflights",
       host = "127.0.0.1",
