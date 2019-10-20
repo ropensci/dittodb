@@ -39,4 +39,5 @@ withr::with_options(
         expect_identical(.mockPaths(), "baz")
       })
     })
-  })
+  }
+)

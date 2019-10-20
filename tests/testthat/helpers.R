@@ -1,5 +1,5 @@
 skip_env <- function(which = c("postgres", "mariadb")) {
-  which = match.arg(which)
+  which <- match.arg(which)
 
   if ("postgres" %in% which && Sys.getenv("DBTEST_DISABLE_PG") != "") {
     skip("Skipping tests that need a functioning Postgres backend.")

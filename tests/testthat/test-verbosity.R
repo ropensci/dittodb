@@ -36,11 +36,12 @@ capture_output({
       "dbtest.debug" = 2,
       dbtest.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
-      expect_message({
-        start_capturing()
-        con <- nycflights13_sqlite()
-      },
-      ".*Tracing.*"
+      expect_message(
+        {
+          start_capturing()
+          con <- nycflights13_sqlite()
+        },
+        ".*Tracing.*"
       )
       expect_message(
         dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
