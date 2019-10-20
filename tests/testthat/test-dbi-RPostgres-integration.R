@@ -1,7 +1,7 @@
 context("RPostgres")
 
 skip_env("postgres")
-skip_locally("use postgres-docker.sh and test manually")
+skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
 library("RPostgres")
 

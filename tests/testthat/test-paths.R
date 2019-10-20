@@ -8,4 +8,3 @@ test_that("path operations work", {
     "Couldn't find the file not-here.R in any of the mock directories."
   )
 })
-

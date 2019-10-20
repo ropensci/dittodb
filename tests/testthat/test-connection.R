@@ -5,7 +5,8 @@ test_that("Error handling", {
     dbMockConnect(data.frame(), dbname = "name"),
     paste0(
       "data.frame is an unknown driver, dbtest will have limited functionality."
-    ))
+    )
+  )
 })
 
 with_mock_db({

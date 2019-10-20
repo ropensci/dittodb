@@ -21,7 +21,9 @@ test_that("nycflights sqlite can be created", {
 })
 
 
-con <- DBI::dbConnect(
+skip_locally("use postgres-docker.sh and then this can be unskipped locally")
+
+con <- dbConnect(
   RPostgreSQL::PostgreSQL(),
   dbname = "nycflights",
   host = "127.0.0.1",
