@@ -41,7 +41,7 @@ before_cache:
 deploy:
   provider: script
   on:
-    branch: addNews
+    branch: master
     condition: $TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release
   script: Rscript -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
