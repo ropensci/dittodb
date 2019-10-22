@@ -42,8 +42,7 @@ deploy:
   provider: script
   on:
     branch: addNews
-    condition: $TRAVIS_OS_NAME = linux
-    condition: $TRAVIS_R_VERSION_STRING = release
+    condition: $TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release
   script: Rscript -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
 
