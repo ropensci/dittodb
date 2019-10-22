@@ -1,8 +1,0 @@
-pandoc: 2.7.3
-pkgdown: 1.3.0
-pkgdown_sha: ~
-articles: []
-urls:
-  reference: https://jonkeane.com/dbtest/reference
-  article: https://jonkeane.com/dbtest/articles
-
