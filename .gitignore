@@ -2,4 +2,4 @@
 .Rhistory
 **.DS_Store
 .Rprofile
-^docs$
+docs
