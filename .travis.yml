@@ -40,9 +40,10 @@ before_cache:
 # deploy docs to ghpages automatically
 deploy:
   provider: script
+  script: Rscript -e 'pkgdown::deploy_site_github()'
   on:
     branch: addNews
-  script: test $TRAVIS_R_VERSION_STRING = "release" && test $TRAVIS_OS_NAME = "linux" && Rscript -e 'pkgdown::deploy_site_github()'
+    condition: "$TRAVIS_OS_NAME = linux & $TRAVIS_R_VERSION_STRING = release"
   skip_cleanup: true
 
 after_success:
