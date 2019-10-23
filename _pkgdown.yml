@@ -1,4 +1,8 @@
 url: https://jonkeane.com/dbtest
+template:
+  params:
+    bootswatch: flatly
+    ganalytics: UA-150741105-1
 navbar:
   title: dbtest
   type: default
