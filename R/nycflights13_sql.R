@@ -19,8 +19,40 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # psql_con is a PostgreSQL connnection from .Rprofile
-#' nycflights13_sql(psql_con, schema = "nycflights13")
+#' # we assume credentials is a list specified in .Rprofile
+#'
+#' # odbc + DBI
+#' psql_con <- DBI::dbConnect(
+#'  odbc::odbc(),
+#'  Driver   = "PostgreSQL Unicode",
+#'  Server   = credentials[["host"]],
+#'  Database = "postgres",
+#'  UID      = credentials[["usr"]],
+#'  PWD      = credentials[["pwd"]],
+#'  Port     = 5432
+#' )
+#'
+#' # RPostgreSQL + DBI
+#' psql_con <- RPostgreSQL::dbConnect(
+#'  drv = DBI::dbDriver("PostgreSQL"),
+#'  host = credentials[["host"]],
+#'  dbname = "postgres",
+#'  user = credentials[["usr"]],
+#'  password = credentials[["pwd"]],
+#'  port     = 5432
+#' )
+#'
+#' # RPostgres + DBI
+#' psql_con <- DBI::dbConnect(
+#'  drv = RPostgres::Postgres(),
+#'  host = credentials[["host"]],
+#'  dbname = "postgres",
+#'  user = credentials[["usr"]],
+#'  password = credentials[["pwd"]],
+#'  port = 5432
+#' )
+#'
+#' nycflights13_sql(psql_con, schema = "nycflights13", method = "dbi")
 #' }
 nycflights13_sql <- function(con,
                              schema = "",
@@ -85,7 +117,11 @@ nycflights13_sql <- function(con,
       message("Creating table: ", table)
 
       if (schema != "") {
-        table_name <- c(schema, table)
+        if (class(con) %in% "PostgreSQLConnection") {
+          table_name <- c(schema, table)
+        } else {
+          table_name <- DBI::Id(schema = schema, table = table)
+        }
       } else {
         table_name <- table
       }
