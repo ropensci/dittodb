@@ -14,45 +14,44 @@
 #' @importFrom utils head
 #'
 #' @return the connection given in `con` invisibly, generally called for the side effects
-#' of writing to the  database
+#' of writing to the database
 #'
 #' @export
 #' @examples
 #' \dontrun{
-#' # we assume credentials is a list specified in .Rprofile
-#'
-#' # odbc + DBI
-#' psql_con <- DBI::dbConnect(
-#'  odbc::odbc(),
-#'  Driver   = "PostgreSQL Unicode",
-#'  Server   = credentials[["host"]],
-#'  Database = "postgres",
-#'  UID      = credentials[["usr"]],
-#'  PWD      = credentials[["pwd"]],
-#'  Port     = 5432
+#' con <- list(
+#'  odbc = DBI::dbConnect(
+#'   odbc::odbc(),
+#'   Driver   = "PostgreSQL Unicode",
+#'   Server   = "127.0.0.1",
+#'   Database = "postgres",
+#'   UID      = "travis",
+#'   PWD      = "",
+#'   Port     = 5432
+#'  ),
+#'  rpostgresql = RPostgreSQL::dbConnect(
+#'   drv      = DBI::dbDriver("PostgreSQL"),
+#'   host     = "127.0.0.1",
+#'   dbname   = "postgres",
+#'   user     = "travis",
+#'   password = "",
+#'   port     = 5432
+#'  ),
+#'  rpostgres = DBI::dbConnect(
+#'   drv      = RPostgres::Postgres(),
+#'   host     = "127.0.0.1",
+#'   dbname   = "postgres",
+#'   user     = "travis",
+#'   password = "",
+#'   port     = 5432
+#'  )
 #' )
 #'
-#' # RPostgreSQL + DBI
-#' psql_con <- RPostgreSQL::dbConnect(
-#'  drv = DBI::dbDriver("PostgreSQL"),
-#'  host = credentials[["host"]],
-#'  dbname = "postgres",
-#'  user = credentials[["usr"]],
-#'  password = credentials[["pwd"]],
-#'  port     = 5432
-#' )
-#'
-#' # RPostgres + DBI
-#' psql_con <- DBI::dbConnect(
-#'  drv = RPostgres::Postgres(),
-#'  host = credentials[["host"]],
-#'  dbname = "postgres",
-#'  user = credentials[["usr"]],
-#'  password = credentials[["pwd"]],
-#'  port = 5432
-#' )
-#'
-#' nycflights13_sql(psql_con, schema = "nycflights13", method = "dbi")
+#' nycflights13_sql(con$odbc, schema = "nycflights13", method = "dbi")
+#' # same as
+#' # nycflights13_sql(con$rpostgresql, schema = "nycflights13", method = "dbi")
+#' # also same as
+#' # nycflights13_sql(con$rpostgres, schema = "nycflights13", method = "dbi")
 #' }
 nycflights13_sql <- function(con,
                              schema = "",
