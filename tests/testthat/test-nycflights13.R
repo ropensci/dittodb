@@ -14,7 +14,7 @@ test_that("nycflights sqlite can be created", {
 })
 
 
-skip_locally("use postgres-docker.sh and then this can be unskipped locally")
+# skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
 # psql ----
 
@@ -106,7 +106,7 @@ con_rpostgres <- DBI::dbConnect(
 
 test_that("DBI, with a new schema creation and rpostgres package", {
   expect_message(
-    nycflights13_sql(con_rpostgresql, schema = "new_schema"),
+    nycflights13_sql(con_rpostgres, schema = "new_schema"),
     paste0(c(
       "Creating the testing database from nycflights13",
       "Creating table: airlines",
@@ -122,9 +122,9 @@ test_that("DBI, with a new schema creation and rpostgres package", {
 
 test_that("DBI, with a same schema creation and rpostgres package", {
   expect_message(
-    nycflights13_sql(con_rpostgresql, schema = "new_schema"),
+    nycflights13_sql(con_rpostgres, schema = "new_schema"),
     "Creating the testing database from nycflights13"
   )
 })
 
-dbDisconnect(con_rpostgresql)
+dbDisconnect(con_rpostgres)
