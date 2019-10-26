@@ -4,9 +4,11 @@
 \alias{nycflights13_sqlite}
 \title{Create an in-memory SQLite database for testing}
 \usage{
-nycflights13_sqlite(...)
+nycflights13_sqlite(location = ":memory:", ...)
 }
 \arguments{
+\item{location}{where to store the database}
+
 \item{...}{additional parameters to connect to a database (most are passed on
 to [`nycflights_sql`])}
 }

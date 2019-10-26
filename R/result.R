@@ -66,3 +66,12 @@ setMethod(
   "dbClearResult", signature("DBIMockResult"),
   function(res, n, ...) return(NULL)
 )
+
+# TODO: this should be smarter than just always saying things are done
+#' @rdname mock-db-methods
+#' @export
+setMethod(
+  "dbHasCompleted", signature("DBIMockResult"),
+  function(res, ...) return(TRUE)
+)
+
