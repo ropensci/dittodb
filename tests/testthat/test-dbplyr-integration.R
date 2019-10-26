@@ -2,8 +2,10 @@ context("Test against dbplyr")
 library(dbplyr)
 library(dplyr)
 
+temp_path <- file.path(temp_dir, "dbplyr_integration")
+
 # testing against built-in sqlite database
-con <- nycflights13_sqlite("dbplyr_integration")
+con <- nycflights13_sqlite(temp_path)
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -21,7 +23,7 @@ dbDisconnect(con)
 
 # test with the mock db using some captured mocks
 start_capturing()
-con <- dbConnect(RSQLite::SQLite(), "dbplyr_integration")
+con <- dbConnect(RSQLite::SQLite(), temp_path)
 dbListTables(con) # we have to list tables in order to have the mocks work below
 
 # record mocks for a few queries we are planning to execute below
@@ -34,7 +36,7 @@ stop_capturing()
 
 # now try the whole thing again, but this time with the mock db.
 with_mock_db({
-  con <- dbConnect(RSQLite::SQLite(), "dbplyr_integration")
+  con <- dbConnect(RSQLite::SQLite(), temp_path)
 
   test_that("We can mock it", {
     expect_is(
