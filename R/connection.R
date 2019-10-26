@@ -70,11 +70,14 @@ dbMockConnect <- function(drv, ...) {
 get_dbname <- function(dots) {
   # look through dots to grab either dbname or the first unnammed argument
   named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
+  named_Database <- !is.null(dots$Database) && dots$Database != ""
   unnamed_dbname <- length(dots) > 0 &&
     (is.null(names(dots[1])) || names(dots[1]) == "")
   # if there is no name, or it's empty
   if (named_dbname) {
     path <- dots$dbname
+  } else if (named_Database) {
+    path <- dots$Database
   } else if (unnamed_dbname) {
     path <- dots[[1]]
   } else {

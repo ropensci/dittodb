@@ -11,6 +11,7 @@
 \alias{dbFetch,DBIMockResult-method}
 \alias{fetch,DBIMockResult-method}
 \alias{dbClearResult,DBIMockResult-method}
+\alias{dbHasCompleted,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
@@ -24,6 +25,8 @@
 \S4method{fetch}{DBIMockResult}(res, n = -1, ...)
 
 \S4method{dbClearResult}{DBIMockResult}(res, n, ...)
+
+\S4method{dbHasCompleted}{DBIMockResult}(res, ...)
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should

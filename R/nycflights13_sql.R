@@ -5,8 +5,6 @@
 #'
 #' @param con an SQL connection (i.e a PostgreSQL connection)
 #' @param schema schema to write the tables ("", or no schema by default)
-#' @param method should the tables be created with DBI methods or dplyr methods?
-#'  (either "dbi" or "dplyr"; "dbi" by default)
 #' @param ... additional parameters to connect to a database
 #'
 #' @importFrom DBI dbListTables dbWriteTable
@@ -14,52 +12,46 @@
 #' @importFrom utils head
 #'
 #' @return the connection given in `con` invisibly, generally called for the side effects
-#' of writing to the  database
+#' of writing to the database
 #'
 #' @export
 #' @examples
 #' \dontrun{
-#' # we assume credentials is a list specified in .Rprofile
-#'
-#' # odbc + DBI
-#' psql_con <- DBI::dbConnect(
-#'  odbc::odbc(),
-#'  Driver   = "PostgreSQL Unicode",
-#'  Server   = credentials[["host"]],
-#'  Database = "postgres",
-#'  UID      = credentials[["usr"]],
-#'  PWD      = credentials[["pwd"]],
-#'  Port     = 5432
+#' con <- list(
+#'  odbc = DBI::dbConnect(
+#'   odbc::odbc(),
+#'   Driver   = "PostgreSQL Unicode",
+#'   Server   = "127.0.0.1",
+#'   Database = "postgres",
+#'   UID      = "travis",
+#'   PWD      = "",
+#'   Port     = 5432
+#'  ),
+#'  rpostgresql = RPostgreSQL::dbConnect(
+#'   drv      = DBI::dbDriver("PostgreSQL"),
+#'   host     = "127.0.0.1",
+#'   dbname   = "postgres",
+#'   user     = "travis",
+#'   password = "",
+#'   port     = 5432
+#'  ),
+#'  rpostgres = DBI::dbConnect(
+#'   drv      = RPostgres::Postgres(),
+#'   host     = "127.0.0.1",
+#'   dbname   = "postgres",
+#'   user     = "travis",
+#'   password = "",
+#'   port     = 5432
+#'  )
 #' )
 #'
-#' # RPostgreSQL + DBI
-#' psql_con <- RPostgreSQL::dbConnect(
-#'  drv = DBI::dbDriver("PostgreSQL"),
-#'  host = credentials[["host"]],
-#'  dbname = "postgres",
-#'  user = credentials[["usr"]],
-#'  password = credentials[["pwd"]],
-#'  port     = 5432
-#' )
-#'
-#' # RPostgres + DBI
-#' psql_con <- DBI::dbConnect(
-#'  drv = RPostgres::Postgres(),
-#'  host = credentials[["host"]],
-#'  dbname = "postgres",
-#'  user = credentials[["usr"]],
-#'  password = credentials[["pwd"]],
-#'  port = 5432
-#' )
-#'
-#' nycflights13_sql(psql_con, schema = "nycflights13", method = "dbi")
+#' nycflights13_sql(con$odbc, schema = "nycflights13")
+#' # same as
+#' # nycflights13_sql(con$rpostgresql, schema = "nycflights13")
+#' # also same as
+#' # nycflights13_sql(con$rpostgres, schema = "nycflights13")
 #' }
-nycflights13_sql <- function(con,
-                             schema = "",
-                             method = c("dbi", "dplyr"),
-                             ...) {
-  method <- match.arg(method)
-
+nycflights13_sql <- function(con, schema = "", ...) {
   local_tables <- utils::data(package = "nycflights13")$results[, 3]
 
   unique_index <- list(
@@ -108,59 +100,32 @@ nycflights13_sql <- function(con,
 
   tables <- setdiff(local_tables, remote_tables)
 
-  if (method == "dbi") {
-    message("using DBI to create the database")
+  message("Creating the testing database from nycflights13")
 
-    # Create missing tables
-    for (table in tables) {
-      df <- head(getExportedValue("nycflights13", table), 1000)
-      message("Creating table: ", table)
+  # Create missing tables
+  for (table in tables) {
+    df <- head(getExportedValue("nycflights13", table), 1000)
+    message("Creating table: ", table)
 
-      if (schema != "") {
-        if (class(con) %in% "PostgreSQLConnection") {
-          table_name <- c(schema, table)
-        } else {
-          table_name <- DBI::Id(schema = schema, table = table)
-        }
+    if (schema != "") {
+      if (class(con) %in% "PostgreSQLConnection") {
+        table_name <- c(schema, table)
       } else {
-        table_name <- table
+        table_name <- DBI::Id(schema = schema, table = table)
       }
-
-      DBI::dbWriteTable(
-        con,
-        table_name,
-        df,
-        unique_indexes = unique_index[[table]],
-        indexes = index[[table]],
-        temporary = FALSE,
-        row.names = FALSE
-      )
+    } else {
+      table_name <- table
     }
-  } else {
-    check_for_pkg("dplyr")
-    message("using dplyr to create the database")
 
-    # Create missing tables
-    for (table in tables) {
-      df <- head(getExportedValue("nycflights13", table), 1000)
-      message("Creating table: ", table)
-
-      if (schema != "") {
-        table_name <- dbplyr::in_schema(schema, table)
-      } else {
-        table_name <- table
-      }
-
-      dplyr::copy_to(
-        con,
-        df,
-        name = table_name,
-        unique_indexes = unique_index[[table]],
-        indexes = index[[table]],
-        temporary = FALSE,
-        row.names = FALSE
-      )
-    }
+    DBI::dbWriteTable(
+      con,
+      table_name,
+      df,
+      unique_indexes = unique_index[[table]],
+      indexes = index[[table]],
+      temporary = FALSE,
+      row.names = FALSE
+    )
   }
 
   return(invisible(con))
@@ -169,6 +134,7 @@ nycflights13_sql <- function(con,
 
 #' Create an in-memory SQLite database for testing
 #'
+#' @param location where to store the database
 #' @param ... additional parameters to connect to a database (most are passed on
 #' to [`nycflights_sql`])
 #'
@@ -180,11 +146,11 @@ nycflights13_sql <- function(con,
 #' \dontrun{
 #' con <- nycflights13_sqlite()
 #' }
-nycflights13_sqlite <- function(...) {
+nycflights13_sqlite <- function(location = ":memory:", ...) {
   check_for_pkg("RSQLite")
-  sqlite_con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  sqlite_con <- dbConnect(RSQLite::SQLite(), location)
 
-  nycflights13_sql(sqlite_con, schema = "", ...)
+  sqlite_con <- nycflights13_sql(sqlite_con, schema = "", ...)
 
   return(invisible(sqlite_con))
 }

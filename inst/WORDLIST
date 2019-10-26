@@ -2,12 +2,10 @@ api
 Codecov
 dbConnect
 dbFetchQuery
-dbi
 DBIMockConnection
 DBIMockResult
 dbname
 dbSendQuery
-dplyr
 fs
 https
 httptest

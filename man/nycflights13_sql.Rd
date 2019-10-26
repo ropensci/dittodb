@@ -4,21 +4,18 @@
 \alias{nycflights13_sql}
 \title{Create a standardised database for testing}
 \usage{
-nycflights13_sql(con, schema = "", method = c("dbi", "dplyr"), ...)
+nycflights13_sql(con, schema = "", ...)
 }
 \arguments{
 \item{con}{an SQL connection (i.e a PostgreSQL connection)}
 
 \item{schema}{schema to write the tables ("", or no schema by default)}
 
-\item{method}{should the tables be created with DBI methods or dplyr methods?
-(either "dbi" or "dplyr"; "dbi" by default)}
-
 \item{...}{additional parameters to connect to a database}
 }
 \value{
 the connection given in `con` invisibly, generally called for the side effects
-of writing to the  database
+of writing to the database
 }
 \description{
 Using the connection given in `con`, create a database including a few tables
@@ -26,7 +23,38 @@ from the [`nycflights2013`] dataset.
 }
 \examples{
 \dontrun{
-# psql_con is a PostgreSQL connnection from .Rprofile
-nycflights13_sql(psql_con, schema = "nycflights13")
+con <- list(
+ odbc = DBI::dbConnect(
+  odbc::odbc(),
+  Driver   = "PostgreSQL Unicode",
+  Server   = "127.0.0.1",
+  Database = "postgres",
+  UID      = "travis",
+  PWD      = "",
+  Port     = 5432
+ ),
+ rpostgresql = RPostgreSQL::dbConnect(
+  drv      = DBI::dbDriver("PostgreSQL"),
+  host     = "127.0.0.1",
+  dbname   = "postgres",
+  user     = "travis",
+  password = "",
+  port     = 5432
+ ),
+ rpostgres = DBI::dbConnect(
+  drv      = RPostgres::Postgres(),
+  host     = "127.0.0.1",
+  dbname   = "postgres",
+  user     = "travis",
+  password = "",
+  port     = 5432
+ )
+)
+
+nycflights13_sql(con$odbc, schema = "nycflights13")
+# same as
+# nycflights13_sql(con$rpostgresql, schema = "nycflights13")
+# also same as
+# nycflights13_sql(con$rpostgres, schema = "nycflights13")
 }
 }

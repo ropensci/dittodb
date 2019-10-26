@@ -10,11 +10,20 @@ before_install:
   - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh; fi
   - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh; fi
 
+addons:
+  apt:
+    packages:
+      # this is to make the odbc/psql packages work
+      - unixodbc-dev
+      - odbc-postgresql
+      - libpq-dev
+
 before_script:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
   - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_MARIA=true; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo apt install unixodbc-dev odbc-postgresql; fi
   # we have to install from source, or else we get `result_fetch(res@ptr, n = n)`
-  - R -q -e 'install.packages("RMariaDB", type = "source");'
+  - R -q -e 'install.packages(c("RMariaDB","odbc","RPostgreSQL","RPostgres"), type = "source");'
 
 r:
   - oldrel

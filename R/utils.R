@@ -50,6 +50,10 @@ ignore_dbplyr_unique_names <- function(statement) {
   return(gsub("`zzz[[:digit:]]+`", "`removed_unique_dplyr_name`", statement))
 }
 
+ignore_quotes <- function(statement) {
+  return(gsub("(`|\"|')", "`", statement))
+}
+
 #' Get the dbtest debug level and evaluate if it is above a level
 #'
 #' @param level the level to test against (greater than or equal to)

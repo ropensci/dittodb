@@ -1,3 +1,5 @@
+# sqlite ----
+
 context("nycflights13 writing functions")
 
 test_that("nycflights sqlite can be created", {
@@ -9,33 +11,30 @@ test_that("nycflights sqlite can be created", {
     c("airlines", "airports", "flights", "planes", "weather")
   )
   dbDisconnect(con)
-
-  # with dplyr
-  con <- nycflights13_sqlite(method = "dplyr")
-  expect_is(con, "SQLiteConnection")
-  expect_identical(
-    dbListTables(con),
-    c("airlines", "airports", "flights", "planes", "sqlite_stat1", "sqlite_stat4", "weather")
-  )
-  dbDisconnect(con)
 })
 
 
 skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
-con <- dbConnect(
-  RPostgreSQL::PostgreSQL(),
-  dbname = "nycflights",
-  host = "127.0.0.1",
-  user = "travis",
-  password = ""
+# psql ----
+
+# odbc ----
+
+con_odbc <- DBI::dbConnect(
+  odbc::odbc(),
+  Driver   = "PostgreSQL Unicode",
+  Server   = "127.0.0.1",
+  Database = "postgres",
+  UID      = "travis",
+  PWD      = "",
+  Port     = 5432
 )
 
-test_that("DBI, with a new schema creation", {
+test_that("DBI, with a new schema creation and odbc package", {
   expect_message(
-    nycflights13_sql(con, schema = "new_schema"),
+    nycflights13_sql(con_odbc, schema = "new_schema"),
     paste0(c(
-      "using DBI to create the database",
+      "Creating the testing database from nycflights13",
       "Creating table: airlines",
       "Creating table: airports",
       "Creating table: flights",
@@ -47,18 +46,31 @@ test_that("DBI, with a new schema creation", {
   )
 })
 
-test_that("DBI, with a same schema creation", {
+test_that("DBI, with a same schema creation and odbc package", {
   expect_message(
-    nycflights13_sql(con, schema = "new_schema"),
-    "using DBI to create the database"
+    nycflights13_sql(con_odbc, schema = "new_schema"),
+    "Creating the testing database from nycflights13"
   )
 })
 
-test_that("dplyr, with a new schema creation", {
+dbDisconnect(con_odbc)
+
+# rpostgresql ----
+
+con_rpostgresql <- RPostgreSQL::dbConnect(
+  drv      = DBI::dbDriver("PostgreSQL"),
+  host     = "127.0.0.1",
+  dbname   = "postgres",
+  user     = "travis",
+  password = "",
+  port     = 5432
+)
+
+test_that("DBI, with a new schema creation and rpostgresql package", {
   expect_message(
-    nycflights13_sql(con, method = "dplyr", schema = "other_schema"),
+    nycflights13_sql(con_rpostgresql, schema = "new_schema"),
     paste0(c(
-      "using dplyr to create the database",
+      "Creating the testing database from nycflights13",
       "Creating table: airlines",
       "Creating table: airports",
       "Creating table: flights",
@@ -70,4 +82,49 @@ test_that("dplyr, with a new schema creation", {
   )
 })
 
-dbDisconnect(con)
+test_that("DBI, with a same schema creation and rpostgresql package", {
+  expect_message(
+    nycflights13_sql(con_rpostgresql, schema = "new_schema"),
+    "Creating the testing database from nycflights13"
+  )
+})
+
+dbDisconnect(con_rpostgresql)
+
+# rpostgres ----
+
+skip_env("postgres")
+
+con_rpostgres <- DBI::dbConnect(
+  drv      = RPostgres::Postgres(),
+  host     = "127.0.0.1",
+  dbname   = "postgres",
+  user     = "travis",
+  password = "",
+  port     = 5432
+)
+
+test_that("DBI, with a new schema creation and rpostgres package", {
+  expect_message(
+    nycflights13_sql(con_rpostgres, schema = "new_schema"),
+    paste0(c(
+      "Creating the testing database from nycflights13",
+      "Creating table: airlines",
+      "Creating table: airports",
+      "Creating table: flights",
+      "Creating table: planes",
+      "Creating table: weather"
+    ),
+    collapse = "|"
+    )
+  )
+})
+
+test_that("DBI, with a same schema creation and rpostgres package", {
+  expect_message(
+    nycflights13_sql(con_rpostgres, schema = "new_schema"),
+    "Creating the testing database from nycflights13"
+  )
+})
+
+dbDisconnect(con_rpostgres)
