@@ -70,7 +70,7 @@ with_mock_path(path = file.path(temp_dir, "postgres_integration"), {
       )
     })
 
-    test_that("We can use mocks for dbGetQeury", {
+    test_that("We can use mocks for dbGetQuery", {
       expect_identical(
         dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
         data.frame(

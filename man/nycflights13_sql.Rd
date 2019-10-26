@@ -18,7 +18,7 @@ nycflights13_sql(con, schema = "", method = c("dbi", "dplyr"), ...)
 }
 \value{
 the connection given in `con` invisibly, generally called for the side effects
-of writing to the  database
+of writing to the database
 }
 \description{
 Using the connection given in `con`, create a database including a few tables
@@ -26,7 +26,16 @@ from the [`nycflights2013`] dataset.
 }
 \examples{
 \dontrun{
-# psql_con is a PostgreSQL connnection from .Rprofile
-nycflights13_sql(psql_con, schema = "nycflights13")
+# it also works with odbc and RPostgres
+con_rpostgresql <- RPostgreSQL::dbConnect(
+  drv = DBI::dbDriver("PostgreSQL"),
+  host = "127.0.0.1",
+  dbname = "postgres",
+  user = "travis",
+  password = "",
+  port = 5432
+)
+
+nycflights13_sql(con$odbc, schema = "nycflights13", method = "dbi")
 }
 }

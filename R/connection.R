@@ -31,7 +31,9 @@ setClass("DBIMockConnection",
 #' @export
 setMethod(
   "dbDisconnect", signature("DBIMockConnection"),
-  function(conn, ...) return(NULL)
+  function(conn, ...) {
+    return(NULL)
+  }
 )
 
 # TODO: should this function also include some specifications of the original

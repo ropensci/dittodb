@@ -24,7 +24,8 @@ with_mock_path(path = "new_mock_path", {
 })
 
 withr::with_options(
-  c(dbtest.mock.paths = "new_one"), {
+  c(dbtest.mock.paths = "new_one"),
+  {
     test_that("dbtest.mock.paths is used", {
       expect_identical(.mockPaths(), "new_one")
     })

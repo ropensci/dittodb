@@ -38,20 +38,20 @@ con <- list(
     Port     = 5432
   ),
   rpostgresql = RPostgreSQL::dbConnect(
-    drv      = DBI::dbDriver("PostgreSQL"),
-    host     = "127.0.0.1",
-    dbname   = "postgres",
-    user     = "travis",
+    drv = DBI::dbDriver("PostgreSQL"),
+    host = "127.0.0.1",
+    dbname = "postgres",
+    user = "travis",
     password = "",
-    port     = 5432
+    port = 5432
   ),
   rpostgres = DBI::dbConnect(
-    drv      = RPostgres::Postgres(),
-    host     = "127.0.0.1",
-    dbname   = "postgres",
-    user     = "travis",
+    drv = RPostgres::Postgres(),
+    host = "127.0.0.1",
+    dbname = "postgres",
+    user = "travis",
     password = "",
-    port     = 5432
+    port = 5432
   )
 )
 
@@ -59,7 +59,7 @@ con <- list(
 
 test_that("DBI, with a new schema creation and odbc package", {
   expect_message(
-    nycflights13_sql(con$odbc, schema = "new_schema"),
+    nycflights13_sql(con$odbc, schema = "odbc"),
     paste0(c(
       "using DBI to create the database",
       "Creating table: airlines",
@@ -75,14 +75,14 @@ test_that("DBI, with a new schema creation and odbc package", {
 
 test_that("DBI, with a same schema creation and odbc package", {
   expect_message(
-    nycflights13_sql(con$odbc, schema = "new_schema"),
+    nycflights13_sql(con$odbc, schema = "odbc"),
     "using DBI to create the database"
   )
 })
 
 test_that("dplyr, with a new schema creation and odbc package", {
   expect_message(
-    nycflights13_sql(con$odbc, method = "dplyr", schema = "other_schema"),
+    nycflights13_sql(con$odbc, method = "dplyr", schema = "odbc_other"),
     paste0(c(
       "using dplyr to create the database",
       "Creating table: airlines",
@@ -102,7 +102,7 @@ dbDisconnect(con$odbc)
 
 test_that("DBI, with a new schema creation and rpostgresql package", {
   expect_message(
-    nycflights13_sql(con$rpostgresql, schema = "new_schema"),
+    nycflights13_sql(con$rpostgresql, schema = "rpostgresql"),
     paste0(c(
       "using DBI to create the database",
       "Creating table: airlines",
@@ -118,14 +118,14 @@ test_that("DBI, with a new schema creation and rpostgresql package", {
 
 test_that("DBI, with a same schema creation and rpostgresql package", {
   expect_message(
-    nycflights13_sql(con$rpostgresql, schema = "new_schema"),
+    nycflights13_sql(con$rpostgresql, schema = "rpostgresql"),
     "using DBI to create the database"
   )
 })
 
 test_that("dplyr, with a new schema creation and rpostgresql package", {
   expect_message(
-    nycflights13_sql(con$rpostgresql, method = "dplyr", schema = "other_schema"),
+    nycflights13_sql(con$rpostgresql, method = "dplyr", schema = "rpostgresql_other"),
     paste0(c(
       "using dplyr to create the database",
       "Creating table: airlines",
@@ -145,7 +145,7 @@ dbDisconnect(con$rpostgresql)
 
 test_that("DBI, with a new schema creation and rpostgres package", {
   expect_message(
-    nycflights13_sql(con$rpostgres, schema = "new_schema"),
+    nycflights13_sql(con$rpostgres, schema = "rpostgres"),
     paste0(c(
       "using DBI to create the database",
       "Creating table: airlines",
@@ -161,14 +161,14 @@ test_that("DBI, with a new schema creation and rpostgres package", {
 
 test_that("DBI, with a same schema creation and rpostgres package", {
   expect_message(
-    nycflights13_sql(con$rpostgres, schema = "new_schema"),
+    nycflights13_sql(con$rpostgres, schema = "rpostgres"),
     "using DBI to create the database"
   )
 })
 
 test_that("dplyr, with a new schema creation and rpostgres package", {
   expect_message(
-    nycflights13_sql(con$rpostgres, method = "dplyr", schema = "other_schema"),
+    nycflights13_sql(con$rpostgres, method = "dplyr", schema = "rpostgres_other"),
     paste0(c(
       "using dplyr to create the database",
       "Creating table: airlines",

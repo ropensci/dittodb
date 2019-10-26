@@ -19,39 +19,17 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' con <- list(
-#'  odbc = DBI::dbConnect(
-#'   odbc::odbc(),
-#'   Driver   = "PostgreSQL Unicode",
-#'   Server   = "127.0.0.1",
-#'   Database = "postgres",
-#'   UID      = "travis",
-#'   PWD      = "",
-#'   Port     = 5432
-#'  ),
-#'  rpostgresql = RPostgreSQL::dbConnect(
-#'   drv      = DBI::dbDriver("PostgreSQL"),
-#'   host     = "127.0.0.1",
-#'   dbname   = "postgres",
-#'   user     = "travis",
+#' # it also works with odbc and RPostgres
+#' con_rpostgresql <- RPostgreSQL::dbConnect(
+#'   drv = DBI::dbDriver("PostgreSQL"),
+#'   host = "127.0.0.1",
+#'   dbname = "postgres",
+#'   user = "travis",
 #'   password = "",
-#'   port     = 5432
-#'  ),
-#'  rpostgres = DBI::dbConnect(
-#'   drv      = RPostgres::Postgres(),
-#'   host     = "127.0.0.1",
-#'   dbname   = "postgres",
-#'   user     = "travis",
-#'   password = "",
-#'   port     = 5432
-#'  )
+#'   port = 5432
 #' )
 #'
 #' nycflights13_sql(con$odbc, schema = "nycflights13", method = "dbi")
-#' # same as
-#' # nycflights13_sql(con$rpostgresql, schema = "nycflights13", method = "dbi")
-#' # also same as
-#' # nycflights13_sql(con$rpostgres, schema = "nycflights13", method = "dbi")
 #' }
 nycflights13_sql <- function(con,
                              schema = "",

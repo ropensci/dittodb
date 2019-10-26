@@ -66,9 +66,9 @@ quietly <- function(expr) {
 }
 
 # borrowed from httptest
-trace_dbi <- function (...,
-                       where_list = list(sys.frame(), asNamespace("DBI")),
-                       print = dbtest_debug_level(2)) {
+trace_dbi <- function(...,
+                      where_list = list(sys.frame(), asNamespace("DBI")),
+                      print = dbtest_debug_level(2)) {
   for (place in where_list) {
     quietly(trace(..., print = print, where = place))
   }

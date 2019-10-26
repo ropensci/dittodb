@@ -64,5 +64,7 @@ setMethod("fetch", signature("DBIMockResult", "ANY"), mock_fetch)
 #' @export
 setMethod(
   "dbClearResult", signature("DBIMockResult"),
-  function(res, n, ...) return(NULL)
+  function(res, n, ...) {
+    return(NULL)
+  }
 )

@@ -1,20 +1,22 @@
-context("RPostgreSQL")
+context("odbc")
 
 skip_locally("use postgres-docker.sh and test manually")
 
-library(RPostgreSQL)
+library(odbc)
 
 
 # setup the database that will be mocked and then tested
-con <- dbConnect(
-  RPostgreSQL::PostgreSQL(),
-  dbname = "nycflights",
-  host = "127.0.0.1",
-  user = "travis",
-  password = ""
+con <- DBI::dbConnect(
+  odbc::odbc(),
+  Driver   = "PostgreSQL Unicode",
+  Server   = "127.0.0.1",
+  Database = "postgres",
+  UID      = "travis",
+  PWD      = "",
+  Port     = 5432
 )
 
-con <- nycflights13_sql(con, schema = "rpostgresql")
+con <- nycflights13_sql(con, schema = "odbc")
 
 test_that("The fixture is what we expect", {
   # we check just that the tables are there since other tests will add other tables
@@ -23,7 +25,7 @@ test_that("The fixture is what we expect", {
   ))
 
   expect_identical(
-    dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2"),
+    dbGetQuery(con, "SELECT * FROM odbc.airlines LIMIT 2"),
     data.frame(
       carrier = c("9E", "AA"),
       name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -38,33 +40,32 @@ dbDisconnect(con)
 with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   start_capturing()
 
-  con <- dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = "travis",
-    password = ""
+  con <- DBI::dbConnect(
+    odbc::odbc(),
+    Driver   = "PostgreSQL Unicode",
+    Server   = "127.0.0.1",
+    Database = "postgres",
+    UID      = "travis",
+    PWD      = "",
+    Port     = 5432
   )
 
-  # dbGetQuery is different for RPostgreSQL and isn't simply a wrapper around
-  # dbSendQuery(), dbFetch()
-  res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
-  dbFetch(res)
-  res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
-  dbFetch(res)
-
-  dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
+  dbGetQuery(con, "SELECT * FROM odbc.airlines LIMIT 2")
+  dbGetQuery(con, "SELECT * FROM odbc.airlines LIMIT 1")
 
   dbDisconnect(con)
   stop_capturing()
 
+
   with_mock_db({
-    con <- dbConnect(
-      RPostgreSQL::PostgreSQL(),
-      dbname = "nycflights",
-      host = "127.0.0.1",
-      user = "travis",
-      password = ""
+    con <- DBI::dbConnect(
+      odbc::odbc(),
+      Driver   = "PostgreSQL Unicode",
+      Server   = "127.0.0.1",
+      Database = "postgres",
+      UID      = "travis",
+      PWD      = "",
+      Port     = 5432
     )
 
     test_that("Our connection is a mock connection", {
@@ -74,9 +75,9 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
       )
     })
 
-    test_that("We can use mocks for dbGetQeury", {
+    test_that("We can use mocks for dbGetQuery", {
       expect_identical(
-        dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2"),
+        dbGetQuery(con, "SELECT * FROM odbc.airlines LIMIT 2"),
         data.frame(
           carrier = c("9E", "AA"),
           name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -86,7 +87,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
     })
 
     test_that("We can use mocks for dbSendQuery", {
-      result <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
+      result <- dbSendQuery(con, "SELECT * FROM odbc.airlines LIMIT 2")
       expect_identical(
         dbFetch(result),
         data.frame(
@@ -99,19 +100,13 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
     test_that("A different query uses a different mock", {
       expect_identical(
-        dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1"),
+        dbGetQuery(con, "SELECT * FROM odbc.airlines LIMIT 1"),
         data.frame(
           carrier = c("9E"),
           name = c("Endeavor Air Inc."),
           stringsAsFactors = FALSE
         )
       )
-    })
-
-    test_that("our dbGetQuery() only mock worked", {
-      out <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
-      expect_is(out, "data.frame")
-      expect_equal(nrow(out), 3)
     })
 
     dbDisconnect(con)
