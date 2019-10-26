@@ -139,7 +139,7 @@ responses from the database for use in crafting tests.</p>
     <tr>
       <th>path</th>
       <td><p>the path to record mocks (default if missing: the first path in
-`.mockPaths()`.</p></td>
+<code><a href='mockPaths.html'>.mockPaths()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -149,14 +149,14 @@ responses from the database for use in crafting tests.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>You can start
-capturing with `start_capturing()` and end it with `stop_capturing`. All
+capturing with <code>start_capturing()</code> and end it with <code>stop_capturing</code>. All
 queries run against a database will be executed like normal, but their
 responses will be saved to the mock path given, so that if you use the same
-queries later inside of a [`with_mock_db`] block, the database functions will
+queries later inside of a <code><a href='with_mock_db.html'>with_mock_db</a></code> block, the database functions will
 return as if they had been run against the database.</p>
-<p>_note_ You should always call [`DBI::dbConnect`] inside of the capturing
+<p><em>note</em> You should always call <code><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>DBI::dbConnect</a></code> inside of the capturing
 block. When you connect to the database, dbtest sets up the mocks for the
-specific database you're connecting to when you call [`DBI::dbConnect`].</p>
+specific database you're connecting to when you call <code><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>DBI::dbConnect</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

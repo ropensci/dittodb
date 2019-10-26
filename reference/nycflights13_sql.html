@@ -36,8 +36,8 @@
 
 
 <meta property="og:title" content="Create a standardised database for testing — nycflights13_sql" />
-<meta property="og:description" content="Using the connection given in `con`, create a database including a few tables
-from the [`nycflights2013`] dataset." />
+<meta property="og:description" content="Using the connection given in con, create a database including a few tables
+from the nycflights13 dataset." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,8 +125,8 @@ from the [`nycflights2013`] dataset." />
     </div>
 
     <div class="ref-description">
-    <p>Using the connection given in `con`, create a database including a few tables
-from the [`nycflights2013`] dataset.</p>
+    <p>Using the connection given in <code>con</code>, create a database including a few tables
+from the <a href='nycflights13'>nycflights13</a> dataset.</p>
     </div>
 
     <pre class="usage"><span class='fu'>nycflights13_sql</span>(<span class='no'>con</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)</pre>
@@ -150,12 +150,12 @@ from the [`nycflights2013`] dataset.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the connection given in `con` invisibly, generally called for the side effects
+    <p>the connection given in <code>con</code> invisibly, generally called for the side effects
 of writing to the database</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+<span class='no'>connections</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
  <span class='kw'>odbc</span> <span class='kw'>=</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>dbConnect</a></span>(
   <span class='kw pkg'>odbc</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/odbc/man/odbc.html'>odbc</a></span>(),
   <span class='kw'>Driver</span>   <span class='kw'>=</span> <span class='st'>"PostgreSQL Unicode"</span>,
@@ -183,11 +183,11 @@ of writing to the database</p>
  )
 )
 
-<span class='fu'>nycflights13_sql</span>(<span class='no'>con</span>$<span class='no'>odbc</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>"nycflights13"</span>)
+<span class='fu'>nycflights13_sql</span>(<span class='no'>connections</span>$<span class='no'>odbc</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>"nycflights13"</span>)
 <span class='co'># same as</span>
-<span class='co'># nycflights13_sql(con$rpostgresql, schema = "nycflights13")</span>
+<span class='co'># nycflights13_sql(connections$rpostgresql, schema = "nycflights13")</span>
 <span class='co'># also same as</span>
-<span class='co'># nycflights13_sql(con$rpostgres, schema = "nycflights13")</span>
+<span class='co'># nycflights13_sql(connections$rpostgres, schema = "nycflights13")</span>
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
