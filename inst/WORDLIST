@@ -1,18 +1,9 @@
-api
 Codecov
-dbConnect
-dbFetchQuery
-DBIMockConnection
-DBIMockResult
-dbname
-dbSendQuery
+dbplyr's
 fs
-https
 httptest
 invisibily
-libPaths
 Lifecycle
-mockPaths
 nycflights
 Postgres
 RMariaDB
@@ -20,5 +11,4 @@ RPostgres
 RPostgreSQL
 RSQLite
 RSQLiteConnection
-sql
 standardised

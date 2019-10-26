@@ -10,7 +10,7 @@ nycflights13_sqlite(location = ":memory:", ...)
 \item{location}{where to store the database}
 
 \item{...}{additional parameters to connect to a database (most are passed on
-to [`nycflights_sql`])}
+to \code{\link{nycflights13_sql}})}
 }
 \value{
 RSQLiteConnection

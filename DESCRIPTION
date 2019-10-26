@@ -47,4 +47,5 @@ Suggests:
     spelling,
     withr
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
 Language: en-US

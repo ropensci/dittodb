@@ -30,19 +30,19 @@
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should
-be of class `DBIMockConnection`)}
+be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
 
 \item{statement}{an SQL statement to execute}
 
 \item{res}{a result object (for dispatch with these methods, it should
-be of class `DBIMockResult`)}
+be of class \code{DBIMockResult})}
 
 \item{n}{number of results to fetch (ignored)}
 }
 \description{
-Various methods (`dbSendQuery`, `dbFetchQuery`) that are mocks of the DBI
+Various methods (\code{dbSendQuery}, \code{dbFetchQuery}) that are mocks of the DBI
 methods of the same name. Instead of actually interacting with a database,
 they read in mock responses and the code proceeds after that.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/connection.R
 \name{get_dbname}
 \alias{get_dbname}
-\title{Get the `dbname` from a connection call}
+\title{Get the \code{dbname} from a connection call}
 \usage{
 get_dbname(dots)
 }
@@ -13,6 +13,6 @@ get_dbname(dots)
 the name, sanitized if needed
 }
 \description{
-Get the `dbname` from a connection call
+Get the \code{dbname} from a connection call
 }
 \keyword{internal}

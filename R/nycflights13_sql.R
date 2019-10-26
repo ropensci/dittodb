@@ -1,7 +1,7 @@
 #' Create a standardised database for testing
 #'
 #' Using the connection given in `con`, create a database including a few tables
-#' from the [`nycflights2013`] dataset.
+#' from the [`nycflights13`](nycflights13) dataset.
 #'
 #' @param con an SQL connection (i.e a PostgreSQL connection)
 #' @param schema schema to write the tables ("", or no schema by default)
@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' con <- list(
+#' connections <- list(
 #'  odbc = DBI::dbConnect(
 #'   odbc::odbc(),
 #'   Driver   = "PostgreSQL Unicode",
@@ -45,11 +45,11 @@
 #'  )
 #' )
 #'
-#' nycflights13_sql(con$odbc, schema = "nycflights13")
+#' nycflights13_sql(connections$odbc, schema = "nycflights13")
 #' # same as
-#' # nycflights13_sql(con$rpostgresql, schema = "nycflights13")
+#' # nycflights13_sql(connections$rpostgresql, schema = "nycflights13")
 #' # also same as
-#' # nycflights13_sql(con$rpostgres, schema = "nycflights13")
+#' # nycflights13_sql(connections$rpostgres, schema = "nycflights13")
 #' }
 nycflights13_sql <- function(con, schema = "", ...) {
   local_tables <- utils::data(package = "nycflights13")$results[, 3]
@@ -136,7 +136,7 @@ nycflights13_sql <- function(con, schema = "", ...) {
 #'
 #' @param location where to store the database
 #' @param ... additional parameters to connect to a database (most are passed on
-#' to [`nycflights_sql`])
+#' to [`nycflights13_sql`])
 #'
 #' @return RSQLiteConnection
 #'

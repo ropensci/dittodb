@@ -7,31 +7,31 @@
 .mockPaths(new)
 }
 \arguments{
-\item{new}{Either a character vector of path(s) to add, or `NULL` to reset
+\item{new}{Either a character vector of path(s) to add, or \code{NULL} to reset
 to the default.}
 }
 \value{
-If `new` is omitted, the function returns the current search paths, a
-a character vector. If `new` is provided, the updated value will be returned
+If \code{new} is omitted, the function returns the current search paths, a
+a character vector. If \code{new} is provided, the updated value will be returned
 invisibly.
 }
 \description{
-By default, `with_mock_api` will look for mocks relative to the current
+By default, \code{with_mock_api} will look for mocks relative to the current
 working directory (or the test directory). If you want to look in other places,
-you can call `.mockPaths` to add directories to the search path.
+you can call \code{.mockPaths} to add directories to the search path.
 }
 \details{
-It works like [base::.libPaths()]: any directories you specify will be added
+It works like \code{\link[base:.libPaths]{base::.libPaths()}}: any directories you specify will be added
 to the list and searched first. The default directory will be searched last.
 Only unique values are kept: if you provide a path that is already found in
-`.mockPaths`, the result effectively moves that path to the first position.
+\code{.mockPaths}, the result effectively moves that path to the first position.
 
 For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option
 "dbtest.mock.paths" directly.
 
-This function is an extension of [httptest::.mockPaths()] from
-[httptest](https://CRAN.R-project.org/package=httptest)
+This function is an extension of \code{\link[httptest:.mockPaths]{httptest::.mockPaths()}} from
+\href{https://CRAN.R-project.org/package=httptest}{httptest}
 }
 \examples{
 identical(.mockPaths(), c("tests/testthat/", "."))
