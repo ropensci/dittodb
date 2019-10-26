@@ -14,16 +14,16 @@ nycflights13_sql(con, schema = "", ...)
 \item{...}{additional parameters to connect to a database}
 }
 \value{
-the connection given in `con` invisibly, generally called for the side effects
+the connection given in \code{con} invisibly, generally called for the side effects
 of writing to the database
 }
 \description{
-Using the connection given in `con`, create a database including a few tables
-from the [`nycflights2013`] dataset.
+Using the connection given in \code{con}, create a database including a few tables
+from the \url{nycflights13} dataset.
 }
 \examples{
 \dontrun{
-con <- list(
+connections <- list(
  odbc = DBI::dbConnect(
   odbc::odbc(),
   Driver   = "PostgreSQL Unicode",
@@ -51,10 +51,10 @@ con <- list(
  )
 )
 
-nycflights13_sql(con$odbc, schema = "nycflights13")
+nycflights13_sql(connections$odbc, schema = "nycflights13")
 # same as
-# nycflights13_sql(con$rpostgresql, schema = "nycflights13")
+# nycflights13_sql(connections$rpostgresql, schema = "nycflights13")
 # also same as
-# nycflights13_sql(con$rpostgres, schema = "nycflights13")
+# nycflights13_sql(connections$rpostgres, schema = "nycflights13")
 }
 }

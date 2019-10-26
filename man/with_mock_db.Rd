@@ -13,5 +13,33 @@ with_mock_db(expr)
 nothing
 }
 \description{
-Run the DBI queries inside against a mocked db
+When testing with dbtest, wrap your tests in \code{with_mock_db({})} to use the
+database fixtures. \code{dbtest} will look for fixtures in all entries of
+\code{\link{.mockPaths}}.
+}
+\details{
+Connections should be made inside of \code{with_mock_db()} because \code{dbtest} uses
+the database name (given in \code{dbname} or \code{Database} argument of \code{\link{dbConnect}}
+depending on the driver) to separate different fixtures.
+}
+\examples{
+\dontrun{
+with_mock_db({
+  con <- dbConnect(
+    RPostgreSQL::PostgreSQL(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = "travis",
+    password = ""
+  )
+
+  test_that("We get one airline", {
+    one_airline <- dbGetQuery(con, "SELECT carrier, name FROM airlines LIMIT 1")
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+}
 }

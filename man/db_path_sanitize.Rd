@@ -16,8 +16,8 @@ db_path_sanitize(filename, replacement = "_")
 the sanitized string
 }
 \description{
-Inspired by the [fs](https://CRAN.R-project.org/package=fs) package's
-`path_sanitize` function
+Inspired by the \href{https://CRAN.R-project.org/package=fs}{fs} package's
+\code{path_sanitize} function
 }
 \examples{
 db_path_sanitize('this:string"has?issues')

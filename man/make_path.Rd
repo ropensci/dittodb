@@ -9,7 +9,7 @@ make_path(path, type, hash)
 \arguments{
 \item{path}{the path to look in}
 
-\item{type}{what type of query is it? (e.g. `SELECT`, `INSERT`)}
+\item{type}{what type of query is it? (e.g. \code{SELECT}, \code{INSERT})}
 
 \item{hash}{the hash of the query}
 }

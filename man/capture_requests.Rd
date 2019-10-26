@@ -12,7 +12,7 @@ stop_capturing()
 }
 \arguments{
 \item{path}{the path to record mocks (default if missing: the first path in
-`.mockPaths()`.}
+\code{.mockPaths()}.}
 }
 \value{
 NULL (invisibily)
@@ -23,15 +23,15 @@ responses from the database for use in crafting tests.
 }
 \details{
 You can start
-capturing with `start_capturing()` and end it with `stop_capturing`. All
+capturing with \code{start_capturing()} and end it with \code{stop_capturing}. All
 queries run against a database will be executed like normal, but their
 responses will be saved to the mock path given, so that if you use the same
-queries later inside of a [`with_mock_db`] block, the database functions will
+queries later inside of a \code{\link{with_mock_db}} block, the database functions will
 return as if they had been run against the database.
 
-_note_ You should always call [`DBI::dbConnect`] inside of the capturing
+\emph{note} You should always call \code{\link[DBI:dbConnect]{DBI::dbConnect}} inside of the capturing
 block. When you connect to the database, dbtest sets up the mocks for the
-specific database you're connecting to when you call [`DBI::dbConnect`].
+specific database you're connecting to when you call \code{\link[DBI:dbConnect]{DBI::dbConnect}}.
 }
 \examples{
 \dontrun{
