@@ -129,7 +129,7 @@ from the [`nycflights2013`] dataset." />
 from the [`nycflights2013`] dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nycflights13_sql</span>(<span class='no'>con</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dbi"</span>, <span class='st'>"dplyr"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>nycflights13_sql</span>(<span class='no'>con</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,11 +143,6 @@ from the [`nycflights2013`] dataset.</p>
       <td><p>schema to write the tables ("", or no schema by default)</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>should the tables be created with DBI methods or dplyr methods?
-(either "dbi" or "dplyr"; "dbi" by default)</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>additional parameters to connect to a database</p></td>
     </tr>
@@ -156,12 +151,43 @@ from the [`nycflights2013`] dataset.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>the connection given in `con` invisibly, generally called for the side effects
-of writing to the  database</p>
+of writing to the database</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># psql_con is a PostgreSQL connnection from .Rprofile</span>
-<span class='fu'>nycflights13_sql</span>(<span class='no'>psql_con</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>"nycflights13"</span>)
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+ <span class='kw'>odbc</span> <span class='kw'>=</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>dbConnect</a></span>(
+  <span class='kw pkg'>odbc</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/odbc/man/odbc.html'>odbc</a></span>(),
+  <span class='kw'>Driver</span>   <span class='kw'>=</span> <span class='st'>"PostgreSQL Unicode"</span>,
+  <span class='kw'>Server</span>   <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
+  <span class='kw'>Database</span> <span class='kw'>=</span> <span class='st'>"postgres"</span>,
+  <span class='kw'>UID</span>      <span class='kw'>=</span> <span class='st'>"travis"</span>,
+  <span class='kw'>PWD</span>      <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>Port</span>     <span class='kw'>=</span> <span class='fl'>5432</span>
+ ),
+ <span class='kw'>rpostgresql</span> <span class='kw'>=</span> <span class='kw pkg'>RPostgreSQL</span><span class='kw ns'>::</span><span class='fu'>dbConnect</span>(
+  <span class='kw'>drv</span>      <span class='kw'>=</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DBI/man/dbDriver.html'>dbDriver</a></span>(<span class='st'>"PostgreSQL"</span>),
+  <span class='kw'>host</span>     <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
+  <span class='kw'>dbname</span>   <span class='kw'>=</span> <span class='st'>"postgres"</span>,
+  <span class='kw'>user</span>     <span class='kw'>=</span> <span class='st'>"travis"</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>port</span>     <span class='kw'>=</span> <span class='fl'>5432</span>
+ ),
+ <span class='kw'>rpostgres</span> <span class='kw'>=</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DBI/man/dbConnect.html'>dbConnect</a></span>(
+  <span class='kw'>drv</span>      <span class='kw'>=</span> <span class='kw pkg'>RPostgres</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RPostgres/man/Postgres.html'>Postgres</a></span>(),
+  <span class='kw'>host</span>     <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
+  <span class='kw'>dbname</span>   <span class='kw'>=</span> <span class='st'>"postgres"</span>,
+  <span class='kw'>user</span>     <span class='kw'>=</span> <span class='st'>"travis"</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>port</span>     <span class='kw'>=</span> <span class='fl'>5432</span>
+ )
+)
+
+<span class='fu'>nycflights13_sql</span>(<span class='no'>con</span>$<span class='no'>odbc</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>"nycflights13"</span>)
+<span class='co'># same as</span>
+<span class='co'># nycflights13_sql(con$rpostgresql, schema = "nycflights13")</span>
+<span class='co'># also same as</span>
+<span class='co'># nycflights13_sql(con$rpostgres, schema = "nycflights13")</span>
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
