@@ -14,7 +14,7 @@ test_that("nycflights sqlite can be created", {
 })
 
 
-# skip_locally("use postgres-docker.sh and then this can be unskipped locally")
+skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
 # psql ----
 
