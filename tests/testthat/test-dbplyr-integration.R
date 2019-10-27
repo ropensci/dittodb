@@ -24,7 +24,7 @@ dbDisconnect(con)
 # test with the mock db using some captured mocks
 start_capturing()
 con <- dbConnect(RSQLite::SQLite(), temp_path)
-dbListTables(con) # we have to list tables in order to have the mocks work below
+dbListTables(con)
 
 # record mocks for a few queries we are planning to execute below
 tbl(con, "flights") %>%
@@ -42,6 +42,13 @@ with_mock_db({
     expect_is(
       con,
       "DBIMockConnection"
+    )
+  })
+
+  test_that("We can list tables", {
+    expect_equal(
+      dbListTables(con),
+      c("airlines", "airports", "flights", "planes", "weather")
     )
   })
 
