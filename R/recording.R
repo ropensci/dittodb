@@ -113,7 +113,7 @@ start_capturing <- function(path) {
     if (dbtest_debug_level(1)) {
       message("Writing to ", .dbtest_env$curr_file_path)
     }
-    dput(ans, .dbtest_env$curr_file_path)
+    dput(ans, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
   })
 
   quietly(trace_dbi(
@@ -128,7 +128,11 @@ start_capturing <- function(path) {
 
   quietly(trace_dbi(
     "dbGetRowsAffected",
-    exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
+    exit = quote({dput(
+      result_rows_affected(res@ptr),
+      .dbtest_env$curr_file_path,
+      control = c("all", "hexNumeric")
+      )}),
     print = dbtest_debug_level(2),
     where_list = list(topenv(parent.frame())) # the default for trace
   ))

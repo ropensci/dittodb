@@ -27,8 +27,15 @@ con <- dbConnect(RSQLite::SQLite(), temp_path)
 dbListTables(con)
 
 # record mocks for a few queries we are planning to execute below
-tbl(con, "flights") %>%
+flights_db <- tbl(con, "flights")
+
+flights_db %>%
   filter(dep_delay > 240) %>%
+  collect()
+
+result_foo <- flights_db %>%
+  group_by(dest) %>%
+  summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
   collect()
 
 dbDisconnect(con)
@@ -52,7 +59,7 @@ with_mock_db({
     )
   })
 
-  test_that("We get our special query", {
+  test_that("We get a simple select with filter", {
     expect_warning({
       result <- tbl(con, "flights") %>%
         filter(dep_delay > 240) %>%
@@ -61,13 +68,25 @@ with_mock_db({
     "dbFetch `n` is ignored while mocking databases."
     )
 
-
     expected <- as_tibble(nycflights13::flights)[1:1000,]
     expected <- subset(expected, dep_delay > 240)
     # because sqlite doesn't handle datetimes well, convert to numeric
     expected$time_hour <- as.numeric(expected$time_hour)
 
     expect_identical(result, expected)
+  })
+
+  test_that("We get a simple group by query", {
+    expect_warning({
+      result <- tbl(con, "flights") %>%
+        group_by(dest) %>%
+        summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
+        collect()
+    },
+    "dbFetch `n` is ignored while mocking databases."
+    )
+
+    expect_identical(result, result_foo)
   })
 
   dbDisconnect(con)
