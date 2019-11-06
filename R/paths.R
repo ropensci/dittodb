@@ -30,10 +30,6 @@ hash <- function(string, n = 6) {
   string <- ignore_quotes(string)
   string <- ignore_dbplyr_unique_names(string)
 
-  if (dbtest_debug_level(3)) {
-    message("The statement was cleansed to: \n", string)
-  }
-
   return(substr(digest(string), 1, n))
 }
 

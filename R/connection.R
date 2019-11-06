@@ -27,21 +27,6 @@ setClass("DBIMockConnection",
          contains = "DBIConnection"
 )
 
-.onLoad <- function(libname, pkgname) {
-  # following the convention from Writing R Extensions
-  # https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Suggested-packages
-  if (requireNamespace("RSQLite", quietly = TRUE)) {
-    methods::setClass("DBIMockSQLiteConnection",
-             slots = c(
-               # TODO: change path to dbname to better reflect what's going on
-               path = "character",
-               original_class = "character"
-             ),
-             contains = c("DBIMockConnection", "SQLiteConnection")
-    )
-  }
-}
-
 #' @rdname mock-db-methods
 #' @export
 setMethod(
