@@ -31,9 +31,10 @@ LazyData: true
 Imports: 
     DBI,
     digest,
+    glue,
     methods,
-    testthat,
-    glue
+    RSQLite,
+    testthat
 Suggests: 
     covr,
     dplyr,
@@ -43,7 +44,6 @@ Suggests:
     RMariaDB,
     RPostgres,
     RPostgreSQL,
-    RSQLite,
     spelling,
     withr
 RoxygenNote: 6.1.1

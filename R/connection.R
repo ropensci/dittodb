@@ -28,6 +28,18 @@ setClass("DBIMockConnection",
 )
 
 #' @rdname mock-db-methods
+#' @importClassesFrom RSQLite SQLiteConnection
+#' @export
+setClass("DBIMockSQLiteConnection",
+         slots = c(
+           # TODO: change path to dbname to better reflect what's going on
+           path = "character",
+           original_class = "character"
+         ),
+         contains = c("DBIMockConnection", "SQLiteConnection")
+)
+
+#' @rdname mock-db-methods
 #' @export
 setMethod(
   "dbDisconnect", signature("DBIMockConnection"),
@@ -44,17 +56,20 @@ dbMockConnect <- function(drv, ...) {
 
   # TODO: is there a more programatic way to do this?
   if (inherits(drv, "SQLiteDriver")) {
+    mock_class <- "DBIMockSQLiteConnection"
     original_class <- "SQLiteConnection"
   } else if (inherits(drv, "PostgreSQLDriver")) {
+    mock_class <- "DBIMockConnection"
     original_class <- "PostgreSQLConnection"
   } else {
     warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
+    mock_class <- "DBIMockConnection"
     original_class <- "unknown"
   }
 
   path <- get_dbname(dots)
 
-  return(new("DBIMockConnection", path = path, original_class = original_class))
+  return(new(mock_class, path = path, original_class = original_class))
 }
 
 

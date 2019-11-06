@@ -30,12 +30,27 @@ dbListTables(con)
 flights_db <- tbl(con, "flights")
 
 flights_db %>%
+  select(year:day, dep_delay, arr_delay) %>%
+  collect()
+
+
+flights_db %>%
   filter(dep_delay > 240) %>%
   collect()
 
-result_foo <- flights_db %>%
+dest_time_expect <- flights_db %>%
   group_by(dest) %>%
   summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
+  collect()
+
+tailnum_delay <- flights_db %>%
+  group_by(tailnum) %>%
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  ) %>%
+  arrange(desc(delay)) %>%
+  filter(n > 100) %>%
   collect()
 
 dbDisconnect(con)
@@ -59,17 +74,32 @@ with_mock_db({
     )
   })
 
-  test_that("We get a simple select with filter", {
-    expect_warning({
-      result <- tbl(con, "flights") %>%
-        filter(dep_delay > 240) %>%
-        collect()
-    },
-    "dbFetch `n` is ignored while mocking databases."
-    )
+  # our flights table
+  expect_warning(
+    flights_db <- tbl(con, "flights"),
+    "dbFetch `n` is ignored while mocking databases\\."
+  )
 
-    expected <- as_tibble(nycflights13::flights)[1:1000,]
-    expected <- subset(expected, dep_delay > 240)
+
+  flights_table_tbl <- as_tibble(nycflights13::flights)[1:1000,]
+
+  test_that("We can select columns", {
+    result <- flights_db %>%
+      select(year:day, dep_delay, arr_delay) %>%
+      collect()
+
+    expected <- flights_table_tbl %>% select(year:day, dep_delay, arr_delay)
+
+    expect_identical(result, expected)
+  })
+
+  test_that("We get a simple select with filter", {
+    result <- flights_db %>%
+      filter(dep_delay > 240) %>%
+      collect()
+
+
+    expected <- subset(flights_table_tbl, dep_delay > 240)
     # because sqlite doesn't handle datetimes well, convert to numeric
     expected$time_hour <- as.numeric(expected$time_hour)
 
@@ -77,16 +107,26 @@ with_mock_db({
   })
 
   test_that("We get a simple group by query", {
-    expect_warning({
-      result <- tbl(con, "flights") %>%
-        group_by(dest) %>%
-        summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
-        collect()
-    },
-    "dbFetch `n` is ignored while mocking databases."
-    )
+    result <- flights_db %>%
+      group_by(dest) %>%
+      summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
+      collect()
 
-    expect_identical(result, result_foo)
+    expect_identical(result, dest_time_expect)
+  })
+
+  test_that("A more complicated 'surprising' query", {
+    result <- flights_db %>%
+      group_by(tailnum) %>%
+      summarise(
+        delay = mean(arr_delay, na.rm = TRUE),
+        n = n()
+      ) %>%
+      arrange(desc(delay)) %>%
+      filter(n > 100) %>%
+      collect()
+
+    expect_identical(result, tailnum_delay)
   })
 
   dbDisconnect(con)
