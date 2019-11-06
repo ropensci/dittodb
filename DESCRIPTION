@@ -33,7 +33,6 @@ Imports:
     digest,
     glue,
     methods,
-    RSQLite,
     testthat
 Suggests: 
     covr,
@@ -44,6 +43,7 @@ Suggests:
     RMariaDB,
     RPostgres,
     RPostgreSQL,
+    RSQLite,
     spelling,
     withr
 RoxygenNote: 6.1.1

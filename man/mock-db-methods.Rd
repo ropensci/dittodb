@@ -4,7 +4,6 @@
 \name{mock-db-methods}
 \alias{mock-db-methods}
 \alias{DBIMockConnection-class}
-\alias{DBIMockSQLiteConnection-class}
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
 \alias{DBIMockResult-class}
