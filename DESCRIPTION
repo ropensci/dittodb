@@ -35,6 +35,7 @@ Imports:
     methods,
     testthat
 Suggests: 
+    callr,
     covr,
     dplyr,
     dbplyr,

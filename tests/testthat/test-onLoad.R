@@ -1,25 +1,23 @@
 context("Testing setup of .onLoad()")
 
-test_that(".onLoad add cusotm classes for all driverst that are available.", {
-  local({
+test_that(".onLoad add custom classes for all drivers that are available.", {
+  callr::r(function() {
+    library(testthat)
     custom_connections <- c("DBIMockSQLiteConnection")
 
-    # remove the classes we know are created by .onLoad, so that we can test
-    # that they are correctly created
-    for (class in custom_connections) {
-      removeClass(class, asNamespace("dbtest"))
+    # ensure they have all been removed
+    for (class_name in custom_connections) {
+      expect_error(getClass(class_name), "is not a defined class")
     }
 
-    # ensure they have all been removed
-    expect_false(all(custom_connections %in% getClasses(asNamespace("dbtest"))))
-
     # "load" the package
-    .onLoad()
+    library(dbtest)
 
     # now we have them all back
-    expect_true(all(custom_connections %in% getClasses(asNamespace("dbtest"))))
-  },
-  envir=new.env())
+    for (class_name in custom_connections) {
+      expect_is(getClass(class_name), "classRepresentation")
+    }
+  })
 })
 
 # TODO: can we mock what packages are available and show that nothing bad happens?
