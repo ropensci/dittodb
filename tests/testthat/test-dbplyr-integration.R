@@ -29,12 +29,11 @@ dbListTables(con)
 # record mocks for a few queries we are planning to execute below
 flights_db <- tbl(con, "flights")
 
-flights_db %>%
+simple_select <- flights_db %>%
   select(year:day, dep_delay, arr_delay) %>%
   collect()
 
-
-flights_db %>%
+simple_filter <- flights_db %>%
   filter(dep_delay > 240) %>%
   collect()
 
@@ -80,17 +79,12 @@ with_mock_db({
     "dbFetch `n` is ignored while mocking databases\\."
   )
 
-
-  flights_table_tbl <- as_tibble(nycflights13::flights)[1:1000,]
-
   test_that("We can select columns", {
     result <- flights_db %>%
       select(year:day, dep_delay, arr_delay) %>%
       collect()
 
-    expected <- flights_table_tbl %>% select(year:day, dep_delay, arr_delay)
-
-    expect_identical(result, expected)
+    expect_identical(result, simple_select)
   })
 
   test_that("We get a simple select with filter", {
@@ -98,12 +92,7 @@ with_mock_db({
       filter(dep_delay > 240) %>%
       collect()
 
-
-    expected <- subset(flights_table_tbl, dep_delay > 240)
-    # because sqlite doesn't handle datetimes well, convert to numeric
-    expected$time_hour <- as.numeric(expected$time_hour)
-
-    expect_identical(result, expected)
+    expect_identical(result, simple_filter)
   })
 
   test_that("We get a simple group by query", {
