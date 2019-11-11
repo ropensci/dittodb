@@ -31,10 +31,11 @@ LazyData: true
 Imports: 
     DBI,
     digest,
+    glue,
     methods,
-    testthat,
-    glue
+    testthat
 Suggests: 
+    callr,
     covr,
     dplyr,
     dbplyr,

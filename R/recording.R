@@ -113,7 +113,7 @@ start_capturing <- function(path) {
     if (dbtest_debug_level(1)) {
       message("Writing to ", .dbtest_env$curr_file_path)
     }
-    dput(ans, .dbtest_env$curr_file_path)
+    dput(ans, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
   })
 
   quietly(trace_dbi(
@@ -124,13 +124,6 @@ start_capturing <- function(path) {
   quietly(trace_dbi(
     "fetch",
     exit = recordFetch
-  ))
-
-  quietly(trace_dbi(
-    "dbGetRowsAffected",
-    exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
-    print = dbtest_debug_level(2),
-    where_list = list(topenv(parent.frame())) # the default for trace
   ))
 
   return(invisible(NULL))
@@ -145,7 +138,7 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect")) {
+  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

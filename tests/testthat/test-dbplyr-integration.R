@@ -27,8 +27,29 @@ con <- dbConnect(RSQLite::SQLite(), temp_path)
 dbListTables(con)
 
 # record mocks for a few queries we are planning to execute below
-tbl(con, "flights") %>%
+flights_db <- tbl(con, "flights")
+
+simple_select <- flights_db %>%
+  select(year:day, dep_delay, arr_delay) %>%
+  collect()
+
+simple_filter <- flights_db %>%
   filter(dep_delay > 240) %>%
+  collect()
+
+dest_time_expect <- flights_db %>%
+  group_by(dest) %>%
+  summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
+  collect()
+
+tailnum_delay <- flights_db %>%
+  group_by(tailnum) %>%
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  ) %>%
+  arrange(desc(delay)) %>%
+  filter(n > 100) %>%
   collect()
 
 dbDisconnect(con)
@@ -52,22 +73,49 @@ with_mock_db({
     )
   })
 
-  test_that("We get our special query", {
-    expect_warning({
-      result <- tbl(con, "flights") %>%
-        filter(dep_delay > 240) %>%
-        collect()
-    },
-    "dbFetch `n` is ignored while mocking databases."
-    )
+  # our flights table
+  expect_warning(
+    flights_db <- tbl(con, "flights"),
+    "dbFetch `n` is ignored while mocking databases\\."
+  )
 
+  test_that("We can select columns", {
+    result <- flights_db %>%
+      select(year:day, dep_delay, arr_delay) %>%
+      collect()
 
-    expected <- as_tibble(nycflights13::flights)[1:1000,]
-    expected <- subset(expected, dep_delay > 240)
-    # because sqlite doesn't handle datetimes well, convert to numeric
-    expected$time_hour <- as.numeric(expected$time_hour)
+    expect_identical(result, simple_select)
+  })
 
-    expect_identical(result, expected)
+  test_that("We get a simple select with filter", {
+    result <- flights_db %>%
+      filter(dep_delay > 240) %>%
+      collect()
+
+    expect_identical(result, simple_filter)
+  })
+
+  test_that("We get a simple group by query", {
+    result <- flights_db %>%
+      group_by(dest) %>%
+      summarise(delay = mean(dep_time, na.rm = TRUE)) %>%
+      collect()
+
+    expect_identical(result, dest_time_expect)
+  })
+
+  test_that("A more complicated 'surprising' query", {
+    result <- flights_db %>%
+      group_by(tailnum) %>%
+      summarise(
+        delay = mean(arr_delay, na.rm = TRUE),
+        n = n()
+      ) %>%
+      arrange(desc(delay)) %>%
+      filter(n > 100) %>%
+      collect()
+
+    expect_identical(result, tailnum_delay)
   })
 
   dbDisconnect(con)
