@@ -20,8 +20,8 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
 
     services:
-      if: contains(runner.os, 'linux')
       postgres:
+        if: contains(runner.os, 'linux')
         image: postgres:10.8
         env:
           POSTGRES_USER: postgres
