@@ -55,7 +55,12 @@ jobs:
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB','odbc','RPostgreSQL','RPostgres'), type = 'source');"
-          echo $GITHUB_WORKSPACE
+
+      - name: Install Ubuntu dependencies
+        run: |
+          sudo apt install libcurl4-openssl-dev libmariadbclient-dev libpq-dev
+        if: contains(runner.os, 'linux')
+
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'note')"
