@@ -13,6 +13,11 @@ jobs:
         config:
         - { os: macOS-latest, r: '3.6'}
         - { os: macOS-latest, r: 'devel', args: "--no-manual"}
+        - { os: ubuntu-16.04, r: '3.2', args: "--no-manual" }
+        - { os: ubuntu-16.04, r: '3.3', args: "--no-manual" }
+        - { os: ubuntu-16.04, r: '3.4', args: "--no-manual" }
+        - { os: ubuntu-16.04, r: '3.5', args: "--no-manual" }
+        - { os: ubuntu-16.04, r: '3.6', args: "--no-manual" }
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
@@ -35,10 +40,16 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
-      - name: Setup databases
+      - name: Setup databases macOS
         run: |
           bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
+        if: contains(runner.os, "macOS")
+
+      - name: Setup databases linux
+        run: |
+          sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh
+        if: contains(runner.os, "linux")
 
       - name: Install dependencies
         run: |
