@@ -16,8 +16,8 @@ skip_env <- function(which = c("postgres", "mariadb")) {
 skip_locally <- function(message) {
   jenkins <- identical(Sys.getenv("JENKINS_HOME"), "true")
   travis <- identical(Sys.getenv("TRAVIS"), "true")
-  cran <- !identical(Sys.getenv("NOT_CRAN"), "true")
   appveyor <- identical(Sys.getenv("APPVEYOR"), "True")
+  gh_action <- identical(Sys.getenv("GITHUB_ACTIONS"), "true")
 
   # an over-ride to force local skipping. Useful when running covr which usually
   # runs as if it were cran
@@ -27,7 +27,7 @@ skip_locally <- function(message) {
   }
 
   # if we are trying to skip when the tests are being run locally
-  if (!any(jenkins, travis, cran, appveyor)) {
+  if (!any(jenkins, travis, appveyor)) {
     return(skip(paste("Skipping locally:", message)))
   }
 }
