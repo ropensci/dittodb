@@ -5,6 +5,9 @@ skip_locally("use mariadb-docker.sh and test manually")
 
 library("RMariaDB")
 
+test_that("errant failure", {
+  expect_true(FALSE)
+})
 
 con <- dbConnect(
   RMariaDB::MariaDB(),
