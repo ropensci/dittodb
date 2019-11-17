@@ -18,14 +18,17 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
+      # use postgres for the host here because we have specified a container for the job.
+      # If we were running the job on the VM this would be localhost
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
 
     services:
       postgres:
         image: postgres:10.8
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_USER: travis
+          POSTGRES_PASSWORD: ""
         ports:
         - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -58,7 +61,7 @@ jobs:
 
       - name: Setup databases linux
         run: |
-          bash db-setup/postgres-reset-no-docker.sh
+          bash db-setup/postgres-reset.sh
         if: contains(runner.os, 'linux')
 
       - name: Install Ubuntu dependencies
