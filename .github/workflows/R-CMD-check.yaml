@@ -16,5 +16,11 @@ jobs:
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB','odbc','RPostgreSQL','RPostgres'), type = 'source');"
+          echo $GITHUB_WORKSPACE
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: "/Users/runner/runners/2.160.2/work/_temp/Library"
+          key: ${{ runner.OS }}-build
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'note')"
