@@ -53,7 +53,7 @@ jobs:
         run: |
           brew install docker docker-machine;
           brew services start docker-machine;
-          bash db-setup/postgres-docker.sh; bash db-setup/postgres-reset-no-docker.sh;
+          bash db-setup/postgres-docker.sh; bash db-setup/postgres-reset.sh;
           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
           # bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
         if: contains(runner.os, 'macOS')
