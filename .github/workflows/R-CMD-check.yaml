@@ -55,14 +55,14 @@ jobs:
           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
         if: contains(runner.os, 'macOS')
 
-      - name: Setup databases linux
-        run: |
-          bash db-setup/postgres-reset-no-docker.sh
-        if: contains(runner.os, 'linux')
-
       - name: Install Ubuntu dependencies
         run: |
           sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev libpq-dev
+        if: contains(runner.os, 'linux')
+
+      - name: Setup databases linux
+        run: |
+          bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
       - name: Install dependencies
