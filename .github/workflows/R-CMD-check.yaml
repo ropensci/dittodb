@@ -51,8 +51,11 @@ jobs:
 
       - name: Setup databases macOS
         run: |
-          brew install docker docker-machine;
+          brew cask install virtualbox;
+          brew cask install docker docker-machine;
           brew services start docker-machine;
+          docker-machine create --driver virtualbox default;
+          eval "$(docker-machine env default)";
           bash db-setup/postgres-docker.sh; bash db-setup/postgres-reset.sh;
           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
           # bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
