@@ -27,7 +27,7 @@ skip_locally <- function(message) {
   }
 
   # if we are trying to skip when the tests are being run locally
-  if (!any(jenkins, travis, appveyor)) {
+  if (!any(jenkins, travis, appveyor, gh_action)) {
     return(skip(paste("Skipping locally:", message)))
   }
 }
