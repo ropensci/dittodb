@@ -57,7 +57,7 @@ jobs:
 
       - name: Install Ubuntu dependencies
         run: |
-          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev libpq-dev
+          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev
         if: contains(runner.os, 'linux')
 
       - name: Setup databases linux
