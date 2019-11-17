@@ -3,6 +3,7 @@
 [![Travis build status](https://travis-ci.org/jonkeane/dbtest.svg?branch=master)](https://travis-ci.org/jonkeane/dbtest)
 [![Codecov test coverage](https://codecov.io/gh/jonkeane/dbtest/branch/master/graph/badge.svg)](https://codecov.io/gh/jonkeane/dbtest?branch=master)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build status](https://github.com/jonkeane/dbtest/workflows/R-CMD-check/badge.svg)](https://github.com/jonkeane/dbtest/actions?workflow=R-CMD-check)
 <!-- badges: end -->
 
 
