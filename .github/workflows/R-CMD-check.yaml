@@ -47,8 +47,7 @@ jobs:
         if: contains(runner.os, "macOS")
 
       - name: Setup databases linux
-        run: |
-          sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh
+        run: sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh
         if: contains(runner.os, "linux")
 
       - name: Install dependencies
