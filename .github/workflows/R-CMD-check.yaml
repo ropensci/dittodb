@@ -44,11 +44,12 @@ jobs:
         run: |
           bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
-        if: contains(runner.os, "macOS")
+        if: contains(runner.os, 'macOS')
 
       - name: Setup databases linux
-        run: sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh
-        if: contains(runner.os, "linux")
+        run: |
+          sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh
+        if: contains(runner.os, 'linux')
 
       - name: Install dependencies
         run: |
