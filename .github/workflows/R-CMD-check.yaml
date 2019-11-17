@@ -18,10 +18,6 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
-      # use postgres for the host here because we have specified a container for the job.
-      # If we were running the job on the VM this would be localhost
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
 
     services:
       postgres:
