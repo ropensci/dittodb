@@ -5,6 +5,7 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
+
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -13,15 +14,21 @@ jobs:
         config:
         - { os: macOS-latest, r: '3.6'}
         - { os: macOS-latest, r: 'devel', args: "--no-manual"}
-        - { os: ubuntu-16.04, r: '3.2', args: "--no-manual" }
-        - { os: ubuntu-16.04, r: '3.3', args: "--no-manual" }
-        - { os: ubuntu-16.04, r: '3.4', args: "--no-manual" }
-        - { os: ubuntu-16.04, r: '3.5', args: "--no-manual" }
         - { os: ubuntu-16.04, r: '3.6', args: "--no-manual" }
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
-      PGUSER: travis
+
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: travis
+          POSTGRES_PASSWORD: ""
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - uses: actions/checkout@v1
@@ -35,7 +42,7 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@master
         if: contains(matrix.config.args, 'no-manual') == false
 
-      - name: Cache dependencies
+      - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -48,9 +55,7 @@ jobs:
         if: contains(runner.os, 'macOS')
 
       - name: Setup databases linux
-        run: |
-           sudo apt-get install postgresql postgresql-contrib
-           bash db-setup/postgres-reset-no-docker.sh
+        run: bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
       - name: Install Ubuntu dependencies
@@ -64,4 +69,11 @@ jobs:
           Rscript -e "install.packages(c('RMariaDB','odbc','RPostgreSQL','RPostgres'), type = 'source');"
 
       - name: Check
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'note')"
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
