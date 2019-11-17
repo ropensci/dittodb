@@ -19,16 +19,16 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
 
-    services:
-      postgres:
-        image: postgres:10.8
-        env:
-          POSTGRES_USER: travis
-          POSTGRES_PASSWORD: ""
-        ports:
-        - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+#     services:
+#       postgres:
+#         image: postgres:10.8
+#         env:
+#           POSTGRES_USER: travis
+#           POSTGRES_PASSWORD: ""
+#         ports:
+#         - 5432:5432
+#         # needed because the postgres container does not provide a healthcheck
+#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
 
     steps:
@@ -51,8 +51,9 @@ jobs:
 
       - name: Setup databases macOS
         run: |
-          bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
+          bash db-setup/postgres-docker.sh; bash db-setup/postgres-reset-no-docker.sh;
           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
+          # bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
@@ -62,6 +63,7 @@ jobs:
 
       - name: Setup databases linux
         run: |
+          bash db-setup/postgres-docker.sh
           bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
