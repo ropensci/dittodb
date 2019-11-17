@@ -57,7 +57,7 @@ jobs:
 
       - name: Setup databases linux
         run: |
-          bash db-setup/postgres-reset.sh
+          bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
       - name: Install Ubuntu dependencies
