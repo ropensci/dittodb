@@ -52,7 +52,7 @@ jobs:
       - name: Setup databases macOS
         run: |
           # brew cask install virtualbox;
-          brew cask install docker docker-machine;
+          brew install docker docker-machine;
           brew services start docker-machine;
           docker-machine create --driver virtualbox default;
           eval "$(docker-machine env default)";
