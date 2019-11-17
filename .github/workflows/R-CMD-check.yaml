@@ -48,6 +48,7 @@ jobs:
 
       - name: Setup databases linux
         run: |
+           sudo apt-get install postgresql postgresql-contrib
            bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
