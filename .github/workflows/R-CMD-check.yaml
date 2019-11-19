@@ -49,16 +49,10 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
-      - name: Setup databases macOS
-        run: |
-          brew cask install virtualbox;
-          brew install docker docker-machine;
-          brew services start docker-machine;
-          docker-machine create --driver virtualbox default;
-          eval "$(docker-machine env default)";
-          bash db-setup/postgres-docker.sh; bash db-setup/postgres-reset.sh;
-          bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
-          # bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
+      - name: Setup databases
+         run: |
+           bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
+           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
