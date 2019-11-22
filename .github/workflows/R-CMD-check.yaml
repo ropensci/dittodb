@@ -48,7 +48,8 @@ jobs:
 
       - name: Install Ubuntu dependencies
         run: |
-          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev unixodbc-dev odbc-postgresql
+          sudo apt install unixodbc unixodbc-dev
+          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
       - name: Setup databases linux
@@ -61,8 +62,13 @@ jobs:
         run: |
           odbcinst -j
           cat /etc/odbcinst.ini
+          echo "/usr/lib/"
           ls -la /usr/lib/
+          echo "/usr/lib64/"
+          ls -la /usr/lib64/
+          echo "/usr/lib/odbc/"
           ls -la /usr/lib/odbc/
+          echo "/usr/lib/x86_64-linux-gnu/odbc/"
           ls -la /usr/lib/x86_64-linux-gnu/odbc/
 
 
