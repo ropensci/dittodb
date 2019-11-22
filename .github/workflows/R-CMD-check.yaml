@@ -63,8 +63,12 @@ jobs:
           odbcinst -j
           cat /etc/odbc.ini
           cat /etc/odbcinst.ini
-          echo "echo $ODBCINI"
+          echo "echo ODBCINI"
           echo $ODBCINI
+          echo "echo ODBCSYSINI"
+          echo ODBCSYSINI
+          echo "runner.odbc.ini"
+          cat /home/runner/.odbc.ini
 
 
       - name: Install dependencies
