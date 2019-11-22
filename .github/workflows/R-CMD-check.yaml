@@ -58,6 +58,9 @@ jobs:
           bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v1
+
       - name: odbc
         run: |
           odbcinst -j
@@ -75,9 +78,6 @@ jobs:
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
 
       - name: odbc again
         run: |
