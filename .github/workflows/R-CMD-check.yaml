@@ -47,8 +47,12 @@ jobs:
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
-          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev unixodbc-dev odbc-postgresql
+          Rscript -e "install.packages('remotes')" -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
         if: contains(runner.os, 'linux')
 
       - name: Setup databases linux
@@ -60,7 +64,7 @@ jobs:
       - name: Install dependencies
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
-          Rscript -e "install.packages(c('RMariaDB','odbc','RPostgreSQL','RPostgres'), type = 'source');"
+          Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
