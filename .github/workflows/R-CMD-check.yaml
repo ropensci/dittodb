@@ -76,8 +76,12 @@ jobs:
         run: |
           odbcinst -j
           cat /etc/odbcinst.ini
-          echo "echo $ODBCINI"
+          echo "echo ODBCINI"
           echo $ODBCINI
+          echo "echo ODBCSYSINI"
+          echo ODBCSYSINI
+          echo "runner.odbc.ini"
+          cat /home/runner/.odbc.ini
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
