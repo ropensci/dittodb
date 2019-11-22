@@ -76,6 +76,9 @@ jobs:
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v1
+
       - name: odbc again
         run: |
           odbcinst -j
