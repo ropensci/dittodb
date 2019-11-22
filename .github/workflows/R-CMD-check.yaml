@@ -19,8 +19,8 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
       # disable tests on linux
-      DBTEST_DISABLE_PG: ${{ contains(runner.os, 'linux') }}
-      DBTEST_DISABLE_MARIA: ${{ contains(runner.os, 'linux') }}
+      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
+      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
 
     steps:
       - uses: actions/checkout@v1
