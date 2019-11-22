@@ -64,10 +64,6 @@ jobs:
           cat /etc/odbcinst.ini
           echo "/usr/lib/"
           ls -la /usr/lib/
-          echo "/usr/lib64/"
-          ls -la /usr/lib64/
-          echo "/usr/lib/odbc/"
-          ls -la /usr/lib/odbc/
           echo "/usr/lib/x86_64-linux-gnu/odbc/"
           ls -la /usr/lib/x86_64-linux-gnu/odbc/
 
