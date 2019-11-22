@@ -31,6 +31,8 @@ before_script:
   - ls -la /usr/lib/
   - echo "/usr/lib/x86_64-linux-gnu/odbc/"
   - ls -la /usr/lib/x86_64-linux-gnu/odbc/
+  - echo "echo $ODBCINI"
+  - echo $ODBCINI
 
 r:
   - oldrel
