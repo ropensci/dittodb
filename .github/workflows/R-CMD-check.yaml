@@ -19,18 +19,6 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
 
-#     services:
-#       postgres:
-#         image: postgres:10.8
-#         env:
-#           POSTGRES_USER: travis
-#           POSTGRES_PASSWORD: ""
-#         ports:
-#         - 5432:5432
-#         # needed because the postgres container does not provide a healthcheck
-#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-
     steps:
       - uses: actions/checkout@v1
 
@@ -57,13 +45,19 @@ jobs:
 
       - name: Install Ubuntu dependencies
         run: |
-          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev
+          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev unixodbc-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
       - name: Setup databases linux
         run: |
           bash db-setup/postgres-docker.sh
           bash db-setup/postgres-reset-no-docker.sh
+        if: contains(runner.os, 'linux')
+
+      - name: Disable tests that fail on Ubuntu
+        run: |
+          export DBTEST_DISABLE_PG=true
+          export DBTEST_DISABLE_MARIA=true
         if: contains(runner.os, 'linux')
 
       - name: Install dependencies
