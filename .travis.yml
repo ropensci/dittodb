@@ -25,6 +25,7 @@ before_script:
   # we have to install from source, or else we get `result_fetch(res@ptr, n = n)`
   - R -q -e 'install.packages(c("RMariaDB","odbc","RPostgreSQL","RPostgres"), type = "source");'
   - odbcinst -j
+  - cat /etc/odbcinst.ini
 
 r:
   - oldrel

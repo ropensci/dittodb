@@ -58,7 +58,11 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: odbc
-        run: odbcinst -j
+        run: |
+          odbcinst -j
+          cat /etc/odbcinst.ini
+
+
 
       - name: Install dependencies
         run: |
@@ -66,7 +70,9 @@ jobs:
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: odbc again
-        run: odbcinst -j
+        run: |
+          odbcinst -j
+          cat /etc/odbcinst.ini
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
