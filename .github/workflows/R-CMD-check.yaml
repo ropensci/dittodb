@@ -55,6 +55,7 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: Disable tests that fail on Ubuntu
+        run: echo "Tags are > ${TAG1}"
         env:
           DBTEST_DISABLE_PG: "true"
           DBTEST_DISABLE_MARIA: "true"
