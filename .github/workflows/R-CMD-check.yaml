@@ -14,7 +14,7 @@ jobs:
         config:
         - { os: macOS-latest, r: '3.6'}
         - { os: macOS-latest, r: 'devel', args: "--no-manual"}
-        - { os: ubuntu-16.04, r: '3.6', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '3.6', args: "--no-manual" }
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
@@ -61,6 +61,9 @@ jobs:
         run: |
           odbcinst -j
           cat /etc/odbcinst.ini
+          ls -la /usr/lib/
+          ls -la /usr/lib/odbc/
+          ls -la /usr/lib/x86_64-linux-gnu/odbc/
 
 
 
