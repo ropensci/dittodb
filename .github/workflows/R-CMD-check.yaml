@@ -68,7 +68,7 @@ jobs:
           echo "echo ODBCSYSINI"
           echo ODBCSYSINI
           echo "runner.odbc.ini"
-          cat /home/runner/.odbc.ini
+          cat /etc/runner.odbc.ini
 
 
       - name: Install dependencies
@@ -85,7 +85,7 @@ jobs:
           echo "echo ODBCSYSINI"
           echo ODBCSYSINI
           echo "runner.odbc.ini"
-          cat /home/runner/.odbc.ini
+          cat /etc/runner.odbc.ini
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
