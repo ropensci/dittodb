@@ -18,4 +18,4 @@ done
 # docker stop dbtest-mariadb
 # docker rm dbtest-mariadb
 #
-# docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "DROP DATABASE nycflights;"
+# docker exec dbtest-mariadb mysql -pr2N5y7V* -e "DROP DATABASE nycflights;"

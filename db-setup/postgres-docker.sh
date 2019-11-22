@@ -19,4 +19,4 @@ done
 # docker stop dbtest-postgres
 # docker rm dbtest-postgres
 #
-# docker exec -it dbtest-postgres mysql -p6c9FT%Kj -e "DROP DATABASE nycflights;"
+# docker exec dbtest-postgres mysql -p6c9FT%Kj -e "DROP DATABASE nycflights;"
