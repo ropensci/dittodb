@@ -57,10 +57,16 @@ jobs:
           bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
+      - name: odbc
+        run: odbcinst -j
+
       - name: Install dependencies
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
+      - name: odbc again
+        run: odbcinst -j
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
