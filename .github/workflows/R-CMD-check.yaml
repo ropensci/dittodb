@@ -18,6 +18,9 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
+      # disable tests on linux
+      DBTEST_DISABLE_PG: ${{ contains(runner.os, 'linux') }}
+      DBTEST_DISABLE_MARIA: ${{ contains(runner.os, 'linux') }}
 
     steps:
       - uses: actions/checkout@v1
@@ -52,13 +55,6 @@ jobs:
         run: |
           bash db-setup/postgres-docker.sh
           bash db-setup/postgres-reset-no-docker.sh
-        if: contains(runner.os, 'linux')
-
-      - name: Disable tests that fail on Ubuntu
-        run: echo "Tags are > ${TAG1}"
-        env:
-          DBTEST_DISABLE_PG: "true"
-          DBTEST_DISABLE_MARIA: "true"
         if: contains(runner.os, 'linux')
 
       - name: Install dependencies
