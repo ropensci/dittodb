@@ -55,9 +55,9 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: Disable tests that fail on Ubuntu
-        run: |
-          export DBTEST_DISABLE_PG=true
-          export DBTEST_DISABLE_MARIA=true
+        env:
+          DBTEST_DISABLE_PG: "true"
+          DBTEST_DISABLE_MARIA: "true"
         if: contains(runner.os, 'linux')
 
       - name: Install dependencies
@@ -74,3 +74,9 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+
+      - name: Test coverage
+        if: contains(runner.os, 'macOS') && contains(matrix.config.r, '3.6')
+        run: |
+          Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
+          Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
