@@ -26,6 +26,11 @@ before_script:
   - R -q -e 'install.packages(c("RMariaDB","odbc","RPostgreSQL","RPostgres"), type = "source");'
   - odbcinst -j
   - cat /etc/odbcinst.ini
+  - cat /etc/odbcinst.ini
+  - echo "/usr/lib/"
+  - ls -la /usr/lib/
+  - echo "/usr/lib/x86_64-linux-gnu/odbc/"
+  - ls -la /usr/lib/x86_64-linux-gnu/odbc/
 
 r:
   - oldrel

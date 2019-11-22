@@ -62,11 +62,8 @@ jobs:
         run: |
           odbcinst -j
           cat /etc/odbcinst.ini
-          echo "/usr/lib/"
-          ls -la /usr/lib/
-          echo "/usr/lib/x86_64-linux-gnu/odbc/"
-          ls -la /usr/lib/x86_64-linux-gnu/odbc/
-
+          sed 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini > /etc/odbcinst.ini
+          cat /etc/odbcinst.ini
 
 
       - name: Install dependencies
