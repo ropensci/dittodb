@@ -14,7 +14,7 @@ jobs:
         config:
         - { os: macOS-latest, r: '3.6'}
         - { os: macOS-latest, r: 'devel', args: "--no-manual"}
-        - { os: ubuntu-18.04, r: '3.6', args: "--no-manual" }
+        - { os: ubuntu-16.04, r: '3.6', args: "--no-manual" }
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
@@ -47,13 +47,8 @@ jobs:
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
           sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev unixodbc-dev odbc-postgresql
-          Rscript -e "install.packages('remotes')" -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
         if: contains(runner.os, 'linux')
 
       - name: Setup databases linux
