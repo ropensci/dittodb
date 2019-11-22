@@ -62,7 +62,7 @@ jobs:
         run: |
           odbcinst -j
           cat /etc/odbcinst.ini
-          sed 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini > /etc/odbcinst.ini
+          sudo sed 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini > /etc/odbcinst.ini
           cat /etc/odbcinst.ini
 
 
