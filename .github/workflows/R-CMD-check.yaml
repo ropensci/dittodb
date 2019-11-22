@@ -61,6 +61,7 @@ jobs:
       - name: odbc
         run: |
           odbcinst -j
+          cat /etc/odbc.ini
           cat /etc/odbcinst.ini
           sudo sed 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini > /etc/odbcinst.ini
           cat /etc/odbcinst.ini
