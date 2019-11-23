@@ -58,10 +58,7 @@ jobs:
           bash db-setup/postgres-reset-no-docker.sh
         if: contains(runner.os, 'linux')
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
-
-      - name: odbc
+      - name: odbc manual adjustments
         run: |
           odbcinst -j
           cat /etc/odbcinst.ini
