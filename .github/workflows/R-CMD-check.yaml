@@ -47,8 +47,8 @@ jobs:
 
       - name: Setup databases macOS
         run: |
-           bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh
-           bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh
+           bash db-setup/postgres-brew.sh; bash db-setup/postgres-reset-macos.sh
+           bash db-setup/mariadb-brew.sh; bash db-setup/mariadb-reset-macos.sh
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
@@ -75,8 +75,8 @@ jobs:
 
       - name: Setup databases windows
         run: |
-          bash db-setup/postgres-docker.sh
-          bash db-setup/mariadb-docker.sh
+          choco install postgresql
+          bash db-setup/postgres-reset-macos.sh
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
