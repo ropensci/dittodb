@@ -11,7 +11,7 @@ n=0
 until [ $n -ge 15 ]
 do
   sleep 5
-  bash db-setup/postgres-reset.sh && break  # substitute your command here
+  bash db-setup/postgres-reset-docker.sh && break  # substitute your command here
   n=$[$n+1]
 done
 

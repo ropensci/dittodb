@@ -47,8 +47,8 @@ jobs:
 
       - name: Setup databases macOS
         run: |
-           bash db-setup/postgres-brew.sh; bash db-setup/postgres-reset-macos.sh
-           bash db-setup/mariadb-brew.sh; bash db-setup/mariadb-reset-macos.sh
+           bash db-setup/postgres-brew.sh; bash db-setup/postgres-reset-base.sh
+           bash db-setup/mariadb-brew.sh; bash db-setup/mariadb-reset-base.sh
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
@@ -57,15 +57,11 @@ jobs:
           sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
-      - name: Setup databases linux
+      - name: Setup databases linux and odbc manual adjustments
         run: |
           bash db-setup/postgres-docker.sh
           sudo service mysql stop
           bash db-setup/mariadb-docker.sh
-        if: contains(runner.os, 'linux')
-
-      - name: odbc manual adjustments
-        run: |
           odbcinst -j
           cat /etc/odbcinst.ini
           sudo sed -i 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini
@@ -76,7 +72,8 @@ jobs:
       - name: Setup databases windows
         run: |
           choco install postgresql
-          bash db-setup/postgres-reset-macos.sh
+          refreshenv
+          bash db-setup/postgres-reset-base.sh
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
