@@ -20,7 +20,6 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
       # disable tests on linux
       DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
-      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
 
     steps:
       - uses: actions/checkout@v1
@@ -55,7 +54,8 @@ jobs:
       - name: Setup databases linux
         run: |
           bash db-setup/postgres-docker.sh
-          bash db-setup/postgres-reset-no-docker.sh
+          sudo service mysql stop
+          bash db-setup/mariadb-docker.sh
         if: contains(runner.os, 'linux')
 
       - name: odbc manual adjustments
@@ -81,9 +81,6 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
 
       - name: Test coverage
         if: contains(runner.os, 'macOS') && contains(matrix.config.r, '3.6')
