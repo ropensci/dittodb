@@ -74,9 +74,9 @@ jobs:
           choco install postgresql
           refreshenv
           dir "C:\Program Files\PostgreSQL\12\bin"
-          "C:\Program Files\PostgreSQL\12\bin\dropdb.exe" nycflights
-          "C:\Program Files\PostgreSQL\12\bin\createuser.exe" -s travis
-          "C:\Program Files\PostgreSQL\12\bin\createdb.exe" nycflights
+          C:\"Program Files"\PostgreSQL\12\bin\dropdb.exe nycflights
+          C:\"Program Files"\PostgreSQL\12\bin\createuser.exe -s travis
+          C:\"Program Files"\PostgreSQL\12\bin\createdb.exe nycflights
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
