@@ -82,6 +82,9 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v1
+
       - name: Test coverage
         if: contains(runner.os, 'macOS') && contains(matrix.config.r, '3.6')
         run: |
