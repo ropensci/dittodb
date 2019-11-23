@@ -14,7 +14,6 @@ jobs:
         config:
         - { os: macOS-latest, r: 'release' }
         - { os: macOS-latest, r: 'devel', args: "--no-manual" }
-        - { os: ubuntu-18.04, r: '3.0', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.3', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.4', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.5', args: "--no-manual" }
