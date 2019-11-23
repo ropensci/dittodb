@@ -73,9 +73,9 @@ jobs:
         run: |
           choco install postgresql
           refreshenv
-          dropdb.exe nycflights || true
-          createuser.exe -s travis || true
-          createdb.exe nycflights || true
+          dropdb.exe nycflights
+          createuser.exe -s travis
+          createdb.exe nycflights
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
