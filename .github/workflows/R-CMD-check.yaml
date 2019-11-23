@@ -73,7 +73,9 @@ jobs:
         run: |
           choco install postgresql
           refreshenv
-          bash db-setup/postgres-reset-base.sh
+          dropdb.exe nycflights || true
+          createuser.exe -s travis || true
+          createdb.exe nycflights || true
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
