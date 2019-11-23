@@ -15,7 +15,6 @@ jobs:
         - { os: macOS-latest, r: '3.6' }
         - { os: macOS-latest, r: 'devel', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.0', args: "--no-manual" }
-        - { os: ubuntu-18.04, r: '3.2', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.3', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.4', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.5', args: "--no-manual" }
@@ -78,7 +77,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'))" -e "remotes::install_deps(dependencies = TRUE)"
+          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Check
