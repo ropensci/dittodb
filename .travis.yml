@@ -24,19 +24,6 @@ before_script:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo apt install unixodbc-dev odbc-postgresql; fi
   # we have to install from source, or else we get `result_fetch(res@ptr, n = n)`
   - R -q -e 'install.packages(c("RMariaDB","odbc","RPostgreSQL","RPostgres"), type = "source");'
-  - odbcinst -j
-  - cat /etc/odbcinst.ini
-  - cat /etc/odbc.ini
-  - echo "/usr/lib/"
-  - ls -la /usr/lib/
-  - echo "/usr/lib/x86_64-linux-gnu/odbc/"
-  - ls -la /usr/lib/x86_64-linux-gnu/odbc/
-  - echo "echo ODBCINI"
-  - echo $ODBCINI
-  - echo "echo ODBCSYSINI"
-  - echo ODBCSYSINI
-  - echo "travis.odbc.ini"
-  - cat /home/travis/.odbc.ini
 
 r:
   - oldrel
