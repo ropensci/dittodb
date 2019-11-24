@@ -11,7 +11,7 @@ con <- dbConnect(
   dbname = "nycflights",
   host = "127.0.0.1",
   user = "travis",
-  password = ""
+  password = "silly"
 )
 
 con <- nycflights13_sql(con, schema = "rpostgresql")
