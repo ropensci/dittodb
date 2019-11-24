@@ -8,7 +8,7 @@ library(odbc)
 # setup the database that will be mocked and then tested
 con <- DBI::dbConnect(
   odbc::odbc(),
-  Driver   = "PostgreSQL Unicode(x64)",
+  Driver   = "PostgreSQL Unicode",
   Server   = "127.0.0.1",
   Database = "nycflights",
   UID      = "travis",
@@ -42,7 +42,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
   con <- DBI::dbConnect(
     odbc::odbc(),
-    Driver   = "PostgreSQL Unicode(x64)",
+    Driver   = "PostgreSQL Unicode",
     Server   = "127.0.0.1",
     Database = "nycflights",
     UID      = "travis",
@@ -60,7 +60,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   with_mock_db({
     con <- DBI::dbConnect(
       odbc::odbc(),
-      Driver   = "PostgreSQL Unicode(x64)",
+      Driver   = "PostgreSQL Unicode",
       Server   = "127.0.0.1",
       Database = "nycflights",
       UID      = "travis",
