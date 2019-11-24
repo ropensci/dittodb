@@ -25,8 +25,8 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
       PGPASSWORD: r2N5y7V*
       # disable tests on linux
-      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
-      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
+      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
+      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
 
     steps:
       - uses: actions/checkout@v1
@@ -75,8 +75,8 @@ jobs:
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           '\conninfo' | psql -Upostgres
-          createdb -Upostgres nycflights
           psql -Upostgres -c "CREATE ROLE travis WITH LOGIN PASSWORD 'silly';"
+          createdb -Upostgres nycflights
           psql -Upostgres -c "GRANT ALL PRIVILEGES ON DATABASE nycflights TO travis;"
         if: contains(runner.os, 'windows')
 
