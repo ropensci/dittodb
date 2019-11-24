@@ -73,7 +73,7 @@ jobs:
         run: |
           choco install postgresql --params '/Password:r2N5y7V*'
           refreshenv
-          psql -Upostgres -Pr2N5y7V* "CREATE USER travis;"
+          psql.exe -Upostgres -Pr2N5y7V* "CREATE USER travis;"
           psql.exe "CREATE DATABASE nycflights;"
         if: contains(runner.os, 'windows')
 
