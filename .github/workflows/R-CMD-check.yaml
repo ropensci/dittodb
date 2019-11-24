@@ -82,6 +82,8 @@ jobs:
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           Get-OdbcDriver
           Get-OdbcDsn
+          Add-OdbcDsn -Name "postgres" -DriverName "PostgreSQL Unicode(x64)" -DsnType "System" -SetPropertyValue @("Server=localhost", "Trusted_Connection=Yes", "Database=nycflights")
+          Get-OdbcDsn
 
 
           choco install mariadb
