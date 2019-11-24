@@ -74,8 +74,8 @@ jobs:
         run: |
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           refreshenv
-          Get-LocalUser
-          $env:UserName
+          Write-Host Get-LocalUser
+          Write-Host $env:UserName
           New-Item -ItemType directory -Path ../data
           $ACL = Get-Acl .
           Set-Acl -Path ../data -AclObject $ACL
