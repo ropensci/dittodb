@@ -72,18 +72,9 @@ jobs:
 
       - name: Setup databases windows
         run: |
-          New-Item -ItemType directory -Path ../data
-          $env:PGDATA = Get-Item -Path ../data
-          $Acl = Get-Acl $env:PGDATA
-          $Ar = New-Object  system.security.accesscontrol.filesystemaccessrule($env:USERNAME,"FullControl","Allow")
-          $Acl.SetAccessRule($Ar)
-          Set-Acl $env:PGDATA $Acl
-          Get-Acl $env:PGDATA
-
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          pg_ctl init
-          pg_ctl start
+          '\conninfo' | psql -Upostgres
           psql.exe -Upostgres "CREATE USER travis;"
           psql -Upostgres "CREATE DATABASE nycflights;"
         if: contains(runner.os, 'windows')
