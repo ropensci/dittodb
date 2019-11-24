@@ -73,10 +73,8 @@ jobs:
       - name: Setup databases windows
         run: |
           New-Item -ItemType directory -Path ../data
-          $ACL = Get-Acl .
-          Set-Acl -Path ../data -AclObject $ACL
           $env:PGDATA = Get-Item -Path ../data
-          Write-Host $env:PGDATA
+          Grant-Permission $env:PGDATA $env:USERNAME FullControl
           Get-Acl $env:PGDATA
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 
