@@ -74,12 +74,9 @@ jobs:
         run: |
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           refreshenv
-          Write-Host Get-LocalUser
-          Write-Host $env:UserName
           New-Item -ItemType directory -Path ../data
-          $ACL = Get-Acl .
-          Set-Acl -Path ../data -AclObject $ACL
-          $env:PGDATA = "../data"
+          $env:PGDATA = Get-Item -Path ../data
+          Write-Host $env:PGDATA
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           pg_ctl init
           pg_ctl start
