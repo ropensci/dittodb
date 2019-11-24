@@ -80,8 +80,9 @@ jobs:
 
           choco install psqlodbc
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          odbcinst -j
-          ODBCCONF
+          Get-OdbcDriver
+          Get-OdbcDsn
+
 
           choco install mariadb
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
