@@ -77,7 +77,7 @@ jobs:
           '\conninfo' | psql -Upostgres
           createdb -Upostgres nycflights
           psql -Upostgres -c "CREATE ROLE travis WITH LOGIN PASSWORD 'silly';"
-          psql -Upostgres -c "GRANT ALL PRIVILEGES ON DATABASE nycflights TO travis"
+          psql -Upostgres -c "GRANT ALL PRIVILEGES ON DATABASE nycflights TO travis;"
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
