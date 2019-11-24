@@ -77,7 +77,7 @@ jobs:
           '\conninfo' | psql -Upostgres
           psql -Upostgres -c "CREATE USER travis WITH PASSWORD NULL;"
           psql -Upostgres -c "CREATE DATABASE nycflights;"
-          psql -Utravis -P -c "SELECT datname FROM pg_database;"
+          psql -Utravis -c "SELECT datname FROM pg_database;"
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
