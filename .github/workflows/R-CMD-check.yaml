@@ -84,14 +84,6 @@ jobs:
           Get-OdbcDsn
           Add-OdbcDsn -Name "postgres" -DriverName "PostgreSQL Unicode(x64)" -DsnType "System" -SetPropertyValue @("Server=localhost", "Trusted_Connection=Yes", "Database=nycflights")
           Get-OdbcDsn
-
-
-          choco install mariadb
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          mysql -u root -e "DROP DATABASE IF EXISTS nycflights;"
-          mysql -u root -e "CREATE DATABASE nycflights;"
-          mysql -u root -e "CREATE USER IF NOT EXISTS 'travis'@'localhost'; GRANT ALL ON *.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;"
-          mysql -u root -e "ALTER USER 'travis'@'localhost' IDENTIFIED BY ''; FLUSH PRIVILEGES;"
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
