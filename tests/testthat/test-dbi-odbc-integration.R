@@ -12,7 +12,7 @@ con <- DBI::dbConnect(
   Server   = "127.0.0.1",
   Database = "nycflights",
   UID      = "travis",
-  PWD      = "",
+  PWD      = "silly",
   Port     = 5432
 )
 
@@ -46,7 +46,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
     Server   = "127.0.0.1",
     Database = "nycflights",
     UID      = "travis",
-    PWD      = "",
+    PWD      = "silly",
     Port     = 5432
   )
 
@@ -64,7 +64,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
       Server   = "127.0.0.1",
       Database = "nycflights",
       UID      = "travis",
-      PWD      = "",
+      PWD      = "silly",
       Port     = 5432
     )
 

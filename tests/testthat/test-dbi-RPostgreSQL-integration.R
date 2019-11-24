@@ -43,7 +43,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
     dbname = "nycflights",
     host = "127.0.0.1",
     user = "travis",
-    password = ""
+    password = "silly"
   )
 
   # dbGetQuery is different for RPostgreSQL and isn't simply a warpper around
@@ -64,7 +64,7 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
       dbname = "nycflights",
       host = "127.0.0.1",
       user = "travis",
-      password = ""
+      password = "silly"
     )
 
     test_that("Our connection is a mock connection", {
