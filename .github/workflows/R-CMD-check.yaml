@@ -75,8 +75,8 @@ jobs:
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           '\conninfo' | psql -Upostgres
-          psql.exe -Upostgres "CREATE USER travis;"
-          psql -Upostgres "CREATE DATABASE nycflights;"
+          psql.exe -Upostgres -c "CREATE USER travis;"
+          psql -Upostgres -c "CREATE DATABASE nycflights;"
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
