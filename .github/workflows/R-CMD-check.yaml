@@ -72,8 +72,10 @@ jobs:
 
       - name: Setup databases windows
         run: |
+          choco install carbon
           New-Item -ItemType directory -Path ../data
           $env:PGDATA = Get-Item -Path ../data
+          Disable-AclInheritance $env:PGDATA
           Grant-Permission $env:PGDATA $env:USERNAME FullControl
           Get-Acl $env:PGDATA
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
