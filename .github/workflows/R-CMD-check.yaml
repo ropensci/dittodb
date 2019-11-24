@@ -23,6 +23,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
+      PGPASSWORD: r2N5y7V*
       # disable tests on linux
       DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
       DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
@@ -71,10 +72,11 @@ jobs:
 
       - name: Setup databases windows
         run: |
-          choco install postgresql --params '/Password:r2N5y7V*' --paramsglobal
+          choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           refreshenv
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          $Env:PGPASSWORD='r2N5y7V*'
+          pg_ctl init
+          pg_ctl start
           psql.exe -Upostgres "CREATE USER travis;"
           psql -Upostgres "CREATE DATABASE nycflights;"
         if: contains(runner.os, 'windows')
