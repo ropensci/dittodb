@@ -50,7 +50,7 @@ jobs:
         run: |
            bash db-setup/postgres-brew.sh; bash db-setup/postgres-reset-base.sh
            bash db-setup/mariadb-brew.sh
-           mysql -u root < db-setup/mariadb-reset.sql
+           sudo mysql -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
