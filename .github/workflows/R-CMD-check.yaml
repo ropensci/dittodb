@@ -49,7 +49,8 @@ jobs:
       - name: Setup databases macOS
         run: |
            bash db-setup/postgres-brew.sh; bash db-setup/postgres-reset-base.sh
-           bash db-setup/mariadb-brew.sh; bash db-setup/mariadb-reset-base.sh
+           bash db-setup/mariadb-brew.sh
+           mysql -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
@@ -63,11 +64,9 @@ jobs:
           bash db-setup/postgres-docker.sh
           sudo service mysql stop
           bash db-setup/mariadb-docker.sh
-          odbcinst -j
-          cat /etc/odbcinst.ini
+          # the driver as installed in odbcinst.ini isn't located
           sudo sed -i 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini
           sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
-          cat /etc/odbcinst.ini
         if: contains(runner.os, 'linux')
 
       - name: Setup databases windows
@@ -77,7 +76,6 @@ jobs:
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           psql -Upostgres -f db-test/postgres-reset.sql
 
-          net stop MySQL
           choco install mariadb
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           get-content db-test/maraidb-reset.sql | mysql -uroot
