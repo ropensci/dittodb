@@ -83,14 +83,13 @@ jobs:
           Get-OdbcDriver
           $DriverArray = Get-OdbcDriver "PostgreSQL Unicode(x64)" -Platform "All"
           $ParameterList = $DriverArray.Parameters;
-
           # Grab each parameter value, using Get-Variable
           foreach ($Parameter in $ParameterList) {
               Get-Variable -Name $Parameter.Values.Name -ErrorAction SilentlyContinue;
               #Get-Variable -Name $ParameterList;
           }
 
-          Set-OdbcDriver -Name "PostgreSQL Unicode" -InputObject $DriverArray
+          Set-OdbcDriver -Name "PostgreSQL Unicode" -InputObject $DriverArray -RemovePropertyValue "Name"
           Get-OdbcDriver
 
           mysql -u root -e "DROP DATABASE IF EXISTS nycflights;"
