@@ -49,7 +49,7 @@ jobs:
       - name: Setup databases macOS
         run: |
            bash db-setup/postgres-brew.sh
-           sudo psql -Upostgres -f db-setup/postgres-reset.sql
+           psql -Upostgres -f db-setup/postgres-reset.sql
            bash db-setup/mariadb-brew.sh
            sudo mysql -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'macOS')
