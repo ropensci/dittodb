@@ -1,3 +1,2 @@
-DROP DATABASE IF EXISTS nycflights;
 CREATE ROLE travis WITH LOGIN PASSWORD 'silly';
 CREATE DATABASE nycflights OWNER travis;
