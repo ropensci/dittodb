@@ -44,7 +44,7 @@ jobs:
 
       - name: ensure tinytex is installed correctly
         run: |
-          kpsewhich pdftexcmds.sty
+          kpsewhich pdftexcmds.sty || echo "pdftexcmds.sty wasn't found, installing"
           tlmgr install pdftexcmds
         if: contains(matrix.config.args, 'no-manual') == false
 
