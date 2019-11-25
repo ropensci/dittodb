@@ -1,6 +1,6 @@
 rm -rf /usr/local/var/postgres
 # for odbc tests, we need to also install the odbc drivers
-brew install psqlodbc unixodbc
+brew install postgresql psqlodbc unixodbc
 cat <<EOT >> /usr/local/etc/odbcinst.ini
 [PostgreSQL Unicode]
 Description     = PostgreSQL ODBC driver (Unicode 9.2)
