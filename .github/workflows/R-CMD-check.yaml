@@ -48,6 +48,9 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
+      - name: ensure tinytex is installed correctly
+        run: tlmgr search --global --file pdftexcmds.sty
+
       - name: Setup databases macOS
         run: |
            bash db-setup/postgres-brew.sh
