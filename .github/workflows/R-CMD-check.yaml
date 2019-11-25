@@ -123,15 +123,8 @@ jobs:
 
       - name: Remove rtools for windows
         run: |
-          Write-Host "System"
-          Write-Host [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          Write-Host "User"
-          Write-Host [System.Environment]::GetEnvironmentVariable("Path","User")
-
-
-          Write-Host $Env:path
           # Get it
-          $path = $Env:path
+          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
           Write-Host "Before"
           Write-Host $path
           # Remove unwanted elements
@@ -140,6 +133,6 @@ jobs:
           Write-Host "After"
           Write-Host $path
           # Set it
-            [Environment]::SetEnvironmentVariable('PATH', $path, 'Machine')
+          System.[Environment]::SetEnvironmentVariable('PATH', $path, 'User')
           Write-Host $Env:path
         if: contains(runner.os, 'windows')
