@@ -43,7 +43,9 @@ jobs:
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: ensure tinytex is installed correctly
-        run: tlmgr install pdftexcmds
+        run: |
+          kpsewhich pdftexcmds.sty
+          tlmgr install pdftexcmds
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Cache R packages
