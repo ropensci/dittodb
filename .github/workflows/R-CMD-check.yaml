@@ -80,11 +80,9 @@ jobs:
 
           choco install psqlodbc
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          Get-OdbcDriver
-          $DriverArray = Get-OdbcDriver "PostgreSQL Unicode(x64)" -Platform "64-bit"
+          $DriverArray = Get-OdbcDriver "PostgreSQL Unicode(x64)" -Platform "64-bit" -SetPropertyValue "Name=PostgreSQL Unicode" -PassThru
           Write-Host $DriverArray
-
-          Set-OdbcDriver -InputObject $DriverArray -SetPropertyValue "Name=PostgreSQL Unicode"
+          Set-OdbcDriver -InputObject $DriverArray
           Get-OdbcDriver
 
         if: contains(runner.os, 'windows')
