@@ -1,2 +1,3 @@
 CREATE ROLE travis WITH LOGIN PASSWORD 'silly';
 CREATE DATABASE nycflights OWNER travis;
+CREATE DATABASE postgres OWNER travis;
