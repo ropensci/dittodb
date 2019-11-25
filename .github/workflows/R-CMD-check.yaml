@@ -120,3 +120,23 @@ jobs:
         run: |
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
+
+      - name: Remove rtools for windows
+        run: |
+        Write-Host $Env:path
+        # Get it
+        $path = [System.Environment]::GetEnvironmentVariable(
+            'PATH',
+            'Machine'
+        )
+        # Remove unwanted elements
+        $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\mingw_64\bin' }) -join ';'
+        $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\bin' }) -join ';'
+        # Set it
+        [System.Environment]::SetEnvironmentVariable(
+            'PATH',
+            $path,
+            'Machine'
+        )
+        Write-Host $Env:path
+        if: contains(runner.os, 'windows')
