@@ -133,6 +133,6 @@ jobs:
           Write-Host "After"
           Write-Host $path
           # Set it
-          System.[Environment]::SetEnvironmentVariable('PATH', $path, 'User')
+          [System.Environment]::SetEnvironmentVariable('PATH', $path, 'User')
           Write-Host $Env:path
         if: contains(runner.os, 'windows')
