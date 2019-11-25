@@ -25,7 +25,7 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
       PGPASSWORD: r2N5y7V*
       # disable tests on linux
-      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
+      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
       DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
 
     steps:
