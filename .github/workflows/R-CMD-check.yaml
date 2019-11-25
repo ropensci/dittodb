@@ -72,7 +72,7 @@ jobs:
 
       - name: Setup databases windows
         run: |
-          choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
+          choco install postgresql11 --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           '\conninfo' | psql -Upostgres
           psql -Upostgres -c "CREATE ROLE travis WITH LOGIN PASSWORD 'silly';"
