@@ -23,7 +23,9 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
-      PGPASSWORD: r2N5y7V*
+      DBROOTPASS: r2N5y7V*
+      PGPASSWORD: ${{ env.DBROOTPASS }}
+      MYSQL_PWD: ${{ env.DBROOTPASS }}
       # disable tests on linux
       DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
       DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
@@ -51,7 +53,7 @@ jobs:
            bash db-setup/postgres-brew.sh
            psql -Upostgres -f db-setup/postgres-reset.sql
            bash db-setup/mariadb-brew.sh
-           sudo mysql -u root < db-setup/mariadb-reset.sql
+           mysql -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'macOS')
 
       - name: Install Ubuntu dependencies
