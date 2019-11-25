@@ -54,6 +54,14 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
+      - name: Cache windows Chocolatey downloads
+        uses: actions/cache@v1
+        if: contains(runner.os, 'windows')
+        with:
+          path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+
       - name: Setup databases macOS
         run: |
            bash db-setup/postgres-brew.sh
