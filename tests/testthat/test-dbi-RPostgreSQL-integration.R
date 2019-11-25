@@ -10,8 +10,8 @@ con <- dbConnect(
   RPostgreSQL::PostgreSQL(),
   dbname = "nycflights",
   host = "127.0.0.1",
-  user = "travis",
-  password = "silly"
+  user = db_user,
+  password = db_pass
 )
 
 con <- nycflights13_sql(con, schema = "rpostgresql")
@@ -42,8 +42,8 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
     RPostgreSQL::PostgreSQL(),
     dbname = "nycflights",
     host = "127.0.0.1",
-    user = "travis",
-    password = "silly"
+    user = db_user,
+    password = db_pass
   )
 
   # dbGetQuery is different for RPostgreSQL and isn't simply a warpper around
@@ -63,8 +63,8 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
       RPostgreSQL::PostgreSQL(),
       dbname = "nycflights",
       host = "127.0.0.1",
-      user = "travis",
-      password = "silly"
+      user = db_user,
+      password = db_pass
     )
 
     test_that("Our connection is a mock connection", {
