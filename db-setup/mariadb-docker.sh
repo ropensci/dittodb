@@ -11,7 +11,7 @@ n=0
 until [ $n -ge 15 ]
 do
   sleep 5
-  docker exec dbtest-mariadb mysql -pr2N5y7V* <- db-setup/mariadb-reset.sql && break
+  docker exec dbtest-mariadb mysql -pr2N5y7V* < db-setup/mariadb-reset.sql && break
   n=$[ $n+1 ]
 done
 
