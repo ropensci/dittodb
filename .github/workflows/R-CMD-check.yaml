@@ -82,7 +82,7 @@ jobs:
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           Get-OdbcDriver
           $DriverArray = Get-OdbcDriver "PostgreSQL Unicode(x64)" -Platform "All"
-          $ParameterList = (Get-Command -Name $DriverArray).Parameters;
+          $ParameterList = $DriverArray.Parameters;
 
           # Grab each parameter value, using Get-Variable
           foreach ($Parameter in $ParameterList) {
