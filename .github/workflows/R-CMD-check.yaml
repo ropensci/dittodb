@@ -74,11 +74,11 @@ jobs:
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           choco install psqlodbc
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          psql -Upostgres -f db-test/postgres-reset.sql
+          psql -Upostgres -f db-setup/postgres-reset.sql
 
           choco install mariadb
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          get-content db-test/maraidb-reset.sql | mysql -uroot
+          get-content db-setup/maraidb-reset.sql | mysql -uroot
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
