@@ -92,7 +92,6 @@ jobs:
         run: |
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           choco install psqlodbc
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
@@ -102,20 +101,19 @@ jobs:
 
       - name: Setup databases (macOS + linux)
         run: |
-          echo $PGPASSWORD
-          echo $MYSQL_PWD
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
           mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
         env:
-          PGPASSWORD: $DBROOTPASS
+          PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows') == false
 
       - name: Setup databases (windows)
         run: |
+          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           psql -Upostgres -f db-setup/postgres-reset.sql
         env:
-          PGPASSWORD: $DBROOTPASS
+          PGPASSWORD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows')
 
       - name: Check
