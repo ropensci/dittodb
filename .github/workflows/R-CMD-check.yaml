@@ -49,7 +49,7 @@ jobs:
           Write-Host "After"
           Write-Host $path
           # Set it
-          [System.Environment]::SetEnvironmentVariable('PATH', $path, 'User')
+          [System.Environment]::SetEnvironmentVariable('Path', $path, 'User')
           $Env:path = $path
           Write-Host $Env:path
           echo "::set-env name=PATH::$path"
