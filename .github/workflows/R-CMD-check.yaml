@@ -92,19 +92,12 @@ jobs:
           sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
         if: contains(runner.os, 'linux')
 
-      - name: Setup databases windows
-        run: |
-          choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
-          choco install psqlodbc
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          psql -Upostgres -f db-setup/postgres-reset.sql
-        if: contains(runner.os, 'windows')
+
 
       - name: Install dependencies
         run: |
-          Rscript -e ".libPaths();"
-          Rscript -e "installed.packages();"
-          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE)"
+          Get-ChildItem -path ${{ env.R_LIBS_USER }}
+          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Check
