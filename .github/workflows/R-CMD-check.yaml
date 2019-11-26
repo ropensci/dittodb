@@ -24,8 +24,6 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
       DBROOTPASS: r2N5y7V*
-      PGPASSWORD: r2N5y7V*
-      MYSQL_PWD: r2N5y7V*
       # disable tests on linux
       DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
       DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
@@ -106,11 +104,16 @@ jobs:
         run: |
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
           mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+        env:
+          PGPASSWORD: $DBROOTPASS
+          MYSQL_PWD: $DBROOTPASS
         if: contains(runner.os, 'windows') == false
 
       - name: setup databases (windows)
         run: |
           psql -Upostgres -f db-setup/postgres-reset.sql
+        env:
+          PGPASSWORD: $DBROOTPASS
         if: contains(runner.os, 'windows')
 
       - name: Check
