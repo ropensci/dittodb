@@ -33,6 +33,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: test
+        run: |
+          # Get it
+          Write-Host (Get-Command gzip).Path
+          Write-Host $Env:path
+        if: contains(runner.os, 'windows')
+
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
@@ -47,30 +54,6 @@ jobs:
           kpsewhich pdftexcmds.sty || echo "pdftexcmds.sty wasn't found, installing"
           tlmgr install pdftexcmds
         if: contains(matrix.config.args, 'no-manual') == false
-
-      - name: Remove rtools for windows
-        run: |
-          # Get it
-          $path = $Env:path
-          Write-Host "Before"
-          Write-Host $path
-          # Remove unwanted elements
-          $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\mingw_64\bin' }) -join ';'
-          $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\bin' }) -join ';'
-          Write-Host "After"
-          Write-Host $path
-          # Set it
-          echo "::set-env name=PATH::$( $path )"
-        if: contains(runner.os, 'windows')
-
-      - name: test
-        run: |
-          # Get it
-          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
-          Write-Host $path
-          Write-Host "separator ########################"
-          Write-Host $Env:path
-        if: contains(runner.os, 'windows')
 
       - name: Cache R packages
         uses: actions/cache@v1
