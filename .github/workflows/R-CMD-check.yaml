@@ -106,7 +106,7 @@ jobs:
         run: |
           psql -Upostgres -f db-setup/postgres-reset.sql
           mysql -u root < db-setup/mariadb-reset.sql
-        if: !contains(runner.os, 'windows')
+        if: contains(runner.os, 'windows') == false
 
       - name: setup databases (windows)
         run: |
