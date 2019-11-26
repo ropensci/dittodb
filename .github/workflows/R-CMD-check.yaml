@@ -37,6 +37,33 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
+      - name: Remove rtools for windows
+        run: |
+          # Get it
+          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
+          Write-Host "Before"
+          Write-Host $path
+          # Remove unwanted elements
+          $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\mingw_64\bin' }) -join ';'
+          $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\bin' }) -join ';'
+          Write-Host "After"
+          Write-Host $path
+          # Set it
+          [System.Environment]::SetEnvironmentVariable('PATH', $path, 'User')
+          $Env:path = $path
+          Write-Host $Env:path
+        if: contains(runner.os, 'windows')
+
+      - name: test
+        run: |
+          refreshenv
+          # Get it
+          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
+          Write-Host $path
+          Write-Host "separator ########################"
+          Write-Host $Env:path
+        if: contains(runner.os, 'windows')
+
       - uses: r-lib/actions/setup-pandoc@master
 
       - uses: r-lib/actions/setup-tinytex@master
@@ -120,28 +147,3 @@ jobs:
         run: |
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
-
-      - name: Remove rtools for windows
-        run: |
-          # Get it
-          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
-          Write-Host "Before"
-          Write-Host $path
-          # Remove unwanted elements
-          $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\mingw_64\bin' }) -join ';'
-          $path = ($path.Split(';') | Where-Object { $_ -ne 'C:\Rtools\bin' }) -join ';'
-          Write-Host "After"
-          Write-Host $path
-          # Set it
-          [System.Environment]::SetEnvironmentVariable('PATH', $path, 'User')
-          Write-Host $Env:path
-        if: contains(runner.os, 'windows')
-
-      - name: test
-        run: |
-          # Get it
-          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
-          Write-Host $path
-          Write-Host "separator ########################"
-          Write-Host $Env:path
-        if: contains(runner.os, 'windows')
