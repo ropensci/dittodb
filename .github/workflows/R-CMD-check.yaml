@@ -37,6 +37,7 @@ jobs:
         run: |
           # Get it
           Write-Host (Get-Command gzip).Path
+          Write-Host (Get-Command tart).Path
           Write-Host $Env:path
         if: contains(runner.os, 'windows')
 
