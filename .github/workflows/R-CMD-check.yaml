@@ -111,7 +111,7 @@ jobs:
       - name: Setup databases (windows)
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          psql -Upostgres -f db-setup/postgres-reset.sql
+          psql -h 127.0.0.1 -Upostgres -f db-setup/postgres-reset.sql
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows')
