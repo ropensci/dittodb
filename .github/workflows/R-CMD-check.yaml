@@ -104,13 +104,13 @@ jobs:
 
       - name: setup databases (macOS + linux)
         run: |
-           psql -Upostgres -f db-setup/postgres-reset.sql
-           mysql -u root < db-setup/mariadb-reset.sql
+          psql -Upostgres -f db-setup/postgres-reset.sql
+          mysql -u root < db-setup/mariadb-reset.sql
         if: !contains(runner.os, 'windows')
 
       - name: setup databases (windows)
         run: |
-           psql -Upostgres -f db-setup/postgres-reset.sql
+          psql -Upostgres -f db-setup/postgres-reset.sql
         if: contains(runner.os, 'windows')
 
       - name: Check
