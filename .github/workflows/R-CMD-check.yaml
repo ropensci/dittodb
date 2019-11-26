@@ -48,7 +48,7 @@ jobs:
           tlmgr install pdftexcmds
         if: contains(matrix.config.args, 'no-manual') == false
 
-    - name: Remove rtools for windows
+      - name: Remove rtools for windows
         run: |
           # Get it
           $path = $Env:path
