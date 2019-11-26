@@ -74,15 +74,13 @@ jobs:
           sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
-      - name: Setup databases (macOS)
+      - name: Install databases (macOS)
         run: |
            bash db-setup/postgres-brew.sh
-           psql -Upostgres -f db-setup/postgres-reset.sql
            bash db-setup/mariadb-brew.sh
-           mysql -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'macOS')
 
-      - name: Setup databases and odbc manual adjustments (linux)
+      - name: Install databases and odbc manual adjustments (linux)
         run: |
           bash db-setup/postgres-docker.sh
           sudo service mysql stop
@@ -92,18 +90,28 @@ jobs:
           sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
         if: contains(runner.os, 'linux')
 
-      - name: Setup databases (windows)
+      - name: Install databases (windows)
         run: |
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           choco install psqlodbc
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          psql -Upostgres -f db-setup/postgres-reset.sql
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
+      - name: setup databases (macOS + linux)
+        run: |
+           psql -Upostgres -f db-setup/postgres-reset.sql
+           mysql -u root < db-setup/mariadb-reset.sql
+        if: !contains(runner.os, 'windows')
+
+      - name: setup databases (windows)
+        run: |
+           psql -Upostgres -f db-setup/postgres-reset.sql
+        if: contains(runner.os, 'windows')
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
