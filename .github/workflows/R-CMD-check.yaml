@@ -52,7 +52,11 @@ jobs:
           [System.Environment]::SetEnvironmentVariable('Path', $path, 'User')
           $Env:path = $path
           Write-Host $Env:path
-          echo "::set-env name=PATH::$(echo $path)"
+          echo "::set-env name=PATH::$path"
+        if: contains(runner.os, 'windows')
+
+      - name: break things
+        run: echo "::set-env name=PATH::C:\Rtools\bin"
         if: contains(runner.os, 'windows')
 
       - name: test
