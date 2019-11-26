@@ -102,6 +102,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          Rscript -e ".libPaths();"
           Rscript -e "installed.packages();"
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
