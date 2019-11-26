@@ -90,10 +90,8 @@ jobs:
 
       - name: Install databases (windows)
         run: |
-          choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
+          choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
-        env:
-          PGPASSWORD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
