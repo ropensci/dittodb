@@ -16,8 +16,8 @@ Authors@R: c(
 URL: https://jonkeane.com/dbtest, https://github.com/jonkeane/dbtest
 BugReports: https://github.com/jonkeane/dbtest/issues
 Description: Testing and documenting code that communicates with remote
-  databases can be painful. Although the interaction with R is usualy relatively 
-  simple (e.g. data(frames) passed to and from the server), becuase they rely on 
+  databases can be painful. Although the interaction with R is usually relatively 
+  simple (e.g. data(frames) passed to and from the server), because they rely on 
   a separate service and the data there, testing them can be difficult to set up,
   unsustainable in a CI environment, or impossible without replicating an entire
   production cluster. This package fixes that by allowing you to make recordings

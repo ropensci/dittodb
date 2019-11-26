@@ -61,7 +61,20 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
-      - name: Setup databases macOS
+      - name: Cache Windows Chocolatey downloads
+        uses: actions/cache@v1
+        if: contains(runner.os, 'windows')
+        with:
+          path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Install dependencies (linux)
+        run: |
+          sudo apt install unixodbc unixodbc-dev --install-suggests
+          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
+        if: contains(runner.os, 'linux')
+
+      - name: Setup databases (macOS)
         run: |
            bash db-setup/postgres-brew.sh
            psql -Upostgres -f db-setup/postgres-reset.sql
@@ -69,13 +82,7 @@ jobs:
            mysql -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'macOS')
 
-      - name: Install Ubuntu dependencies
-        run: |
-          sudo apt install unixodbc unixodbc-dev --install-suggests
-          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
-        if: contains(runner.os, 'linux')
-
-      - name: Setup databases linux and odbc manual adjustments
+      - name: Setup databases and odbc manual adjustments (linux)
         run: |
           bash db-setup/postgres-docker.sh
           sudo service mysql stop
@@ -85,7 +92,7 @@ jobs:
           sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
         if: contains(runner.os, 'linux')
 
-      - name: Setup databases windows
+      - name: Setup databases (windows)
         run: |
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           choco install psqlodbc
@@ -93,18 +100,10 @@ jobs:
           psql -Upostgres -f db-setup/postgres-reset.sql
         if: contains(runner.os, 'windows')
 
-      - name: check windows libraries
-        run: Get-ChildItem -path ${{ env.R_LIBS_USER }}
-        if: contains(runner.os, 'windows')
-
       - name: Install dependencies
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
-
-      - name: check windows libraries
-        run: Get-ChildItem -path ${{ env.R_LIBS_USER }}
-        if: contains(runner.os, 'windows')
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
