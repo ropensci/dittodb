@@ -7,8 +7,10 @@ cache: packages
 # segfaulting on connection with either MariaDB or RPostgres
 before_install:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/postgres-brew.sh; bash db-setup/postgres-reset-base.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/mariadb-brew.sh; bash db-setup/mariadb-reset-base.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/postgres-brew.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/mariadb-brew.sh; fi
+  - psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql; fi
 
 addons:
   apt:
