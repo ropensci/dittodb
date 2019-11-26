@@ -86,6 +86,8 @@ jobs:
           # the driver as installed in odbcinst.ini isn't located
           sudo sed -i 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini
           sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
+          # mysql needs time to boot, so sleep for 5 seconds
+          sleep 5
         if: contains(runner.os, 'linux')
 
       - name: Install databases (windows)
@@ -97,7 +99,8 @@ jobs:
       - name: Install dependencies
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
-          ## Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+          # # Sometimes the database drivers need to be installed from source, if so uncomment the following line.
+          # Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Setup databases (macOS + linux)
         run: |
