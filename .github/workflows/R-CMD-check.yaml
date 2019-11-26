@@ -50,13 +50,12 @@ jobs:
           Write-Host $path
           # Set it
           [System.Environment]::SetEnvironmentVariable('PATH', $path, 'User')
-          $Env:path = $path
+          echo ::set-env name=path::$path
           Write-Host $Env:path
         if: contains(runner.os, 'windows')
 
       - name: test
         run: |
-          refreshenv
           # Get it
           $path = [System.Environment]::GetEnvironmentVariable("Path","User")
           Write-Host $path
