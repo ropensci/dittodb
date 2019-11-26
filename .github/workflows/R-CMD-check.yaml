@@ -52,7 +52,7 @@ jobs:
           [System.Environment]::SetEnvironmentVariable('Path', $path, 'User')
           $Env:path = $path
           Write-Host $Env:path
-          echo "::set-env name=PATH::$path"
+          echo "::set-env name=PATH::$(echo $path)"
         if: contains(runner.os, 'windows')
 
       - name: test
