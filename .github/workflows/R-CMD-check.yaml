@@ -100,16 +100,18 @@ jobs:
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
-      - name: setup databases (macOS + linux)
+      - name: Setup databases (macOS + linux)
         run: |
+          echo $PGPASSWORD
+          echo $MYSQL_PWD
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
           mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
         env:
           PGPASSWORD: $DBROOTPASS
-          MYSQL_PWD: $DBROOTPASS
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows') == false
 
-      - name: setup databases (windows)
+      - name: Setup databases (windows)
         run: |
           psql -Upostgres -f db-setup/postgres-reset.sql
         env:
