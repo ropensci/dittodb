@@ -40,7 +40,7 @@ jobs:
       - name: Remove rtools for windows
         run: |
           # Get it
-          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
+          $path = $Env:path
           Write-Host "Before"
           Write-Host $path
           # Remove unwanted elements
