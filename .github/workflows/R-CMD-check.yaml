@@ -68,7 +68,6 @@ jobs:
           path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
-
       - name: Setup databases macOS
         run: |
            bash db-setup/postgres-brew.sh
@@ -103,6 +102,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          Rscript -e "installed.packages();"
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE)"
           Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
