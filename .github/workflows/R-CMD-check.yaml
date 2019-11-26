@@ -105,7 +105,7 @@ jobs:
       - name: setup databases (macOS + linux)
         run: |
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          mysql -u root < db-setup/mariadb-reset.sql
+          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
         if: contains(runner.os, 'windows') == false
 
       - name: setup databases (windows)
