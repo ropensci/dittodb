@@ -33,11 +33,18 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: set
+        run: |
+          Write-Host (Get-Command gzip).Path
+          Write-Host (Get-Command tar).Path
+          echo "::add-path::C:\Program Files\Git\usr\bin\"
+          echo "::add-path::C:\Program Files\Git\usr\bin\"
+          echo "::add-path::C:\Program Files\Git\usr\bin\"
+        if: contains(runner.os, 'windows')
+
       - name: test
         run: |
           # Get it
-          Write-Host (Get-Command gzip).Path
-          Write-Host (Get-Command tar).Path
           Write-Host $Env:path
         if: contains(runner.os, 'windows')
 
