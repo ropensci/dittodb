@@ -44,8 +44,15 @@ jobs:
 
       - name: ensure tinytex is installed correctly
         run: |
-          kpsewhich pdftexcmds.sty || echo "pdftexcmds.sty wasn't found, installing"
-          tlmgr install pdftexcmds
+          # retry up to 5 times
+          n=0
+          until [ $n -ge 5 ]
+          do
+            kpsewhich pdftexcmds.sty || echo "pdftexcmds.sty wasn't found, installing"
+            tlmgr install pdftexcmds && break
+            sleep 5
+            n=$[$n+1]
+          done
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Cache R packages
@@ -115,14 +122,6 @@ jobs:
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
 
-      - name: set
-        run: |
-          Write-Host $Env:path
-          echo "::add-path::C:\Program Files\Git\usr\bin\"
-        if: contains(runner.os, 'windows')
-
-      - name: test
-        run: |
-          # Get it
-          Write-Host $Env:path
+      - name: Alter the path to avoid using rtool's tar before cache posting
+        run: echo "::add-path::C:\Program Files\Git\usr\bin\"
         if: contains(runner.os, 'windows')
