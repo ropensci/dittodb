@@ -92,6 +92,8 @@ jobs:
         run: |
           choco install postgresql --params '/Password:${{ env.PGPASSWORD }}' --paramsglobal
           choco install psqlodbc
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows')
 
       - name: Install dependencies
