@@ -136,3 +136,12 @@ jobs:
           [System.Environment]::SetEnvironmentVariable('PATH', $path, 'User')
           Write-Host $Env:path
         if: contains(runner.os, 'windows')
+
+      - name: test
+        run: |
+          # Get it
+          $path = [System.Environment]::GetEnvironmentVariable("Path","User")
+          Write-Host $path
+          Write-Host "separator ########################"
+          Write-Host $Env:path
+        if: contains(runner.os, 'windows')
