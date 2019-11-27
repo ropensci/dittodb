@@ -102,7 +102,9 @@ jobs:
           choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
           # change the password for mariadb
+          Write-Host $env:Path
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          Write-Host $env:Path
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
 
