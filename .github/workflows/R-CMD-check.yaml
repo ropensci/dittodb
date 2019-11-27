@@ -102,13 +102,12 @@ jobs:
           choco install mariadb
           choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
-          $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 
+          # add choco-added paths to the actions path
+          $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           $newpath = ($endingpath -split ';') | Where {($startingpath -split ';') -NotContains $_}
           $newpath = $newpath -Join ';'
-          Write-host $newpath
           echo "::add-path::$newpath"
-          Write-host $env:Path
 
           # change the password for mariadb
           $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -121,23 +120,13 @@ jobs:
           # # Sometimes the database drivers need to be installed from source, if so uncomment the following line.
           # Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
-      - name: Setup databases (macOS + linux)
+      - name: Setup databases
         run: |
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
-        if: contains(runner.os, 'windows') == false
-
-      - name: Setup databases (windows)
-        run: |
-          psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
-        env:
-          PGPASSWORD: ${{ env.DBROOTPASS }}
-          MYSQL_PWD: ${{ env.DBROOTPASS }}
-        if: contains(runner.os, 'windows')
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
