@@ -98,6 +98,7 @@ jobs:
 
       - name: Install databases (windows)
         run: |
+          choco install mariadb
           choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
         if: contains(runner.os, 'windows')
