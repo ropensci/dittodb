@@ -26,7 +26,7 @@ jobs:
       DBROOTPASS: r2N5y7V*
       # disable tests on linux
       DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
-      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
+      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
 
     steps:
       - uses: actions/checkout@v1
@@ -99,11 +99,11 @@ jobs:
       - name: Install databases (windows)
         run: |
           choco install mariadb
+          choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          choco install psqlodbc
           # change the password for mariadb
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
-          choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
-          choco install psqlodbc
         if: contains(runner.os, 'windows')
 
       - name: Install R dependencies
