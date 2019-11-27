@@ -107,7 +107,7 @@ jobs:
           Write-host $startingpath.Split(';')
           Write-host $endingpath.Split(';')
 
-          $newpath = $endingpath.Split(';') | Where {$startingpath.Split(';') -Contains $_}
+          $newpath = $startingpath.Split(';') | Where {$endingpath.Split(';') -Contains $_}
           Write-host $newpath
 
           # change the password for mariadb
