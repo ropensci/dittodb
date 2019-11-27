@@ -122,8 +122,10 @@ jobs:
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           psql -h 127.0.0.1 -Upostgres -f db-setup/postgres-reset.sql
+          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
         if: contains(runner.os, 'windows')
 
       - name: Check
