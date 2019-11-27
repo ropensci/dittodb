@@ -143,7 +143,7 @@ jobs:
         run: |
           # wipe databases
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
 
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
