@@ -104,7 +104,9 @@ jobs:
           choco install psqlodbc
           $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 
-          $newpath = $startingpath.Split(';') | Where {$endingpath.Split(';') -NotContains $_}
+          $myString -split ' '
+
+          $newpath = ($endingpath -split ';') | Where {($startingpath -split ';') -NotContains $_}
           Write-host $newpath
           echo "::add-path::$newpath"
           Write-host $env:Path
