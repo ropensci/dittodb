@@ -104,7 +104,10 @@ jobs:
           choco install psqlodbc
           $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 
-          $newpath = Compare-Object -ReferenceObject $endingpath.Split(';') -DifferenceObject $startingpath.Split(';') -PassThru
+          Write-host $startingpath.Split(';')
+          Write-host $endingpath.Split(';')
+
+          $newpath = $endingpath.Split(';') | Where {$startingpath.Split(';') -Contains $_}
           Write-host $newpath
 
           # change the password for mariadb
