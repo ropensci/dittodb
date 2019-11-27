@@ -26,7 +26,7 @@ jobs:
       DBROOTPASS: r2N5y7V*
       # disable tests on linux
       DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
-      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
+      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
 
     steps:
       - uses: actions/checkout@v1
@@ -98,32 +98,35 @@ jobs:
 
       - name: Install databases (windows)
         run: |
+          $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          choco install mariadb
           choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
+
+          # add choco-added paths to the actions path
+          $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          $newpath = ($endingpath -split ';') | Where {($startingpath -split ';') -NotContains $_}
+          $newpath = $newpath -Join ';'
+          echo "::add-path::$newpath"
+
+          # change the password for mariadb
+          $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
 
-      - name: Install dependencies
+      - name: Install R dependencies
         run: |
           Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
           # # Sometimes the database drivers need to be installed from source, if so uncomment the following line.
           # Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
-      - name: Setup databases (macOS + linux)
+      - name: Setup databases
         run: |
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
-        if: contains(runner.os, 'windows') == false
-
-      - name: Setup databases (windows)
-        run: |
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          psql -h 127.0.0.1 -Upostgres -f db-setup/postgres-reset.sql
-        env:
-          PGPASSWORD: ${{ env.DBROOTPASS }}
-        if: contains(runner.os, 'windows')
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
@@ -140,7 +143,7 @@ jobs:
         run: |
           # wipe databases
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
 
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
