@@ -5,7 +5,6 @@ skip_locally("use mariadb-docker.sh and test manually")
 
 library("RMariaDB")
 
-
 con <- dbConnect(
   RMariaDB::MariaDB(),
   dbname = "nycflights",

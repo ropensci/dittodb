@@ -8,3 +8,4 @@
 ^CODE_OF_CONDUCT\.md$
 docs
 ^_pkgdown.yml$
+^\.github

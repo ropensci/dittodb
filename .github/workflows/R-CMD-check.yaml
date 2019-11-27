@@ -1,0 +1,153 @@
+on: [push, pull_request]
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: macOS-latest, r: 'release' }
+        - { os: macOS-latest, r: 'devel', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '3.3', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '3.4', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '3.5', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: 'release', args: "--no-manual" }
+        - { os: windows-latest, r: 'release', args: "--no-manual" }
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      CRAN: ${{ matrix.config.cran }}
+      DBROOTPASS: r2N5y7V*
+      # disable tests on linux
+      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
+      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') || contains(matrix.config.os, 'windows') }}
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - uses: r-lib/actions/setup-tinytex@master
+        if: contains(matrix.config.args, 'no-manual') == false
+
+      - name: Ensure tinytex is installed correctly
+        run: |
+          # retry up to 5 times
+          n=0
+          until [ $n -ge 5 ]
+          do
+            kpsewhich pdftexcmds.sty || echo "pdftexcmds.sty wasn't found, installing"
+            tlmgr install pdftexcmds && break
+            sleep 5
+            n=$[$n+1]
+          done
+        if: contains(matrix.config.args, 'no-manual') == false
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Cache Windows Chocolatey downloads
+        uses: actions/cache@v1
+        if: contains(runner.os, 'windows')
+        with:
+          path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+          key: Choco-${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Install dependencies (linux)
+        run: |
+          sudo apt install unixodbc unixodbc-dev --install-suggests
+          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
+        if: contains(runner.os, 'linux')
+
+      - name: Install databases (macOS)
+        run: |
+           bash db-setup/postgres-brew.sh
+           bash db-setup/mariadb-brew.sh
+        if: contains(runner.os, 'macOS')
+
+      - name: Install databases and odbc manual adjustments (linux)
+        run: |
+          bash db-setup/postgres-docker.sh
+          sudo service mysql stop
+          bash db-setup/mariadb-docker.sh
+          # the driver as installed in odbcinst.ini isn't located
+          sudo sed -i 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini
+          sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
+          # mysql needs time to boot, try it every 5 seconds for 1 minute
+          n=0
+          until [ $n -ge 12 ]
+          do
+            mysql -h 127.0.0.1 -u root -e "SHOW DATABASES" && break
+            sleep 5
+            n=$[$n+1]
+          done
+        if: contains(runner.os, 'linux')
+
+      - name: Install databases (windows)
+        run: |
+          choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          choco install psqlodbc
+        if: contains(runner.os, 'windows')
+
+      - name: Install dependencies
+        run: |
+          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
+          # # Sometimes the database drivers need to be installed from source, if so uncomment the following line.
+          # Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
+      - name: Setup databases (macOS + linux)
+        run: |
+          psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
+        if: contains(runner.os, 'windows') == false
+
+      - name: Setup databases (windows)
+        run: |
+          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          psql -h 127.0.0.1 -Upostgres -f db-setup/postgres-reset.sql
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+        if: contains(runner.os, 'windows')
+
+      - name: Check
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
+
+      - name: Test coverage
+        if: contains(runner.os, 'macOS') && contains(matrix.config.r, 'release')
+        run: |
+          # wipe databases
+          psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+          mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+
+          Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
+          Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: Alter the path to avoid using rtool's tar before cache posting
+        run: echo "::add-path::C:\Program Files\Git\usr\bin\"
+        if: contains(runner.os, 'windows')

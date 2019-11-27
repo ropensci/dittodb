@@ -4,15 +4,14 @@ skip_locally("use postgres-docker.sh and test manually")
 
 library(odbc)
 
-
 # setup the database that will be mocked and then tested
 con <- DBI::dbConnect(
   odbc::odbc(),
-  Driver   = "PostgreSQL Unicode",
+  Driver   = odbc_driver,
   Server   = "127.0.0.1",
   Database = "nycflights",
-  UID      = "travis",
-  PWD      = "",
+  UID      = db_user,
+  PWD      = db_pass,
   Port     = 5432
 )
 
@@ -42,11 +41,11 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
   con <- DBI::dbConnect(
     odbc::odbc(),
-    Driver   = "PostgreSQL Unicode",
+    Driver   = odbc_driver,
     Server   = "127.0.0.1",
     Database = "nycflights",
-    UID      = "travis",
-    PWD      = "",
+    UID      = db_user,
+    PWD      = db_pass,
     Port     = 5432
   )
 
@@ -60,11 +59,11 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   with_mock_db({
     con <- DBI::dbConnect(
       odbc::odbc(),
-      Driver   = "PostgreSQL Unicode",
+      Driver   = odbc_driver,
       Server   = "127.0.0.1",
       Database = "nycflights",
-      UID      = "travis",
-      PWD      = "",
+      UID      = db_user,
+      PWD      = db_pass,
       Port     = 5432
     )
 

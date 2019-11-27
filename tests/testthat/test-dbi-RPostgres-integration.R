@@ -11,8 +11,8 @@ con <- dbConnect(
   RPostgres::Postgres(),
   dbname = "nycflights",
   host = "127.0.0.1",
-  user = "travis",
-  password = ""
+  user = db_user,
+  password = db_pass
 )
 
 con <- nycflights13_sql(con)
@@ -43,8 +43,8 @@ with_mock_path(path = file.path(temp_dir, "postgres_integration"), {
     RPostgres::Postgres(),
     dbname = "nycflights",
     host = "127.0.0.1",
-    user = "travis",
-    password = ""
+    user = db_user,
+    password = db_pass
   )
 
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
@@ -59,8 +59,8 @@ with_mock_path(path = file.path(temp_dir, "postgres_integration"), {
       RPostgres::Postgres(),
       dbname = "nycflights",
       host = "127.0.0.1",
-      user = "travis",
-      password = ""
+      user = db_user,
+      password = db_pass
     )
 
     test_that("Our connection is a mock connection", {

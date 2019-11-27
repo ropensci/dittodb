@@ -22,11 +22,11 @@ skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
 con_odbc <- DBI::dbConnect(
   odbc::odbc(),
-  Driver   = "PostgreSQL Unicode",
+  Driver   = odbc_driver,
   Server   = "127.0.0.1",
   Database = "postgres",
-  UID      = "travis",
-  PWD      = "",
+  UID      = db_user,
+  PWD      = db_pass,
   Port     = 5432
 )
 
@@ -61,8 +61,8 @@ con_rpostgresql <- RPostgreSQL::dbConnect(
   drv      = DBI::dbDriver("PostgreSQL"),
   host     = "127.0.0.1",
   dbname   = "postgres",
-  user     = "travis",
-  password = "",
+  user     = db_user,
+  password = db_pass,
   port     = 5432
 )
 
@@ -99,8 +99,8 @@ con_rpostgres <- DBI::dbConnect(
   drv      = RPostgres::Postgres(),
   host     = "127.0.0.1",
   dbname   = "postgres",
-  user     = "travis",
-  password = "",
+  user     = db_user,
+  password = db_pass,
   port     = 5432
 )
 

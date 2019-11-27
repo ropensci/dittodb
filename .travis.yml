@@ -7,8 +7,11 @@ cache: packages
 # segfaulting on connection with either MariaDB or RPostgres
 before_install:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo /etc/init.d/postgresql stop || true; bash db-setup/postgres-docker.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/travis-postgres-macos.sh; bash db-setup/postgres-reset-macos.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/travis-mariadb-macos.sh; bash db-setup/mariadb-reset-macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/postgres-brew.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/mariadb-brew.sh; fi
+  - sleep 10
+  - psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql; fi
 
 addons:
   apt:
@@ -38,22 +41,3 @@ matrix:
     r: oldrel
   - os: osx
     r: devel
-
-
-# recreate the databases so they are not cached between runs (and they can be used by codecovr)
-before_cache:
-  - if [ $TRAVIS_OS_NAME = "linux" ]; then bash db-setup/postgres-reset.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/postgres-reset-macos.sh; bash db-setup/mariadb-reset-macos.sh; fi
-  - Rscript -e 'remotes::install_cran("pkgdown")'
-
-# deploy docs to ghpages automatically
-deploy:
-  provider: script
-  on:
-    branch: master
-    condition: $TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release
-  script: Rscript -e 'pkgdown::deploy_site_github()'
-  skip_cleanup: true
-
-after_success:
-  - test $TRAVIS_R_VERSION_STRING = "release" && test $TRAVIS_OS_NAME = "linux" && Rscript -e 'covr::codecov()'
