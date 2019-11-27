@@ -104,11 +104,10 @@ jobs:
           choco install psqlodbc
           $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 
-          Write-host $startingpath.Split(';')
-          Write-host $endingpath.Split(';')
-
-          $newpath = $startingpath.Split(';') | Where {$endingpath.Split(';') -Contains $_}
+          $newpath = $endingpath.Split(';') | Where {$startingpath.Split(';') -NotContains $_}
           Write-host $newpath
+          echo "::add-path::$newpath"
+          Write-host $env:Path
 
           # change the password for mariadb
           $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -132,7 +131,6 @@ jobs:
 
       - name: Setup databases (windows)
         run: |
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
         env:
