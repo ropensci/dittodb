@@ -23,7 +23,7 @@ Description: Testing and documenting code that communicates with remote
   production cluster. This package addresses that by allowing you to make 
   recordings from your database interactions and then play them back while 
   testing (or in other contexts) all without needing to spin up or have access 
-  to the database your code would typically connect to.
+  to the database your code would typically connect to. 
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
