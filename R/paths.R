@@ -33,7 +33,7 @@ hash <- function(string, n = 6) {
   return(substr(digest(string), 1, n))
 }
 
-read_file <- function(file_path) source(file_path)$value
+read_file <- function(file_path) source(file_path, keep.source = FALSE)$value
 
 # search through .mockPaths() to find a file, returning the first
 find_file <- function(file_path) {
