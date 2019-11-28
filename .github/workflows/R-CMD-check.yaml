@@ -55,6 +55,7 @@ jobs:
 
       - name: Cache R packages
         uses: actions/cache@v1
+        id: rlibcache
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
@@ -114,11 +115,12 @@ jobs:
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
 
+      - name: Build R Dependencies on cache hit
+        if: steps.rlibcache.outputs.cache-hit != 'true'
+        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
       - name: Install R dependencies
-        run: |
-          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
-          # # Sometimes the database drivers need to be installed from source, if so uncomment the following line.
-          # Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
       - name: Setup databases
         run: |
