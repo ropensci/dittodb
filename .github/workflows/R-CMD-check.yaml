@@ -115,7 +115,7 @@ jobs:
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
 
-      - name: Build R Dependencies on cache hit
+      - name: Build R Dependencies on cache miss
         if: steps.rlibcache.outputs.cache-hit != 'true'
         run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
