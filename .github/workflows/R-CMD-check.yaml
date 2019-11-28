@@ -118,6 +118,7 @@ jobs:
       - name: Build R Dependencies on cache miss
         if: steps.rlibcache.outputs.cache-hit != 'true'
         run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+        if: contains(runner.os, 'windows') == false
 
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
