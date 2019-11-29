@@ -124,7 +124,8 @@ nycflights13_sql <- function(con, schema = "", ...) {
       unique_indexes = unique_index[[table]],
       indexes = index[[table]],
       temporary = FALSE,
-      row.names = FALSE
+      row.names = FALSE,
+      overwrite = TRUE
     )
   }
 

@@ -46,6 +46,6 @@ Suggests:
     RSQLite,
     spelling,
     withr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
