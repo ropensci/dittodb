@@ -39,7 +39,7 @@ test_that("we can remove the unique dbplyr names", {
   expect_identical(
     ignore_dbplyr_unique_names(ignore_quotes(with_quotes)),
     expected
-    )
+  )
   expect_identical(
     ignore_dbplyr_unique_names(with_unique_where),
     paste0(expected, "\n WHERE (0 = 1)")

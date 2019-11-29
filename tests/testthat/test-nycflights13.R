@@ -22,12 +22,12 @@ skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
 con_odbc <- DBI::dbConnect(
   odbc::odbc(),
-  Driver   = odbc_driver,
-  Server   = "127.0.0.1",
+  Driver = odbc_driver,
+  Server = "127.0.0.1",
   Database = "postgres",
-  UID      = db_user,
-  PWD      = db_pass,
-  Port     = 5432
+  UID = db_user,
+  PWD = db_pass,
+  Port = 5432
 )
 
 test_that("DBI, with a new schema creation and odbc package", {
@@ -58,12 +58,12 @@ dbDisconnect(con_odbc)
 # rpostgresql ----
 
 con_rpostgresql <- RPostgreSQL::dbConnect(
-  drv      = DBI::dbDriver("PostgreSQL"),
-  host     = "127.0.0.1",
-  dbname   = "postgres",
-  user     = db_user,
+  drv = DBI::dbDriver("PostgreSQL"),
+  host = "127.0.0.1",
+  dbname = "postgres",
+  user = db_user,
   password = db_pass,
-  port     = 5432
+  port = 5432
 )
 
 test_that("DBI, with a new schema creation and rpostgresql package", {
@@ -96,12 +96,12 @@ dbDisconnect(con_rpostgresql)
 skip_env("postgres")
 
 con_rpostgres <- DBI::dbConnect(
-  drv      = RPostgres::Postgres(),
-  host     = "127.0.0.1",
-  dbname   = "postgres",
-  user     = db_user,
+  drv = RPostgres::Postgres(),
+  host = "127.0.0.1",
+  dbname = "postgres",
+  user = db_user,
   password = db_pass,
-  port     = 5432
+  port = 5432
 )
 
 test_that("DBI, with a new schema creation and rpostgres package", {

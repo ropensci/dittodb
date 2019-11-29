@@ -7,12 +7,12 @@ library(odbc)
 # setup the database that will be mocked and then tested
 con <- DBI::dbConnect(
   odbc::odbc(),
-  Driver   = odbc_driver,
-  Server   = "127.0.0.1",
+  Driver = odbc_driver,
+  Server = "127.0.0.1",
   Database = "nycflights",
-  UID      = db_user,
-  PWD      = db_pass,
-  Port     = 5432
+  UID = db_user,
+  PWD = db_pass,
+  Port = 5432
 )
 
 con <- nycflights13_sql(con, schema = "odbc")
@@ -41,12 +41,12 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
   con <- DBI::dbConnect(
     odbc::odbc(),
-    Driver   = odbc_driver,
-    Server   = "127.0.0.1",
+    Driver = odbc_driver,
+    Server = "127.0.0.1",
     Database = "nycflights",
-    UID      = db_user,
-    PWD      = db_pass,
-    Port     = 5432
+    UID = db_user,
+    PWD = db_pass,
+    Port = 5432
   )
 
   dbGetQuery(con, "SELECT * FROM odbc.airlines LIMIT 2")
@@ -59,12 +59,12 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   with_mock_db({
     con <- DBI::dbConnect(
       odbc::odbc(),
-      Driver   = odbc_driver,
-      Server   = "127.0.0.1",
+      Driver = odbc_driver,
+      Server = "127.0.0.1",
       Database = "nycflights",
-      UID      = db_user,
-      PWD      = db_pass,
-      Port     = 5432
+      UID = db_user,
+      PWD = db_pass,
+      Port = 5432
     )
 
     test_that("Our connection is a mock connection", {
