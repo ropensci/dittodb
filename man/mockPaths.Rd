@@ -21,7 +21,7 @@ working directory (or the test directory). If you want to look in other places,
 you can call \code{.mockPaths} to add directories to the search path.
 }
 \details{
-It works like \code{\link[base:.libPaths]{base::.libPaths()}}: any directories you specify will be added
+It works like \code{\link[base:libPaths]{base::libPaths()}}: any directories you specify will be added
 to the list and searched first. The default directory will be searched last.
 Only unique values are kept: if you provide a path that is already found in
 \code{.mockPaths}, the result effectively moves that path to the first position.
@@ -30,7 +30,7 @@ For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option
 "dbtest.mock.paths" directly.
 
-This function is an extension of \code{\link[httptest:.mockPaths]{httptest::.mockPaths()}} from
+This function is an extension of \code{\link[httptest:mockPaths]{httptest::mockPaths()}} from
 \href{https://CRAN.R-project.org/package=httptest}{httptest}
 }
 \examples{

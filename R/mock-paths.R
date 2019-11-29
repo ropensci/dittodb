@@ -4,7 +4,7 @@
 #' working directory (or the test directory). If you want to look in other places,
 #' you can call `.mockPaths` to add directories to the search path.
 #'
-#' It works like [base::.libPaths()]: any directories you specify will be added
+#' It works like [base::libPaths()]: any directories you specify will be added
 #' to the list and searched first. The default directory will be searched last.
 #' Only unique values are kept: if you provide a path that is already found in
 #' `.mockPaths`, the result effectively moves that path to the first position.
@@ -13,7 +13,7 @@
 #' of searching in the current working directory, you can set the option
 #' "dbtest.mock.paths" directly.
 #'
-#' This function is an extension of [httptest::.mockPaths()] from
+#' This function is an extension of [httptest::mockPaths()] from
 #' [httptest](https://CRAN.R-project.org/package=httptest)
 #'
 #' @param new Either a character vector of path(s) to add, or `NULL` to reset
