@@ -37,7 +37,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - uses: r-lib/actions/setup-tinytex@master
+      - uses: jonkeane/actions/setup-tinytex@tiny-tex-additions
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Ensure tinytex is installed correctly
