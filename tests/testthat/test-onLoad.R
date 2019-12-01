@@ -20,7 +20,8 @@ test_that("set_driver_class is no-op for a non-existent package", {
     set_driver_class(
       pkg = "notApackage",
       mock_conn = "superFakeClass",
-      real_conn = "superRealClass")
+      real_conn = "superRealClass"
+    )
   )
   expect_error(getClass("superFakeClass"), "is not a defined class")
 })

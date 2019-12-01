@@ -49,6 +49,19 @@
   }
 }
 
+#' Run the DBI queries in an alternate mock directory
+#'
+#' When testing with dbtest, wrap your tests in `with_mock_path({})` to use the
+#' database fixtures located in other directories. `dbtest` will look for
+#' fixtures in the directory specified by the user, which can be a temporal
+#' or permanent location.
+#'
+#' @param path the alternate directory
+#' @param expr the expression to execute
+#' @param replace foobar
+#'
+#' @return nothing
+#' @export
 with_mock_path <- function(path, expr, replace = FALSE) {
   oldmp <- .mockPaths()
   if (replace) {

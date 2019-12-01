@@ -4,7 +4,6 @@ skip_locally("use postgres-docker.sh and test manually")
 
 library(RPostgreSQL)
 
-
 # setup the database that will be mocked and then tested
 con <- dbConnect(
   RPostgreSQL::PostgreSQL(),
@@ -33,7 +32,6 @@ test_that("The fixture is what we expect", {
 })
 
 dbDisconnect(con)
-
 
 with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
   start_capturing()
