@@ -37,20 +37,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - uses: r-lib/actions/setup-tinytex@master
-        if: contains(matrix.config.args, 'no-manual') == false
-
-      - name: Ensure tinytex is installed correctly
-        run: |
-          # retry up to 5 times
-          n=0
-          until [ $n -ge 5 ]
-          do
-            kpsewhich pdftexcmds.sty || echo "pdftexcmds.sty wasn't found, installing"
-            tlmgr install pdftexcmds && break
-            sleep 5
-            n=$[$n+1]
-          done
+      - uses: jonkeane/actions/setup-tinytex@tiny-tex-additions
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Cache R packages
