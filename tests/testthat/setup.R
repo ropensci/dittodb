@@ -5,6 +5,7 @@ temp_dir <- tempdir()
 # load various libraries
 library(DBI)
 library(RSQLite)
+library(glue)
 
 db_user <- "travis"
 db_pass <- "*V7y5N2r"

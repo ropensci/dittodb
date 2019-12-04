@@ -32,15 +32,24 @@ db_pkgs <- list(
 )
 
 lapply(names(db_pkgs), function(pkg) {
-  context(glue::glue("Integration tests for {pkg}"))
-  test_that(glue::glue("Isolate {pkg}"), {
+  context(glue("Integration tests for {pkg}"))
+  test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
     # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
     # setup the database that will be mocked and then tested
     con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
 
-    con <- nycflights13_sql(con)
+    if (pkg == "odbc") {
+      schema <- "nycflights"
+      con <- nycflights13_sql(con, schema = schema)
+      airlines_table <- paste(schema, "airlines", sep = ".")
+    } else {
+      con <- nycflights13_sql(con)
+      airlines_table <- "airlines"
+    }
+
+
 
     test_that("The fixture is what we expect", {
       # we check just that the tables are there since other tests will add other tables
@@ -49,7 +58,7 @@ lapply(names(db_pkgs), function(pkg) {
       ))
 
       expect_identical(
-        dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+        dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2")),
         data.frame(
           carrier = c("9E", "AA"),
           name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -60,13 +69,13 @@ lapply(names(db_pkgs), function(pkg) {
 
     dbDisconnect(con)
 
-    with_mock_path(path = file.path(temp_dir, glue::glue("{pkg}_integration")), {
+    with_mock_path(path = file.path(temp_dir, glue("{pkg}_integration")), {
       start_capturing()
 
       con <- do.call(dbConnect, db_pkgs[[pkg]])
 
-      dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
-      dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
+      dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
+      dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 1"))
 
       tables <- dbListTables(con)
 
@@ -85,7 +94,7 @@ lapply(names(db_pkgs), function(pkg) {
         })
         test_that("We can use mocks for dbGetQuery", {
           expect_identical(
-            dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+            dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2")),
             data.frame(
               carrier = c("9E", "AA"),
               name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -95,7 +104,7 @@ lapply(names(db_pkgs), function(pkg) {
         })
 
         test_that("We can use mocks for dbSendQuery", {
-          result <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
+          result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
           expect_identical(
             dbFetch(result),
             data.frame(
@@ -108,7 +117,7 @@ lapply(names(db_pkgs), function(pkg) {
 
         test_that("A different query uses a different mock", {
           expect_identical(
-            dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"),
+            dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 1")),
             data.frame(
               carrier = c("9E"),
               name = c("Endeavor Air Inc."),
