@@ -1,12 +1,12 @@
 db_pkgs <- list(
-  "RMariaDB" = list(
+  "RMariaDB" = quote(DBI::dbConnect(
     RMariaDB::MariaDB(),
     dbname = "nycflights",
     host = "127.0.0.1",
     username = "travis",
     password = ""
-  ),
-  "odbc" = list(
+  )),
+  "odbc" = quote(DBI::dbConnect(
     odbc::odbc(),
     Driver = odbc_driver,
     Server = "127.0.0.1",
@@ -14,23 +14,23 @@ db_pkgs <- list(
     UID = db_user,
     PWD = db_pass,
     Port = 5432
-  ),
-  "RPostgres" = list(
-    # RPostgres::Postgres(),
+  )),
+  "RPostgres" = quote(DBI::dbConnect(
+    RPostgres::Postgres(),
     dbname = "nycflights",
     host = "127.0.0.1",
     user = db_user,
     password = db_pass
-  ),
-  "RPostgreSQL" = list(
+  )),
+  "RPostgreSQL" = quote(DBI::dbConnect(
     RPostgreSQL::PostgreSQL(),
     dbname = "nycflights",
     host = "127.0.0.1",
     user = db_user,
     password = db_pass
-  )
+  ))
 )
-db_pkgs <- db_pkgs["RMariaDB"]
+
 for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
@@ -38,7 +38,7 @@ for (pkg in names(db_pkgs)) {
     # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
     # setup the database that will be mocked and then tested
-    con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
+    con <- eval(db_pkgs[[pkg]])
 
     # Setup unique schemas for each of the Postgres-using drivers
     if (pkg == "odbc") {
@@ -58,9 +58,6 @@ for (pkg in names(db_pkgs)) {
     } else {
       airlines_table <- paste(schema, "airlines", sep = ".")
     }
-
-
-
 
     test_that(glue("The fixture is what we expect: {pkg}"), {
       # we check just that the tables are there since other tests will add other tables
@@ -84,7 +81,7 @@ for (pkg in names(db_pkgs)) {
     with_mock_path(path = file.path(temp_dir, glue("{pkg}_integration")), {
       start_capturing()
 
-      con <- do.call(dbConnect, db_pkgs[[pkg]])
+      con <- eval(db_pkgs[[pkg]])
 
       dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
       dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 1"))
@@ -96,7 +93,7 @@ for (pkg in names(db_pkgs)) {
 
 
       with_mock_db({
-        con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
+        con <- eval(db_pkgs[[pkg]])
 
         test_that(glue("Our connection is a mock connection {pkg}"), {
           expect_is(
