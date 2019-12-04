@@ -48,6 +48,8 @@ with_mock_path(path = file.path(temp_dir, "postgres_integration"), {
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
 
+  tables <- dbListTables(con)
+
   dbDisconnect(con)
   stop_capturing()
 
@@ -99,6 +101,11 @@ with_mock_path(path = file.path(temp_dir, "postgres_integration"), {
           stringsAsFactors = FALSE
         )
       )
+    })
+
+    test_that("dbListTables()", {
+      out <- dbListTables(con)
+      expect_identical(tables, out)
     })
 
     dbDisconnect(con)

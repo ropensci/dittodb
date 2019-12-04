@@ -53,6 +53,8 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
 
   dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
 
+  tables <- dbListTables(con)
+
   dbDisconnect(con)
   stop_capturing()
 
@@ -110,6 +112,11 @@ with_mock_path(path = file.path(temp_dir, "postgresql_integration"), {
       out <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
       expect_is(out, "data.frame")
       expect_equal(nrow(out), 3)
+    })
+
+    test_that("dbListTables()", {
+      out <- dbListTables(con)
+      expect_identical(tables, out)
     })
 
     dbDisconnect(con)
