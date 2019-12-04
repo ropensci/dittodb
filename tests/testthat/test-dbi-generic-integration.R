@@ -46,6 +46,7 @@ for (pkg in names(db_pkgs)) {
     } else if (pkg == "RPostgreSQL") {
       schema <- "rpostgresql"
     } else if (pkg == "RPostgres") {
+      library(RPostgres)
       schema <- "rpostgres"
     } else {
       schema <- ""
