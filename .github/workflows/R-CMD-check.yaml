@@ -119,7 +119,7 @@ jobs:
         # RMariaDB and RPostgres interact in funny ways on windows:
         # https://github.com/r-dbi/RMariaDB/issues/119
         if: contains(runner.os, 'macOS')
-        run: Rscript -e "install.packages("https://cran.r-project.org/bin/macosx/el-capitan/contrib/3.6/RPostgres_1.1.1.tgz", repos=NULL);"
+        run: Rscript -e "install.packages('https://cran.r-project.org/bin/macosx/el-capitan/contrib/3.6/RPostgres_1.1.1.tgz', repos=NULL);"
 
       - name: Setup databases
         run: |
