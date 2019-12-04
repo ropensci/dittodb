@@ -32,6 +32,7 @@ db_pkgs <- list(
 )
 
 library(RPostgreSQL)
+library(RMariaDB)
 
 lapply(names(db_pkgs), function(pkg) {
   context(glue("Integration tests for {pkg}"))
