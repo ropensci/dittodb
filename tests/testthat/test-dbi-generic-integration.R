@@ -1,27 +1,27 @@
 db_pkgs <- list(
-  # "odbc" = list(
-  #   odbc::odbc(),
-  #   Driver = odbc_driver,
-  #   Server = "127.0.0.1",
-  #   Database = "nycflights",
-  #   UID = db_user,
-  #   PWD = db_pass,
-  #   Port = 5432
-  # ),
-  # "RMariaDB" = list(
-  #   RMariaDB::MariaDB(),
-  #   dbname = "nycflights",
-  #   host = "127.0.0.1",
-  #   username = "travis",
-  #   password = ""
-  # ),
-  # "RPostgres" = list(
-  #   RPostgres::Postgres(),
-  #   dbname = "nycflights",
-  #   host = "127.0.0.1",
-  #   user = db_user,
-  #   password = db_pass
-  # ),
+  "odbc" = list(
+    odbc::odbc(),
+    Driver = odbc_driver,
+    Server = "127.0.0.1",
+    Database = "nycflights",
+    UID = db_user,
+    PWD = db_pass,
+    Port = 5432
+  ),
+  "RMariaDB" = list(
+    RMariaDB::MariaDB(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    username = "travis",
+    password = ""
+  ),
+  "RPostgres" = list(
+    RPostgres::Postgres(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = db_user,
+    password = db_pass
+  ),
   "RPostgreSQL" = list(
     RPostgreSQL::PostgreSQL(),
     dbname = "nycflights",
