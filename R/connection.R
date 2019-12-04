@@ -49,9 +49,12 @@ dbMockConnect <- function(drv, ...) {
   } else if (inherits(drv, "PostgreSQLDriver")) {
     mock_class <- "DBIMockConnection"
     original_class <- "PostgreSQLConnection"
-  } else if(inherits(drv, "PqDriver")) {
+  } else if (inherits(drv, "PqDriver")) {
     mock_class <- "DBIMockConnection"
     original_class <- "PqConnection"
+  } else if (inherits(drv, "MariaDBDriver")) {
+    mock_class <- "DBIMockConnection"
+    original_class <- "MariaDBConnection"
   } else {
     warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
     mock_class <- "DBIMockConnection"
