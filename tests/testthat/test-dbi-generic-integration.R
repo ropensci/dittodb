@@ -51,7 +51,7 @@ lapply(names(db_pkgs), function(pkg) {
 
 
 
-    test_that("The fixture is what we expect", {
+    test_that(glue("The fixture is what we expect: {pkg}"), {
       # we check just that the tables are there since other tests will add other tables
       expect_true(all(
         c("airlines", "airports", "flights", "planes", "weather") %in% dbListTables(con)
@@ -86,13 +86,13 @@ lapply(names(db_pkgs), function(pkg) {
       with_mock_db({
         con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
 
-        test_that("Our connection is a mock connection", {
+        test_that(glue("Our connection is a mock connection {pkg}"), {
           expect_is(
             con,
             "DBIMockConnection"
           )
         })
-        test_that("We can use mocks for dbGetQuery", {
+        test_that(glue("We can use mocks for dbGetQuery {pkg}"), {
           expect_identical(
             dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2")),
             data.frame(
@@ -103,7 +103,7 @@ lapply(names(db_pkgs), function(pkg) {
           )
         })
 
-        test_that("We can use mocks for dbSendQuery", {
+        test_that(glue("We can use mocks for dbSendQuery {pkg}"), {
           result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
           expect_identical(
             dbFetch(result),
@@ -115,7 +115,7 @@ lapply(names(db_pkgs), function(pkg) {
           )
         })
 
-        test_that("A different query uses a different mock", {
+        test_that(glue("A different query uses a different mock {pkg}"), {
           expect_identical(
             dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 1")),
             data.frame(
@@ -126,7 +126,7 @@ lapply(names(db_pkgs), function(pkg) {
           )
         })
 
-        test_that("dbListTables()", {
+        test_that(glue("dbListTables() {pkg}"), {
           out <- dbListTables(con)
           expect_identical(tables, out)
         })
