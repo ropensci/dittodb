@@ -1,4 +1,20 @@
 db_pkgs <- list(
+  "odbc" = list(
+    odbc::odbc(),
+    Driver = odbc_driver,
+    Server = "127.0.0.1",
+    Database = "nycflights",
+    UID = db_user,
+    PWD = db_pass,
+    Port = 5432
+  ),
+  "RMariaDB" = list(
+    RMariaDB::MariaDB(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    username = "travis",
+    password = ""
+  ),
   "RPostgres" = list(
     RPostgres::Postgres(),
     dbname = "nycflights",
@@ -12,22 +28,6 @@ db_pkgs <- list(
     host = "127.0.0.1",
     user = db_user,
     password = db_pass
-  ),
-  "RMariaDB" = list(
-    RMariaDB::MariaDB(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    username = "travis",
-    password = ""
-  ),
-  "odbc" = list(
-    odbc::odbc(),
-    Driver = odbc_driver,
-    Server = "127.0.0.1",
-    Database = "nycflights",
-    UID = db_user,
-    PWD = db_pass,
-    Port = 5432
   )
 )
 
@@ -36,8 +36,6 @@ lapply(names(db_pkgs), function(pkg) {
   test_that(glue::glue("Isolate {pkg}"), {
     skip_env(pkg)
     # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
-
-    library(pkg, character.only = TRUE)
 
     # setup the database that will be mocked and then tested
     con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
@@ -128,6 +126,5 @@ lapply(names(db_pkgs), function(pkg) {
         dbDisconnect(con)
       })
     })
-    detach(glue::glue("package:{pkg}"), unload = TRUE, character.only = TRUE)
   })
 })
