@@ -30,8 +30,8 @@ db_pkgs <- list(
     password = db_pass
   )
 )
-library(RMariaDB)
-lapply(names(db_pkgs), function(pkg) {
+
+for (pkg in names(db_pkgs) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
@@ -135,4 +135,4 @@ lapply(names(db_pkgs), function(pkg) {
       })
     })
   })
-})
+}
