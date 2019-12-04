@@ -47,6 +47,8 @@ for (pkg in names(db_pkgs)) {
       schema <- "rpostgresql"
     } else if (pkg == "RPostgres") {
       schema <- "rpostgres"
+    } else {
+      schema <- ""
     }
     con <- nycflights13_sql(con, schema = schema)
 
