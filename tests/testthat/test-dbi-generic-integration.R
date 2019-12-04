@@ -129,4 +129,5 @@ lapply(names(dbs), function(db) {
       })
     })
   })
+  detach(db, unload=TRUE)
 })
