@@ -2,7 +2,7 @@ docker stop dbtest-postgres
 docker rm dbtest-postgres
 # docker exec dbtest-postgres mysql -p6c9FT%Kj -e "DROP DATABASE nycflights;"
 
-bash db-setup/postcres-docker.sh
+bash db-setup/postgres-docker.sh
 
 # retry until postgres is up (or 15 times)
 n=0
