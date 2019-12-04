@@ -1,4 +1,4 @@
-dbs <- list(
+db_pkgs <- list(
   "RPostgres" = list(
     RPostgres::Postgres(),
     dbname = "nycflights",
@@ -31,16 +31,16 @@ dbs <- list(
   )
 )
 
-lapply(names(dbs), function(db) {
-  context(glue::glue("Integration tests for {db}"))
-  test_that("foo",{
-    skip_env(db)
+lapply(names(db_pkgs), function(pkg) {
+  context(glue::glue("Integration tests for {pkg}"))
+  test_that(glue::glue("Isolate {pkg}"), {
+    skip_env(pkg)
     # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
-    library(db, character.only = TRUE)
+    library(pkg, character.only = TRUE)
 
     # setup the database that will be mocked and then tested
-    con <- do.call(DBI::dbConnect, dbs[[db]])
+    con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
 
     con <- nycflights13_sql(con)
 
@@ -62,10 +62,10 @@ lapply(names(dbs), function(db) {
 
     dbDisconnect(con)
 
-    with_mock_path(path = file.path(temp_dir, glue::glue("{db}_integration")), {
+    with_mock_path(path = file.path(temp_dir, glue::glue("{pkg}_integration")), {
       start_capturing()
 
-      con <- do.call(DBI::dbConnect, dbs[[db]])
+      con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
 
       dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
       dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
@@ -77,7 +77,7 @@ lapply(names(dbs), function(db) {
 
 
       with_mock_db({
-        con <- do.call(DBI::dbConnect, dbs[[db]])
+        con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
 
         test_that("Our connection is a mock connection", {
           expect_is(
@@ -128,6 +128,6 @@ lapply(names(dbs), function(db) {
         dbDisconnect(con)
       })
     })
+    detach(glue::glue("package:{pkg}"), unload = TRUE, character.only = TRUE)
   })
-  detach(db, unload=TRUE)
 })
