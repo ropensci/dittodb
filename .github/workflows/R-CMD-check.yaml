@@ -123,6 +123,9 @@ jobs:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
+      - name: Show installed R packages
+        run: Rscript -e "print(installed.packages()[,c(1,3)]);"
+
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
 
