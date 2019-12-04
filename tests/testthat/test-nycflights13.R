@@ -93,7 +93,7 @@ dbDisconnect(con_rpostgresql)
 
 # rpostgres ----
 
-skip_env("postgres")
+skip_env("RPostgres")
 
 con_rpostgres <- DBI::dbConnect(
   drv = RPostgres::Postgres(),
