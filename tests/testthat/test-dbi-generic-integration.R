@@ -31,7 +31,7 @@ db_pkgs <- list(
   )
 )
 
-for (pkg in names(db_pkgs) {
+for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
