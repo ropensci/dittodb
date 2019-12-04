@@ -49,3 +49,14 @@ Suggests:
 RoxygenNote: 7.0.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
+Collate: 
+    'connection.R'
+    'driver-specific-connections.R'
+    'result.R'
+    'listTables.R'
+    'mock-db.R'
+    'mock-paths.R'
+    'nycflights13_sql.R'
+    'paths.R'
+    'recording.R'
+    'utils.R'
