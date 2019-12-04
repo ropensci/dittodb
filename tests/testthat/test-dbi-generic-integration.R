@@ -30,7 +30,7 @@ db_pkgs <- list(
     password = db_pass
   )
 )
-db_pkgs <- db_pkgs["RMariaDB"]
+# db_pkgs <- db_pkgs["RMariaDB"]
 for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
