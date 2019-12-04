@@ -1,18 +1,4 @@
 db_pkgs <- list(
-  "RPostgres" = quote(DBI::dbConnect(
-    RPostgres::Postgres(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = db_user,
-    password = db_pass
-  )),
-  "RPostgreSQL" = quote(DBI::dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = db_user,
-    password = db_pass
-  )),
   "RMariaDB" = quote(DBI::dbConnect(
     RMariaDB::MariaDB(),
     dbname = "nycflights",
@@ -28,6 +14,20 @@ db_pkgs <- list(
     UID = db_user,
     PWD = db_pass,
     Port = 5432
+  )),
+  "RPostgreSQL" = quote(DBI::dbConnect(
+    RPostgreSQL::PostgreSQL(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = db_user,
+    password = db_pass
+  )),
+  "RPostgres" = quote(DBI::dbConnect(
+    RPostgres::Postgres(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = db_user,
+    password = db_pass
   ))
 )
 
