@@ -30,7 +30,7 @@ db_pkgs <- list(
     password = db_pass
   )
 )
-
+db_pkgs <- db_pkgs["RMariaDB"]
 for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
@@ -64,6 +64,7 @@ for (pkg in names(db_pkgs)) {
 
     test_that(glue("The fixture is what we expect: {pkg}"), {
       # we check just that the tables are there since other tests will add other tables
+      print(dbListTables(con))
       expect_true(all(
         c("airlines", "airports", "flights", "planes", "weather") %in% dbListTables(con)
       ))
