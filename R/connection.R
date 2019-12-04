@@ -58,7 +58,7 @@ dbMockConnect <- function(drv, ...) {
   } else {
     warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
     mock_class <- "DBIMockConnection"
-    original_class <- "unknown"
+    original_class <- "DBIConnection"
   }
 
   path <- get_dbname(dots)
