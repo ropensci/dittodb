@@ -121,7 +121,7 @@ they read in mock responses and the code proceeds after that." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Methods for interacting with DB mocks instead of an actual database</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/result.R'><code>R/result.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/listTables.R'><code>R/listTables.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/result.R'><code>R/result.R</code></a></small>
     <div class="hidden name"><code>mock-db-methods.Rd</code></div>
     </div>
 
@@ -133,6 +133,9 @@ they read in mock responses and the code proceeds after that.</p>
 
     <pre class="usage"><span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbDisconnect</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection</span>
+<span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
