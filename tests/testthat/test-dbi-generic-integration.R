@@ -31,6 +31,8 @@ db_pkgs <- list(
   )
 )
 
+library(RPostgreSQL)
+
 lapply(names(db_pkgs), function(pkg) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
