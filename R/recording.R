@@ -136,8 +136,7 @@ start_capturing <- function(path) {
       }
       thing <- returnValue()
       dput(thing, file.path(.dbtest_env$db_path, "table_list.R"), control = c("all", "hexNumeric"))
-    }),
-    where_list = list(sys.frame(), asNamespace("odbc"))
+    })
   ))
 
   return(invisible(NULL))
@@ -152,24 +151,13 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch")) {
+  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment
     # * as it is seen by the user (default for safe_untrace)
     safe_untrace(func, asNamespace("DBI"))
     safe_untrace(func, "DBI")
-    safe_untrace(func)
-  }
-
-  # ODBC specific untrace
-  for (func in c("dbListTables")) {
-    # make sure we untrace the function:
-    # * from the DBI namespace
-    # * from the DBI environment
-    # * as it is seen by the user (default for safe_untrace)
-    safe_untrace(func, asNamespace("odbc"))
-    safe_untrace(func, "odbc")
     safe_untrace(func)
   }
 }

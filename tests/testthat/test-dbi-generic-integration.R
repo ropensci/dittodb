@@ -63,7 +63,7 @@ lapply(names(db_pkgs), function(pkg) {
     with_mock_path(path = file.path(temp_dir, glue::glue("{pkg}_integration")), {
       start_capturing()
 
-      con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
+      con <- do.call(dbConnect, db_pkgs[[pkg]])
 
       dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
       dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
@@ -83,7 +83,6 @@ lapply(names(db_pkgs), function(pkg) {
             "DBIMockConnection"
           )
         })
-
         test_that("We can use mocks for dbGetQuery", {
           expect_identical(
             dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
