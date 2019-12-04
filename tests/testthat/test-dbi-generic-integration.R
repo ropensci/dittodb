@@ -40,14 +40,23 @@ for (pkg in names(db_pkgs)) {
     # setup the database that will be mocked and then tested
     con <- do.call(DBI::dbConnect, db_pkgs[[pkg]])
 
+    # Setup unique schemas for each of the Postgres-using drivers
     if (pkg == "odbc") {
-      schema <- "nycflights"
-      con <- nycflights13_sql(con, schema = schema)
-      airlines_table <- paste(schema, "airlines", sep = ".")
-    } else {
-      con <- nycflights13_sql(con)
-      airlines_table <- "airlines"
+      schema <- "odbc"
+    } else if (pkg == "RPostgreSQL") {
+      schema <- "rpostgresql"
+    } else if (pkg == "RPostgres") {
+      schema <- "rpostgres"
     }
+    con <- nycflights13_sql(con, schema = schema)
+
+
+    if (schema == "") {
+      airlines_table <- "airlines"
+    } else {
+      airlines_table <- paste(schema, "airlines", sep = ".")
+    }
+
 
 
 
