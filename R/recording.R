@@ -126,6 +126,19 @@ start_capturing <- function(path) {
     exit = recordFetch
   ))
 
+  quietly(trace_dbi(
+    "dbListTables",
+    exit = quote({
+      if (dbtest_debug_level(1)) {
+        message(
+          "The list tables call is being written to: \n", file.path(.dbtest_env$db_path, "table_list.R")
+        )
+      }
+      thing <- returnValue()
+      dput(thing, file.path(.dbtest_env$db_path, "table_list.R"), control = c("all", "hexNumeric"))
+    })
+  ))
+
   return(invisible(NULL))
 }
 
@@ -138,7 +151,7 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch")) {
+  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

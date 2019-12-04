@@ -1,12 +1,10 @@
-skip_env <- function(which = c("postgres", "mariadb")) {
-  which <- match.arg(which)
-
-  if ("postgres" %in% which && tolower(Sys.getenv("DBTEST_DISABLE_PG")) == "true") {
-    skip("Skipping tests that need a functioning Postgres backend.")
+skip_env <- function(which = c("RPostgres", "RMariaDB")) {
+  if ("RPostgres" %in% which && tolower(Sys.getenv("DBTEST_DISABLE_PG")) == "true") {
+    skip("Skipping tests that need functioning RPostgres.")
   }
 
-  if ("mariadb" %in% which && tolower(Sys.getenv("DBTEST_DISABLE_MARIA")) == "true") {
-    skip("Skipping tests that need a functioning MariaDB backend.")
+  if ("RMariaDB" %in% which && tolower(Sys.getenv("DBTEST_DISABLE_MARIA")) == "true") {
+    skip("Skipping tests that need functioning RMariaDB.")
   }
 
   # always skip on cran

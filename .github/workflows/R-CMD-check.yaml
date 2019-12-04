@@ -102,12 +102,12 @@ jobs:
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
 
-      - name: Build R Dependencies on cache miss
-        if: steps.rlibcache.outputs.cache-hit != 'true' && contains(runner.os, 'windows') == false
-        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
-
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
+
+      - name: Build R DB Dependencies on cache miss
+        if: steps.rlibcache.outputs.cache-hit != 'true' && contains(runner.os, 'windows') == false
+        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Build RPostgres on windows
         # RMariaDB and RPostgres interact in funny ways on windows:
@@ -122,6 +122,9 @@ jobs:
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: Show installed R packages
+        run: Rscript -e "print(installed.packages()[,c(1,3)]);"
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"

@@ -3,7 +3,7 @@ docker rm dbtest-mariadb
 
 # docker exec dbtest-mariadb mysql -pr2N5y7V* -e "DROP DATABASE nycflights;"
 
-bash maraidb-docker.sh
+bash db-setup/mariadb-docker.sh
 
 # retry until mariadb is up (or 15 times)
 n=0
