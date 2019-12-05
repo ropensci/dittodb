@@ -100,7 +100,7 @@ for (pkg in names(db_pkgs)) {
 
       tables <- dbListTables(con)
 
-      fields_flights <- dbListFields(con, flights)
+      fields_flights <- dbListFields(con, "flights")
 
       dbDisconnect(con)
       stop_capturing()
@@ -155,7 +155,7 @@ for (pkg in names(db_pkgs)) {
         })
 
         test_that(glue("dbListFields() {pkg}"), {
-          out <- dbListFields(con, flights)
+          out <- dbListFields(con, "flights")
           expect_identical(out, fields_flights)
         })
 
