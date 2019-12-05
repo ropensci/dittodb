@@ -155,7 +155,7 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables")) {
+  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables", "dbListFields")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

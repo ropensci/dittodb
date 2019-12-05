@@ -44,7 +44,7 @@ for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
-    skip_locally("use (postgres|mariadb)-docker.sh and test manually")
+    # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
     # setup the database that will be mocked and then tested
     con <- eval(db_pkgs[[pkg]])
@@ -63,8 +63,10 @@ for (pkg in names(db_pkgs)) {
 
     if (schema == "") {
       airlines_table <- "airlines"
+      flights_table <- "airlines"
     } else {
       airlines_table <- paste(schema, "airlines", sep = ".")
+      flights_table <- paste(schema, "flights", sep = ".")
     }
 
     test_that(glue("The fixture is what we expect: {pkg}"), {
@@ -77,6 +79,7 @@ for (pkg in names(db_pkgs)) {
         )
       )
 
+      print(dbListFields(con, "airlines"))
       # we check just that the tables are there since other tests will add other tables
       # For some reason, RPostgres responds that there are 0 tables with dbListTables()
       # even though there are and other functions work (including the subsequent calls later)
@@ -100,7 +103,7 @@ for (pkg in names(db_pkgs)) {
 
       tables <- dbListTables(con)
 
-      fields_flights <- dbListFields(con, "flights")
+      fields_flights <- dbListFields(con, flights_table)
 
       dbDisconnect(con)
       stop_capturing()
@@ -155,7 +158,7 @@ for (pkg in names(db_pkgs)) {
         })
 
         test_that(glue("dbListFields() {pkg}"), {
-          out <- dbListFields(con, "flights")
+          out <- dbListFields(con, flights_table)
           expect_identical(out, fields_flights)
         })
 
