@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • dbtest</title>
+<title>Sanitize Table id — sanitize_table_id • dbtest</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,13 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Sanitize Table id — sanitize_table_id" />
+<meta property="og:description" content="Tables are identified and specified with a large number of ways across
+drivers. For the purposes of dbtest, the details are less important since
+we almost always just want a flat representation (ie for filenames). This
+takes the various formats and returns a string with various elements
+separated by dots." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +70,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -114,90 +120,49 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Sanitize Table id</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>sanitize_table_id.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Tables are identified and specified with a large number of ways across
+drivers. For the purposes of <code>dbtest</code>, the details are less important since
+we almost always just want a flat representation (<em>ie</em> for filenames). This
+takes the various formats and returns a string with various elements
+separated by dots.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>sanitize_table_id</span>(<span class='no'>id</span>, <span class='no'>...</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-capturing-and-testing" class="hasAnchor"><a href="#section-capturing-and-testing" class="anchor"></a>Capturing and testing</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="capture_requests.html">start_capturing()</a></code> <code><a href="capture_requests.html">stop_capturing()</a></code> </p>
-        </td>
-        <td><p>Capture and record database transactions and save them as mocks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="with_mock_db.html">with_mock_db()</a></code> </p>
-        </td>
-        <td><p>Run the DBI queries inside against a mocked db</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mockPaths.html">.mockPaths()</a></code> </p>
-        </td>
-        <td><p>Set an alternate directory for mock API fixtures</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-mock-db-methods" class="hasAnchor"><a href="#section-mock-db-methods" class="anchor"></a>Mock DB methods</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="mock-db-methods.html">dbDisconnect(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbSendQuery(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbFetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbClearResult(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbHasCompleted(<i>&lt;DBIMockResult&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Methods for interacting with DB mocks instead of an actual database</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-test-db-creation" class="hasAnchor"><a href="#section-test-db-creation" class="anchor"></a>Test DB creation</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="nycflights13_sql.html">nycflights13_sql()</a></code> </p>
-        </td>
-        <td><p>Create a standardised database for testing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nycflights13_sqlite.html">nycflights13_sqlite()</a></code> </p>
-        </td>
-        <td><p>Create an in-memory SQLite database for testing</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>id</th>
+      <td><p>the table identifier (an <code>Id</code>, a vector of strings, or a string)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments (to allow for things like <code>schema_name</code> that
+<code>odbc</code> uses.)</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>the first word in the statement</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-capturing-and-testing">Capturing and testing</a></li>
-      <li><a href="#section-mock-db-methods">Mock DB methods</a></li>
-      <li><a href="#section-test-db-creation">Test DB creation</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
+
   </div>
 </div>
 

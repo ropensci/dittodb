@@ -40,6 +40,9 @@
     <loc>https://jonkeane.com/dbtest/reference/nycflights13_sqlite.html</loc>
   </url>
   <url>
+    <loc>https://jonkeane.com/dbtest/reference/sanitize_table_id.html</loc>
+  </url>
+  <url>
     <loc>https://jonkeane.com/dbtest/reference/with_mock_db.html</loc>
   </url>
   <url>

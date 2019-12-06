@@ -141,6 +141,15 @@ they read in mock responses and the code proceeds after that.</p>
 <span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection,character</span>
+<span class='fu'>dbListFields</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,Id</span>
+<span class='fu'>dbListFields</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,ANY</span>
+<span class='fu'>dbListFields</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,character</span>
 <span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockResult</span>
@@ -166,6 +175,10 @@ be of class <code>DBIMockConnection</code>)</p></td>
     <tr>
       <th>...</th>
       <td><p>arguments passed on inside of the methods</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>name of the table (for <code>dbListFields</code>)</p></td>
     </tr>
     <tr>
       <th>statement</th>
