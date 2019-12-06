@@ -103,13 +103,15 @@ for (pkg in names(db_pkgs)) {
       tables <- dbListTables(con)
 
       # dbListFields is ever so slightly different for each
-      if (pkg %in% c("RPostgres", "RMariaDB")) {
-        # RPostgres and RMariaDB both most reliably use Id to specify schema.table
-        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+      if (pkg == "RMariaDB") {
+        fields_flights <- dbListFields(con, "flights")
       } else if (pkg == "odbc") {
         fields_flights <- dbListFields(con, "flights", schema_name = schema)
       } else if (pkg == "RPostgreSQL") {
         fields_flights <- dbListFields(con, c(schema, "flights"))
+      } else if (pkg == "RPostgres") {
+        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+
       }
 
       dbDisconnect(con)
@@ -164,13 +166,14 @@ for (pkg in names(db_pkgs)) {
 
         test_that(glue("dbListFields() {pkg}"), {
           # dbListFields is ever so slightly different for each
-          if (pkg %in% c("RPostgres", "RMariaDB")) {
-            # RPostgres and RMariaDB both most reliably use Id to specify schema.table
-            out <- dbListFields(con, Id(schema = schema, table = "flights"))
+          if (pkg == "RMariaDB") {
+            out <- dbListFields(con, "flights")
           } else if (pkg == "odbc") {
             out <- dbListFields(con, "flights", schema_name = schema)
           } else if (pkg == "RPostgreSQL") {
             out <- dbListFields(con, c(schema, "flights"))
+          } else if (pkg == "RPostgres") {
+            out <- dbListFields(con, Id(schema = schema, table = "flights"))
           }
           expect_identical(out, fields_flights)
         })
