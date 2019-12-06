@@ -35,3 +35,4 @@ setMethod("dbListFields", signature("DBIMockConnection", "Id"), .dbListFields)
 #' @rdname mock-db-methods
 #' @export
 setMethod("dbListFields", signature("DBIMockConnection", "ANY"), .dbListFields)
+
