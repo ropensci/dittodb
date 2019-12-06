@@ -109,6 +109,7 @@ start_capturing <- function(path) {
   ))
 
   #' @export
+  #' @keywords internal
   recordFetch <- quote({
     if (dbtest_debug_level(1)) {
       message("Writing to ", .dbtest_env$curr_file_path)
@@ -129,13 +130,17 @@ start_capturing <- function(path) {
   quietly(trace_dbi(
     "dbListTables",
     exit = quote({
-      if (dbtest_debug_level(1)) {
-        message(
-          "The list tables call is being written to: \n", file.path(.dbtest_env$db_path, "table_list.R")
-        )
-      }
       thing <- returnValue()
-      dput(thing, file.path(.dbtest_env$db_path, "table_list.R"), control = c("all", "hexNumeric"))
+      dput(thing, file.path(.dbtest_env$db_path, "dbListTables.R"), control = c("all", "hexNumeric"))
+    })
+  ))
+
+  quietly(trace_dbi(
+    "dbListFields",
+    exit = quote({
+      thing <- returnValue()
+      name <- sanitize_table_id(name, ...)
+      dput(thing, file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")), control = c("all", "hexNumeric"))
     })
   ))
 
@@ -151,7 +156,7 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables")) {
+  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables", "dbListFields")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

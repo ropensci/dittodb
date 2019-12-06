@@ -44,7 +44,7 @@ for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
-    skip_locally("use (postgres|mariadb)-docker.sh and test manually")
+    # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
     # setup the database that will be mocked and then tested
     con <- eval(db_pkgs[[pkg]])
@@ -63,8 +63,10 @@ for (pkg in names(db_pkgs)) {
 
     if (schema == "") {
       airlines_table <- "airlines"
+      flights_table <- "airlines"
     } else {
       airlines_table <- paste(schema, "airlines", sep = ".")
+      flights_table <- paste(schema, "flights", sep = ".")
     }
 
     test_that(glue("The fixture is what we expect: {pkg}"), {
@@ -100,6 +102,17 @@ for (pkg in names(db_pkgs)) {
 
       tables <- dbListTables(con)
 
+      # dbListFields is ever so slightly different for each
+      if (pkg == "RMariaDB") {
+        fields_flights <- dbListFields(con, "flights")
+      } else if (pkg == "odbc") {
+        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+      } else if (pkg == "RPostgreSQL") {
+        fields_flights <- dbListFields(con, c(schema, "flights"))
+      } else if (pkg == "RPostgres") {
+        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+      }
+
       dbDisconnect(con)
       stop_capturing()
 
@@ -108,11 +121,9 @@ for (pkg in names(db_pkgs)) {
         con <- eval(db_pkgs[[pkg]])
 
         test_that(glue("Our connection is a mock connection {pkg}"), {
-          expect_is(
-            con,
-            "DBIMockConnection"
-          )
+          expect_is(con, "DBIMockConnection")
         })
+
         test_that(glue("We can use mocks for dbGetQuery {pkg}"), {
           expect_identical(
             dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2")),
@@ -149,7 +160,21 @@ for (pkg in names(db_pkgs)) {
 
         test_that(glue("dbListTables() {pkg}"), {
           out <- dbListTables(con)
-          expect_identical(tables, out)
+          expect_identical(out, tables)
+        })
+
+        test_that(glue("dbListFields() {pkg}"), {
+          # dbListFields is ever so slightly different for each
+          if (pkg == "RMariaDB") {
+            out <- dbListFields(con, "flights")
+          } else if (pkg == "odbc") {
+            out <- dbListFields(con, Id(schema = schema, table = "flights"))
+          } else if (pkg == "RPostgreSQL") {
+            out <- dbListFields(con, c(schema, "flights"))
+          } else if (pkg == "RPostgres") {
+            out <- dbListFields(con, Id(schema = schema, table = "flights"))
+          }
+          expect_identical(out, fields_flights)
         })
 
         dbDisconnect(con)

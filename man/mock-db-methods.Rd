@@ -6,6 +6,9 @@
 \alias{DBIMockConnection-class}
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
+\alias{dbListFields,DBIMockConnection,character-method}
+\alias{dbListFields,DBIMockConnection,Id-method}
+\alias{dbListFields,DBIMockConnection,ANY-method}
 \alias{DBIMockResult-class}
 \alias{dbSendQuery,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
@@ -19,6 +22,12 @@
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
+
+\S4method{dbListFields}{DBIMockConnection,character}(conn, name, ...)
+
+\S4method{dbListFields}{DBIMockConnection,Id}(conn, name, ...)
+
+\S4method{dbListFields}{DBIMockConnection,ANY}(conn, name, ...)
 
 \S4method{dbSendQuery}{DBIMockConnection,character}(conn, statement, ...)
 
@@ -35,6 +44,8 @@
 be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
+
+\item{name}{name of the table (for \code{\link{dbListFields}})}
 
 \item{statement}{an SQL statement to execute}
 

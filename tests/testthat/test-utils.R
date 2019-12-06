@@ -70,3 +70,18 @@ test_that("We ignore quote differences in statements", {
     "Wow`there`are`a lot of quotes here!"
   )
 })
+
+test_that("sanitize_table_id()", {
+  id_rpostgres <- RPostgres::Id(catalog = "cat", schema = "schem", table = "tbl")
+  id_rmariadb <- RMariaDB::Id(schema = "schem", table = "tbl")
+  id_vector_cat <- c("cat", "schem", "tbl")
+  id_vector <- c("schem", "tbl")
+  id_atomic <- "tbl"
+
+  expect_identical(sanitize_table_id(id_rpostgres), "cat.schem.tbl")
+  expect_identical(sanitize_table_id(id_rmariadb), "schem.tbl")
+  expect_identical(sanitize_table_id(id_vector_cat), "cat.schem.tbl")
+  expect_identical(sanitize_table_id(id_vector), "schem.tbl")
+  expect_identical(sanitize_table_id(id_atomic), "tbl")
+  expect_identical(sanitize_table_id(id_atomic, schema_name = "schem"), "schem.tbl")
+})

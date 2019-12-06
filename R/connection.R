@@ -10,6 +10,7 @@
 #' @param res a result object (for dispatch with these methods, it should
 #' be of class `DBIMockResult`)
 #' @param n number of results to fetch (ignored)
+#' @param name name of the table (for [`dbListFields`])
 #' @param ... arguments passed on inside of the methods
 #'
 #' @name mock-db-methods
@@ -56,7 +57,7 @@ dbMockConnect <- function(drv, ...) {
     mock_class <- "DBIMockConnection"
     original_class <- "MariaDBConnection"
   } else if (inherits(drv, "OdbcDriver")) {
-    mock_class <- "DBIMockODBCConnection"
+    mock_class <- "DBIMockConnection"
     original_class <- "OdbcConnection"
   } else {
     warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
