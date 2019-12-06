@@ -102,16 +102,16 @@ for (pkg in names(db_pkgs)) {
 
       tables <- dbListTables(con)
 
-      # # dbListFields is ever so slightly different for each
-      # if (pkg == "RMariaDB") {
-      #   fields_flights <- dbListFields(con, "flights")
-      # } else if (pkg == "odbc") {
-      #   fields_flights <- dbListFields(con, "flights", schema_name = schema)
-      # } else if (pkg == "RPostgreSQL") {
-      #   fields_flights <- dbListFields(con, c(schema, "flights"))
-      # } else if (pkg == "RPostgres") {
-      #   fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
-      # }
+      # dbListFields is ever so slightly different for each
+      if (pkg == "RMariaDB") {
+        fields_flights <- dbListFields(con, "flights")
+      } else if (pkg == "odbc") {
+        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+      } else if (pkg == "RPostgreSQL") {
+        fields_flights <- dbListFields(con, c(schema, "flights"))
+      } else if (pkg == "RPostgres") {
+        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+      }
 
       dbDisconnect(con)
       stop_capturing()
@@ -163,19 +163,19 @@ for (pkg in names(db_pkgs)) {
           expect_identical(out, tables)
         })
 
-        # test_that(glue("dbListFields() {pkg}"), {
-        #   # dbListFields is ever so slightly different for each
-        #   if (pkg == "RMariaDB") {
-        #     out <- dbListFields(con, "flights")
-        #   } else if (pkg == "odbc") {
-        #     out <- dbListFields(con, "flights", schema_name = schema)
-        #   } else if (pkg == "RPostgreSQL") {
-        #     out <- dbListFields(con, c(schema, "flights"))
-        #   } else if (pkg == "RPostgres") {
-        #     out <- dbListFields(con, Id(schema = schema, table = "flights"))
-        #   }
-        #   expect_identical(out, fields_flights)
-        # })
+        test_that(glue("dbListFields() {pkg}"), {
+          # dbListFields is ever so slightly different for each
+          if (pkg == "RMariaDB") {
+            out <- dbListFields(con, "flights")
+          } else if (pkg == "odbc") {
+            out <- dbListFields(con, Id(schema = schema, table = "flights"))
+          } else if (pkg == "RPostgreSQL") {
+            out <- dbListFields(con, c(schema, "flights"))
+          } else if (pkg == "RPostgres") {
+            out <- dbListFields(con, Id(schema = schema, table = "flights"))
+          }
+          expect_identical(out, fields_flights)
+        })
 
         dbDisconnect(con)
       })

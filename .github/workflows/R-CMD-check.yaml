@@ -130,8 +130,7 @@ jobs:
 
       - name: Show installed R packages
         run: Rscript -e "print(installed.packages()[,c(1,3)]);"
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
+
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
 
