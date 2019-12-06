@@ -10,6 +10,7 @@
 #' @param res a result object (for dispatch with these methods, it should
 #' be of class `DBIMockResult`)
 #' @param n number of results to fetch (ignored)
+#' @param name name of the table (for [`dbListFields`])
 #' @param ... arguments passed on inside of the methods
 #'
 #' @name mock-db-methods

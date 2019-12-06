@@ -139,6 +139,7 @@ start_capturing <- function(path) {
     "dbListFields",
     exit = quote({
       thing <- returnValue()
+      name <- sanitize_table_id(name, ...)
       dput(thing, file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")), control = c("all", "hexNumeric"))
     })
   ))

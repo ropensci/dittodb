@@ -81,3 +81,33 @@ dbtest_debug_level <- function(level) {
 #'
 #' @keywords internal
 get_type <- function(statement) return(strsplit(statement, " ")[[1]][1])
+
+#' Sanitize Table id
+#'
+#' Tables are identified and specified with a large number of ways across
+#' drivers. For the purposes of `dbtest`, the details are less important since
+#' we almost always just want a flat representation (_ie_ for filenames). This
+#' takes the various formats and returns a string with various elements
+#' separated by dots.
+#'
+#' @param id the table identifier (an `Id`, a vector of strings, or a string)
+#' @param ... additional arguments (to allow for things like `schema_name` that
+#' `odbc` uses.)
+#'
+#' @return the first word in the statement
+#' @export
+#'
+#' @keywords internal
+sanitize_table_id <- function(id, ...) {
+  if (inherits(id, "Id")) {
+    id <- id@name
+  }
+
+  # if dots append them to the beginning
+  dots <- list(...)
+  if (length(dots) > 0) {
+    id <- c(dots, id)
+  }
+
+  return(paste0(id, collapse = "."))
+}

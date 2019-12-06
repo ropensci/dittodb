@@ -16,8 +16,22 @@ setMethod("dbListTables", signature("DBIMockConnection"), function(conn, ...) {
   return(list_helper("dbListTables", conn, ...))
 })
 
+
+# We need to be overly-specific with multiple dispatch here because "ANY", even
+# in the second argument won't over-ride the built-in methods.
+.dbListFields <- function(conn, name, ...) {
+  name <- sanitize_table_id(name, ...)
+  return(list_helper(glue("dbListFields-{name}"), conn, ...))
+}
+
 #' @rdname mock-db-methods
 #' @export
-setMethod("dbListFields", signature("DBIMockConnection"), function(conn, name, ...) {
-  return(list_helper(glue("dbListFields-{kind}"), conn, ...))
-})
+setMethod("dbListFields", signature("DBIMockConnection", "character"), .dbListFields)
+
+#' @rdname mock-db-methods
+#' @export
+setMethod("dbListFields", signature("DBIMockConnection", "Id"), .dbListFields)
+
+#' @rdname mock-db-methods
+#' @export
+setMethod("dbListFields", signature("DBIMockConnection", "ANY"), .dbListFields)

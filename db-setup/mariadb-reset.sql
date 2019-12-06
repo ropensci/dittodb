@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS nycflights;
 CREATE DATABASE nycflights;
-CREATE USER IF NOT EXISTS 'travis'@'localhost'; GRANT ALL ON *.* TO 'travis'@'localhost';
+CREATE USER IF NOT EXISTS 'travis'@'%'; GRANT ALL ON *.* TO 'travis'@'%';
 FLUSH PRIVILEGES;
-ALTER USER 'travis'@'localhost' IDENTIFIED BY '';
+ALTER USER 'travis'@'%' IDENTIFIED BY '';
 FLUSH PRIVILEGES;
 

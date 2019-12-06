@@ -79,7 +79,6 @@ for (pkg in names(db_pkgs)) {
         )
       )
 
-      print(dbListFields(con, "airlines"))
       # we check just that the tables are there since other tests will add other tables
       # For some reason, RPostgres responds that there are 0 tables with dbListTables()
       # even though there are and other functions work (including the subsequent calls later)
@@ -103,7 +102,15 @@ for (pkg in names(db_pkgs)) {
 
       tables <- dbListTables(con)
 
-      fields_flights <- dbListFields(con, flights_table)
+      # dbListFields is ever so slightly different for each
+      if (pkg %in% c("RPostgres", "RMariaDB")) {
+        # RPostgres and RMariaDB both most reliably use Id to specify schema.table
+        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+      } else if (pkg == "odbc") {
+        fields_flights <- dbListFields(con, "flights", schema_name = schema)
+      } else if (pkg == "RPostgreSQL") {
+        fields_flights <- dbListFields(con, c(schema, "flights"))
+      }
 
       dbDisconnect(con)
       stop_capturing()
@@ -113,11 +120,9 @@ for (pkg in names(db_pkgs)) {
         con <- eval(db_pkgs[[pkg]])
 
         test_that(glue("Our connection is a mock connection {pkg}"), {
-          expect_is(
-            con,
-            "DBIMockConnection"
-          )
+          expect_is(con, "DBIMockConnection")
         })
+
         test_that(glue("We can use mocks for dbGetQuery {pkg}"), {
           expect_identical(
             dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2")),
@@ -158,7 +163,15 @@ for (pkg in names(db_pkgs)) {
         })
 
         test_that(glue("dbListFields() {pkg}"), {
-          out <- dbListFields(con, flights_table)
+          # dbListFields is ever so slightly different for each
+          if (pkg %in% c("RPostgres", "RMariaDB")) {
+            # RPostgres and RMariaDB both most reliably use Id to specify schema.table
+            out <- dbListFields(con, Id(schema = schema, table = "flights"))
+          } else if (pkg == "odbc") {
+            out <- dbListFields(con, "flights", schema_name = schema)
+          } else if (pkg == "RPostgreSQL") {
+            out <- dbListFields(con, c(schema, "flights"))
+          }
           expect_identical(out, fields_flights)
         })
 

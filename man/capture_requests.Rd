@@ -46,3 +46,4 @@ dbDisconnect(con)
 stop_capturing()
 }
 }
+\keyword{internal}
