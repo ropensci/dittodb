@@ -4,12 +4,6 @@
     mock_conn = "DBIMockSQLiteConnection",
     real_conn = "SQLiteConnection"
   )
-
-  set_driver_class(
-    pkg = "odbc",
-    mock_conn = "DBIMockODBCConnection",
-    real_conn = "OdbcConnection"
-  )
 }
 
 set_driver_class <- function(pkg, mock_conn, real_conn) {

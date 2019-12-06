@@ -57,7 +57,7 @@ dbMockConnect <- function(drv, ...) {
     mock_class <- "DBIMockConnection"
     original_class <- "MariaDBConnection"
   } else if (inherits(drv, "OdbcDriver")) {
-    mock_class <- "DBIMockODBCConnection"
+    mock_class <- "DBIMockConnection"
     original_class <- "OdbcConnection"
   } else {
     warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
