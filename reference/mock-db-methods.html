@@ -121,7 +121,7 @@ they read in mock responses and the code proceeds after that." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Methods for interacting with DB mocks instead of an actual database</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/listTables.R'><code>R/listTables.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/result.R'><code>R/result.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/listTables.R'><code>R/listTables.R</code></a>, <a href='https://github.com/jonkeane/dbtest/blob/master/R/quote.R'><code>R/quote.R</code></a>, and 2 more</small>
     <div class="hidden name"><code>mock-db-methods.Rd</code></div>
     </div>
 
@@ -149,20 +149,32 @@ they read in mock responses and the code proceeds after that.</p>
 <span class='co'># S4 method for DBIMockConnection,ANY</span>
 <span class='fu'>dbListFields</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
 
+<span class='co'># S4 method for DBIMockRPostgresConnection,character</span>
+<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgresConnection,SQL</span>
+<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
 <span class='co'># S4 method for DBIMockConnection,character</span>
 <span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockResult</span>
 <span class='fu'>dbFetch</span>(<span class='no'>res</span>, <span class='kw'>n</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for DBIMockResult</span>
+<span class='co'># S4 method for DBIMockResult,ANY</span>
+<span class='fu'>fetch</span>(<span class='no'>res</span>, <span class='kw'>n</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockResult,missing</span>
 <span class='fu'>fetch</span>(<span class='no'>res</span>, <span class='kw'>n</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockResult</span>
 <span class='fu'>dbClearResult</span>(<span class='no'>res</span>, <span class='no'>n</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockResult</span>
-<span class='fu'>dbHasCompleted</span>(<span class='no'>res</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>dbHasCompleted</span>(<span class='no'>res</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgreSQLConnection,character</span>
+<span class='fu'>dbGetQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,6 +191,10 @@ be of class <code>DBIMockConnection</code>)</p></td>
     <tr>
       <th>name</th>
       <td><p>name of the table (for <code>dbListFields</code>)</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>a name to quote (for <code>dbQuoteIdentifier</code>)</p></td>
     </tr>
     <tr>
       <th>statement</th>
