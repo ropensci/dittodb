@@ -80,7 +80,7 @@ setMethod(
 #' @importFrom methods setMethod new
 #' @export
 setMethod(
-  "dbGetQuery", signature("DBIMockConnection", "character"),
+  "dbGetQuery", signature("DBIMockRPostgreSQLConnection", "character"),
   function(conn, statement, ...) {
     # TODO: this is really only needed for RPostgreSQL, and even for that, we
     # likely could instead just mock `isPostgresqlIdCurrent` to return a valid

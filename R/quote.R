@@ -1,7 +1,7 @@
 # should be only DBIMockRPostgresConnection?
 #' @rdname mock-db-methods
 #' @export
-setMethod("dbQuoteIdentifier", c("DBIMockConnection", "character"), function(conn, x, ...) {
+setMethod("dbQuoteIdentifier", c("DBIMockRPostgresConnection", "character"), function(conn, x, ...) {
   if (anyNA(x)) {
     stop("Cannot pass NA to dbQuoteIdentifier()", call. = FALSE)
   }
@@ -10,6 +10,6 @@ setMethod("dbQuoteIdentifier", c("DBIMockConnection", "character"), function(con
 
 #' @rdname mock-db-methods
 #' @export
-setMethod("dbQuoteIdentifier", c("DBIMockConnection", "SQL"), function(conn, x, ...) {
+setMethod("dbQuoteIdentifier", c("DBIMockRPostgresConnection", "SQL"), function(conn, x, ...) {
   return(x)
 })

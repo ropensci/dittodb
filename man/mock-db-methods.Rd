@@ -10,8 +10,8 @@
 \alias{dbListFields,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,Id-method}
 \alias{dbListFields,DBIMockConnection,ANY-method}
-\alias{dbQuoteIdentifier,DBIMockConnection,character-method}
-\alias{dbQuoteIdentifier,DBIMockConnection,SQL-method}
+\alias{dbQuoteIdentifier,DBIMockRPostgresConnection,character-method}
+\alias{dbQuoteIdentifier,DBIMockRPostgresConnection,SQL-method}
 \alias{DBIMockResult-class}
 \alias{dbSendQuery,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
@@ -19,7 +19,7 @@
 \alias{fetch,DBIMockResult-method}
 \alias{dbClearResult,DBIMockResult-method}
 \alias{dbHasCompleted,DBIMockResult-method}
-\alias{dbGetQuery,DBIMockConnection,character-method}
+\alias{dbGetQuery,DBIMockRPostgreSQLConnection,character-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
@@ -34,9 +34,9 @@
 
 \S4method{dbListFields}{DBIMockConnection,ANY}(conn, name, ...)
 
-\S4method{dbQuoteIdentifier}{DBIMockConnection,character}(conn, x, ...)
+\S4method{dbQuoteIdentifier}{DBIMockRPostgresConnection,character}(conn, x, ...)
 
-\S4method{dbQuoteIdentifier}{DBIMockConnection,SQL}(conn, x, ...)
+\S4method{dbQuoteIdentifier}{DBIMockRPostgresConnection,SQL}(conn, x, ...)
 
 \S4method{dbSendQuery}{DBIMockConnection,character}(conn, statement, ...)
 
@@ -48,7 +48,7 @@
 
 \S4method{dbHasCompleted}{DBIMockResult}(res, ...)
 
-\S4method{dbGetQuery}{DBIMockConnection,character}(conn, statement, ...)
+\S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should
