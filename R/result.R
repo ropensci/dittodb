@@ -59,6 +59,10 @@ setMethod("dbFetch", signature("DBIMockResult", "ANY"), mock_fetch)
 #' @export
 setMethod("fetch", signature("DBIMockResult", "ANY"), mock_fetch)
 
+# This is needed for RPostgreSQL to make doc building work
+#' @rdname mock-db-methods
+#' @export
+setMethod("fetch", signature("DBIMockResult", "missing"), mock_fetch)
 
 #' @rdname mock-db-methods
 #' @export

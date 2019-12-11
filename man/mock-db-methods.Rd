@@ -17,6 +17,7 @@
 \alias{dbFetch,DBIMockResult-method}
 \alias{fetch,DBIMockResult,ANY-method}
 \alias{fetch,DBIMockResult-method}
+\alias{fetch,DBIMockResult,missing-method}
 \alias{dbClearResult,DBIMockResult-method}
 \alias{dbHasCompleted,DBIMockResult-method}
 \alias{dbGetQuery,DBIMockRPostgreSQLConnection,character-method}
@@ -43,6 +44,8 @@
 \S4method{dbFetch}{DBIMockResult}(res, n = -1, ...)
 
 \S4method{fetch}{DBIMockResult,ANY}(res, n = -1, ...)
+
+\S4method{fetch}{DBIMockResult,missing}(res, n = -1, ...)
 
 \S4method{dbClearResult}{DBIMockResult}(res, n, ...)
 
