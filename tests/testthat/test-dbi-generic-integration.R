@@ -45,6 +45,9 @@ for (pkg in names(db_pkgs)) {
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
     # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
+    if (pkg == "RMariaDB") {
+      library("RMariaDB")
+    }
 
     # setup the database that will be mocked and then tested
     con <- eval(db_pkgs[[pkg]])
