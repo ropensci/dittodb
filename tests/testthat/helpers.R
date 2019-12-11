@@ -33,4 +33,12 @@ skip_locally <- function(message) {
 # this shouldn't be necesary since https://github.com/r-dbi/RMariaDB/issues/119
 # is resolved in RPostgres, but it still seems to be an issue.
 library("RMariaDB")
-setMethod("dbAppendTable", signature("MariaDBConnection"), selectMethod("dbAppendTable", c("DBIConnection"))@.Data)
+setMethod("dbAppendTable", signature("MariaDBConnection"), function (conn, name, value, ..., row.names = NULL)
+{
+  stopifnot(is.null(row.names))
+  query <- sqlAppendTableTemplate(con = conn, table = name,
+                                  values = value, row.names = row.names, prefix = "$",
+                                  pattern = "1", ...)
+  values <- sqlRownamesToColumn(value, row.names)
+  dbExecute(conn, query, param = unname(as.list(value)))
+})
