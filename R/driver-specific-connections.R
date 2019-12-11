@@ -6,6 +6,9 @@
 #'
 #' @name driver-specifc-mock-connections
 #'
+NULL
+
+#' @rdname driver-specifc-mock-connections
 #' @export
 setClass("DBIMockSQLiteConnection")
 

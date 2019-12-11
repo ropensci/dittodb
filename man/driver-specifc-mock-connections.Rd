@@ -3,6 +3,7 @@
 \docType{class}
 \name{driver-specifc-mock-connections}
 \alias{driver-specifc-mock-connections}
+\alias{DBIMockSQLiteConnection-class}
 \alias{DBIMockRPostgreSQLConnection-class}
 \alias{DBIMockRPostgresConnection-class}
 \alias{DBIMockMariaDBConnection-class}
