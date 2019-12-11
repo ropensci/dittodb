@@ -11,11 +11,16 @@
     real_conn = "PostgreSQLConnection"
   )
 
-
   set_driver_class(
     pkg = "RPostgres",
     mock_conn = "DBIMockRPostgresConnection",
     real_conn = "PqConnection"
+  )
+
+  set_driver_class(
+    pkg = "RMariaDB",
+    mock_conn = "DBIMockMariaDBConnection",
+    real_conn = "MariaDBConnection"
   )
 }
 

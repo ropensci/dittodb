@@ -55,7 +55,7 @@ dbMockConnect <- function(drv, ...) {
     mock_class <- "DBIMockRPostgresConnection"
     original_class <- "PqConnection"
   } else if (inherits(drv, "MariaDBDriver")) {
-    mock_class <- "DBIMockConnection"
+    mock_class <- "DBIMockMariaDBConnection"
     original_class <- "MariaDBConnection"
   } else if (inherits(drv, "OdbcDriver")) {
     mock_class <- "DBIMockConnection"
