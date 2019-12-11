@@ -113,6 +113,16 @@ for (pkg in names(db_pkgs)) {
         fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
       }
 
+      if (pkg == "RMariaDB") {
+        airlines_expected <- dbReadTable(con, "airlines")
+      } else if (pkg == "odbc") {
+        airlines_expected <- dbReadTable(con, Id(schema = schema, table = "airlines"))
+      } else if (pkg == "RPostgreSQL") {
+        airlines_expected <- dbReadTable(con, c(schema, "airlines"))
+      } else if (pkg == "RPostgres") {
+        airlines_expected <- dbReadTable(con, Id(schema = schema, table = "airlines"))
+      }
+
       dbDisconnect(con)
       stop_capturing()
 
@@ -175,6 +185,25 @@ for (pkg in names(db_pkgs)) {
             out <- dbListFields(con, Id(schema = schema, table = "flights"))
           }
           expect_identical(out, fields_flights)
+          expect_identical(out, c(
+            "year", "month", "day", "dep_time", "sched_dep_time", "dep_delay",
+            "arr_time", "sched_arr_time", "arr_delay", "carrier", "flight",
+            "tailnum", "origin", "dest", "air_time", "distance", "hour",
+            "minute", "time_hour"
+          ))
+        })
+
+        test_that(glue("dbReadTable() {pkg}"), {
+          if (pkg == "RMariaDB") {
+            out <- dbReadTable(con, "airlines")
+          } else if (pkg == "odbc") {
+            out <- dbReadTable(con, Id(schema = schema, table = "airlines"))
+          } else if (pkg == "RPostgreSQL") {
+            out <- dbReadTable(con, c(schema, "airlines"))
+          } else if (pkg == "RPostgres") {
+            out <- dbReadTable(con, Id(schema = schema, table = "airlines"))
+          }
+          expect_identical(out, airlines_expected)
         })
 
         dbDisconnect(con)

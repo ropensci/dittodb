@@ -59,6 +59,10 @@ setMethod("dbFetch", signature("DBIMockResult", "ANY"), mock_fetch)
 #' @export
 setMethod("fetch", signature("DBIMockResult", "ANY"), mock_fetch)
 
+# This is needed for RPostgreSQL to make doc building work
+#' @rdname mock-db-methods
+#' @export
+setMethod("fetch", signature("DBIMockResult", "missing"), mock_fetch)
 
 #' @rdname mock-db-methods
 #' @export
@@ -73,5 +77,21 @@ setMethod(
 setMethod(
   "dbHasCompleted", signature("DBIMockResult"),
   function(res, ...) return(TRUE)
+)
+
+
+#' @rdname mock-db-methods
+#' @importFrom methods setMethod new
+#' @export
+setMethod(
+  "dbGetQuery", signature("DBIMockRPostgreSQLConnection", "character"),
+  function(conn, statement, ...) {
+    # TODO: this is really only needed for RPostgreSQL, and even for that, we
+    # likely could instead just mock `isPostgresqlIdCurrent` to return a valid
+    # value
+    # https://github.com/tomoakin/RPostgreSQL/blob/master/RPostgreSQL/R/PostgreSQLSupport.R#L266
+    res <- dbSendQuery(conn, statement, ...)
+    return(mock_fetch(res, -1))
+  }
 )
 
