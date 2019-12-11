@@ -1,21 +1,25 @@
-#' Driver-specfic mock classes
-#'
+#' Driver-specific mock classes
 #'
 #' Each of the drivers that are supported have their own mock connection class.
-#' They all inherit from DBIMockConnection as well as their own driver's connection
+#' They all inherit from `DBIMockConnection` as well as their own driver's connection
 #' class. Each is only really available if the corresponding package is installed.
 #'
 #' @name driver-specifc-mock-connections
 #'
-#' @aliases DBIMockSQLiteConnection-class DBIMockRPostgreSQLConnection-class
-#' DBIMockRPostgresConnection-class DBIMockMariaDBConnection-class
-#' @exportClass DBIMockSQLiteConnection
-#' @exportClass DBIMockRPostgreSQLConnection
-#' @exportClass DBIMockRPostgresConnection
-#' @exportClass DBIMockMariaDBConnection
-NULL
+#' @export
+setClass("DBIMockSQLiteConnection")
 
+#' @rdname driver-specifc-mock-connections
+#' @export
+setClass("DBIMockRPostgreSQLConnection")
 
+#' @rdname driver-specifc-mock-connections
+#' @export
+setClass("DBIMockRPostgresConnection")
+
+#' @rdname driver-specifc-mock-connections
+#' @export
+setClass("DBIMockMariaDBConnection")
 
 .onLoad <- function(libname, pkgname) {
   custom_classes <- list(
