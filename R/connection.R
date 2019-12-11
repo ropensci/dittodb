@@ -11,6 +11,7 @@
 #' be of class `DBIMockResult`)
 #' @param n number of results to fetch (ignored)
 #' @param name name of the table (for [`dbListFields`])
+#' @param x a name to quote (for [`dbQuoteIdentifier`])
 #' @param ... arguments passed on inside of the methods
 #'
 #' @name mock-db-methods
@@ -48,10 +49,10 @@ dbMockConnect <- function(drv, ...) {
     mock_class <- "DBIMockSQLiteConnection"
     original_class <- "SQLiteConnection"
   } else if (inherits(drv, "PostgreSQLDriver")) {
-    mock_class <- "DBIMockConnection"
+    mock_class <- "DBIMockRPostgreSQLConnection"
     original_class <- "PostgreSQLConnection"
   } else if (inherits(drv, "PqDriver")) {
-    mock_class <- "DBIMockConnection"
+    mock_class <- "DBIMockRPostgresConnection"
     original_class <- "PqConnection"
   } else if (inherits(drv, "MariaDBDriver")) {
     mock_class <- "DBIMockConnection"

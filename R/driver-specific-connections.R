@@ -4,6 +4,19 @@
     mock_conn = "DBIMockSQLiteConnection",
     real_conn = "SQLiteConnection"
   )
+
+  set_driver_class(
+    pkg = "RPostgreSQL",
+    mock_conn = "DBIMockRPostgreSQLConnection",
+    real_conn = "PostgreSQLConnection"
+  )
+
+
+  set_driver_class(
+    pkg = "RPostgres",
+    mock_conn = "DBIMockRPostgresConnection",
+    real_conn = "PqConnection"
+  )
 }
 
 set_driver_class <- function(pkg, mock_conn, real_conn) {
