@@ -59,7 +59,7 @@ for (pkg in names(db_pkgs)) {
     } else {
       schema <- ""
     }
-    con <- nycflights13_sql(con, schema = schema)
+    # con <- nycflights13_sql(con, schema = schema)
 
     if (schema == "") {
       airlines_table <- "airlines"

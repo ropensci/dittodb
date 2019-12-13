@@ -12,3 +12,5 @@ do
   ( docker exec -i dbtest-postgres psql -U postgres ) < db-setup/postgres-reset.sql && break
   n=$[$n+1]
 done
+
+( docker exec -i dbtest-postgres psql -U postgres ) < db-setup/postgres-nycflights.sql

@@ -13,3 +13,5 @@ do
   ( docker exec -i dbtest-mariadb mysql -pr2N5y7V* ) < db-setup/mariadb-reset.sql && break
   n=$[ $n+1 ]
 done
+
+( docker exec -i dbtest-mariadb mysql -pr2N5y7V* ) < db-setup/mariadb-nycflights.sql

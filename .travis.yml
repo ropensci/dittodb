@@ -11,7 +11,9 @@ before_install:
   - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/mariadb-brew.sh; fi
   - sleep 10
   - psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+  - psql -h 127.0.0.1 -U postgres -f db-setup/postgres-nycflights.sql
   - if [ $TRAVIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql; fi
+  - if [ $TRACIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root < db-setup/mariadb-nycflights.sql; fi
 
 addons:
   apt:
