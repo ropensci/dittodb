@@ -68,7 +68,7 @@ setMethod("fetch", signature("DBIMockResult", "missing"), mock_fetch)
 #' @export
 setMethod(
   "dbClearResult", signature("DBIMockResult"),
-  function(res, n, ...) return(NULL)
+  function(res, n, ...) return(invisible(TRUE))
 )
 
 # TODO: this should be smarter than just always saying things are done
@@ -76,7 +76,7 @@ setMethod(
 #' @export
 setMethod(
   "dbHasCompleted", signature("DBIMockResult"),
-  function(res, ...) return(TRUE)
+  function(res, ...) return(invisible(TRUE))
 )
 
 
