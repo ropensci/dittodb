@@ -25,8 +25,8 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
       DBROOTPASS: r2N5y7V*
       # disable tests on linux
-      DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
-      DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
+      # DBTEST_DISABLE_PG: ${{ contains(matrix.config.os, 'ubuntu') }}
+      # DBTEST_DISABLE_MARIA: ${{ contains(matrix.config.os, 'ubuntu') }}
 
     steps:
       - uses: actions/checkout@v1
