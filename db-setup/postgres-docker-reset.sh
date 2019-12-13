@@ -13,4 +13,4 @@ do
   n=$[$n+1]
 done
 
-( docker exec -i dbtest-postgres psql -U postgres ) < db-setup/postgres-nycflights.sql
+( docker exec -i dbtest-postgres psql -U postgres nycflights ) < db-setup/postgres-nycflights.sql
