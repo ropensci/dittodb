@@ -123,7 +123,7 @@ jobs:
       - name: Setup databases
         run: |
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          psql -h 127.0.0.1 -U postgres nycflights -f db-setup/postgres-nycflights.sql
+          psql -h 127.0.0.1 -U postgres -d nycflights -f db-setup/postgres-nycflights.sql
 
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
@@ -149,11 +149,13 @@ jobs:
         run: |
           # wipe databases
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          psql -h 127.0.0.1 -U postgres nycflights -f db-setup/postgres-nycflights.sql
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
+
+          # restore
+          psql -h 127.0.0.1 -U postgres -d nycflights -f db-setup/postgres-nycflights.sql
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
 
-
+          # coverage
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
         env:
