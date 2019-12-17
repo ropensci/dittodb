@@ -16,10 +16,6 @@ test_that("nycflights sqlite can be created", {
 
 skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
-test_that("simple fail", {
-  expect_true(FALSE)
-})
-
 # psql ----
 
 # odbc ----
