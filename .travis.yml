@@ -15,8 +15,10 @@ before_install:
   - mysql -u root < db-setup/mariadb-reset.sql
   - mysql -u root -e "source db-setup/mariadb-nycflights.sql"
 
+services:
+  - mysql
+
 addons:
-  mysql
   apt:
     packages:
       # this is to make the odbc/psql packages work
