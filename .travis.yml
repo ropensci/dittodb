@@ -11,7 +11,12 @@ before_install:
   - if [ $TRAVIS_OS_NAME = "osx" ]; then bash db-setup/mariadb-brew.sh; fi
   - sleep 10
   - psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql; fi
+  - psql -h 127.0.0.1 -U postgres nycflights -f db-setup/postgres-nycflights.sql
+  - mysql -u root < db-setup/mariadb-reset.sql
+  - mysql -u root -e "source db-setup/mariadb-nycflights.sql"
+
+services:
+  - mysql
 
 addons:
   apt:
@@ -22,8 +27,6 @@ addons:
       - libpq-dev
 
 before_script:
-  - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
-  - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_MARIA=true; fi
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sudo apt install unixodbc-dev odbc-postgresql; fi
   # we have to install from source, or else we get `result_fetch(res@ptr, n = n)`
   - R -q -e 'install.packages(c("RMariaDB","odbc","RPostgreSQL","RPostgres"), type = "source");'

@@ -59,7 +59,7 @@ for (pkg in names(db_pkgs)) {
     } else {
       schema <- ""
     }
-    con <- nycflights13_sql(con, schema = schema)
+    # con <- nycflights13_sql(con, schema = schema)
 
     if (schema == "") {
       airlines_table <- "airlines"
@@ -204,6 +204,11 @@ for (pkg in names(db_pkgs)) {
             out <- dbReadTable(con, Id(schema = schema, table = "airlines"))
           }
           expect_identical(out, airlines_expected)
+        })
+
+        test_that(glue("dbClearResult {pkg}"), {
+          result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 3"))
+          expect_true(dbClearResult(result))
         })
 
         dbDisconnect(con)
