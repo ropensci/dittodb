@@ -16,7 +16,7 @@ before_install:
   - mysql -u root -e "source db-setup/mariadb-nycflights.sql"
 
 addons:
-  mariadb: '10.4'
+  mysql
   apt:
     packages:
       # this is to make the odbc/psql packages work
