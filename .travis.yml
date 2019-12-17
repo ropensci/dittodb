@@ -12,10 +12,11 @@ before_install:
   - sleep 10
   - psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
   - psql -h 127.0.0.1 -U postgres nycflights -f db-setup/postgres-nycflights.sql
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"; fi
+  - mysql -h 127.0.0.1 -u root < db-setup/mariadb-reset.sql
+  - mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
 
 addons:
+  mariadb: '10.4'
   apt:
     packages:
       # this is to make the odbc/psql packages work
