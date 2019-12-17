@@ -68,7 +68,7 @@ con_rpostgresql <- RPostgreSQL::dbConnect(
 
 test_that("DBI, with a new schema creation and rpostgresql package", {
   expect_message(
-    nycflights13_sql(con_rpostgresql, schema = "new_schema"),
+    nycflights13_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
     paste0(c(
       "Creating the testing database from nycflights13",
       "Creating table: airlines",
@@ -84,7 +84,7 @@ test_that("DBI, with a new schema creation and rpostgresql package", {
 
 test_that("DBI, with a same schema creation and rpostgresql package", {
   expect_message(
-    nycflights13_sql(con_rpostgresql, schema = "new_schema"),
+    nycflights13_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
     "Creating the testing database from nycflights13"
   )
 })
