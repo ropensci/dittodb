@@ -16,6 +16,10 @@ test_that("nycflights sqlite can be created", {
 
 skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
+test_that("simple fail", {
+  expect_true(FALSE)
+})
+
 # psql ----
 
 # odbc ----
@@ -92,39 +96,42 @@ test_that("DBI, with a same schema creation and rpostgresql package", {
 dbDisconnect(con_rpostgresql)
 
 # rpostgres ----
+test_that("RPostgres", {
+  skip_env("RPostgres")
 
-skip_env("RPostgres")
+  con_rpostgres <- DBI::dbConnect(
+    drv = RPostgres::Postgres(),
+    host = "127.0.0.1",
+    dbname = "postgres",
+    user = db_user,
+    password = db_pass,
+    port = 5432
+  )
 
-con_rpostgres <- DBI::dbConnect(
-  drv = RPostgres::Postgres(),
-  host = "127.0.0.1",
-  dbname = "postgres",
-  user = db_user,
-  password = db_pass,
-  port = 5432
-)
-
-test_that("DBI, with a new schema creation and rpostgres package", {
-  expect_message(
-    nycflights13_sql(con_rpostgres, schema = "new_schema"),
-    paste0(c(
-      "Creating the testing database from nycflights13",
-      "Creating table: airlines",
-      "Creating table: airports",
-      "Creating table: flights",
-      "Creating table: planes",
-      "Creating table: weather"
-    ),
-    collapse = "|"
+  test_that("DBI, with a new schema creation and rpostgres package", {
+    expect_message(
+      nycflights13_sql(con_rpostgres, schema = "new_schema"),
+      paste0(c(
+        "Creating the testing database from nycflights13",
+        "Creating table: airlines",
+        "Creating table: airports",
+        "Creating table: flights",
+        "Creating table: planes",
+        "Creating table: weather"
+      ),
+      collapse = "|"
+      )
     )
-  )
+  })
+
+  test_that("DBI, with a same schema creation and rpostgres package", {
+    expect_message(
+      nycflights13_sql(con_rpostgres, schema = "new_schema"),
+      "Creating the testing database from nycflights13"
+    )
+  })
+
+  dbDisconnect(con_rpostgres)
 })
 
-test_that("DBI, with a same schema creation and rpostgres package", {
-  expect_message(
-    nycflights13_sql(con_rpostgres, schema = "new_schema"),
-    "Creating the testing database from nycflights13"
-  )
-})
 
-dbDisconnect(con_rpostgres)
