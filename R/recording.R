@@ -144,6 +144,27 @@ start_capturing <- function(path) {
     })
   ))
 
+
+  quietly(trace_dbi(
+    "dbColumnInfo",
+    exit = quote({
+      thing <- returnValue()
+      if (inherits(res, "PostgreSQLResult")) {
+        result_info <- RPostgreSQL::postgresqlResultInfo(res)
+        hash <- hash(result_info$statement)
+      } else if (inherits(res, c("MariaDBResult", "PqResult"))) {
+        hash <- hash(res@sql)
+      } else if (inherits(res, "OdbcResult")) {
+        hash <- hash(res@statement)
+      } else {
+
+      }
+      path <- make_path(.dbtest_env$db_path, "columnInfo", hash)
+      dput(thing, path, control = c("all", "hexNumeric"))
+    })
+  ))
+
+
   return(invisible(NULL))
 }
 
@@ -156,7 +177,7 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables", "dbListFields")) {
+  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables", "dbListFields", "dbColumnInfo")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

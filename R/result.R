@@ -111,3 +111,17 @@ setMethod(
   }
 )
 
+# This is only strictly necesary for odbc, RPostgres, RPostgreSQL, and RMariaDB
+# use standard queries to list tables.
+# TODO: investigate if it is better to have a special case for ODBC and use
+# the standard sql for the others or use this code for all.
+#' @rdname mock-db-methods
+#'
+#' @importFrom glue glue
+#'
+#' @export
+setMethod("dbColumnInfo", signature("DBIMockResult"), function(res, ...) {
+  path <- make_path(res@path, "columnInfo", res@hash)
+  return(read_file(find_file(path)))
+})
+

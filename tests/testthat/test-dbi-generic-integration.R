@@ -123,6 +123,10 @@ for (pkg in names(db_pkgs)) {
         airlines_expected <- dbReadTable(con, Id(schema = schema, table = "airlines"))
       }
 
+      res <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
+      airlines_col_info <- dbColumnInfo(res)
+      dbClearResult(res)
+
       dbDisconnect(con)
       stop_capturing()
 
@@ -209,6 +213,13 @@ for (pkg in names(db_pkgs)) {
         test_that(glue("dbClearResult {pkg}"), {
           result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 3"))
           expect_true(dbClearResult(result))
+        })
+
+        test_that(glue("dbColumnInfo {pkg}"), {
+          res_out <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
+          out <- dbColumnInfo(res_out)
+          expect_identical(out, airlines_col_info)
+          dbClearResult(res_out)
         })
 
         dbDisconnect(con)
