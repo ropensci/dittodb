@@ -40,9 +40,7 @@ jobs:
       - name: Ensure that tex has all the correct packages
         if: contains(matrix.config.args, 'no-manual') == false
         run: |
-          tlmgr install ltxcmds
-          tlmgr install kvsetkeys
-
+          tlmgr install ltxcmds kvsetkeys kvdefinekeys
 
       - name: Cache R packages
         uses: actions/cache@v1
