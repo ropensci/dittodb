@@ -40,7 +40,7 @@ jobs:
       - name: Ensure that tex has all the correct packages
         if: contains(matrix.config.args, 'no-manual') == false
         run: |
-          tlmgr install ltxcmds kvsetkeys kvdefinekeys hycolor intcalc etexcmds bigintcalc
+          tlmgr install ltxcmds kvsetkeys kvdefinekeys hycolor intcalc etexcmds bigintcalc uniquecounter
 
       - name: Cache R packages
         uses: actions/cache@v1
