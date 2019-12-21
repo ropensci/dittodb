@@ -93,15 +93,19 @@ for (pkg in names(db_pkgs)) {
     dbDisconnect(con)
 
     with_mock_path(path = file.path(temp_dir, glue("{pkg}_integration")), {
+      # recording ----
       start_capturing()
 
       con <- eval(db_pkgs[[pkg]])
 
+      # dbGetQuery ====
       dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
       dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 1"))
 
+      # dbListTables ====
       tables <- dbListTables(con)
 
+      # dbListFields ====
       # dbListFields is ever so slightly different for each
       if (pkg == "RMariaDB") {
         fields_flights <- dbListFields(con, "flights")
@@ -113,6 +117,7 @@ for (pkg in names(db_pkgs)) {
         fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
       }
 
+      # dbReadTable ====
       if (pkg == "RMariaDB") {
         airlines_expected <- dbReadTable(con, "airlines")
       } else if (pkg == "odbc") {
@@ -123,21 +128,28 @@ for (pkg in names(db_pkgs)) {
         airlines_expected <- dbReadTable(con, Id(schema = schema, table = "airlines"))
       }
 
+      # dbClearResult ====
       res <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
       airlines_col_info <- dbColumnInfo(res)
       dbClearResult(res)
+
+      # dbGetInfo ====
+      con_info <- dbGetInfo(con)
 
       dbDisconnect(con)
       stop_capturing()
 
 
+      # using fixtures ----
       with_mock_db({
         con <- eval(db_pkgs[[pkg]])
 
+        # connection object ====
         test_that(glue("Our connection is a mock connection {pkg}"), {
           expect_is(con, "DBIMockConnection")
         })
 
+        # dbGetQuery/dbSendquery ====
         test_that(glue("We can use mocks for dbGetQuery {pkg}"), {
           expect_identical(
             dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2")),
@@ -172,11 +184,13 @@ for (pkg in names(db_pkgs)) {
           )
         })
 
+        # dbListTables ====
         test_that(glue("dbListTables() {pkg}"), {
           out <- dbListTables(con)
           expect_identical(out, tables)
         })
 
+        # dbListFields ====
         test_that(glue("dbListFields() {pkg}"), {
           # dbListFields is ever so slightly different for each
           if (pkg == "RMariaDB") {
@@ -197,6 +211,7 @@ for (pkg in names(db_pkgs)) {
           ))
         })
 
+        # dbReadTable ====
         test_that(glue("dbReadTable() {pkg}"), {
           if (pkg == "RMariaDB") {
             out <- dbReadTable(con, "airlines")
@@ -210,16 +225,25 @@ for (pkg in names(db_pkgs)) {
           expect_identical(out, airlines_expected)
         })
 
+        # dbClearResult====
         test_that(glue("dbClearResult {pkg}"), {
           result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 3"))
           expect_true(dbClearResult(result))
         })
 
+        # dbColumnInfo ====
         test_that(glue("dbColumnInfo {pkg}"), {
           res_out <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
           out <- dbColumnInfo(res_out)
           expect_identical(out, airlines_col_info)
           dbClearResult(res_out)
+        })
+
+        # dbGetInfo ====
+        test_that("dbGetInfo", {
+          skip_if(pkg == "RPostgreSQL")
+          out <- dbGetInfo(con)
+          expect_identical(out, con_info)
         })
 
         dbDisconnect(con)

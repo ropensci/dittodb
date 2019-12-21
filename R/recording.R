@@ -157,13 +157,24 @@ start_capturing <- function(path) {
       } else if (inherits(res, "OdbcResult")) {
         hash <- hash(res@statement)
       } else {
-
+        # TODO: some default?
       }
       path <- make_path(.dbtest_env$db_path, "columnInfo", hash)
       dput(thing, path, control = c("all", "hexNumeric"))
     })
   ))
 
+  # TODO: for RPostgreSQL to work, we need to prevent RPostgreSQL's
+  # `postgresqlCloseConnection` from calling `dbListResults` which over-writes
+  # our fixture
+  quietly(trace_dbi(
+    "dbGetInfo",
+    exit = quote({
+      thing <- returnValue()
+      path <- make_path(.dbtest_env$db_path, "conInfo", "")
+      dput(thing, path, control = c("all", "hexNumeric"))
+    })
+  ))
 
   return(invisible(NULL))
 }
@@ -177,7 +188,9 @@ start_capturing <- function(path) {
 #' @rdname capture_requests
 #' @export
 stop_capturing <- function() {
-  for (func in c("dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables", "dbListFields", "dbColumnInfo")) {
+  for (func in c(
+    "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
+    "dbListFields", "dbColumnInfo", "dbGetInfo")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

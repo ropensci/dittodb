@@ -115,3 +115,12 @@ setMethod(
     getMethod("dbListTables", signature = conn@original_class)(conn, ...)
   }
 )
+
+#' @rdname mock-db-methods
+#'
+#' @export
+setMethod("dbGetInfo", signature("DBIMockConnection"), function(dbObj, ...) {
+  path <- make_path(dbObj@path, "conInfo", "")
+  return(read_file(find_file(path)))
+})
+
