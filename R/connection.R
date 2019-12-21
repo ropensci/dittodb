@@ -13,6 +13,7 @@
 #' @param name name of the table (for [`dbListFields`])
 #' @param x a name to quote (for [`dbQuoteIdentifier`])
 #' @param ... arguments passed on inside of the methods
+#' @param dbObj a database object (a connection, result, etc.) for use in `dbGetInfo`
 #'
 #' @name mock-db-methods
 NULL
