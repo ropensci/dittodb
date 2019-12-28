@@ -7,6 +7,7 @@
 \alias{DBIMockConnection-class}
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
+\alias{dbGetInfo,DBIMockConnection-method}
 \alias{dbListFields,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,Id-method}
 \alias{dbListFields,DBIMockConnection,ANY-method}
@@ -21,11 +22,15 @@
 \alias{dbClearResult,DBIMockResult-method}
 \alias{dbHasCompleted,DBIMockResult-method}
 \alias{dbGetQuery,DBIMockRPostgreSQLConnection,character-method}
+\alias{dbColumnInfo,DBIMockResult-method}
+\alias{dbGetInfo,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
+
+\S4method{dbGetInfo}{DBIMockConnection}(dbObj, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
@@ -52,12 +57,20 @@
 \S4method{dbHasCompleted}{DBIMockResult}(res, ...)
 
 \S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
+
+\S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
+
+\S4method{dbColumnInfo}{DBIMockResult}(res, ...)
+
+\S4method{dbGetInfo}{DBIMockResult}(dbObj, ...)
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should
 be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
+
+\item{dbObj}{a database object (a connection, result, etc.) for use in \code{dbGetInfo}}
 
 \item{name}{name of the table (for \code{\link{dbListFields}})}
 

@@ -13,6 +13,7 @@
 #' @param name name of the table (for [`dbListFields`])
 #' @param x a name to quote (for [`dbQuoteIdentifier`])
 #' @param ... arguments passed on inside of the methods
+#' @param dbObj a database object (a connection, result, etc.) for use in `dbGetInfo`
 #'
 #' @name mock-db-methods
 NULL
@@ -115,3 +116,12 @@ setMethod(
     getMethod("dbListTables", signature = conn@original_class)(conn, ...)
   }
 )
+
+#' @rdname mock-db-methods
+#'
+#' @export
+setMethod("dbGetInfo", signature("DBIMockConnection"), function(dbObj, ...) {
+  path <- make_path(dbObj@path, "conInfo", "")
+  return(read_file(find_file(path)))
+})
+
