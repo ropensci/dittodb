@@ -201,10 +201,8 @@ start_capturing <- function(path) {
     signature = "DBIResult",
     exit = quote({
       thing <- returnValue()
-      if (inherits(dbObj, "PostgreSQLResult")) {
-        result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
-        hash <- hash(result_info$statement)
-      } else if (inherits(dbObj, c("MariaDBResult", "PqResult"))) {
+      # TODO: would this be better if we traced the methods individually?
+      if (inherits(dbObj, c("MariaDBResult", "PqResult"))) {
         hash <- hash(dbObj@sql)
       } else if (inherits(dbObj, "OdbcResult")) {
         hash <- hash(dbObj@statement)
