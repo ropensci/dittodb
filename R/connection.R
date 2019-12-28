@@ -10,10 +10,11 @@
 #' @param res a result object (for dispatch with these methods, it should
 #' be of class `DBIMockResult`)
 #' @param n number of results to fetch (ignored)
-#' @param name name of the table (for [`dbListFields`])
+#' @param name name of the table (for [`dbListFields`], [`dbWriteTable`], [`dbRemoveTable`])
 #' @param x a name to quote (for [`dbQuoteIdentifier`])
 #' @param ... arguments passed on inside of the methods
-#' @param dbObj a database object (a connection, result, etc.) for use in `dbGetInfo`
+#' @param dbObj a database object (a connection, result, etc.) for use in [`dbGetInfo`]
+#' @param value a value (generally a `data.frame`) for use in [`dbWriteTable`]
 #'
 #' @name mock-db-methods
 NULL
@@ -125,3 +126,18 @@ setMethod("dbGetInfo", signature("DBIMockConnection"), function(dbObj, ...) {
   return(read_file(find_file(path)))
 })
 
+# TODO: should we also implement signature("DBIMockConnection", "character", "character")
+# most backends warn that it isn't well supported.
+#' @rdname mock-db-methods
+#' @export
+setMethod(
+  "dbWriteTable", signature("DBIMockConnection", "character", "data.frame"),
+  function(conn, name, value, ...) return(TRUE)
+)
+
+#' @rdname mock-db-methods
+#' @export
+setMethod(
+  "dbRemoveTable", signature("DBIMockConnection", "character"),
+  function(conn, name, ...) return(TRUE)
+)

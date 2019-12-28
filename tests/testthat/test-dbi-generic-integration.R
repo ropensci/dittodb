@@ -257,6 +257,16 @@ for (pkg in names(db_pkgs)) {
           expect_identical(out, result_info)
         })
 
+        # dbWriteTable ====
+        test_that("dbWriteTable", {
+          expect_true(dbWriteTable(con, "mtcars", mtcars))
+        })
+
+        # dbRemoveTable ====
+        test_that("dbRemoveTable", {
+          expect_true(dbRemoveTable(con, "mtcars"))
+        })
+
         dbDisconnect(con)
       })
     })

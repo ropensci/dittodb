@@ -8,6 +8,8 @@
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
 \alias{dbGetInfo,DBIMockConnection-method}
+\alias{dbWriteTable,DBIMockConnection,character,data.frame-method}
+\alias{dbRemoveTable,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,Id-method}
 \alias{dbListFields,DBIMockConnection,ANY-method}
@@ -31,6 +33,10 @@
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
 \S4method{dbGetInfo}{DBIMockConnection}(dbObj, ...)
+
+\S4method{dbWriteTable}{DBIMockConnection,character,data.frame}(conn, name, value, ...)
+
+\S4method{dbRemoveTable}{DBIMockConnection,character}(conn, name, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
@@ -70,9 +76,11 @@ be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
 
-\item{dbObj}{a database object (a connection, result, etc.) for use in \code{dbGetInfo}}
+\item{dbObj}{a database object (a connection, result, etc.) for use in \code{\link{dbGetInfo}}}
 
-\item{name}{name of the table (for \code{\link{dbListFields}})}
+\item{name}{name of the table (for \code{\link{dbListFields}}, \code{\link{dbWriteTable}}, \code{\link{dbRemoveTable}})}
+
+\item{value}{a value (generally a \code{data.frame}) for use in \code{\link{dbWriteTable}}}
 
 \item{x}{a name to quote (for \code{\link{dbQuoteIdentifier}})}
 
