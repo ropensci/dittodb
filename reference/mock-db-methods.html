@@ -138,6 +138,9 @@ they read in mock responses and the code proceeds after that.</p>
 <span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection</span>
+<span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection,character</span>
@@ -174,7 +177,16 @@ they read in mock responses and the code proceeds after that.</p>
 <span class='fu'>dbHasCompleted</span>(<span class='no'>res</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockRPostgreSQLConnection,character</span>
-<span class='fu'>dbGetQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>dbGetQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgreSQLConnection,character</span>
+<span class='fu'>dbGetQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockResult</span>
+<span class='fu'>dbColumnInfo</span>(<span class='no'>res</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockResult</span>
+<span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,6 +199,10 @@ be of class <code>DBIMockConnection</code>)</p></td>
     <tr>
       <th>...</th>
       <td><p>arguments passed on inside of the methods</p></td>
+    </tr>
+    <tr>
+      <th>dbObj</th>
+      <td><p>a database object (a connection, result, etc.) for use in <code>dbGetInfo</code></p></td>
     </tr>
     <tr>
       <th>name</th>
