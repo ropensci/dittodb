@@ -140,6 +140,12 @@ they read in mock responses and the code proceeds after that.</p>
 <span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)
 
+<span class='co'># S4 method for DBIMockConnection,character,data.frame</span>
+<span class='fu'>dbWriteTable</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>value</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,character</span>
+<span class='fu'>dbRemoveTable</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
+
 <span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
@@ -206,7 +212,11 @@ be of class <code>DBIMockConnection</code>)</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>name of the table (for <code>dbListFields</code>)</p></td>
+      <td><p>name of the table (for <code>dbListFields</code>, <code>dbWriteTable</code>, <code>dbRemoveTable</code>)</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>a value (generally a <code>data.frame</code>) for use in <code>dbWriteTable</code></p></td>
     </tr>
     <tr>
       <th>x</th>
