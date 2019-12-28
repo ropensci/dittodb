@@ -8,6 +8,8 @@
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbListTables,DBIMockConnection-method}
 \alias{dbGetInfo,DBIMockConnection-method}
+\alias{dbWriteTable,DBIMockConnection,character,data.frame-method}
+\alias{dbRemoveTable,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,Id-method}
 \alias{dbListFields,DBIMockConnection,ANY-method}
@@ -31,6 +33,10 @@
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
 \S4method{dbGetInfo}{DBIMockConnection}(dbObj, ...)
+
+\S4method{dbWriteTable}{DBIMockConnection,character,data.frame}(conn, name, value, ...)
+
+\S4method{dbRemoveTable}{DBIMockConnection,character}(conn, name, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
