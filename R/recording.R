@@ -75,6 +75,19 @@ trace_dbi <- function (...,
 }
 
 
+connection_list <- c(
+  "MariaDBConnection",
+  "PostgreSQLConnection",
+  "PqConnection",
+  "SQLiteConnection",
+  "OdbcConnection"
+)
+
+# for detecting if a particular method has been loaded
+method_loaded <- Vectorize(function(method, signature) {
+  return(any(grepl(signature, methods(method))))
+}, vectorize.args = "signature")
+
 #' @rdname capture_requests
 #' @export
 start_capturing <- function(path) {
@@ -149,6 +162,7 @@ start_capturing <- function(path) {
     "dbColumnInfo",
     exit = quote({
       thing <- returnValue()
+      # TODO: would this be better if we traced the methods using the signature arg?
       if (inherits(res, "PostgreSQLResult")) {
         result_info <- RPostgreSQL::postgresqlResultInfo(res)
         hash <- hash(result_info$statement)
@@ -167,14 +181,54 @@ start_capturing <- function(path) {
   # TODO: for RPostgreSQL to work, we need to prevent RPostgreSQL's
   # `postgresqlCloseConnection` from calling `dbListResults` which over-writes
   # our fixture
+  # each connection has to be mocked separately because there's no DBI::dbGetInfo for DBIConnection
+  for (conn in connection_list) {
+    if (method_loaded("dbGetInfo", conn)) {
+      quietly(trace_dbi(
+        "dbGetInfo",
+        signature = conn,
+        exit = quote({
+          thing <- returnValue()
+          path <- make_path(.dbtest_env$db_path, "conInfo", "")
+          dput(thing, path, control = c("all", "hexNumeric"))
+        })
+      ))
+    }
+  }
+
   quietly(trace_dbi(
     "dbGetInfo",
+    signature = "DBIResult",
     exit = quote({
       thing <- returnValue()
-      path <- make_path(.dbtest_env$db_path, "conInfo", "")
+      if (inherits(dbObj, "PostgreSQLResult")) {
+        result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
+        hash <- hash(result_info$statement)
+      } else if (inherits(dbObj, c("MariaDBResult", "PqResult"))) {
+        hash <- hash(dbObj@sql)
+      } else if (inherits(dbObj, "OdbcResult")) {
+        hash <- hash(dbObj@statement)
+      } else {
+        # TODO: some default?
+      }
+      path <- make_path(.dbtest_env$db_path, "resultInfo", hash)
       dput(thing, path, control = c("all", "hexNumeric"))
     })
   ))
+
+  if (method_loaded("dbGetInfo", "PostgreSQLResult")) {
+    quietly(trace_dbi(
+      "dbGetInfo",
+      signature = "PostgreSQLResult",
+      exit = quote({
+        thing <- returnValue()
+        result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
+        hash <- hash(result_info$statement)
+        path <- make_path(.dbtest_env$db_path, "resultInfo", hash)
+        dput(thing, path, control = c("all", "hexNumeric"))
+      })
+    ))
+  }
 
   return(invisible(NULL))
 }

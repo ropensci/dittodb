@@ -125,3 +125,10 @@ setMethod("dbColumnInfo", signature("DBIMockResult"), function(res, ...) {
   return(read_file(find_file(path)))
 })
 
+#' @rdname mock-db-methods
+#'
+#' @export
+setMethod("dbGetInfo", signature("DBIMockResult"), function(dbObj, ...) {
+  path <- make_path(dbObj@path, "resultInfo", dbObj@hash)
+  return(read_file(find_file(path)))
+})

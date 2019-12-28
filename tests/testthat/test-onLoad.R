@@ -29,12 +29,12 @@ test_that("set_driver_class is no-op for a non-existent package", {
 
 # Test with callr, in a separate function to ensure that the behavior of .onLoad
 # is what we expect.
-test_that(".onLoad add custom classes for all drivers that are available.", {
-  # standard, all packages installed
-  callr::r(function() {
-    library(testthat)
-    custom_connections <- c("DBIMockSQLiteConnection")
+# standard, all packages installed
+callr::r(function() {
+  library(testthat)
+  custom_connections <- c("DBIMockSQLiteConnection")
 
+  test_that(".onLoad add custom classes for all drivers that are available.", {
     # ensure they have all been removed
     for (class_name in custom_connections) {
       expect_error(getClass(class_name), "is not a defined class")
@@ -49,3 +49,4 @@ test_that(".onLoad add custom classes for all drivers that are available.", {
     }
   })
 })
+

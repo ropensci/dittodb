@@ -48,6 +48,7 @@ for (pkg in names(db_pkgs)) {
 
     # setup the database that will be mocked and then tested
     con <- eval(db_pkgs[[pkg]])
+    expect_s4_class(con, "DBIConnection")
 
     # Setup unique schemas for each of the Postgres-using drivers
     if (pkg == "odbc") {
@@ -59,7 +60,6 @@ for (pkg in names(db_pkgs)) {
     } else {
       schema <- ""
     }
-    # con <- nycflights13_sql(con, schema = schema)
 
     if (schema == "") {
       airlines_table <- "airlines"
@@ -135,6 +135,10 @@ for (pkg in names(db_pkgs)) {
 
       # dbGetInfo ====
       con_info <- dbGetInfo(con)
+
+      result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 4"))
+      result_info <- dbGetInfo(result)
+      dbClearResult(result)
 
       dbDisconnect(con)
       stop_capturing()
@@ -244,6 +248,13 @@ for (pkg in names(db_pkgs)) {
           skip_if(pkg == "RPostgreSQL")
           out <- dbGetInfo(con)
           expect_identical(out, con_info)
+        })
+
+        test_that("dbGetInfo", {
+          result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 4"))
+          out <- dbGetInfo(result)
+          dbClearResult(result)
+          expect_identical(out, result_info)
         })
 
         dbDisconnect(con)
