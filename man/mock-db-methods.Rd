@@ -23,6 +23,7 @@
 \alias{dbHasCompleted,DBIMockResult-method}
 \alias{dbGetQuery,DBIMockRPostgreSQLConnection,character-method}
 \alias{dbColumnInfo,DBIMockResult-method}
+\alias{dbGetInfo,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
@@ -60,6 +61,8 @@
 \S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
 
 \S4method{dbColumnInfo}{DBIMockResult}(res, ...)
+
+\S4method{dbGetInfo}{DBIMockResult}(dbObj, ...)
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should
