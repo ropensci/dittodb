@@ -190,7 +190,11 @@ start_capturing <- function(path) {
         exit = quote({
           thing <- returnValue()
           path <- make_path(.dbtest_env$db_path, "conInfo", "")
-          dput(thing, path, control = c("all", "hexNumeric"))
+          if (length(path) > 0) {
+            # generally .dbtest_env$db_path is not-null, but RPostgreSQL uses
+            # dbGetInfo in the connection process, don't record mocks then.
+            dput(thing, path, control = c("all", "hexNumeric"))
+          }
         })
       ))
     }
@@ -223,7 +227,11 @@ start_capturing <- function(path) {
         result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
         hash <- hash(result_info$statement)
         path <- make_path(.dbtest_env$db_path, "resultInfo", hash)
-        dput(thing, path, control = c("all", "hexNumeric"))
+        if (length(path) > 0) {
+          # generally .dbtest_env$db_path is not-null, but RPostgreSQL uses
+          # dbGetInfo in the connection process, don't record mocks then.
+          dput(thing, path, control = c("all", "hexNumeric"))
+        }
       })
     ))
   }
