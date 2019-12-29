@@ -27,8 +27,10 @@ Description: Testing and documenting code that communicates with remote
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
+Depends:
+    R (>= 3.3.0),
+    DBI
 Imports: 
-    DBI,
     digest,
     glue,
     methods,

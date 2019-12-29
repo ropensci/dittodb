@@ -8,14 +8,14 @@
 # https://github.com/r-dbi/RMariaDB/issues/119
 # This should be resolved already, but it still sometimes crops up.
 db_pkgs <- list(
-  "RMariaDB" = quote(DBI::dbConnect(
+  "RMariaDB" = quote(dbConnect(
     RMariaDB::MariaDB(),
     dbname = "nycflights",
     host = "127.0.0.1",
     username = "travis",
     password = ""
   )),
-  "odbc" = quote(DBI::dbConnect(
+  "odbc" = quote(dbConnect(
     odbc::odbc(),
     Driver = odbc_driver,
     Server = "127.0.0.1",
@@ -24,14 +24,14 @@ db_pkgs <- list(
     PWD = db_pass,
     Port = 5432
   )),
-  "RPostgreSQL" = quote(DBI::dbConnect(
+  "RPostgreSQL" = quote(dbConnect(
     RPostgreSQL::PostgreSQL(),
     dbname = "nycflights",
     host = "127.0.0.1",
     user = db_user,
     password = db_pass
   )),
-  "RPostgres" = quote(DBI::dbConnect(
+  "RPostgres" = quote(dbConnect(
     RPostgres::Postgres(),
     dbname = "nycflights",
     host = "127.0.0.1",
