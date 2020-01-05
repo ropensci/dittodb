@@ -266,10 +266,19 @@ stop_capturing <- function() {
   set_redactor(NULL)
 }
 
+
 set_redactor <- function(redactors) {
   .dbtest_env$redactor <- redactors
 }
 
+#' Get the current redactor
+#'
+#' This function should generally not be used, but must be exported for the
+#' query recording function to work properly
+#'
+#' @return the current list of columns to redact
+#' @export
+#' @keywords internal
 get_redactor <- function() {
   if(exists("redactor", envir = .dbtest_env)) {
     return(get("redactor", envir = .dbtest_env))

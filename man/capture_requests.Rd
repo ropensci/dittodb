@@ -6,7 +6,7 @@
 \alias{stop_capturing}
 \title{Capture and record database transactions and save them as mocks}
 \usage{
-start_capturing(path)
+start_capturing(path, redact_columns = NULL)
 
 stop_capturing()
 }

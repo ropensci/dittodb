@@ -13,7 +13,8 @@ redact_columns(data, columns, ignore.case = TRUE, ...)
 
 \item{ignore.case}{should case be ignored? (default: \code{TRUE})}
 
-\item{...}{additional options to pass on to \code{grep}}
+\item{...}{additional options to pass on to \code{grep} when matching the column
+names}
 }
 \value{
 data, with the columns specified in \code{columns} duly redacted
