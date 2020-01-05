@@ -31,7 +31,8 @@ standard_redactors <- function(data, columns) {
 #' @param data a dataframe to redact
 #' @param columns character, the columns to redact
 #' @param ignore.case should case be ignored? (default: `TRUE`)
-#' @param ... additional options to pass on to `grep`
+#' @param ... additional options to pass on to `grep` when matching the column
+#' names
 #'
 #' @return data, with the columns specified in `columns` duly redacted
 #' @export

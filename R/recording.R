@@ -90,11 +90,13 @@ method_loaded <- Vectorize(function(method, signature) {
 
 #' @rdname capture_requests
 #' @export
-start_capturing <- function(path) {
+start_capturing <- function(path, redact_columns = NULL) {
   if (!missing(path)) {
     ## Note that this changes state and doesn't reset it
     .mockPaths(path)
   }
+
+  set_redactor(redact_columns)
 
   quietly(trace_dbi(
     "dbConnect",
@@ -127,7 +129,8 @@ start_capturing <- function(path) {
     if (dbtest_debug_level(1)) {
       message("Writing to ", .dbtest_env$curr_file_path)
     }
-    dput(ans, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
+    out <- redact_columns(ans, columns = get_redactor())
+    dput(out, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
   })
 
   quietly(trace_dbi(
@@ -259,4 +262,18 @@ stop_capturing <- function() {
     safe_untrace(func, "DBI")
     safe_untrace(func)
   }
+
+  set_redactor(NULL)
+}
+
+set_redactor <- function(redactors) {
+  .dbtest_env$redactor <- redactors
+}
+
+get_redactor <- function() {
+  if(exists("redactor", envir = .dbtest_env)) {
+    return(get("redactor", envir = .dbtest_env))
+  }
+
+  return(NULL)
 }
