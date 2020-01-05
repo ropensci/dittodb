@@ -4,20 +4,22 @@ redact <- function(data, redactors) {
   return(data)
 }
 
-
 standard_redactors <- function(data, columns) {
   out <- lapply(columns, function(x) {
     col <- data[,x]
 
     if (inherits(col, "integer")) {
-      return(function(data) return(9L))
+      return(function(data) return(rep(9L, length(data))))
     } else if (inherits(col, "numeric")) {
-      return(function(data) return(9))
+      return(function(data) return(rep(9, length(data))))
     } else if (inherits(col, "character")) {
-      return(function(data) return("[redacted]"))
+      return(function(data) return(rep("[redacted]", length(data))))
     } else if (inherits(col, "POSIXct")) {
       # should this actually be POSIXt? or have a separate POSIXlt?
-      return(function(data) return(as.POSIXct("1988-10-11T17:00:00", tz = "EST")))
+      return(function(data) {
+        tzone <- attributes(data)$tzone %||% "EST"
+        return(rep(as.POSIXct("1988-10-11T17:00:00", tz = tzone), length(data)))
+      })
     }
   })
   names(out) <- columns
