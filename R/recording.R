@@ -16,6 +16,9 @@
 #'
 #' @param path the path to record mocks (default if missing: the first path in
 #' `.mockPaths()`.
+#' @param redact_columns a character vector of columns to redact. Any column
+#' that matches an entry will be redacted with a standard value for the column
+#' type (e.g. characters will be replaced with "\[redacted\]")
 #'
 #' @return NULL (invisibily)
 #'
@@ -27,6 +30,14 @@
 #' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
 #' res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
 #' df_2 <- dbFetch(res)
+#'
+#' dbDisconnect(con)
+#' stop_capturing()
+#'
+#' start_capturing(redact_columns = "carrier")
+#' con <- dbConnect(RSQLite::SQLite(), "memory")
+#'
+#' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
 #'
 #' dbDisconnect(con)
 #' stop_capturing()
