@@ -1,4 +1,4 @@
-list(statement = "SELECT * FROM public.flights AS \"zzz7\" WHERE 0=1", 
+list(statement = "SELECT * FROM public.flights AS \"zzz2\" WHERE 0=1", 
     isSelect = 1L, rowsAffected = -1L, rowCount = 0L, completed = 0L, 
     fieldDescription = list(list(name = c("year", "month", "day", 
     "dep_time", "sched_dep_time", "dep_delay", "arr_time", "sched_arr_time", 

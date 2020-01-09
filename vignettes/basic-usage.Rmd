@@ -70,10 +70,10 @@ con_psql <- RPostgreSQL::dbConnect(
     password = "_dbtest_"
   )
 
-delayed_10 <- tbl(con_psql, in_schema("public", "flights")) %>% 
+tbl(con_psql, in_schema("public", "flights")) %>% 
   filter(arr_delay >= 10)
 
-delayed_20 <- tbl(con_psql, in_schema("public", "flights")) %>% 
+tbl(con_psql, in_schema("public", "flights")) %>% 
   filter(arr_delay >= 20)
 
 dbDisconnect(con_psql)
@@ -84,9 +84,7 @@ stop_capturing()
 # Mocking connections
 
 ```{r}
-library(testthat)
-
-with_mock_db({
+delayed_10 <- with_mock_db({
   con_psql <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "dbtest",
@@ -95,14 +93,23 @@ with_mock_db({
     password = "_dbtest_"
   )
   
-  test_that("dbplyr works", {
-    delayed_10 <- tbl(con_psql, in_schema("public", "flights")) %>% 
+  tbl(con_psql, in_schema("public", "flights")) %>% 
       filter(arr_delay >= 10)
-    expect_is(delayed_10, "tbl_lazy")
-  })
 })
+
+delayed_20 <- with_mock_db({
+  con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
+  )
+  
+  tbl(con_psql, in_schema("public", "flights")) %>% 
+      filter(arr_delay >= 20)
+})
+
+delayed_10
+delayed_20
 ```
-
-
-
-
