@@ -1,0 +1,108 @@
+---
+title: "How to use this package"
+author: "Mauricio Vargas"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{How to use this package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, cache = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
+```
+
+# Connect to a database
+
+## SQLite
+
+To create the database `nycflights13` in memory, just type:
+```{r}
+con_sqlite <- nycflights13_sqlite()
+```
+
+## PostgreSQL
+
+Create a connection to an existing database in a PostgreSQL server
+(postgres.server is just an alias to an IP in our network):
+```{r}
+con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
+  )
+```
+
+RPostgreSQL and RPostgres packages are equally useful to acces PostgreSQL
+databases from R.
+
+## Other databases
+
+For mySQL, SQL Server and other databases, the process is very similar to
+PostgreSQL. In particular, any ODBC connection shall work with dbtest.
+
+# (Optional) Creating a database
+
+Create the database version of the nycflights13 datasets:
+```{r}
+nycflights13_sql(con = con_psql)
+dbDisconnect(con_psql)
+```
+
+## Recording SQL queries
+
+Capture the result of the queries for later replication:
+```{r}
+library(dplyr)
+library(dbplyr)
+
+start_capturing()
+
+con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
+  )
+
+delayed_10 <- tbl(con_psql, in_schema("public", "flights")) %>% 
+  filter(arr_delay >= 10)
+
+delayed_20 <- tbl(con_psql, in_schema("public", "flights")) %>% 
+  filter(arr_delay >= 20)
+
+dbDisconnect(con_psql)
+
+stop_capturing()
+```
+
+# Mocking connections
+
+```{r}
+library(testthat)
+
+with_mock_db({
+  con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
+  )
+  
+  test_that("dbplyr works", {
+    delayed_10 <- tbl(con_psql, in_schema("public", "flights")) %>% 
+      filter(arr_delay >= 10)
+    expect_is(delayed_10, "tbl_lazy")
+  })
+})
+```
+
+
+
+
