@@ -1,11 +1,11 @@
 ---
-title: "How to use this package"
+title: "Recording SQL queries with dbtest"
 author: "Mauricio Vargas"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: ../inst/REFERENCES.bib
 vignette: >
-  %\VignetteIndexEntry{How to use this package}
+  %\VignetteIndexEntry{Recording SQL queries with dbtest}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,9 +14,7 @@ vignette: >
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```
 
-# Recording SQL queries
-
-## Scope
+# Scope
 
 The present consists in mocking the connection to a real PostgreSQL server
 that contains nycflights13 database version amongst other databases.
@@ -28,7 +26,7 @@ Many of use have to use databases that are only accesible from a local network.
 We provide `with_mock_db()` that wraps the code and makes it reproducible
 outside the office.
 
-## Exploring nycflights13
+# Exploring nycflights13
 
 nycflights13 contains airline on-time data for all flights departing NYC in
 2013.  Also includes useful 'metadata' on airlines, airports, weather, an
@@ -38,7 +36,7 @@ Have a look to the database schema:
 
 ![nycflights relational diagram.](relational-nycflights.svg)
 
-## Recording queries
+# Recording queries
 
 Suppose we are asked to analyze the flights to only show flights with planes that have flown at least 100 flights.
 
@@ -93,6 +91,8 @@ dbDisconnect(con_psql)
 
 stop_capturing()
 ```
+
+# Reproducing query results
 
 If there was a success capturing one or more queries, then we are able to
 replicate the result connected to a different network or even without internet
