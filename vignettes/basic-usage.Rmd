@@ -14,77 +14,92 @@ vignette: >
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```
 
-# Connect to a database
+# Recording SQL queries
 
-## SQLite
+## Scope
 
-To create the database `nycflights13` in memory, just type:
-```{r}
-con_sqlite <- nycflights13_sqlite()
-```
+The present consists in mocking the connection to a real PostgreSQL server
+that contains nycflights13 database version amongst other databases.
 
-## PostgreSQL
+This example is for you if you ever wondered how to use scripts that you use
+at the office when you are at home or travelling.
 
-Create a connection to an existing database in a PostgreSQL server
-(postgres.server is just an alias to an IP in our network):
-```{r}
-con_psql <- RPostgreSQL::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dbtest",
-    host = "postgres.server",
-    user = "dbtest",
-    password = "_dbtest_"
-  )
-```
+Many of use have to use databases that are only accesible from a local network. 
+We provide `with_mock_db()` that wraps the code and makes it reproducible
+outside the office.
 
-RPostgreSQL and RPostgres packages are equally useful to acces PostgreSQL
-databases from R.
+## Exploring nycflights13
 
-## Other databases
+nycflights13 contains airline on-time data for all flights departing NYC in
+2013.  Also includes useful 'metadata' on airlines, airports, weather, an
+planes.
+    
+Have a look to the database schema:
 
-For mySQL, SQL Server and other databases, the process is very similar to
-PostgreSQL. In particular, any ODBC connection shall work with dbtest.
+![nycflights relational diagram.](relational-nycflights.svg)
 
-# (Optional) Creating a database
+## Recording queries
 
-Create the database version of the nycflights13 datasets:
-```{r}
-nycflights13_sql(con = con_psql)
-dbDisconnect(con_psql)
-```
+Suppose we are asked to analyze the flights to only show flights with planes that have flown at least 100 flights.
 
-## Recording SQL queries
+One would find all planes that have flown at least 100 flights. The only consideration would be to filter those flights with missing tail number or those will be treated as a single plane.
 
-Capture the result of the queries for later replication:
-```{r}
+This is what I would do at the office:
+```{r, error=TRUE}
 library(dplyr)
 library(dbplyr)
 
+con_psql <- RPostgreSQL::dbConnect(
+  drv = DBI::dbDriver("PostgreSQL"),
+  dbname = "dbtest",
+  host = "postgres.server",
+  user = "dbtest",
+  password = "_dbtest_"
+)
+
+tbl(con_psql, in_schema("public", "flights")) %>%
+  filter(!is.na(tailnum)) %>%
+  group_by(tailnum) %>%
+  count() %>%
+  filter(n >= 10L)
+```
+
+However, this won't work outside the workplace. Among other causes, postgres.server is an
+alias to an IP only accesible from the local network.
+
+*Important*: This was just an example. Please never write your passwords in scripts, use the Rprofile
+instead.
+
+From the office we can save the query and then mock the connection instead of saving the
+results as CSV or TXT:
+```{r, eval=FALSE}
 start_capturing()
 
 con_psql <- RPostgreSQL::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dbtest",
-    host = "postgres.server",
-    user = "dbtest",
-    password = "_dbtest_"
-  )
+  drv = DBI::dbDriver("PostgreSQL"),
+  dbname = "dbtest",
+  host = "postgres.server",
+  user = "dbtest",
+  password = "_dbtest_"
+)
 
-tbl(con_psql, in_schema("public", "flights")) %>% 
-  filter(arr_delay >= 10)
-
-tbl(con_psql, in_schema("public", "flights")) %>% 
-  filter(arr_delay >= 20)
+tbl(con_psql, in_schema("public", "flights")) %>%
+  filter(!is.na(tailnum)) %>%
+  group_by(tailnum) %>%
+  count() %>%
+  filter(n >= 10L)
 
 dbDisconnect(con_psql)
 
 stop_capturing()
 ```
 
-# Mocking connections
+If there was a success capturing one or more queries, then we are able to
+replicate the result connected to a different network or even without internet
+access:
 
 ```{r}
-delayed_10 <- with_mock_db({
+flights_100 <- with_mock_db({
   con_psql <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "dbtest",
@@ -93,23 +108,12 @@ delayed_10 <- with_mock_db({
     password = "_dbtest_"
   )
   
-  tbl(con_psql, in_schema("public", "flights")) %>% 
-      filter(arr_delay >= 10)
+  tbl(con_psql, in_schema("public", "flights")) %>%
+    filter(!is.na(tailnum)) %>%
+    group_by(tailnum) %>%
+    count() %>%
+    filter(n >= 10L)
 })
 
-delayed_20 <- with_mock_db({
-  con_psql <- RPostgreSQL::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dbtest",
-    host = "postgres.server",
-    user = "dbtest",
-    password = "_dbtest_"
-  )
-  
-  tbl(con_psql, in_schema("public", "flights")) %>% 
-      filter(arr_delay >= 20)
-})
-
-delayed_10
-delayed_20
+flights_100
 ```

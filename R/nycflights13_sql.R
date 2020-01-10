@@ -104,7 +104,9 @@ nycflights13_sql <- function(con, schema = "", ...) {
 
   # Create missing tables
   for (table in tables) {
-    df <- head(getExportedValue("nycflights13", table), 1000)
+    # df <- head(getExportedValue("nycflights13", table), 1000)
+    df <- getExportedValue("nycflights13", table)
+
     message("Creating table: ", table)
 
     if (schema != "") {
