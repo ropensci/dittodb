@@ -63,7 +63,7 @@ for (pkg in names(db_pkgs)) {
 
     if (schema == "") {
       airlines_table <- "airlines"
-      flights_table <- "airlines"
+      flights_table <- "flights"
     } else {
       airlines_table <- paste(schema, "airlines", sep = ".")
       flights_table <- paste(schema, "flights", sep = ".")
@@ -143,6 +143,15 @@ for (pkg in names(db_pkgs)) {
       dbDisconnect(con)
       stop_capturing()
 
+      # capturing with redaction ----
+      start_capturing(redact_columns = c("year", "origin", "distance", "time_hour"))
+
+      con <- eval(db_pkgs[[pkg]])
+
+      unredacted_flights <- dbGetQuery(con, glue("SELECT * FROM {flights_table} LIMIT 2"))
+
+      dbDisconnect(con)
+      stop_capturing()
 
       # using fixtures ----
       with_mock_db({
@@ -265,6 +274,29 @@ for (pkg in names(db_pkgs)) {
         # dbRemoveTable ====
         test_that("dbRemoveTable", {
           expect_true(dbRemoveTable(con, "mtcars"))
+        })
+
+        # query with redaction ----
+        test_that("a redacted query is what we expect", {
+          # the output of the recorded query is _not_ redacted, so we'll need to
+          # redact them before checking
+          redacted_flights <- unredacted_flights
+          redacted_flights$year <- 9L
+          redacted_flights$origin <- "[redacted]"
+          redacted_flights$distance <- 9
+          timezone <- attributes(redacted_flights$time_hour)$tzone %||% "EST"
+          redacted_flights$time_hour <- as.POSIXct("1988-10-11T17:00:00", tz = timezone)
+
+          out <- dbGetQuery(con, glue("SELECT * FROM {flights_table} LIMIT 2"))
+          expect_identical(out, redacted_flights)
+
+          expect_equal(out$year, rep(9L, 2))
+          expect_equal(out$origin, rep("[redacted]", 2))
+          expect_equal(out$distance, rep(9, 2))
+          expect_equal(
+            out$time_hour,
+            rep(as.POSIXct("1988-10-11T17:00:00", tz = timezone), 2)
+          )
         })
 
         dbDisconnect(con)

@@ -16,6 +16,9 @@
 #'
 #' @param path the path to record mocks (default if missing: the first path in
 #' `.mockPaths()`.
+#' @param redact_columns a character vector of columns to redact. Any column
+#' that matches an entry will be redacted with a standard value for the column
+#' type (e.g. characters will be replaced with "\[redacted\]")
 #'
 #' @return NULL (invisibily)
 #'
@@ -27,6 +30,14 @@
 #' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
 #' res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
 #' df_2 <- dbFetch(res)
+#'
+#' dbDisconnect(con)
+#' stop_capturing()
+#'
+#' start_capturing(redact_columns = "carrier")
+#' con <- dbConnect(RSQLite::SQLite(), "memory")
+#'
+#' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
 #'
 #' dbDisconnect(con)
 #' stop_capturing()
@@ -90,11 +101,13 @@ method_loaded <- Vectorize(function(method, signature) {
 
 #' @rdname capture_requests
 #' @export
-start_capturing <- function(path) {
+start_capturing <- function(path, redact_columns = NULL) {
   if (!missing(path)) {
     ## Note that this changes state and doesn't reset it
     .mockPaths(path)
   }
+
+  set_redactor(redact_columns)
 
   quietly(trace_dbi(
     "dbConnect",
@@ -127,7 +140,8 @@ start_capturing <- function(path) {
     if (dbtest_debug_level(1)) {
       message("Writing to ", .dbtest_env$curr_file_path)
     }
-    dput(ans, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
+    out <- redact_columns(ans, columns = get_redactor())
+    dput(out, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
   })
 
   quietly(trace_dbi(
@@ -259,4 +273,35 @@ stop_capturing <- function() {
     safe_untrace(func, "DBI")
     safe_untrace(func)
   }
+
+  remove_redactor()
+}
+
+set_redactor <- function(redactors) {
+  .dbtest_env$redactor <- redactors
+  return(invisible(redactors))
+}
+
+remove_redactor <- function() {
+  if(exists("redactor", envir = .dbtest_env)) {
+    rm("redactor", envir = .dbtest_env)
+  }
+
+  return(invisible(NULL))
+}
+
+#' Get the current redactor
+#'
+#' This function should generally not be used, but must be exported for the
+#' query recording function to work properly
+#'
+#' @return the current list of columns to redact
+#' @export
+#' @keywords internal
+get_redactor <- function() {
+  if(exists("redactor", envir = .dbtest_env)) {
+    return(get("redactor", envir = .dbtest_env))
+  }
+
+  return(NULL)
 }

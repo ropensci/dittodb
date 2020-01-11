@@ -38,3 +38,16 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
 
   stop_capturing()
 })
+
+test_that("set_redactor sets and unsets", {
+  # there is no redactor
+  expect_null(get_redactor())
+
+  # we can set it
+  set_redactor("not really a redactor")
+  expect_identical(get_redactor(), "not really a redactor")
+
+  # we can clear it
+  set_redactor(NULL)
+  expect_null(get_redactor())
+})

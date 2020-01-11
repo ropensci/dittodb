@@ -111,3 +111,6 @@ sanitize_table_id <- function(id, ...) {
 
   return(paste0(id, collapse = "."))
 }
+
+# borrowed from Neal borrowing from Hadley
+"%||%" <- function(a, b) if (!is.null(a)) a else b
