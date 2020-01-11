@@ -85,3 +85,12 @@ test_that("sanitize_table_id()", {
   expect_identical(sanitize_table_id(id_atomic), "tbl")
   expect_identical(sanitize_table_id(id_atomic, schema_name = "schem"), "schem.tbl")
 })
+
+
+test_that("%||%", {
+  a <- "a"
+  b <- "b"
+  expect_identical(a %||% b, a)
+  expect_identical(NULL %||% b, b)
+  expect_identical(NA %||% b, NA)
+})
