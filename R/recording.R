@@ -274,12 +274,20 @@ stop_capturing <- function() {
     safe_untrace(func)
   }
 
-  set_redactor(NULL)
+  remove_redactor()
 }
-
 
 set_redactor <- function(redactors) {
   .dbtest_env$redactor <- redactors
+  return(invisible(redactors))
+}
+
+remove_redactor <- function() {
+  if(exists("redactor", envir = .dbtest_env)) {
+    rm("redactor", envir = .dbtest_env)
+  }
+
+  return(invisible(NULL))
 }
 
 #' Get the current redactor
