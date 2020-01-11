@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture and record database transactions and save them as mocks — capture_requests • dbtest</title>
+<title>Redact columns from a dataframe with the default redactors — redact_columns • dbtest</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Capture and record database transactions and save them as mocks — capture_requests" />
-<meta property="og:description" content="When creating database fixtures, it can sometimes be helpful to see record the
-responses from the database for use in crafting tests." />
+<meta property="og:title" content="Redact columns from a dataframe with the default redactors — redact_columns" />
+<meta property="og:description" content="Redact columns from a dataframe with the default redactors" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,79 +118,49 @@ responses from the database for use in crafting tests." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture and record database transactions and save them as mocks</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/recording.R'><code>R/recording.R</code></a></small>
-    <div class="hidden name"><code>capture_requests.Rd</code></div>
+    <h1>Redact columns from a dataframe with the default redactors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/redact.R'><code>R/redact.R</code></a></small>
+    <div class="hidden name"><code>redact_columns.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>When creating database fixtures, it can sometimes be helpful to see record the
-responses from the database for use in crafting tests.</p>
+    <p>Redact columns from a dataframe with the default redactors</p>
     </div>
 
-    <pre class="usage"><span class='fu'>start_capturing</span>(<span class='no'>path</span>, <span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>stop_capturing</span>()</pre>
+    <pre class="usage"><span class='fu'>redact_columns</span>(<span class='no'>data</span>, <span class='no'>columns</span>, <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>the path to record mocks (default if missing: the first path in
-<code><a href='mockPaths.html'>.mockPaths()</a></code>.</p></td>
+      <th>data</th>
+      <td><p>a dataframe to redact</p></td>
     </tr>
     <tr>
-      <th>redact_columns</th>
-      <td><p>a character vector of columns to redact. Any column
-that matches an entry will be redacted with a standard value for the column
-type (e.g. characters will be replaced with "[redacted]")</p></td>
+      <th>columns</th>
+      <td><p>character, the columns to redact</p></td>
+    </tr>
+    <tr>
+      <th>ignore.case</th>
+      <td><p>should case be ignored? (default: <code>TRUE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional options to pass on to <code>grep</code> when matching the column
+names</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>NULL (invisibily)</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>data, with the columns specified in <code>columns</code> duly redacted</p>
 
-    <p>You can start
-capturing with <code>start_capturing()</code> and end it with <code>stop_capturing</code>. All
-queries run against a database will be executed like normal, but their
-responses will be saved to the mock path given, so that if you use the same
-queries later inside of a <code><a href='with_mock_db.html'>with_mock_db</a></code> block, the database functions will
-return as if they had been run against the database.</p>
-<p><em>note</em> You should always call <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect</a></code> inside of the capturing
-block. When you connect to the database, dbtest sets up the mocks for the
-specific database you're connecting to when you call <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect</a></code>.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>start_capturing</span>()
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>"memory"</span>)
-
-<span class='no'>df_1</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT * FROM rpostgresql.airlines LIMIT 1"</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>dbSendQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT * FROM rpostgresql.airlines LIMIT 2"</span>)
-<span class='no'>df_2</span> <span class='kw'>&lt;-</span> <span class='fu'>dbFetch</span>(<span class='no'>res</span>)
-
-<span class='fu'>dbDisconnect</span>(<span class='no'>con</span>)
-<span class='fu'>stop_capturing</span>()
-
-<span class='fu'>start_capturing</span>(<span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='st'>"carrier"</span>)
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>"memory"</span>)
-
-<span class='no'>df_1</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT * FROM rpostgresql.airlines LIMIT 3"</span>)
-
-<span class='fu'>dbDisconnect</span>(<span class='no'>con</span>)
-<span class='fu'>stop_capturing</span>()
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
