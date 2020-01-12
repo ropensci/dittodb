@@ -44,7 +44,7 @@ for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
-    # skip_locally("use (postgres|mariadb)-docker.sh and test manually")
+    skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
     # setup the database that will be mocked and then tested
     con <- eval(db_pkgs[[pkg]])
