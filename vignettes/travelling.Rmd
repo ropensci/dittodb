@@ -86,7 +86,7 @@ manually reading it in to our R session. But this has a number of drawbacks: we
 have to mentally keep track of where each query is from, save it to the right
 file, read it in to the right place, etc. We also have to maintain a separate
 system or code path for reading in the saved files. `dbtest` can take care of
-all of this for us in the backround, allowing us to record the results of the
+all of this for us in the background, allowing us to record the results of the
 necessary queries, and playing them back when those same queries are called
 without a connection to the database.
 
@@ -99,21 +99,13 @@ library(dbtest)
 
 start_capturing()
 
-con_psql <- dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = db_user,
-    password = db_pass
+con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
   )
-
-# con_psql <- RPostgreSQL::dbConnect(
-#     drv = DBI::dbDriver("PostgreSQL"),
-#     dbname = "dbtest",
-#     host = "postgres.server",
-#     user = "dbtest",
-#     password = "_dbtest_"
-#   )
 
 flights_100 <- tbl(con_psql, in_schema("public", "flights")) %>%
   filter(!is.na(tailnum)) %>%
@@ -136,20 +128,12 @@ library(dbplyr)
 # this is the same code that is echoed below, but used here to show output that 
 # the chunk above would produce if it were able to connect
 with_mock_db({
-  # con_psql <- RPostgreSQL::dbConnect(
-  #   drv = DBI::dbDriver("PostgreSQL"),
-  #   dbname = "dbtest",
-  #   host = "postgres.server",
-  #   user = "dbtest",
-  #   password = "_dbtest_"
-  # )
-  # 
-  con_psql <- dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = "db_user",
-    password = "db_pass"
+  con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
   )
 
   flights_100_from_mock <- tbl(con_psql, in_schema("public", "flights")) %>%
@@ -175,20 +159,12 @@ access:
 
 ```{r}
 with_mock_db({
-  # con_psql <- RPostgreSQL::dbConnect(
-  #   drv = DBI::dbDriver("PostgreSQL"),
-  #   dbname = "dbtest",
-  #   host = "postgres.server",
-  #   user = "dbtest",
-  #   password = "_dbtest_"
-  # )
-  # 
-  con_psql <- dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = "db_user",
-    password = "db_pass"
+  con_psql <- RPostgreSQL::dbConnect(
+    drv = DBI::dbDriver("PostgreSQL"),
+    dbname = "dbtest",
+    host = "postgres.server",
+    user = "dbtest",
+    password = "_dbtest_"
   )
 
   flights_100_from_mock <- tbl(con_psql, in_schema("public", "flights")) %>%
