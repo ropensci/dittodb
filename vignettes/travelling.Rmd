@@ -1,5 +1,5 @@
 ---
-title: "Recording SQL queries with `dbtest` for travelling"
+title: "Recording SQL queries with dbtest for travelling"
 author: "Mauricio Vargas"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -20,9 +20,10 @@ knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 
 # Scope
 
-The present consists in mocking the connection to a real PostgreSQL server
-that contains a database version of the `nycflights13` dataset (among other 
-databases).
+The present consists in mocking the connection to a real PostgreSQL server that
+contains a database version of the `nycflights13` dataset (among other
+databases). See [the `nycflights13` vignette](nycflights.html) for
+more information about this database.
 
 This example is for you if you ever wondered how to use scripts that you use
 at the office when you are at home or travelling. Or how to continue developing
@@ -31,16 +32,6 @@ these scripts while you don't have an internet connection.
 Many of us have to use databases that are only accessible from a local network. 
 The package `debtest` provides `with_mock_db()` that wraps the code and makes it
 possible to run outside the office (or even with no internet access at all!).
-
-# Exploring `nycflights13`
-
-The `nycflights13` dataset contains airline on-time data for all flights 
-departing NYC in 2013. It also includes useful 'metadata' on airlines, airports,
-weather, and planes.
-    
-Have a look to the database schema:
-
-![`nycflights13` relational diagram.](relational-nycflights.svg)
 
 # Recording queries
 
@@ -94,6 +85,7 @@ While we are able to connect to the database (i.e. when we are at the office) we
 can save the results returned by queries with code like the following (by
 calling `start_capturing()` before the connection and the code that executes the
 queries and then `stop_capturing()` at the end):
+
 ```{r, eval=FALSE}
 library(dbtest)
 
@@ -156,7 +148,6 @@ If there was a success capturing one or more queries, then we are able to
 replicate the result connected to a different network or even without internet
 access:
 
-
 ```{r}
 with_mock_db({
   con_psql <- RPostgreSQL::dbConnect(
@@ -177,3 +168,12 @@ with_mock_db({
   flights_100_from_mock
 })
 ```
+
+One thing to note is that when using `dbplyr`, we need to be a bit careful that 
+we wrap the entire interaction in with the database objects in `with_mock_db` if
+we are taking advantage of `dbplyr`'s lazy evaluation (which is by default) and
+use `collect()` to return the results when you want them recorded. Because 
+`dbplyr` waits until the last possible second to request the data, if you don't 
+have a `collect()` call (or a call the will implicitly send the query) there 
+won't be a query called, and `dbtest` won't see be able to record the response 
+from that query.

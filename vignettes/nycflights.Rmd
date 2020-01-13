@@ -1,0 +1,33 @@
+---
+title: "nycflights13 data"
+author: "Mauricio Vargas and Jonathan Kkeane"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{nycflights13_description}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(dbtest)
+
+# set the mockPaths for this vignette
+.mockPaths("nycflights13")
+
+knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
+```
+
+`dbtest` uses the `nycflights13` dataset (from the [`nycflights13`] package) for 
+testing and example purposes.
+
+# Exploring `nycflights13`
+
+The `nycflights13` dataset contains airline on-time data for all flights 
+departing NYC in 2013. It also includes useful 'metadata' on airlines, airports,
+weather, and planes.
+    
+Have a look to the database schema:
+
+![`nycflights13` relational diagram.](relational-nycflights.svg)
+
