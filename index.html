@@ -52,16 +52,25 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="reference/">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
      
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+    </li>
+    <li>
+      <a href="articles/nycflights.html">nycflights data</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
+  <a href="news/">News</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -93,7 +102,7 @@
 <div id="a-quick-example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-quick-example" class="anchor"></a>A quick example</h2>
-<p>Say we have a Postgres database with some <a href="https://CRAN.R-project.org/package=nycflights13">nycflights</a> data in it and we are writing functions that query this data that we want to test.</p>
+<p>Say we have a Postgres database with some <a href="https://CRAN.R-project.org/package=nycflights13"><code>nycflights</code></a> data in it and we are writing functions that query this data that we want to test.</p>
 <p>For example, we have the simple function that retrieves one airline:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>get_an_airline &lt;-<span class="st"> </span><span class="cf">function</span>(con) {</span>
 <span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="kw">dbGetQuery</span>(con, <span class="st">"SELECT carrier, name FROM airlines LIMIT 1"</span>))</span>

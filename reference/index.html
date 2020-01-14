@@ -84,16 +84,25 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../reference/">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
      
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+    </li>
+    <li>
+      <a href="../articles/nycflights.html">nycflights data</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -149,9 +158,21 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="redact_columns.html">redact_columns()</a></code> </p>
+        </td>
+        <td><p>Redact columns from a dataframe with the default redactors</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="mockPaths.html">.mockPaths()</a></code> </p>
         </td>
         <td><p>Set an alternate directory for mock API fixtures</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="driver-specifc-mock-connections.html">driver-specifc-mock-connections</a></code> </p>
+        </td>
+        <td><p>Driver-specific mock classes</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -166,6 +187,12 @@
           <p><code><a href="mock-db-methods.html">dbDisconnect(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbWriteTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>,<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbRemoveTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;SQL&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbSendQuery(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbFetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbClearResult(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbHasCompleted(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbColumnInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> </p>
         </td>
         <td><p>Methods for interacting with DB mocks instead of an actual database</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="with_mock_path.html">with_mock_path()</a></code> </p>
+        </td>
+        <td><p>Run the DBI queries in an alternate mock directory</p></td>
       </tr>
     </tbody><tbody>
       <tr>
