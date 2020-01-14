@@ -12,7 +12,7 @@ dbtest is a package that makes testing against databases easy. When writing code
 dbtest is heavily inspired by [httptest](https://CRAN.R-project.org/package=httptest), if you've used httptest before, you'll find many of the interactions similar.
 
 ## A quick example
-Say we have a Postgres database with some [nycflights](https://CRAN.R-project.org/package=nycflights13) data in it and we are writing functions that query this data that we want to test.
+Say we have a Postgres database with some [`nycflights`](https://CRAN.R-project.org/package=nycflights13) data in it and we are writing functions that query this data that we want to test.
 
 For example, we have the simple function that retrieves one airline:
 

@@ -3,19 +3,33 @@ template:
   params:
     bootswatch: flatly
     ganalytics: UA-150741105-1
-navbar:
-  title: dbtest
-  type: default
 reference:
 - title: Capturing and testing
   contents:
   - capture_requests
   - with_mock_db
+  - redact_columns
   - .mockPaths
+  - driver-specifc-mock-connections
 - title: Mock DB methods
   contents:
   - mock-db-methods
+  - with_mock_path
 - title: Test DB creation
   contents:
   - nycflights13_sql
   - nycflights13_sqlite
+navbar:
+  title: dbtest
+  type: default
+  left:
+    - text: Reference
+      href: reference/
+    - text: Articles
+      menu:
+      -  text: Recording SQL queries with dbtest for travelling
+         href: articles/travelling.html
+      -  text: nycflights data
+         href: articles/nycflights.html
+    - text: News
+      href: news/
