@@ -3,3 +3,6 @@
 **.DS_Store
 .Rprofile
 docs
+dbtest.Rcheck/
+dbtest*.tar.gz
+dbtest*.tgz

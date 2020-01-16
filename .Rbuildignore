@@ -10,3 +10,6 @@ docs
 ^_pkgdown.yml$
 ^\.github
 dev
+^dbtest\.Rcheck$
+^dbtest.*\.tar\.gz$
+^dbtest.*\.tgz$
