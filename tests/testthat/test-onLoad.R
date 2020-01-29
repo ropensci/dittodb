@@ -9,7 +9,10 @@ if (environmentIsLocked(asNamespace("dbtest"))) {
   # the environment is locked, this should error
   expect_error(
     .onLoad(),
-    "class .*DBIMockSQLiteConnection.* has a locked definition in package .*dbtest.*"
+    paste0(
+      "class .*DBIMockSQLiteConnection.* has a locked definition in package ",
+      ".*dbtest.*"
+    )
   )
 } else {
   expect_silent(.onLoad())
@@ -49,4 +52,3 @@ callr::r(function() {
     }
   })
 })
-

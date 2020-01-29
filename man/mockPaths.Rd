@@ -17,8 +17,8 @@ invisibly.
 }
 \description{
 By default, \code{with_mock_api} will look for mocks relative to the current
-working directory (or the test directory). If you want to look in other places,
-you can call \code{.mockPaths} to add directories to the search path.
+working directory (or the test directory). If you want to look in other
+places, you can call \code{.mockPaths} to add directories to the search path.
 }
 \details{
 It works like \code{\link[base:.libPaths]{base::.libPaths()}}: any directories you specify will be added

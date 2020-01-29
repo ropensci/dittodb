@@ -129,5 +129,3 @@ test_that("RPostgres", {
 
   dbDisconnect(con_rpostgres)
 })
-
-

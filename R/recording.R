@@ -1,7 +1,7 @@
 #' Capture and record database transactions and save them as mocks
 #'
-#' When creating database fixtures, it can sometimes be helpful to see record the
-#' responses from the database for use in crafting tests.
+#' When creating database fixtures, it can sometimes be helpful to see record
+#' the responses from the database for use in crafting tests.
 #'
 #' You can start
 #' capturing with `start_capturing()` and end it with `stop_capturing`. All
@@ -77,9 +77,9 @@ quietly <- function(expr) {
 }
 
 # borrowed from httptest
-trace_dbi <- function (...,
-                       where_list = list(sys.frame(), asNamespace("DBI")),
-                       print = dbtest_debug_level(2)) {
+trace_dbi <- function(...,
+                      where_list = list(sys.frame(), asNamespace("DBI")),
+                      print = dbtest_debug_level(2)) {
   for (place in where_list) {
     quietly(trace(..., print = print, where = place))
   }
@@ -158,7 +158,11 @@ start_capturing <- function(path, redact_columns = NULL) {
     "dbListTables",
     exit = quote({
       thing <- returnValue()
-      dput(thing, file.path(.dbtest_env$db_path, "dbListTables.R"), control = c("all", "hexNumeric"))
+      dput(
+        thing,
+        file.path(.dbtest_env$db_path, "dbListTables.R"),
+        control = c("all", "hexNumeric")
+      )
     })
   ))
 
@@ -167,7 +171,11 @@ start_capturing <- function(path, redact_columns = NULL) {
     exit = quote({
       thing <- returnValue()
       name <- sanitize_table_id(name, ...)
-      dput(thing, file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")), control = c("all", "hexNumeric"))
+      dput(
+        thing,
+        file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")),
+        control = c("all", "hexNumeric")
+      )
     })
   ))
 
@@ -176,7 +184,7 @@ start_capturing <- function(path, redact_columns = NULL) {
     "dbColumnInfo",
     exit = quote({
       thing <- returnValue()
-      # TODO: would this be better if we traced the methods using the signature arg?
+      # TODO: would this be better if we traced the methods using signature?
       if (inherits(res, "PostgreSQLResult")) {
         result_info <- RPostgreSQL::postgresqlResultInfo(res)
         hash <- hash(result_info$statement)
@@ -195,7 +203,8 @@ start_capturing <- function(path, redact_columns = NULL) {
   # TODO: for RPostgreSQL to work, we need to prevent RPostgreSQL's
   # `postgresqlCloseConnection` from calling `dbListResults` which over-writes
   # our fixture
-  # each connection has to be mocked separately because there's no DBI::dbGetInfo for DBIConnection
+  # each connection has to be mocked separately because there's no
+  # DBI::dbGetInfo for DBIConnection
   for (conn in connection_list) {
     if (method_loaded("dbGetInfo", conn)) {
       quietly(trace_dbi(
@@ -283,7 +292,7 @@ set_redactor <- function(redactors) {
 }
 
 remove_redactor <- function() {
-  if(exists("redactor", envir = .dbtest_env)) {
+  if (exists("redactor", envir = .dbtest_env)) {
     rm("redactor", envir = .dbtest_env)
   }
 
@@ -299,7 +308,7 @@ remove_redactor <- function() {
 #' @export
 #' @keywords internal
 get_redactor <- function() {
-  if(exists("redactor", envir = .dbtest_env)) {
+  if (exists("redactor", envir = .dbtest_env)) {
     return(get("redactor", envir = .dbtest_env))
   }
 

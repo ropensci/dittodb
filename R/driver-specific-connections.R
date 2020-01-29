@@ -1,8 +1,9 @@
 #' Driver-specific mock classes
 #'
 #' Each of the drivers that are supported have their own mock connection class.
-#' They all inherit from `DBIMockConnection` as well as their own driver's connection
-#' class. Each is only really available if the corresponding package is installed.
+#' They all inherit from `DBIMockConnection` as well as their own driver's
+#' connection class. Each is only really available if the corresponding package
+#' is installed.
 #'
 #' @name driver-specifc-mock-connections
 #'
@@ -48,7 +49,7 @@ setClass("DBIMockMariaDBConnection")
     )
   )
 
-  lapply(custom_classes, function(x){
+  lapply(custom_classes, function(x) {
     set_driver_class(
       pkg = x[["pkg"]],
       mock_conn = x[["mock_conn"]],

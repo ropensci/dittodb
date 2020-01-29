@@ -1,8 +1,8 @@
 #' Set an alternate directory for mock API fixtures
 #'
 #' By default, `with_mock_api` will look for mocks relative to the current
-#' working directory (or the test directory). If you want to look in other places,
-#' you can call `.mockPaths` to add directories to the search path.
+#' working directory (or the test directory). If you want to look in other
+#' places, you can call `.mockPaths` to add directories to the search path.
 #'
 #' It works like [base::.libPaths()]: any directories you specify will be added
 #' to the list and searched first. The default directory will be searched last.

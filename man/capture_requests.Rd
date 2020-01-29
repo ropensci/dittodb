@@ -22,8 +22,8 @@ type (e.g. characters will be replaced with "[redacted]")}
 NULL (invisibily)
 }
 \description{
-When creating database fixtures, it can sometimes be helpful to see record the
-responses from the database for use in crafting tests.
+When creating database fixtures, it can sometimes be helpful to see record
+the responses from the database for use in crafting tests.
 }
 \details{
 You can start

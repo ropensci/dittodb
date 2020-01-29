@@ -1,12 +1,12 @@
 redact <- function(data, redactors) {
   columns <- names(redactors)
-  data[, columns] <- lapply(columns, function(x) redactors[[x]](data[,x]))
+  data[, columns] <- lapply(columns, function(x) redactors[[x]](data[, x]))
   return(data)
 }
 
 standard_redactors <- function(data, columns) {
   out <- lapply(columns, function(x) {
-    col <- data[,x]
+    col <- data[, x]
 
     if (inherits(col, "integer")) {
       return(function(data) return(rep(9L, length(data))))
@@ -37,10 +37,18 @@ standard_redactors <- function(data, columns) {
 #' @return data, with the columns specified in `columns` duly redacted
 #' @export
 redact_columns <- function(data, columns, ignore.case = TRUE, ...) {
-  columns <- lapply(columns, grep, x = colnames(data), value = TRUE, ignore.case = ignore.case, ...)
+  columns <- lapply(
+    columns,
+    grep,
+    x = colnames(data),
+    value = TRUE,
+    ignore.case = ignore.case,
+    ...
+  )
+
 
   # remove non-matches
-  columns <- columns[lapply(columns,length) > 0]
+  columns <- columns[lapply(columns, length) > 0]
 
   return(redact(data, standard_redactors(data, columns)))
 }

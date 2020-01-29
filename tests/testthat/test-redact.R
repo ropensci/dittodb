@@ -1,7 +1,7 @@
 context("redactors")
 
 
-df <- expected <- as.data.frame(nycflights13::flights[1:2,])
+df <- expected <- as.data.frame(nycflights13::flights[1:2, ])
 
 test_that("redact year", {
   expected$year <- 2020
@@ -22,7 +22,8 @@ test_that("redact year", {
 })
 
 test_that("standard_redactors", {
-  redactors <- standard_redactors(df, c("year", "origin", "distance", "time_hour"))
+  redacted_cols <- c("year", "origin", "distance", "time_hour")
+  redactors <- standard_redactors(df, redacted_cols)
 
   expect_length(redactors, 4)
   expect_equal(redactors[["year"]](df[["year"]]), rep(9L, 2))
@@ -36,12 +37,15 @@ test_that("standard_redactors", {
   expected$year <- 9L
   expected$origin <- "[redacted]"
   expected$distance <- 9
-  expected$time_hour <- as.POSIXct("1988-10-11T17:00:00", tz = "America/New_York")
+  expected$time_hour <- as.POSIXct(
+    "1988-10-11T17:00:00",
+    tz = "America/New_York"
+  )
 
   expect_identical(redact(df, redactors), expected)
   # we can redact_columns directly
   expect_identical(
-    redact_columns(df, c("year", "origin", "distance", "time_hour")),
+    redact_columns(df, redacted_cols),
     expected
   )
   # and without case-sensitivity
@@ -51,13 +55,17 @@ test_that("standard_redactors", {
   )
   # and with case-sensitivity
   expect_identical(
-    redact_columns(df, c("YEAR", "ORIGIN", "DISTANCE", "TIME_HOUR"), ignore.case = FALSE),
+    redact_columns(
+      df,
+      c("YEAR", "ORIGIN", "DISTANCE", "TIME_HOUR"),
+      ignore.case = FALSE
+    ),
     df
   )
 })
 
 test_that("standard redactors, empty df", {
-  empty_df <- df[0,]
+  empty_df <- df[0, ]
 
   # there is no change when there are no rows
   expect_identical(
@@ -65,5 +73,3 @@ test_that("standard redactors, empty df", {
     empty_df
   )
 })
-
-

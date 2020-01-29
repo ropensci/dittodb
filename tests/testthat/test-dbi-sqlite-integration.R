@@ -101,7 +101,11 @@ with_mock_db({
       dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"),
       data.frame(
         carrier = c("9E", "AA", "AS"),
-        name = c("Endeavor Air Inc.", "American Airlines Inc.", "Alaska Airlines Inc."),
+        name = c(
+          "Endeavor Air Inc.",
+          "American Airlines Inc.",
+          "Alaska Airlines Inc."
+        ),
         stringsAsFactors = FALSE
       )
     )
