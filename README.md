@@ -115,6 +115,13 @@ Currently, dbtest is not on CRAN. You can install from source, or use `devtools`
 devtools::install_github("jonkeane/dbtest")
 ```
 
+## Development
+In order to test `dbtest` recording functionality locally or on CI, it is helpful to have databases with test data available. This can be accomplished using the scripts in the `db-setup` directory. By default, `dbtests` does not run any tests that require database infrastructure locally.
+
+To get local databases, the easiest way is to use docker and run either the `postgres-docker-reset.sh` or `mariadb-docker-reset.sh` which will pull a docker image and set up a test database with the user and passwords that the `dbtest` tests are expecting (and will stop and remove the docker images if they are present). 
+
+On oontinuous integration, (using GitHub Actions) thesscripts ain the `db-setup` directory re used to set up these test databases so we can run integration tests (predominantly in the file `tests/testthat/test-dbi-generic-integration.R`).
+
 ---
 
 Please note that the 'dbtest' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
