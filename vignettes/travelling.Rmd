@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r recording, include = FALSE, echo = FALSE}
+```{r recording, include = FALSE, eval = FALSE}
 library(dplyr)
 library(dbplyr)
 
