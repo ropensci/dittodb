@@ -1,0 +1,130 @@
+---
+title: "Getting Started with `dbtest`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting-started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(testthat)
+library(dbtest)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+.db_mock_paths("getting-started")
+```
+
+`dbtest` is designed to make it easy and fun to test functions that interact with a database. It works be looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
+
+To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data][nycflights13_description]. We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
+
+```{r setup db, include = FALSE, eval = FALSE}
+# setup the DB used in the rest of the vignette
+
+con <- dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "nycflights",
+  host = "127.0.0.1",
+  username = "travis",
+  password = ""
+)
+
+nycflights13_sql(con, schema = "nycflights13")
+```
+
+```{r mean_delays}
+library(DBI)
+library(RMariaDB)
+
+mean_delays <- function(group_col) {
+  con <- dbConnect(
+    RMariaDB::MariaDB(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    username = "travis",
+    password = ""
+  )
+  on.exit(dbDisconnect(con))
+  
+  query <- glue::glue(
+    "SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights ",
+    "WHERE arr_delay > 0 GROUP BY {group_col}"
+  )
+  
+  return(dbGetQuery(con, query))
+}
+```
+
+If we give it the column `"day"`, we get the following dataframe:
+
+```{r day, eval = FALSE}
+mean_delays("day")
+```
+
+```{r cooking_show}
+with_mock_db(mean_delays("day"))
+```
+
+Great, now that we have our function we want to test it to make sure it is operating as expected. Normally, we could write something like:
+
+```{r tests_1, eval = FALSE}
+library(testthat)
+library(dbtest)
+
+test_that("mean_delays()", {
+  out <- mean_delays("day")
+  expect_named(out, c("day", "mean_delay"))
+  expect_equal(dim(out), c(31, 2))
+})
+```
+
+And this works just fine if we only ever run your tests locally, but if we want to [run our tests with a Continuous Integration system](http://r-pkgs.had.co.nz/check.html#check) (and yes, we want to do that!), this won't work without first setting up our production database of flights. For our tests, we don't actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of running the test code, and then be able to use that recorded snapshot when we run tests later.
+
+## Recording snapshots
+
+We can record snapshots of the database interactions with the commands `start_db_capturing()`, run the functions we want to record, and then stop recording with `stop_db_capturing()`.
+
+```{r recording, eval = FALSE}
+start_db_capturing()
+out <- mean_delays("day")
+stop_db_capturing()
+```
+
+This will write a new folder (by default in `./tests/testthat/`) with the name of the database (here: `nycflights`) and then write one file with the name `SELECT-16d120.R` which is the snapshot for this snapshot. This `SELECT-...` file contains the data that was received from the database for use in tests.
+
+## `with_mock_db()`
+
+Now that we have a snapshot, we can use that snapshot by wrapping our call that includes a database interaction with the function `with_mock_db()`. This will look for snapshots and use those.
+
+```{r with_mock_1}
+with_mock_db(
+  mean_delays("day")
+)
+```
+
+
+So, now we can write our tests like:
+
+```{r tests_2}
+library(testthat)
+library(dbtest)
+
+with_mock_db(
+  test_that("mean_delays()", {
+    out <- mean_delays("day")
+    expect_named(out, c("day", "mean_delay"))
+    expect_equal(dim(out), c(31, 2))
+  })
+)
+```
+
+## Advanced uses
+
+### specifying new paths
+
+### redacting

@@ -7,7 +7,7 @@ capture_output({
       "dbtest.debug" = 1,
       dbtest.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
-      start_capturing()
+      start_db_capturing()
       con <- nycflights13_sqlite()
       expect_message(
         dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
@@ -19,7 +19,7 @@ capture_output({
       )
 
       dbDisconnect(con)
-      stop_capturing()
+      stop_db_capturing()
 
       with_mock_db({
         con <- dbConnect(RSQLite::SQLite(), ":memory:")
@@ -43,7 +43,7 @@ capture_output({
       dbtest.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
       expect_message({
-          start_capturing()
+          start_db_capturing()
           con <- nycflights13_sqlite()
         }, ".*Tracing.*"
       )
@@ -56,7 +56,7 @@ capture_output({
         fixed = TRUE
       )
       dbDisconnect(con)
-      stop_capturing()
+      stop_db_capturing()
 
       with_mock_db({
         con <- dbConnect(RSQLite::SQLite(), ":memory:")

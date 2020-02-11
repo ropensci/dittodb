@@ -13,7 +13,7 @@ vignette: >
 library(dbtest)
 
 # set the mockPaths for this vignette
-.mockPaths("nycflights13")
+.db_mock_paths("nycflights13")
 
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```

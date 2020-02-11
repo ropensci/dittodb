@@ -81,7 +81,7 @@ nycflights13_sql <- function(con, schema = "", ...) {
     remote_schemas <- as.character(remote_schemas$schema_name)
 
     if (!(schema %in% remote_schemas)) {
-      DBI::dbGetQuery(
+      DBI::dbExecute(
         con,
         glue::glue_sql("CREATE SCHEMA {`schema`}",
                        .con = con
@@ -110,7 +110,7 @@ nycflights13_sql <- function(con, schema = "", ...) {
 
   # Create missing tables
   for (table in tables) {
-    df <- head(getExportedValue("nycflights13", table), 1000)
+    df <- getExportedValue("nycflights13", table)
 
     message("Creating table: ", table)
 

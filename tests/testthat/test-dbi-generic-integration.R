@@ -96,7 +96,7 @@ for (pkg in names(db_pkgs)) {
 
     with_mock_path(path = file.path(temp_dir, glue("{pkg}_integration")), {
       # recording ----
-      start_capturing()
+      start_db_capturing()
 
       con <- eval(db_pkgs[[pkg]])
 
@@ -154,11 +154,11 @@ for (pkg in names(db_pkgs)) {
       dbClearResult(result)
 
       dbDisconnect(con)
-      stop_capturing()
+      stop_db_capturing()
 
       # capturing with redaction ----
       redact_columns <- c("year", "origin", "distance", "time_hour")
-      start_capturing(redact_columns = redact_columns)
+      start_db_capturing(redact_columns = redact_columns)
 
       con <- eval(db_pkgs[[pkg]])
 
@@ -168,7 +168,7 @@ for (pkg in names(db_pkgs)) {
       )
 
       dbDisconnect(con)
-      stop_capturing()
+      stop_db_capturing()
 
       # using fixtures ----
       with_mock_db({

@@ -2,18 +2,18 @@
 #'
 #' By default, `with_mock_api` will look for mocks relative to the current
 #' working directory (or the test directory). If you want to look in other
-#' places, you can call `.mockPaths` to add directories to the search path.
+#' places, you can call `.db_mock_paths` to add directories to the search path.
 #'
 #' It works like [base::.libPaths()]: any directories you specify will be added
 #' to the list and searched first. The default directory will be searched last.
 #' Only unique values are kept: if you provide a path that is already found in
-#' `.mockPaths`, the result effectively moves that path to the first position.
+#' `.db_mock_paths`, the result effectively moves that path to the first position.
 #'
 #' For finer-grained control, or to completely override the default behavior
 #' of searching in the current working directory, you can set the option
 #' "dbtest.mock.paths" directly.
 #'
-#' This function is an extension of [httptest::.mockPaths()] from
+#' This function is similar to [httptest::.mockPaths()] from
 #' [httptest](https://CRAN.R-project.org/package=httptest)
 #'
 #' @param new Either a character vector of path(s) to add, or `NULL` to reset
@@ -22,14 +22,14 @@
 #' a character vector. If `new` is provided, the updated value will be returned
 #' invisibly.
 #' @examples
-#' identical(.mockPaths(), c("tests/testthat/", "."))
-#' .mockPaths("/var/somewhere/else")
-#' identical(.mockPaths(), c("/var/somewhere/else", "tests/testthat/", "."))
-#' .mockPaths(NULL)
-#' identical(.mockPaths(), c("tests/testthat/", "."))
+#' identical(.db_mock_paths(), c("tests/testthat/", "."))
+#' .db_mock_paths("/var/somewhere/else")
+#' identical(.db_mock_paths(), c("/var/somewhere/else", "tests/testthat/", "."))
+#' .db_mock_paths(NULL)
+#' identical(.db_mock_paths(), c("tests/testthat/", "."))
 #' @rdname mockPaths
 #' @export
-.mockPaths <- function(new) {
+.db_mock_paths <- function(new) {
   # use both "." and testthat::test_path(".") in case they are different
   def <- unique(c("tests/testthat/", "."))
 
@@ -49,6 +49,11 @@
   }
 }
 
+# for backwards compatibility
+#' @export
+#' @keywords internal
+.mockPaths <- .db_mock_paths
+
 #' Run the DBI queries in an alternate mock directory
 #'
 #' When testing with dbtest, wrap your tests in `with_mock_path({})` to use the
@@ -63,12 +68,12 @@
 #' @return nothing
 #' @export
 with_mock_path <- function(path, expr, replace = FALSE) {
-  oldmp <- .mockPaths()
+  oldmp <- .db_mock_paths()
   if (replace) {
     options(dbtest.mock.paths = path)
   } else {
     ## Append
-    .mockPaths(path)
+    .db_mock_paths(path)
   }
   on.exit(options(dbtest.mock.paths = oldmp))
   return(eval.parent(expr))

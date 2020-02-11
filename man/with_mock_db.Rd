@@ -15,7 +15,7 @@ nothing
 \description{
 When testing with dbtest, wrap your tests in \code{with_mock_db({})} to use the
 database fixtures. \code{dbtest} will look for fixtures in all entries of
-\code{\link{.mockPaths}}.
+\code{\link{.db_mock_paths}}.
 }
 \details{
 Connections should be made inside of \code{with_mock_db()} because \code{dbtest} uses

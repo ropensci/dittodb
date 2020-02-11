@@ -4,7 +4,7 @@
 #' the responses from the database for use in crafting tests.
 #'
 #' You can start
-#' capturing with `start_capturing()` and end it with `stop_capturing`. All
+#' capturing with `start_db_capturing()` and end it with `stop_db_capturing`. All
 #' queries run against a database will be executed like normal, but their
 #' responses will be saved to the mock path given, so that if you use the same
 #' queries later inside of a [`with_mock_db`] block, the database functions will
@@ -15,7 +15,7 @@
 #' specific database you're connecting to when you call [`DBI::dbConnect`].
 #'
 #' @param path the path to record mocks (default if missing: the first path in
-#' `.mockPaths()`.
+#' `.db_mock_paths()`.
 #' @param redact_columns a character vector of columns to redact. Any column
 #' that matches an entry will be redacted with a standard value for the column
 #' type (e.g. characters will be replaced with "\[redacted\]")
@@ -24,7 +24,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' start_capturing()
+#' start_db_capturing()
 #' con <- dbConnect(RSQLite::SQLite(), "memory")
 #'
 #' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
@@ -32,15 +32,15 @@
 #' df_2 <- dbFetch(res)
 #'
 #' dbDisconnect(con)
-#' stop_capturing()
+#' stop_db_capturing()
 #'
-#' start_capturing(redact_columns = "carrier")
+#' start_db_capturing(redact_columns = "carrier")
 #' con <- dbConnect(RSQLite::SQLite(), "memory")
 #'
 #' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
 #'
 #' dbDisconnect(con)
-#' stop_capturing()
+#' stop_db_capturing()
 #' }
 #' @name capture_requests
 NULL
@@ -101,10 +101,10 @@ method_loaded <- Vectorize(function(method, signature) {
 
 #' @rdname capture_requests
 #' @export
-start_capturing <- function(path, redact_columns = NULL) {
+start_db_capturing <- function(path, redact_columns = NULL) {
   if (!missing(path)) {
     ## Note that this changes state and doesn't reset it
-    .mockPaths(path)
+    .db_mock_paths(path)
   }
 
   set_redactor(redact_columns)
@@ -112,7 +112,7 @@ start_capturing <- function(path, redact_columns = NULL) {
   quietly(trace_dbi(
     "dbConnect",
     exit = quote({
-      .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
+      .dbtest_env$db_path <- file.path(.db_mock_paths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
     })
   ))
@@ -262,6 +262,12 @@ start_capturing <- function(path, redact_columns = NULL) {
   return(invisible(NULL))
 }
 
+# for backwards compatibility
+#' @rdname capture_requests
+#' @export
+#' @keywords internal
+start_capturing <- start_db_capturing
+
 #' an environment for dbtest storing state
 #'
 #' @export
@@ -270,7 +276,7 @@ start_capturing <- function(path, redact_columns = NULL) {
 
 #' @rdname capture_requests
 #' @export
-stop_capturing <- function() {
+stop_db_capturing <- function() {
   for (func in c(
     "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
     "dbListFields", "dbColumnInfo", "dbGetInfo")) {
@@ -285,6 +291,12 @@ stop_capturing <- function() {
 
   remove_redactor()
 }
+
+# for backwards compatibility
+#' @rdname capture_requests
+#' @export
+#' @keywords internal
+stop_capturing <- stop_db_capturing
 
 set_redactor <- function(redactors) {
   .dbtest_env$redactor <- redactors

@@ -2,7 +2,7 @@ context("Recording tracing is happening in the right place(s)")
 
 
 with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
-  start_capturing()
+  start_db_capturing()
 
   test_that("DBI and the top-most dbSenQuery has been traced", {
     # the first instance of dbSendQuery is mocked:
@@ -16,7 +16,7 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
     )
   })
 
-  stop_capturing()
+  stop_db_capturing()
 
   # no instance of dbSendQuery is mocked anymore
   postCaptureDbSendQuery <- getAnywhere("dbSendQuery")
@@ -30,7 +30,7 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   }
 
   unloadNamespace("RPostgreSQL")
-  start_capturing()
+  start_db_capturing()
 
   # the first instance of dbSendQuery is mocked:
   expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
@@ -42,7 +42,7 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
     "standardGenericWithTrace"
   )
 
-  stop_capturing()
+  stop_db_capturing()
 })
 
 test_that("set_redactor sets and unsets", {

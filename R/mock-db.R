@@ -2,7 +2,7 @@
 #'
 #' When testing with dbtest, wrap your tests in `with_mock_db({})` to use the
 #' database fixtures. `dbtest` will look for fixtures in all entries of
-#' [`.mockPaths`].
+#' [`.db_mock_paths`].
 #'
 #' Connections should be made inside of `with_mock_db()` because `dbtest` uses
 #' the database name (given in `dbname` or `Database` argument of [`dbConnect`]

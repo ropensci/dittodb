@@ -13,7 +13,7 @@ nycflights13_sql(con_psql)
 
 dbDisconnect(con_psql)
 
-start_capturing(path = "vignettes/")
+start_db_capturing(path = "vignettes/")
 
 con_psql <- RPostgreSQL::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
@@ -31,4 +31,4 @@ tbl(con_psql, in_schema("public", "flights")) %>%
 
 dbDisconnect(con_psql)
 
-stop_capturing()
+stop_db_capturing()
