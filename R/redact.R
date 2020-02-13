@@ -28,6 +28,17 @@ standard_redactors <- function(data, columns) {
 
 #' Redact columns from a dataframe with the default redactors
 #'
+#' This function redacts the columns specified in `columns` in the data given in
+#' `data` using dbtest's standard redactors.
+#'
+#' The standard redactors replace all values in the column with the following
+#' values based on the columns type:
+#'
+#' * integer -- `9L`
+#' * numeric -- `9`
+#' * character -- `"[redacted]"`
+#' * `POSIXct` (date times) -- `as.POSIXct("1988-10-11T17:00:00", tz = tzone)`
+#'
 #' @param data a dataframe to redact
 #' @param columns character, the columns to redact
 #' @param ignore.case should case be ignored? (default: `TRUE`)

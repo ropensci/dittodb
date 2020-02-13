@@ -20,5 +20,16 @@ names}
 data, with the columns specified in \code{columns} duly redacted
 }
 \description{
-Redact columns from a dataframe with the default redactors
+This function redacts the columns specified in \code{columns} in the data given in
+\code{data} using dbtest's standard redactors.
+}
+\details{
+The standard redactors replace all values in the column with the following
+values based on the columns type:
+\itemize{
+\item integer -- \code{9L}
+\item numeric -- \code{9}
+\item character -- \code{"[redacted]"}
+\item \code{POSIXct} (date times) -- \code{as.POSIXct("1988-10-11T17:00:00", tz = tzone)}
+}
 }
