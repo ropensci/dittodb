@@ -32,16 +32,23 @@ When creating database fixtures, it can sometimes be helpful to see record
 the responses from the database for use in crafting tests.
 }
 \details{
-You can start
-capturing with \code{start_db_capturing()} and end it with \code{stop_db_capturing}. All
-queries run against a database will be executed like normal, but their
-responses will be saved to the mock path given, so that if you use the same
-queries later inside of a \code{\link{with_mock_db}} block, the database functions will
-return as if they had been run against the database.
+You can start capturing with \code{start_db_capturing()} and end it with
+\code{stop_db_capturing}. All queries run against a database will be executed like
+normal, but their responses will be saved to the mock path given, so that if
+you use the same queries later inside of a \code{\link{with_mock_db}} block, the
+database functions will return as if they had been run against the database.
+
+You can redact certain columns using the \code{redact_columns} argument. This will
+replace the values in the column with a generic redacted version. This works
+by always passing the data being saved through \code{\link[=redact_columns]{redact_columns()}}.
 
 \emph{note} You should always call \code{\link[DBI:dbConnect]{DBI::dbConnect}} inside of the capturing
 block. When you connect to the database, dbtest sets up the mocks for the
 specific database you're connecting to when you call \code{\link[DBI:dbConnect]{DBI::dbConnect}}.
+
+\code{start_capturing()} and \code{stop_capturing()} do the exact same thing as
+\code{start_db_capturing()} and \code{stop_db_capturing()}. They are both deprecated so
+as not to clash with other packages when loaded.
 }
 \examples{
 \dontrun{

@@ -3,16 +3,23 @@
 #' When creating database fixtures, it can sometimes be helpful to see record
 #' the responses from the database for use in crafting tests.
 #'
-#' You can start
-#' capturing with `start_db_capturing()` and end it with `stop_db_capturing`. All
-#' queries run against a database will be executed like normal, but their
-#' responses will be saved to the mock path given, so that if you use the same
-#' queries later inside of a [`with_mock_db`] block, the database functions will
-#' return as if they had been run against the database.
+#' You can start capturing with `start_db_capturing()` and end it with
+#' `stop_db_capturing`. All queries run against a database will be executed like
+#' normal, but their responses will be saved to the mock path given, so that if
+#' you use the same queries later inside of a [`with_mock_db`] block, the
+#' database functions will return as if they had been run against the database.
+#'
+#' You can redact certain columns using the `redact_columns` argument. This will
+#' replace the values in the column with a generic redacted version. This works
+#' by always passing the data being saved through [`redact_columns()`].
 #'
 #' _note_ You should always call [`DBI::dbConnect`] inside of the capturing
 #' block. When you connect to the database, dbtest sets up the mocks for the
 #' specific database you're connecting to when you call [`DBI::dbConnect`].
+#'
+#' `start_capturing()` and `stop_capturing()` do the exact same thing as
+#' `start_db_capturing()` and `stop_db_capturing()`. They are both deprecated so
+#' as not to clash with other packages when loaded.
 #'
 #' @param path the path to record mocks (default if missing: the first path in
 #' `.db_mock_paths()`.

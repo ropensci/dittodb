@@ -153,18 +153,20 @@ with_mock_db(
 
 ## Things to be careful about
 
-There are a few things to be careful about when you're using dbtest. 
+There are a few things to be careful about when using dbtest. 
 
 _When to call `dbConnect()`_
-Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dbtest where to look for mocks.
+
+Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dbtest where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording snapshots with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
 
 _Query size_
+
 Recording snapshots saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you'll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren't relevant to the test (you don't have to change the way data is represented if it's not important to what you're testing) and it makes your tests run faster.
 
 
 ## Advanced uses
 
-There are a number of advanced features that might be useful.
+There are a number of advanced features that might be useful. However they take a bit of configuration to use.
 
 ### Specify a new path
 

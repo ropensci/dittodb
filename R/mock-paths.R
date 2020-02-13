@@ -19,7 +19,7 @@
 #' @param new Either a character vector of path(s) to add, or `NULL` to reset
 #' to the default.
 #' @return If `new` is omitted, the function returns the current search paths, a
-#' a character vector. If `new` is provided, the updated value will be returned
+#' character vector. If `new` is provided, the updated value will be returned
 #' invisibly.
 #' @examples
 #' identical(.db_mock_paths(), c("tests/testthat/", "."))

@@ -12,7 +12,7 @@ to the default.}
 }
 \value{
 If \code{new} is omitted, the function returns the current search paths, a
-a character vector. If \code{new} is provided, the updated value will be returned
+character vector. If \code{new} is provided, the updated value will be returned
 invisibly.
 }
 \description{
