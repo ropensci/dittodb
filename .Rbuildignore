@@ -11,3 +11,6 @@ docs
 ^\.github
 dev
 ^presentations
+^dbtest\.Rcheck$
+^dbtest.*\.tar\.gz$
+^dbtest.*\.tgz$

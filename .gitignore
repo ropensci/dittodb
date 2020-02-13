@@ -4,3 +4,6 @@
 .Rprofile
 docs
 inst/doc
+dbtest.Rcheck/
+dbtest*.tar.gz
+dbtest*.tgz
