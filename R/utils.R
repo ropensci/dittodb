@@ -121,4 +121,4 @@ sanitize_table_id <- function(id, ...) {
 }
 
 # borrowed from Neal borrowing from Hadley
-"%||%" <- function(a, b) if (!is.null(a)) a else b
+"%||%" <- function(a, b) if (!is.null(a)) a else b # nolint

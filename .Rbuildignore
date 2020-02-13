@@ -14,3 +14,4 @@ dev
 ^dbtest\.Rcheck$
 ^dbtest.*\.tar\.gz$
 ^dbtest.*\.tgz$
+^\.lintr$

@@ -7,7 +7,8 @@
 #' It works like [base::.libPaths()]: any directories you specify will be added
 #' to the list and searched first. The default directory will be searched last.
 #' Only unique values are kept: if you provide a path that is already found in
-#' `.db_mock_paths`, the result effectively moves that path to the first position.
+#' `.db_mock_paths`, the result effectively moves that path to the first
+#' position.
 #'
 #' For finer-grained control, or to completely override the default behavior
 #' of searching in the current working directory, you can set the option

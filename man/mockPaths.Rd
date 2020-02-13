@@ -24,7 +24,8 @@ places, you can call \code{.db_mock_paths} to add directories to the search path
 It works like \code{\link[base:.libPaths]{base::.libPaths()}}: any directories you specify will be added
 to the list and searched first. The default directory will be searched last.
 Only unique values are kept: if you provide a path that is already found in
-\code{.db_mock_paths}, the result effectively moves that path to the first position.
+\code{.db_mock_paths}, the result effectively moves that path to the first
+position.
 
 For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option

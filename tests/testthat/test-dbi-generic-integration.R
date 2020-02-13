@@ -39,6 +39,9 @@ db_pkgs <- list(
   ))
 )
 
+# The lintr complains about cyclomatic complexity here because of the stacked
+# calls needed for test_that + dbtest + database calls.
+# nolint start
 for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
@@ -336,3 +339,5 @@ for (pkg in names(db_pkgs)) {
     })
   })
 }
+
+# nolint end
