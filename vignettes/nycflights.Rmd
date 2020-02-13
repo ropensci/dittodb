@@ -1,6 +1,6 @@
 ---
 title: "nycflights13 data"
-author: "Mauricio Vargas and Jonathan Kkeane"
+author: "Mauricio Vargas and Jonathan Keane"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -18,7 +18,7 @@ library(dbtest)
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```
 
-`dbtest` uses the `nycflights13` dataset (from the [`nycflights13`] package) for 
+`dbtest` uses the `nycflights13` dataset (from the `nycflights13` package) for 
 testing and example purposes.
 
 # Exploring `nycflights13`

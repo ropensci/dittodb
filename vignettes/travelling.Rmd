@@ -67,7 +67,7 @@ at the office when you are at home or travelling. Or how to continue developing
 these scripts while you don't have an internet connection.
 
 Many of us have to use databases that are only accessible from a local network. 
-The package `debtest` provides `with_mock_db()` that wraps the code and makes it
+The package `dbtest` provides `with_mock_db()` that wraps the code and makes it
 possible to run outside the office (or even with no internet access at all!).
 
 # Recording queries

@@ -1,5 +1,7 @@
 ---
 title: "Getting Started with `dbtest`"
+author: "Jonathan Keane"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{getting-started}
@@ -19,9 +21,9 @@ knitr::opts_chunk$set(
 .db_mock_paths("getting-started")
 ```
 
-`dbtest` is designed to make it easy and fun to test functions that interact with a database. It works be looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
+`dbtest` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
 
-To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data][nycflights13_description]. We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
+To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights13_description). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
 
 ```{r setup db, include = FALSE, eval = FALSE}
 # setup the DB used in the rest of the vignette
@@ -102,7 +104,7 @@ out <- mean_delays("month")
 stop_db_capturing()
 ```
 
-This will write a new folder (by default in `./tests/testthat/`) with the name of the database (here: `nycflights`) and then write one file with the name `SELECT-e53189.R` which is the snapshot for this snapshot. This `SELECT-...` file contains the data that was received from the database for use in tests.
+This will write a new folder (by default in `./tests/testthat/`) with the name of the database (here: `nycflights`) and then write one file with the name `SELECT-e53189.R` which is the snapshot for this example. This `SELECT-*` file contains the data that was received from the database for use in tests.
 
 ## `with_mock_db()`
 
@@ -155,11 +157,11 @@ with_mock_db(
 
 There are a few things to be careful about when using dbtest. 
 
-_When to call `dbConnect()`_
+### When to call `dbConnect()`
 
 Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dbtest where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording snapshots with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
 
-_Query size_
+### Query size
 
 Recording snapshots saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you'll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren't relevant to the test (you don't have to change the way data is represented if it's not important to what you're testing) and it makes your tests run faster.
 
@@ -178,11 +180,16 @@ You can add a new path by calling `.db_mock_paths("new/path/here")` which will a
 
 ### Redacting
 
-Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dbtest allows you to specify columns that should always be redacted by specifying them like so: `start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))` This will always redact the columns "sensitive_column" and "other_sensitive_column" every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example "[redacted]" for characters, `9` for numerics, `1988-10-11T17:00:00` for date times) see [`redact_columns()`] for more information.
+Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dbtest allows you to specify columns that should always be redacted by specifying them like so: 
+```
+start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))
+```
+
+This will always redact the columns "sensitive_column" and "other_sensitive_column" every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example "[redacted]" for characters, `9` for numerics, `1988-10-11T17:00:00` for date times) see `redact_columns()` for more information.
 
 ### You, too, can write a snapshot!
 
-When we use `start_db_recording()` to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dbtest, these files contain the data that dbtest uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the [`dput()`] function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
+When we use `start_db_recording()` to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dbtest, these files contain the data that dbtest uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
 
 You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like "Couldn't find the file nycflights/SELECT-16d120.R in any of the mock directories." and use the filename from there.) and then saving the dataframe that you want the test to use with the command `dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))` (if the dataframe you want to save is `df` and we are using the path we saw in the example error message). And you've created your own fixture!
 
