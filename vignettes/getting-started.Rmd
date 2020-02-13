@@ -180,6 +180,21 @@ You can add a new path by calling `.db_mock_paths("new/path/here")` which will a
 
 Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dbtest allows you to specify columns that should always be redacted by specifying them like so: `start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))` This will always redact the columns "sensitive_column" and "other_sensitive_column" every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example "[redacted]" for characters, `9` for numerics, `1988-10-11T17:00:00` for date times) see [`redact_columns()`] for more information.
 
-### You, too, can write a mock!
+### You, too, can write a snapshot!
 
-You too can create a mock! `dput`
+When we use `start_db_recording()` to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dbtest, these files contain the data that dbtest uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the [`dput()`] function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
+
+You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like "Couldn't find the file nycflights/SELECT-16d120.R in any of the mock directories." and use the filename from there.) and then saving the dataframe that you want the test to use with the command `dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))` (if the dataframe you want to save is `df` and we are using the path we saw in the example error message). And you've created your own fixture!
+
+You can also take the approach of recording fixtures and then editing them manually to pare them down. The workflow for that would be something like:
+
+```{r editing, eval = FALSE}
+# read in the recorded fixture
+df_fixt <- source("nycflights/SELECT-16d120.R", keep.source = FALSE)$value
+
+# filter out anything after february and all days after the 9th of the month
+df_fixt <- dplyr::filter(df_fixt, month <= 2 & day < 10)
+
+# save the fixture for use in tests
+dput(df_fixt, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))
+```
