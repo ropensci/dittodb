@@ -5,13 +5,13 @@ context("Testing setup of .onLoad()")
 # when trying to make the class, so test that that is the error (as evidence
 # that the code is being executed)
 # During devtools::test() the package is not locked, so we must check for that.
-if (environmentIsLocked(asNamespace("dbtest"))) {
+if (environmentIsLocked(asNamespace("dittodb"))) {
   # the environment is locked, this should error
   expect_error(
     .onLoad(),
     paste0(
       "class .*DBIMockSQLiteConnection.* has a locked definition in package ",
-      ".*dbtest.*"
+      ".*dittodb.*"
     )
   )
 } else {
@@ -44,7 +44,7 @@ callr::r(function() {
     }
 
     # load the package
-    library(dbtest)
+    library(dittodb)
 
     # now we have them all back
     for (class_name in custom_connections) {

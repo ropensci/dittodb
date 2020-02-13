@@ -1,4 +1,4 @@
-^dbtest\.Rproj$
+^dittodb\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.travis\.yml$
@@ -11,7 +11,7 @@ docs
 ^\.github
 dev
 ^presentations
-^dbtest\.Rcheck$
-^dbtest.*\.tar\.gz$
-^dbtest.*\.tgz$
+^dittodb\.Rcheck$
+^dittodb.*\.tar\.gz$
+^dittodb.*\.tgz$
 ^\.lintr$

@@ -13,12 +13,12 @@ with_mock_db(expr)
 nothing
 }
 \description{
-When testing with dbtest, wrap your tests in \code{with_mock_db({})} to use the
-database fixtures. \code{dbtest} will look for fixtures in all entries of
+When testing with dittodb, wrap your tests in \code{with_mock_db({})} to use the
+database fixtures. \code{dittodb} will look for fixtures in all entries of
 \code{\link{.db_mock_paths}}.
 }
 \details{
-Connections should be made inside of \code{with_mock_db()} because \code{dbtest} uses
+Connections should be made inside of \code{with_mock_db()} because \code{dittodb} uses
 the database name (given in \code{dbname} or \code{Database} argument of \code{\link{dbConnect}}
 depending on the driver) to separate different fixtures.
 }

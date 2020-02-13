@@ -4,7 +4,7 @@ test_that("Error handling", {
   expect_warning(
     dbMockConnect(data.frame(), dbname = "name"),
     paste0(
-      "data.frame is an unknown driver, dbtest will have limited functionality."
+      "data.frame is an unknown driver, dittodb will have limited functionality."
     )
   )
 })
