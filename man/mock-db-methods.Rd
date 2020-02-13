@@ -76,9 +76,11 @@ be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
 
-\item{dbObj}{a database object (a connection, result, etc.) for use in \code{\link{dbGetInfo}}}
+\item{dbObj}{a database object (a connection, result, etc.) for use in
+\code{\link{dbGetInfo}}}
 
-\item{name}{name of the table (for \code{\link{dbListFields}}, \code{\link{dbWriteTable}}, \code{\link{dbRemoveTable}})}
+\item{name}{name of the table (for \code{\link{dbListFields}}, \code{\link{dbWriteTable}},
+\code{\link{dbRemoveTable}})}
 
 \item{value}{a value (generally a \code{data.frame}) for use in \code{\link{dbWriteTable}}}
 
@@ -86,8 +88,8 @@ be of class \code{DBIMockConnection})}
 
 \item{statement}{an SQL statement to execute}
 
-\item{res}{a result object (for dispatch with these methods, it should
-be of class \code{DBIMockResult})}
+\item{res}{a result object (for dispatch with these methods, it should be of
+class \code{DBIMockResult})}
 
 \item{n}{number of results to fetch (ignored)}
 }

@@ -2,10 +2,9 @@
 # allows us to write each integration test once and then run them on all of the
 # supported DB packages.
 #
-# The reason we are quoting the connection and evaluating
-# and that RMariaDB must be first is that RMariDB and RPostgres interact in funny
-# ways when they are called in the other order, see:
-# https://github.com/r-dbi/RMariaDB/issues/119
+# The reason we are quoting the connection and evaluating and that RMariaDB must
+# be first is that RMariDB and RPostgres interact in funny ways when they are
+# called in the other order, see: https://github.com/r-dbi/RMariaDB/issues/119
 # This should be resolved already, but it still sometimes crops up.
 db_pkgs <- list(
   "RMariaDB" = quote(dbConnect(
@@ -40,6 +39,9 @@ db_pkgs <- list(
   ))
 )
 
+# The lintr complains about cyclomatic complexity here because of the stacked
+# calls needed for test_that + dbtest + database calls.
+# nolint start
 for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
@@ -79,22 +81,25 @@ for (pkg in names(db_pkgs)) {
         )
       )
 
-      # we check just that the tables are there since other tests will add other tables
-      # For some reason, RPostgres responds that there are 0 tables with dbListTables()
-      # even though there are and other functions work (including the subsequent calls later)
-      # Skipping for now, since there isn't much doubt that RPostgres is setup ok
-      # given our other tests.
-      if (pkg == "RPostgres") skip("RPostgres has something funny with dbListTables()")
+      # we check just that the tables are there since other tests will add other
+      # tables For some reason, RPostgres responds that there are 0 tables with
+      # dbListTables() even though there are and other functions work (including
+      # the subsequent calls later) Skipping for now, since there isn't much
+      # doubt that RPostgres is setup ok given our other tests.
+      if (pkg == "RPostgres") {
+        skip("RPostgres has something funny with dbListTables()")
+      }
       expect_true(all(
-        c("airlines", "airports", "flights", "planes", "weather") %in% dbListTables(con)
-      ))
+        c("airlines", "airports", "flights", "planes", "weather") %in%
+          dbListTables(con))
+      )
     })
 
     dbDisconnect(con)
 
     with_mock_path(path = file.path(temp_dir, glue("{pkg}_integration")), {
       # recording ----
-      start_capturing()
+      start_db_capturing()
 
       con <- eval(db_pkgs[[pkg]])
 
@@ -110,22 +115,33 @@ for (pkg in names(db_pkgs)) {
       if (pkg == "RMariaDB") {
         fields_flights <- dbListFields(con, "flights")
       } else if (pkg == "odbc") {
-        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+        fields_flights <- dbListFields(
+          con,
+          Id(schema = schema, table = "flights")
+        )
       } else if (pkg == "RPostgreSQL") {
         fields_flights <- dbListFields(con, c(schema, "flights"))
       } else if (pkg == "RPostgres") {
-        fields_flights <- dbListFields(con, Id(schema = schema, table = "flights"))
+        fields_flights <- dbListFields(
+          con,
+          Id(schema = schema, table = "flights")
+        )
       }
 
       # dbReadTable ====
       if (pkg == "RMariaDB") {
         airlines_expected <- dbReadTable(con, "airlines")
       } else if (pkg == "odbc") {
-        airlines_expected <- dbReadTable(con, Id(schema = schema, table = "airlines"))
+        airlines_expected <- dbReadTable(
+          con,
+          Id(schema = schema, table = "airlines")
+        )
       } else if (pkg == "RPostgreSQL") {
         airlines_expected <- dbReadTable(con, c(schema, "airlines"))
       } else if (pkg == "RPostgres") {
-        airlines_expected <- dbReadTable(con, Id(schema = schema, table = "airlines"))
+        airlines_expected <- dbReadTable(
+          con, Id(schema = schema, table = "airlines")
+        )
       }
 
       # dbClearResult ====
@@ -141,17 +157,21 @@ for (pkg in names(db_pkgs)) {
       dbClearResult(result)
 
       dbDisconnect(con)
-      stop_capturing()
+      stop_db_capturing()
 
       # capturing with redaction ----
-      start_capturing(redact_columns = c("year", "origin", "distance", "time_hour"))
+      redact_columns <- c("year", "origin", "distance", "time_hour")
+      start_db_capturing(redact_columns = redact_columns)
 
       con <- eval(db_pkgs[[pkg]])
 
-      unredacted_flights <- dbGetQuery(con, glue("SELECT * FROM {flights_table} LIMIT 2"))
+      unredacted_flights <- dbGetQuery(
+        con,
+        glue("SELECT * FROM {flights_table} LIMIT 2")
+      )
 
       dbDisconnect(con)
-      stop_capturing()
+      stop_db_capturing()
 
       # using fixtures ----
       with_mock_db({
@@ -175,7 +195,10 @@ for (pkg in names(db_pkgs)) {
         })
 
         test_that(glue("We can use mocks for dbSendQuery {pkg}"), {
-          result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
+          result <- dbSendQuery(
+            con,
+            glue("SELECT * FROM {airlines_table} LIMIT 2")
+          )
           expect_identical(
             dbFetch(result),
             data.frame(
@@ -240,13 +263,19 @@ for (pkg in names(db_pkgs)) {
 
         # dbClearResult====
         test_that(glue("dbClearResult {pkg}"), {
-          result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 3"))
+          result <- dbSendQuery(
+            con,
+            glue("SELECT * FROM {airlines_table} LIMIT 3")
+          )
           expect_true(dbClearResult(result))
         })
 
         # dbColumnInfo ====
         test_that(glue("dbColumnInfo {pkg}"), {
-          res_out <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
+          res_out <- dbSendQuery(
+            con,
+            glue("SELECT * FROM {airlines_table} LIMIT 2")
+          )
           out <- dbColumnInfo(res_out)
           expect_identical(out, airlines_col_info)
           dbClearResult(res_out)
@@ -260,7 +289,10 @@ for (pkg in names(db_pkgs)) {
         })
 
         test_that("dbGetInfo", {
-          result <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 4"))
+          result <- dbSendQuery(
+            con,
+            glue("SELECT * FROM {airlines_table} LIMIT 4")
+          )
           out <- dbGetInfo(result)
           dbClearResult(result)
           expect_identical(out, result_info)
@@ -285,7 +317,10 @@ for (pkg in names(db_pkgs)) {
           redacted_flights$origin <- "[redacted]"
           redacted_flights$distance <- 9
           timezone <- attributes(redacted_flights$time_hour)$tzone %||% "EST"
-          redacted_flights$time_hour <- as.POSIXct("1988-10-11T17:00:00", tz = timezone)
+          redacted_flights$time_hour <- as.POSIXct(
+            "1988-10-11T17:00:00",
+            tz = timezone
+          )
 
           out <- dbGetQuery(con, glue("SELECT * FROM {flights_table} LIMIT 2"))
           expect_identical(out, redacted_flights)
@@ -304,3 +339,5 @@ for (pkg in names(db_pkgs)) {
     })
   })
 }
+
+# nolint end

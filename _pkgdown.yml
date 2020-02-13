@@ -9,7 +9,7 @@ reference:
   - capture_requests
   - with_mock_db
   - redact_columns
-  - .mockPaths
+  - .db_mock_paths
   - driver-specifc-mock-connections
 - title: Mock DB methods
   contents:
@@ -27,6 +27,8 @@ navbar:
       href: reference/
     - text: Articles
       menu:
+      -  text: Getting Started with dbtest
+         href: articles/getting-started.html
       -  text: Recording SQL queries with dbtest for travelling
          href: articles/travelling.html
       -  text: nycflights data

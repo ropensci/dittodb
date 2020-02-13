@@ -47,8 +47,16 @@ db_path_sanitize <- function(filename, replacement = "_") {
 }
 
 ignore_dbplyr_unique_names <- function(statement) {
-  statement <- gsub("`zzz[[:digit:]]+`", "`removed_unique_dplyr_name`", statement)
-  statement <- gsub("`dbplyr_[[:digit:]]+`", "`removed_unique_dplyr_name`", statement)
+  statement <- gsub(
+    "`zzz[[:digit:]]+`",
+    "`removed_unique_dplyr_name`",
+    statement
+  )
+  statement <- gsub(
+    "`dbplyr_[[:digit:]]+`",
+    "`removed_unique_dplyr_name`",
+    statement
+  )
   return(statement)
 }
 
@@ -113,4 +121,4 @@ sanitize_table_id <- function(id, ...) {
 }
 
 # borrowed from Neal borrowing from Hadley
-"%||%" <- function(a, b) if (!is.null(a)) a else b
+"%||%" <- function(a, b) if (!is.null(a)) a else b # nolint

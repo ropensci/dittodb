@@ -5,15 +5,17 @@
 #' they read in mock responses and the code proceeds after that.
 #'
 #' @param conn a database connection (for dispatch with these methods, it should
-#' be of class `DBIMockConnection`)
+#'   be of class `DBIMockConnection`)
 #' @param statement an SQL statement to execute
-#' @param res a result object (for dispatch with these methods, it should
-#' be of class `DBIMockResult`)
+#' @param res a result object (for dispatch with these methods, it should be of
+#'   class `DBIMockResult`)
 #' @param n number of results to fetch (ignored)
-#' @param name name of the table (for [`dbListFields`], [`dbWriteTable`], [`dbRemoveTable`])
+#' @param name name of the table (for [`dbListFields`], [`dbWriteTable`],
+#'   [`dbRemoveTable`])
 #' @param x a name to quote (for [`dbQuoteIdentifier`])
 #' @param ... arguments passed on inside of the methods
-#' @param dbObj a database object (a connection, result, etc.) for use in [`dbGetInfo`]
+#' @param dbObj a database object (a connection, result, etc.) for use in
+#'   [`dbGetInfo`]
 #' @param value a value (generally a `data.frame`) for use in [`dbWriteTable`]
 #'
 #' @name mock-db-methods
@@ -63,7 +65,10 @@ dbMockConnect <- function(drv, ...) {
     mock_class <- "DBIMockConnection"
     original_class <- "OdbcConnection"
   } else {
-    warning(as.character(class(drv)), " is an unknown driver, dbtest will have limited functionality.")
+    warning(
+      as.character(class(drv)),
+      " is an unknown driver, dbtest will have limited functionality."
+    )
     mock_class <- "DBIMockConnection"
     original_class <- "DBIConnection"
   }
@@ -86,13 +91,13 @@ dbMockConnect <- function(drv, ...) {
 get_dbname <- function(dots) {
   # look through dots to grab either dbname or the first unnammed argument
   named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
-  named_Database <- !is.null(dots$Database) && dots$Database != ""
+  named_database <- !is.null(dots$Database) && dots$Database != ""
   unnamed_dbname <- length(dots) > 0 &&
     (is.null(names(dots[1])) || names(dots[1]) == "")
   # if there is no name, or it's empty
   if (named_dbname) {
     path <- dots$dbname
-  } else if (named_Database) {
+  } else if (named_database) {
     path <- dots$Database
   } else if (unnamed_dbname) {
     path <- dots[[1]]
@@ -126,8 +131,8 @@ setMethod("dbGetInfo", signature("DBIMockConnection"), function(dbObj, ...) {
   return(read_file(find_file(path)))
 })
 
-# TODO: should we also implement signature("DBIMockConnection", "character", "character")
-# most backends warn that it isn't well supported.
+# TODO: should we also implement signature("DBIMockConnection", "character",
+# "character") most backends warn that it isn't well supported.
 #' @rdname mock-db-methods
 #' @export
 setMethod(

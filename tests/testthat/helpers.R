@@ -1,9 +1,11 @@
 skip_env <- function(which = c("RPostgres", "RMariaDB")) {
-  if ("RPostgres" %in% which && tolower(Sys.getenv("DBTEST_DISABLE_PG")) == "true") {
+  if ("RPostgres" %in% which &&
+      tolower(Sys.getenv("DBTEST_DISABLE_PG")) == "true") {
     skip("Skipping tests that need functioning RPostgres.")
   }
 
-  if ("RMariaDB" %in% which && tolower(Sys.getenv("DBTEST_DISABLE_MARIA")) == "true") {
+  if ("RMariaDB" %in% which &&
+      tolower(Sys.getenv("DBTEST_DISABLE_MARIA")) == "true") {
     skip("Skipping tests that need functioning RMariaDB.")
   }
 

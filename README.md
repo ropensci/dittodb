@@ -26,7 +26,7 @@ get_an_airline <- function(con) {
 But we want to make sure that this function returns what we expect. To do this, we first record the response we get from the production database:
 
 ```r
-start_capturing()
+start_db_capturing()
 
 con <- DBI::dbConnect(
   RPostgres::Postgres(),
@@ -39,7 +39,7 @@ con <- DBI::dbConnect(
 get_an_airline(con)
 DBI::dbDisconnect(con)
 
-stop_capturing()
+stop_db_capturing()
 ```
 
 This will run the query from `get_an_airline()`, and save the response in a mock directory and file. Then, when we are testing, we can use the following:
@@ -70,7 +70,7 @@ All without having to ever set a database up on Travis 🎉
 
 Alternatively, any other driver could be used:
 ```r
-start_capturing()
+start_db_capturing()
 
 con <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
@@ -83,7 +83,7 @@ con <- DBI::dbConnect(
 get_an_airline(con)
 DBI::dbDisconnect(con)
 
-stop_capturing()
+stop_db_capturing()
 ```
 
 and then
@@ -114,6 +114,13 @@ Currently, dbtest is not on CRAN. You can install from source, or use `devtools`
 ```r
 devtools::install_github("jonkeane/dbtest")
 ```
+
+## Development
+In order to test `dbtest` recording functionality locally or on CI, it is helpful to have databases with test data available. This can be accomplished using the scripts in the `db-setup` directory. By default, `dbtests` does not run any tests that require database infrastructure locally.
+
+To get local databases, the easiest way is to use docker and run either the `postgres-docker-reset.sh` or `mariadb-docker-reset.sh` which will pull a docker image and set up a test database with the user and passwords that the `dbtest` tests are expecting (and will stop and remove the docker images if they are present). 
+
+On continuous integration, (using GitHub Actions) these scripts in the `db-setup` directory are used to set up these test databases so we can run integration tests (predominantly in the file `tests/testthat/test-dbi-generic-integration.R`).
 
 ---
 

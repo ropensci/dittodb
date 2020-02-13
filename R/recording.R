@@ -1,21 +1,28 @@
 #' Capture and record database transactions and save them as mocks
 #'
-#' When creating database fixtures, it can sometimes be helpful to see record the
-#' responses from the database for use in crafting tests.
+#' When creating database fixtures, it can sometimes be helpful to see record
+#' the responses from the database for use in crafting tests.
 #'
-#' You can start
-#' capturing with `start_capturing()` and end it with `stop_capturing`. All
-#' queries run against a database will be executed like normal, but their
-#' responses will be saved to the mock path given, so that if you use the same
-#' queries later inside of a [`with_mock_db`] block, the database functions will
-#' return as if they had been run against the database.
+#' You can start capturing with `start_db_capturing()` and end it with
+#' `stop_db_capturing`. All queries run against a database will be executed like
+#' normal, but their responses will be saved to the mock path given, so that if
+#' you use the same queries later inside of a [`with_mock_db`] block, the
+#' database functions will return as if they had been run against the database.
+#'
+#' You can redact certain columns using the `redact_columns` argument. This will
+#' replace the values in the column with a generic redacted version. This works
+#' by always passing the data being saved through [`redact_columns()`].
 #'
 #' _note_ You should always call [`DBI::dbConnect`] inside of the capturing
 #' block. When you connect to the database, dbtest sets up the mocks for the
 #' specific database you're connecting to when you call [`DBI::dbConnect`].
 #'
+#' `start_capturing()` and `stop_capturing()` do the exact same thing as
+#' `start_db_capturing()` and `stop_db_capturing()`. They are both deprecated so
+#' as not to clash with other packages when loaded.
+#'
 #' @param path the path to record mocks (default if missing: the first path in
-#' `.mockPaths()`.
+#' `.db_mock_paths()`.
 #' @param redact_columns a character vector of columns to redact. Any column
 #' that matches an entry will be redacted with a standard value for the column
 #' type (e.g. characters will be replaced with "\[redacted\]")
@@ -24,7 +31,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' start_capturing()
+#' start_db_capturing()
 #' con <- dbConnect(RSQLite::SQLite(), "memory")
 #'
 #' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
@@ -32,15 +39,15 @@
 #' df_2 <- dbFetch(res)
 #'
 #' dbDisconnect(con)
-#' stop_capturing()
+#' stop_db_capturing()
 #'
-#' start_capturing(redact_columns = "carrier")
+#' start_db_capturing(redact_columns = "carrier")
 #' con <- dbConnect(RSQLite::SQLite(), "memory")
 #'
 #' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
 #'
 #' dbDisconnect(con)
-#' stop_capturing()
+#' stop_db_capturing()
 #' }
 #' @name capture_requests
 NULL
@@ -77,9 +84,9 @@ quietly <- function(expr) {
 }
 
 # borrowed from httptest
-trace_dbi <- function (...,
-                       where_list = list(sys.frame(), asNamespace("DBI")),
-                       print = dbtest_debug_level(2)) {
+trace_dbi <- function(...,
+                      where_list = list(sys.frame(), asNamespace("DBI")),
+                      print = dbtest_debug_level(2)) {
   for (place in where_list) {
     quietly(trace(..., print = print, where = place))
   }
@@ -101,10 +108,10 @@ method_loaded <- Vectorize(function(method, signature) {
 
 #' @rdname capture_requests
 #' @export
-start_capturing <- function(path, redact_columns = NULL) {
+start_db_capturing <- function(path, redact_columns = NULL) {
   if (!missing(path)) {
     ## Note that this changes state and doesn't reset it
-    .mockPaths(path)
+    .db_mock_paths(path)
   }
 
   set_redactor(redact_columns)
@@ -112,7 +119,7 @@ start_capturing <- function(path, redact_columns = NULL) {
   quietly(trace_dbi(
     "dbConnect",
     exit = quote({
-      .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
+      .dbtest_env$db_path <- file.path(.db_mock_paths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
     })
   ))
@@ -158,7 +165,11 @@ start_capturing <- function(path, redact_columns = NULL) {
     "dbListTables",
     exit = quote({
       thing <- returnValue()
-      dput(thing, file.path(.dbtest_env$db_path, "dbListTables.R"), control = c("all", "hexNumeric"))
+      dput(
+        thing,
+        file.path(.dbtest_env$db_path, "dbListTables.R"),
+        control = c("all", "hexNumeric")
+      )
     })
   ))
 
@@ -167,7 +178,11 @@ start_capturing <- function(path, redact_columns = NULL) {
     exit = quote({
       thing <- returnValue()
       name <- sanitize_table_id(name, ...)
-      dput(thing, file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")), control = c("all", "hexNumeric"))
+      dput(
+        thing,
+        file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")),
+        control = c("all", "hexNumeric")
+      )
     })
   ))
 
@@ -176,7 +191,7 @@ start_capturing <- function(path, redact_columns = NULL) {
     "dbColumnInfo",
     exit = quote({
       thing <- returnValue()
-      # TODO: would this be better if we traced the methods using the signature arg?
+      # TODO: would this be better if we traced the methods using signature?
       if (inherits(res, "PostgreSQLResult")) {
         result_info <- RPostgreSQL::postgresqlResultInfo(res)
         hash <- hash(result_info$statement)
@@ -195,7 +210,8 @@ start_capturing <- function(path, redact_columns = NULL) {
   # TODO: for RPostgreSQL to work, we need to prevent RPostgreSQL's
   # `postgresqlCloseConnection` from calling `dbListResults` which over-writes
   # our fixture
-  # each connection has to be mocked separately because there's no DBI::dbGetInfo for DBIConnection
+  # each connection has to be mocked separately because there's no
+  # DBI::dbGetInfo for DBIConnection
   for (conn in connection_list) {
     if (method_loaded("dbGetInfo", conn)) {
       quietly(trace_dbi(
@@ -253,6 +269,12 @@ start_capturing <- function(path, redact_columns = NULL) {
   return(invisible(NULL))
 }
 
+# for backwards compatibility
+#' @rdname capture_requests
+#' @export
+#' @keywords internal
+start_capturing <- start_db_capturing
+
 #' an environment for dbtest storing state
 #'
 #' @export
@@ -261,7 +283,7 @@ start_capturing <- function(path, redact_columns = NULL) {
 
 #' @rdname capture_requests
 #' @export
-stop_capturing <- function() {
+stop_db_capturing <- function() {
   for (func in c(
     "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
     "dbListFields", "dbColumnInfo", "dbGetInfo")) {
@@ -277,13 +299,19 @@ stop_capturing <- function() {
   remove_redactor()
 }
 
+# for backwards compatibility
+#' @rdname capture_requests
+#' @export
+#' @keywords internal
+stop_capturing <- stop_db_capturing
+
 set_redactor <- function(redactors) {
   .dbtest_env$redactor <- redactors
   return(invisible(redactors))
 }
 
 remove_redactor <- function() {
-  if(exists("redactor", envir = .dbtest_env)) {
+  if (exists("redactor", envir = .dbtest_env)) {
     rm("redactor", envir = .dbtest_env)
   }
 
@@ -299,7 +327,7 @@ remove_redactor <- function() {
 #' @export
 #' @keywords internal
 get_redactor <- function() {
-  if(exists("redactor", envir = .dbtest_env)) {
+  if (exists("redactor", envir = .dbtest_env)) {
     return(get("redactor", envir = .dbtest_env))
   }
 

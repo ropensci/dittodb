@@ -14,8 +14,8 @@ nycflights13_sql(con, schema = "", ...)
 \item{...}{additional parameters to connect to a database}
 }
 \value{
-the connection given in \code{con} invisibly, generally called for the side effects
-of writing to the database
+the connection given in \code{con} invisibly, generally called for the
+side effects of writing to the database
 }
 \description{
 Using the connection given in \code{con}, create a database including a few tables

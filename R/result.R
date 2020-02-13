@@ -33,7 +33,13 @@ setMethod(
         "\nis being hased to: ", hash(statement)
       )
     }
-    return(new("DBIMockResult", type = get_type(statement), hash = hash(statement), path = conn@path, statement = statement))
+    return(new(
+      "DBIMockResult",
+      type = get_type(statement),
+      hash = hash(statement),
+      path = conn@path,
+      statement = statement
+    ))
   }
 )
 

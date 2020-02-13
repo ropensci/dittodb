@@ -11,8 +11,8 @@
 #' @importFrom glue glue_sql
 #' @importFrom utils head
 #'
-#' @return the connection given in `con` invisibly, generally called for the side effects
-#' of writing to the database
+#' @return the connection given in `con` invisibly, generally called for the
+#' side effects of writing to the database
 #'
 #' @export
 #' @examples
@@ -61,7 +61,9 @@ nycflights13_sql <- function(con, schema = "", ...) {
 
   index <- list(
     airports = list("faa"),
-    flights = list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
+    flights = list(
+      c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"
+    ),
     weather = list(c("year", "month", "day"), "origin")
   )
 
@@ -72,24 +74,28 @@ nycflights13_sql <- function(con, schema = "", ...) {
     remote_schemas <- DBI::dbGetQuery(
       con,
       glue::glue_sql("SELECT schema_name FROM information_schema.schemata",
-        .con = con
+                     .con = con
       )
     )
 
     remote_schemas <- as.character(remote_schemas$schema_name)
 
     if (!(schema %in% remote_schemas)) {
-      DBI::dbGetQuery(
+      DBI::dbExecute(
         con,
         glue::glue_sql("CREATE SCHEMA {`schema`}",
-          .con = con
+                       .con = con
         )
       )
     }
 
     remote_tables <- DBI::dbGetQuery(
       con,
-      glue::glue_sql("SELECT table_name FROM information_schema.tables WHERE table_schema={schema}",
+      glue::glue_sql(
+        paste0(
+          "SELECT table_name FROM information_schema.tables WHERE ",
+          "table_schema={schema}"
+        ),
         .con = con
       )
     )
@@ -104,7 +110,6 @@ nycflights13_sql <- function(con, schema = "", ...) {
 
   # Create missing tables
   for (table in tables) {
-    # df <- head(getExportedValue("nycflights13", table), 1000)
     df <- getExportedValue("nycflights13", table)
 
     message("Creating table: ", table)

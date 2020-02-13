@@ -22,7 +22,7 @@ test_that("The fixture is what we expect", {
 dbDisconnect(con)
 
 # test with the mock db using some captured mocks
-start_capturing()
+start_db_capturing()
 con <- dbConnect(RSQLite::SQLite(), temp_path)
 dbListTables(con)
 
@@ -53,7 +53,7 @@ tailnum_delay <- flights_db %>%
   collect()
 
 dbDisconnect(con)
-stop_capturing()
+stop_db_capturing()
 
 # now try the whole thing again, but this time with the mock db.
 with_mock_db({
