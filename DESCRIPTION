@@ -1,6 +1,6 @@
 Package: dittodb
 Title: A Test Environment for DB Requests
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person(given = "Jonathan",
            family = "Keane",
@@ -13,7 +13,7 @@ Authors@R: c(
           email = "mvargas@dcc.uchile.cl",
           comment = c(ORCID = "0000-0003-1017-7574"))         
   )
-URL: https://jonkeane.com/dittodb, https://github.com/jonkeane/dittodb
+URL: https://dittodb.jonkeane.com/, https://github.com/jonkeane/dittodb
 BugReports: https://github.com/jonkeane/dittodb/issues
 Description: Testing and documenting code that communicates with remote
   databases can be painful. Although the interaction with R is usually relatively 
