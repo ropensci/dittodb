@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 `dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
 
-To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights13_description). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
+To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights.html). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
 
 ```{r setup db, include = FALSE, eval = FALSE}
 # setup the DB used in the rest of the vignette
