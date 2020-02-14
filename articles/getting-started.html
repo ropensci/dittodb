@@ -102,7 +102,7 @@
     
     
 <p><code>dittodb</code> is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.</p>
-<p>To get started, imagine that we are working on a package that queries a database that consists of the <a href="nycflights13_description">nycflights13 data</a>. We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.</p>
+<p>To get started, imagine that we are working on a package that queries a database that consists of the <a href="nycflights.html">nycflights13 data</a>. We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(DBI)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(RMariaDB)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
