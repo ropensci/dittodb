@@ -14,7 +14,7 @@
 #' of searching in the current working directory, you can set the option
 #' "dittodb.mock.paths" directly.
 #'
-#' This function is similar to [httptest::.mockPaths()] from
+#' This function is similar to `.mockPaths()` from
 #' [httptest](https://CRAN.R-project.org/package=httptest)
 #'
 #' @param new Either a character vector of path(s) to add, or `NULL` to reset
