@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recording SQL queries with dbtest for travelling • dbtest</title>
+<title>Recording SQL queries with dittodb for travelling • dittodb</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Recording SQL queries with dbtest for travelling">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Recording SQL queries with dittodb for travelling">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -36,7 +36,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dbtest</a>
+        <a class="navbar-link" href="../index.html">dittodb</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -54,7 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+      <a href="../articles/getting-started.html">Getting Started with dittodb</a>
+    </li>
+    <li>
+      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
     </li>
     <li>
       <a href="../articles/nycflights.html">nycflights data</a>
@@ -67,7 +70,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jonkeane/dbtest">
+  <a href="https://github.com/jonkeane/dittodb">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -85,12 +88,12 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Recording SQL queries with dbtest for travelling</h1>
+      <h1>Recording SQL queries with dittodb for travelling</h1>
                         <h4 class="author">Mauricio Vargas</h4>
             
-            <h4 class="date">2020-01-16</h4>
+            <h4 class="date">2020-02-14</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/jonkeane/dbtest/blob/master/vignettes/travelling.Rmd"><code>vignettes/travelling.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jonkeane/dittodb/blob/master/vignettes/travelling.Rmd"><code>vignettes/travelling.Rmd</code></a></small>
       <div class="hidden name"><code>travelling.Rmd</code></div>
 
     </div>
@@ -102,7 +105,7 @@
 <a href="#scope" class="anchor"></a>Scope</h1>
 <p>The present consists in mocking the connection to a real PostgreSQL server that contains a database version of the <code>nycflights13</code> dataset (among other databases). See <a href="nycflights.html">the <code>nycflights13</code> vignette</a> for more information about this database.</p>
 <p>This example is for you if you ever wondered how to use scripts that you use at the office when you are at home or travelling. Or how to continue developing these scripts while you don’t have an internet connection.</p>
-<p>Many of us have to use databases that are only accessible from a local network. The package <code>debtest</code> provides <code><a href="../reference/with_mock_db.html">with_mock_db()</a></code> that wraps the code and makes it possible to run outside the office (or even with no internet access at all!).</p>
+<p>Many of us have to use databases that are only accessible from a local network. The package <code>dittodb</code> provides <code><a href="../reference/with_mock_db.html">with_mock_db()</a></code> that wraps the code and makes it possible to run outside the office (or even with no internet access at all!).</p>
 </div>
 <div id="recording-queries" class="section level1">
 <h1 class="hasAnchor">
@@ -115,10 +118,10 @@
 <span id="cb1-3"><a href="#cb1-3"></a></span>
 <span id="cb1-4"><a href="#cb1-4"></a>con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
 <span id="cb1-5"><a href="#cb1-5"></a>  <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">dbname =</span> <span class="st">"dbtest"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>
 <span id="cb1-7"><a href="#cb1-7"></a>  <span class="dt">host =</span> <span class="st">"postgres.server"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>  <span class="dt">user =</span> <span class="st">"dbtest"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>  <span class="dt">password =</span> <span class="st">"_dbtest_"</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="dt">user =</span> <span class="st">"dittodb"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="dt">password =</span> <span class="st">"_dittodb_"</span></span>
 <span id="cb1-10"><a href="#cb1-10"></a>)</span>
 <span id="cb1-11"><a href="#cb1-11"></a></span>
 <span id="cb1-12"><a href="#cb1-12"></a><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="kw"><a href="https://dbplyr.tidyverse.org/reference/in_schema.html">in_schema</a></span>(<span class="st">"public"</span>, <span class="st">"flights"</span>)) <span class="op">%&gt;%</span></span>
@@ -128,18 +131,18 @@
 <span id="cb1-16"><a href="#cb1-16"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(n <span class="op">&gt;=</span><span class="st"> </span>10L)</span></code></pre></div>
 <p>However, this won’t work if we can’t connect to our database server. And since <code>postgres.server</code> is an alias to an IP only accessible from the local network at our office, we couldn’t run this code and get a result elsewhere. But what if we wanted to continue work on this analysis on the train home?</p>
 <p><em>Important:</em> This was just an example. Please never write your passwords in scripts, use your <code>.Rprofile</code>, an environment variable, or some other more-secure method instead.</p>
-<p>One option would be saving a CSV or TXT file of the data manually, and then manually reading it in to our R session. But this has a number of drawbacks: we have to mentally keep track of where each query is from, save it to the right file, read it in to the right place, etc. We also have to maintain a separate system or code path for reading in the saved files. <code>dbtest</code> can take care of all of this for us in the background, allowing us to record the results of the necessary queries, and playing them back when those same queries are called without a connection to the database.</p>
-<p>While we are able to connect to the database (i.e. when we are at the office) we can save the results returned by queries with code like the following (by calling <code><a href="../reference/capture_requests.html">start_capturing()</a></code> before the connection and the code that executes the queries and then <code><a href="../reference/capture_requests.html">stop_capturing()</a></code> at the end):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dbtest)</span>
+<p>One option would be saving a CSV or TXT file of the data manually, and then manually reading it in to our R session. But this has a number of drawbacks: we have to mentally keep track of where each query is from, save it to the right file, read it in to the right place, etc. We also have to maintain a separate system or code path for reading in the saved files. <code>dittodb</code> can take care of all of this for us in the background, allowing us to record the results of the necessary queries, and playing them back when those same queries are called without a connection to the database.</p>
+<p>While we are able to connect to the database (i.e. when we are at the office) we can save the results returned by queries with code like the following (by calling <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code> before the connection and the code that executes the queries and then <code><a href="../reference/capture_requests.html">stop_db_capturing()</a></code> at the end):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dittodb)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw"><a href="../reference/capture_requests.html">start_capturing</a></span>()</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()</span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
 <span id="cb2-5"><a href="#cb2-5"></a>con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
 <span id="cb2-6"><a href="#cb2-6"></a>    <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
-<span id="cb2-7"><a href="#cb2-7"></a>    <span class="dt">dbname =</span> <span class="st">"dbtest"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>
 <span id="cb2-8"><a href="#cb2-8"></a>    <span class="dt">host =</span> <span class="st">"postgres.server"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="dt">user =</span> <span class="st">"dbtest"</span>,</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    <span class="dt">password =</span> <span class="st">"_dbtest_"</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>    <span class="dt">user =</span> <span class="st">"dittodb"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10"></a>    <span class="dt">password =</span> <span class="st">"_dittodb_"</span></span>
 <span id="cb2-11"><a href="#cb2-11"></a>  )</span>
 <span id="cb2-12"><a href="#cb2-12"></a></span>
 <span id="cb2-13"><a href="#cb2-13"></a>flights_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="kw"><a href="https://dbplyr.tidyverse.org/reference/in_schema.html">in_schema</a></span>(<span class="st">"public"</span>, <span class="st">"flights"</span>)) <span class="op">%&gt;%</span></span>
@@ -153,7 +156,7 @@
 <span id="cb2-21"><a href="#cb2-21"></a></span>
 <span id="cb2-22"><a href="#cb2-22"></a><span class="kw">dbDisconnect</span>(con_psql)</span>
 <span id="cb2-23"><a href="#cb2-23"></a></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="kw"><a href="../reference/capture_requests.html">stop_capturing</a></span>()</span></code></pre></div>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 2
 ## # Groups:   tailnum [1,000]
 ##    tailnum     n
@@ -178,10 +181,10 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>({</span>
 <span id="cb5-2"><a href="#cb5-2"></a>  con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    <span class="dt">dbname =</span> <span class="st">"dbtest"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>
 <span id="cb5-5"><a href="#cb5-5"></a>    <span class="dt">host =</span> <span class="st">"postgres.server"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    <span class="dt">user =</span> <span class="st">"dbtest"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7"></a>    <span class="dt">password =</span> <span class="st">"_dbtest_"</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>    <span class="dt">user =</span> <span class="st">"dittodb"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    <span class="dt">password =</span> <span class="st">"_dittodb_"</span></span>
 <span id="cb5-8"><a href="#cb5-8"></a>  )</span>
 <span id="cb5-9"><a href="#cb5-9"></a></span>
 <span id="cb5-10"><a href="#cb5-10"></a>  flights_<span class="dv">100</span>_from_mock &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="kw"><a href="https://dbplyr.tidyverse.org/reference/in_schema.html">in_schema</a></span>(<span class="st">"public"</span>, <span class="st">"flights"</span>)) <span class="op">%&gt;%</span></span>
@@ -208,7 +211,7 @@
 ##  9 N8974C     31
 ## 10 N8855A     57
 ## # … with 990 more rows</code></pre>
-<p>One thing to note is that when using <code>dbplyr</code>, we need to be a bit careful that we wrap the entire interaction in with the database objects in <code>with_mock_db</code> if we are taking advantage of <code>dbplyr</code>’s lazy evaluation (which is by default) and use <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> to return the results when you want them recorded. Because <code>dbplyr</code> waits until the last possible second to request the data, if you don’t have a <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> call (or a call the will implicitly send the query) there won’t be a query called, and <code>dbtest</code> won’t see be able to record the response from that query.</p>
+<p>One thing to note is that when using <code>dbplyr</code>, we need to be a bit careful that we wrap the entire interaction in with the database objects in <code>with_mock_db</code> if we are taking advantage of <code>dbplyr</code>’s lazy evaluation (which is by default) and use <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> to return the results when you want them recorded. Because <code>dbplyr</code> waits until the last possible second to request the data, if you don’t have a <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> call (or a call the will implicitly send the query) there won’t be a query called, and <code>dittodb</code> won’t see be able to record the response from that query.</p>
 </div>
   </div>
 

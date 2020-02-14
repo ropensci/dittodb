@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture and record database transactions and save them as mocks — capture_requests • dbtest</title>
+<title>Capture and record database transactions and save them as mocks — capture_requests • dittodb</title>
 
 
 <!-- jquery -->
@@ -36,8 +36,8 @@
 
 
 <meta property="og:title" content="Capture and record database transactions and save them as mocks — capture_requests" />
-<meta property="og:description" content="When creating database fixtures, it can sometimes be helpful to see record the
-responses from the database for use in crafting tests." />
+<meta property="og:description" content="When creating database fixtures, it can sometimes be helpful to see record
+the responses from the database for use in crafting tests." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -79,7 +79,7 @@ responses from the database for use in crafting tests." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dbtest</a>
+        <a class="navbar-link" href="../index.html">dittodb</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -97,7 +97,10 @@ responses from the database for use in crafting tests." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+      <a href="../articles/getting-started.html">Getting Started with dittodb</a>
+    </li>
+    <li>
+      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
     </li>
     <li>
       <a href="../articles/nycflights.html">nycflights data</a>
@@ -110,7 +113,7 @@ responses from the database for use in crafting tests." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jonkeane/dbtest">
+  <a href="https://github.com/jonkeane/dittodb">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -129,16 +132,20 @@ responses from the database for use in crafting tests." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Capture and record database transactions and save them as mocks</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/recording.R'><code>R/recording.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/recording.R'><code>R/recording.R</code></a></small>
     <div class="hidden name"><code>capture_requests.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>When creating database fixtures, it can sometimes be helpful to see record the
-responses from the database for use in crafting tests.</p>
+    <p>When creating database fixtures, it can sometimes be helpful to see record
+the responses from the database for use in crafting tests.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>start_capturing</span>(<span class='no'>path</span>, <span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>start_db_capturing</span>(<span class='no'>path</span>, <span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>start_capturing</span>(<span class='no'>path</span>, <span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>stop_db_capturing</span>()
 
 <span class='fu'>stop_capturing</span>()</pre>
 
@@ -148,7 +155,7 @@ responses from the database for use in crafting tests.</p>
     <tr>
       <th>path</th>
       <td><p>the path to record mocks (default if missing: the first path in
-<code><a href='mockPaths.html'>.mockPaths()</a></code>.</p></td>
+<code><a href='mockPaths.html'>.db_mock_paths()</a></code>.</p></td>
     </tr>
     <tr>
       <th>redact_columns</th>
@@ -163,19 +170,24 @@ type (e.g. characters will be replaced with "[redacted]")</p></td>
     <p>NULL (invisibily)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You can start
-capturing with <code>start_capturing()</code> and end it with <code>stop_capturing</code>. All
-queries run against a database will be executed like normal, but their
-responses will be saved to the mock path given, so that if you use the same
-queries later inside of a <code><a href='with_mock_db.html'>with_mock_db</a></code> block, the database functions will
-return as if they had been run against the database.</p>
+    <p>You can start capturing with <code>start_db_capturing()</code> and end it with
+<code>stop_db_capturing</code>. All queries run against a database will be executed like
+normal, but their responses will be saved to the mock path given, so that if
+you use the same queries later inside of a <code><a href='with_mock_db.html'>with_mock_db</a></code> block, the
+database functions will return as if they had been run against the database.</p>
+<p>You can redact certain columns using the <code>redact_columns</code> argument. This will
+replace the values in the column with a generic redacted version. This works
+by always passing the data being saved through <code><a href='redact_columns.html'>redact_columns()</a></code>.</p>
 <p><em>note</em> You should always call <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect</a></code> inside of the capturing
-block. When you connect to the database, dbtest sets up the mocks for the
+block. When you connect to the database, dittodb sets up the mocks for the
 specific database you're connecting to when you call <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect</a></code>.</p>
+<p><code>start_capturing()</code> and <code>stop_capturing()</code> do the exact same thing as
+<code>start_db_capturing()</code> and <code>stop_db_capturing()</code>. They are both deprecated so
+as not to clash with other packages when loaded.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>start_capturing</span>()
+<span class='fu'>start_db_capturing</span>()
 <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>"memory"</span>)
 
 <span class='no'>df_1</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT * FROM rpostgresql.airlines LIMIT 1"</span>)
@@ -183,15 +195,15 @@ specific database you're connecting to when you call <code><a href='https://dbi.
 <span class='no'>df_2</span> <span class='kw'>&lt;-</span> <span class='fu'>dbFetch</span>(<span class='no'>res</span>)
 
 <span class='fu'>dbDisconnect</span>(<span class='no'>con</span>)
-<span class='fu'>stop_capturing</span>()
+<span class='fu'>stop_db_capturing</span>()
 
-<span class='fu'>start_capturing</span>(<span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='st'>"carrier"</span>)
+<span class='fu'>start_db_capturing</span>(<span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='st'>"carrier"</span>)
 <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>"memory"</span>)
 
 <span class='no'>df_1</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT * FROM rpostgresql.airlines LIMIT 3"</span>)
 
 <span class='fu'>dbDisconnect</span>(<span class='no'>con</span>)
-<span class='fu'>stop_capturing</span>()
+<span class='fu'>stop_db_capturing</span>()
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

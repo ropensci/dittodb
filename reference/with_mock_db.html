@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the DBI queries inside against a mocked db — with_mock_db • dbtest</title>
+<title>Run the DBI queries inside against a mocked db — with_mock_db • dittodb</title>
 
 
 <!-- jquery -->
@@ -36,9 +36,9 @@
 
 
 <meta property="og:title" content="Run the DBI queries inside against a mocked db — with_mock_db" />
-<meta property="og:description" content="When testing with dbtest, wrap your tests in with_mock_db({}) to use the
-database fixtures. dbtest will look for fixtures in all entries of
-.mockPaths." />
+<meta property="og:description" content="When testing with dittodb, wrap your tests in with_mock_db({}) to use the
+database fixtures. dittodb will look for fixtures in all entries of
+.db_mock_paths." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -80,7 +80,7 @@ database fixtures. dbtest will look for fixtures in all entries of
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dbtest</a>
+        <a class="navbar-link" href="../index.html">dittodb</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -98,7 +98,10 @@ database fixtures. dbtest will look for fixtures in all entries of
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+      <a href="../articles/getting-started.html">Getting Started with dittodb</a>
+    </li>
+    <li>
+      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
     </li>
     <li>
       <a href="../articles/nycflights.html">nycflights data</a>
@@ -111,7 +114,7 @@ database fixtures. dbtest will look for fixtures in all entries of
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jonkeane/dbtest">
+  <a href="https://github.com/jonkeane/dittodb">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -130,14 +133,14 @@ database fixtures. dbtest will look for fixtures in all entries of
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Run the DBI queries inside against a mocked db</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/mock-db.R'><code>R/mock-db.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/mock-db.R'><code>R/mock-db.R</code></a></small>
     <div class="hidden name"><code>with_mock_db.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>When testing with dbtest, wrap your tests in <code>with_mock_db({})</code> to use the
-database fixtures. <code>dbtest</code> will look for fixtures in all entries of
-<code><a href='mockPaths.html'>.mockPaths</a></code>.</p>
+    <p>When testing with dittodb, wrap your tests in <code>with_mock_db({})</code> to use the
+database fixtures. <code>dittodb</code> will look for fixtures in all entries of
+<code><a href='mockPaths.html'>.db_mock_paths</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>with_mock_db</span>(<span class='no'>expr</span>)</pre>
@@ -156,7 +159,7 @@ database fixtures. <code>dbtest</code> will look for fixtures in all entries of
     <p>nothing</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Connections should be made inside of <code>with_mock_db()</code> because <code>dbtest</code> uses
+    <p>Connections should be made inside of <code>with_mock_db()</code> because <code>dittodb</code> uses
 the database name (given in <code>dbname</code> or <code>Database</code> argument of <code>dbConnect</code>
 depending on the driver) to separate different fixtures.</p>
 
@@ -172,7 +175,10 @@ depending on the driver) to separate different fixtures.</p>
   )
 
   <span class='fu'>test_that</span>(<span class='st'>"We get one airline"</span>, {
-    <span class='no'>one_airline</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>)
+    <span class='no'>one_airline</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(
+      <span class='no'>con</span>,
+      <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
+    )
     <span class='fu'>expect_is</span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
     <span class='fu'>expect_equal</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
     <span class='fu'>expect_equal</span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)

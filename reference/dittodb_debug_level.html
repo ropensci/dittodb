@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Driver-specific mock classes — driver-specifc-mock-connections • dittodb</title>
+<title>Get the dittodb debug level and evaluate if it is above a level — dittodb_debug_level • dittodb</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,8 @@
 
 
 
-<meta property="og:title" content="Driver-specific mock classes — driver-specifc-mock-connections" />
-<meta property="og:description" content="Each of the drivers that are supported have their own mock connection class.
-They all inherit from DBIMockConnection as well as their own driver's
-connection class. Each is only really available if the corresponding package
-is installed." />
+<meta property="og:title" content="Get the dittodb debug level and evaluate if it is above a level — dittodb_debug_level" />
+<meta property="og:description" content="Get the dittodb debug level and evaluate if it is above a level" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -133,25 +130,39 @@ is installed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Driver-specific mock classes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/driver-specific-connections.R'><code>R/driver-specific-connections.R</code></a></small>
-    <div class="hidden name"><code>driver-specifc-mock-connections.Rd</code></div>
+    <h1>Get the dittodb debug level and evaluate if it is above a level</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>dittodb_debug_level.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Each of the drivers that are supported have their own mock connection class.
-They all inherit from <code>DBIMockConnection</code> as well as their own driver's
-connection class. Each is only really available if the corresponding package
-is installed.</p>
+    <p>Get the dittodb debug level and evaluate if it is above a level</p>
     </div>
 
+    <pre class="usage"><span class='fu'>dittodb_debug_level</span>(<span class='no'>level</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>level</th>
+      <td><p>the level to test against (greater than or equal to)</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>logical</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>dittodb_debug_level</span>(<span class='fl'>0</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>dittodb_debug_level</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

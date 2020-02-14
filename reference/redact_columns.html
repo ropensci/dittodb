@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Redact columns from a dataframe with the default redactors — redact_columns • dbtest</title>
+<title>Redact columns from a dataframe with the default redactors — redact_columns • dittodb</title>
 
 
 <!-- jquery -->
@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="Redact columns from a dataframe with the default redactors — redact_columns" />
-<meta property="og:description" content="Redact columns from a dataframe with the default redactors" />
+<meta property="og:description" content="This function redacts the columns specified in columns in the data given in
+data using dittodb's standard redactors." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -78,7 +79,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dbtest</a>
+        <a class="navbar-link" href="../index.html">dittodb</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -96,7 +97,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+      <a href="../articles/getting-started.html">Getting Started with dittodb</a>
+    </li>
+    <li>
+      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
     </li>
     <li>
       <a href="../articles/nycflights.html">nycflights data</a>
@@ -109,7 +113,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jonkeane/dbtest">
+  <a href="https://github.com/jonkeane/dittodb">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -128,12 +132,13 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Redact columns from a dataframe with the default redactors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/redact.R'><code>R/redact.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/redact.R'><code>R/redact.R</code></a></small>
     <div class="hidden name"><code>redact_columns.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Redact columns from a dataframe with the default redactors</p>
+    <p>This function redacts the columns specified in <code>columns</code> in the data given in
+<code>data</code> using dittodb's standard redactors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>redact_columns</span>(<span class='no'>data</span>, <span class='no'>columns</span>, <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
@@ -163,6 +168,16 @@ names</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data, with the columns specified in <code>columns</code> duly redacted</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The standard redactors replace all values in the column with the following
+values based on the columns type:</p><ul>
+<li><p>integer -- <code>9L</code></p></li>
+<li><p>numeric -- <code>9</code></p></li>
+<li><p>character -- <code>"[redacted]"</code></p></li>
+<li><p><code>POSIXct</code> (date times) -- <code><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXct("1988-10-11T17:00:00", tz = tzone)</a></code></p></li>
+</ul>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -170,6 +185,7 @@ names</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

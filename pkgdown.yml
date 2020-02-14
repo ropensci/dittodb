@@ -2,9 +2,10 @@ pandoc: 2.7.3
 pkgdown: 1.4.1.9000
 pkgdown_sha: 732fb5b9ccc0ef87a73dfd0772ae661a4039b2a8
 articles:
+  getting-started: getting-started.html
   nycflights: nycflights.html
   travelling: travelling.html
 urls:
-  reference: https://jonkeane.com/dbtest/reference
-  article: https://jonkeane.com/dbtest/articles
+  reference: https://jonkeane.com/dittodb/reference
+  article: https://jonkeane.com/dittodb/articles
 

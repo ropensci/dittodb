@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the DBI queries in an alternate mock directory — with_mock_path • dbtest</title>
+<title>Run the DBI queries in an alternate mock directory — with_mock_path • dittodb</title>
 
 
 <!-- jquery -->
@@ -36,8 +36,8 @@
 
 
 <meta property="og:title" content="Run the DBI queries in an alternate mock directory — with_mock_path" />
-<meta property="og:description" content="When testing with dbtest, wrap your tests in with_mock_path({}) to use the
-database fixtures located in other directories. dbtest will look for
+<meta property="og:description" content="When testing with dittodb, wrap your tests in with_mock_path({}) to use the
+database fixtures located in other directories. dittodb will look for
 fixtures in the directory specified by the user, which can be a temporal
 or permanent location." />
 <meta name="twitter:card" content="summary" />
@@ -81,7 +81,7 @@ or permanent location." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dbtest</a>
+        <a class="navbar-link" href="../index.html">dittodb</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -99,7 +99,10 @@ or permanent location." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dbtest for travelling</a>
+      <a href="../articles/getting-started.html">Getting Started with dittodb</a>
+    </li>
+    <li>
+      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
     </li>
     <li>
       <a href="../articles/nycflights.html">nycflights data</a>
@@ -112,7 +115,7 @@ or permanent location." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jonkeane/dbtest">
+  <a href="https://github.com/jonkeane/dittodb">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -131,13 +134,13 @@ or permanent location." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Run the DBI queries in an alternate mock directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dbtest/blob/master/R/mock-paths.R'><code>R/mock-paths.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/mock-paths.R'><code>R/mock-paths.R</code></a></small>
     <div class="hidden name"><code>with_mock_path.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>When testing with dbtest, wrap your tests in <code>with_mock_path({})</code> to use the
-database fixtures located in other directories. <code>dbtest</code> will look for
+    <p>When testing with dittodb, wrap your tests in <code>with_mock_path({})</code> to use the
+database fixtures located in other directories. <code>dittodb</code> will look for
 fixtures in the directory specified by the user, which can be a temporal
 or permanent location.</p>
     </div>
