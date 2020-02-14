@@ -40,6 +40,7 @@ Suggests:
     covr,
     dplyr,
     dbplyr,
+    skimr,
     knitr,
     nycflights13,
     odbc,

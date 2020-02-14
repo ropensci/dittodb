@@ -31,3 +31,56 @@ Have a look to the database schema:
 
 ![`nycflights13` relational diagram.](relational-nycflights.svg)
 
+Let's create an SQLite connection, the database will be created on the fly:
+```{r}
+con <- nycflights13_sqlite()
+```
+
+Now let's explore the data by using `dplyr` and `skimr`:
+```{r}
+library(dplyr)
+library(dbplyr)
+library(skimr)
+
+# define a function to avoid repeating myself
+db_descriptive_stats <- function(table) {
+  tbl(con, table) %>% 
+    skim() %>% 
+    mutate_if(is.numeric, function(x) { round(x, 2) })
+}
+
+tables <- c("airports", "flights",  "weather", "planes", "airlines")
+
+explore <- lapply(tables, db_descriptive_stats)
+names(explore) <- tables
+```
+
+## Airports
+
+```{r}
+explore$airports
+```
+
+## Flights
+
+```{r}
+explore$flights
+```
+
+## Weather
+
+```{r}
+explore$weather
+```
+
+## Planes
+
+```{r}
+explore$planes
+```
+
+## Airlines
+
+```{r}
+explore$airlines
+```
