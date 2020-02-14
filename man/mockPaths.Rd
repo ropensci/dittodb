@@ -31,7 +31,7 @@ For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option
 "dittodb.mock.paths" directly.
 
-This function is similar to \code{\link[=.mockPaths]{.mockPaths()}} from
+This function is similar to \code{.mockPaths()} from
 \href{https://CRAN.R-project.org/package=httptest}{httptest}
 }
 \examples{
