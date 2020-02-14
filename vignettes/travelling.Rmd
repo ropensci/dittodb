@@ -1,10 +1,10 @@
 ---
-title: "Recording SQL queries with dbtest for travelling"
+title: "Recording SQL queries with dittodb for travelling"
 author: "Mauricio Vargas"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Recording SQL queries with dbtest}
+  %\VignetteIndexEntry{Recording SQL queries with dittodb}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,10 +15,10 @@ library(dbplyr)
 
 con_psql <- RPostgreSQL::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "dbtest",
+  dbname = "dittodb",
   host = "postgres.server",
-  user = "dbtest",
-  password = "_dbtest_"
+  user = "dittodb",
+  password = "_dittodb_"
 )
 
 nycflights13_sql(con_psql)
@@ -29,10 +29,10 @@ start_db_capturing(path = "vignettes/")
 
 con_psql <- RPostgreSQL::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "dbtest",
+  dbname = "dittodb",
   host = "postgres.server",
-  user = "dbtest",
-  password = "_dbtest_"
+  user = "dittodb",
+  password = "_dittodb_"
 )
 
 tbl(con_psql, in_schema("public", "flights")) %>%
@@ -47,7 +47,7 @@ stop_db_capturing()
 ```
 
 ```{r setup, include=FALSE}
-library(dbtest)
+library(dittodb)
 
 # set the mockPaths for this vignette
 .db_mock_paths("travelling")
@@ -67,7 +67,7 @@ at the office when you are at home or travelling. Or how to continue developing
 these scripts while you don't have an internet connection.
 
 Many of us have to use databases that are only accessible from a local network. 
-The package `dbtest` provides `with_mock_db()` that wraps the code and makes it
+The package `dittodb` provides `with_mock_db()` that wraps the code and makes it
 possible to run outside the office (or even with no internet access at all!).
 
 # Recording queries
@@ -87,10 +87,10 @@ library(dbplyr)
 
 con_psql <- RPostgreSQL::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "dbtest",
+  dbname = "dittodb",
   host = "postgres.server",
-  user = "dbtest",
-  password = "_dbtest_"
+  user = "dittodb",
+  password = "_dittodb_"
 )
 
 tbl(con_psql, in_schema("public", "flights")) %>%
@@ -113,7 +113,7 @@ One option would be saving a CSV or TXT file of the data manually, and then
 manually reading it in to our R session. But this has a number of drawbacks: we
 have to mentally keep track of where each query is from, save it to the right
 file, read it in to the right place, etc. We also have to maintain a separate
-system or code path for reading in the saved files. `dbtest` can take care of
+system or code path for reading in the saved files. `dittodb` can take care of
 all of this for us in the background, allowing us to record the results of the
 necessary queries, and playing them back when those same queries are called
 without a connection to the database.
@@ -124,16 +124,16 @@ calling `start_db_capturing()` before the connection and the code that executes 
 queries and then `stop_db_capturing()` at the end):
 
 ```{r, eval=FALSE}
-library(dbtest)
+library(dittodb)
 
 start_db_capturing()
 
 con_psql <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dbtest",
+    dbname = "dittodb",
     host = "postgres.server",
-    user = "dbtest",
-    password = "_dbtest_"
+    user = "dittodb",
+    password = "_dittodb_"
   )
 
 flights_100 <- tbl(con_psql, in_schema("public", "flights")) %>%
@@ -159,10 +159,10 @@ library(dbplyr)
 with_mock_db({
   con_psql <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dbtest",
+    dbname = "dittodb",
     host = "postgres.server",
-    user = "dbtest",
-    password = "_dbtest_"
+    user = "dittodb",
+    password = "_dittodb_"
   )
 
   flights_100_from_mock <- tbl(con_psql, in_schema("public", "flights")) %>%
@@ -189,10 +189,10 @@ access:
 with_mock_db({
   con_psql <- RPostgreSQL::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dbtest",
+    dbname = "dittodb",
     host = "postgres.server",
-    user = "dbtest",
-    password = "_dbtest_"
+    user = "dittodb",
+    password = "_dittodb_"
   )
 
   flights_100_from_mock <- tbl(con_psql, in_schema("public", "flights")) %>%
@@ -212,5 +212,5 @@ we are taking advantage of `dbplyr`'s lazy evaluation (which is by default) and
 use `collect()` to return the results when you want them recorded. Because 
 `dbplyr` waits until the last possible second to request the data, if you don't 
 have a `collect()` call (or a call the will implicitly send the query) there 
-won't be a query called, and `dbtest` won't see be able to record the response 
+won't be a query called, and `dittodb` won't see be able to record the response 
 from that query.

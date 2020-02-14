@@ -17,8 +17,8 @@ with_mock_path(path, expr, replace = FALSE)
 nothing
 }
 \description{
-When testing with dbtest, wrap your tests in \code{with_mock_path({})} to use the
-database fixtures located in other directories. \code{dbtest} will look for
+When testing with dittodb, wrap your tests in \code{with_mock_path({})} to use the
+database fixtures located in other directories. \code{dittodb} will look for
 fixtures in the directory specified by the user, which can be a temporal
 or permanent location.
 }

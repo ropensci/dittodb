@@ -40,7 +40,7 @@ db_pkgs <- list(
 )
 
 # The lintr complains about cyclomatic complexity here because of the stacked
-# calls needed for test_that + dbtest + database calls.
+# calls needed for test_that + dittodb + database calls.
 # nolint start
 for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))

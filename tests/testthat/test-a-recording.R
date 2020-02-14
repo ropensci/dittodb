@@ -1,23 +1,23 @@
 context("Recording db interactions")
-# This should be run first so that the .dbtest_env environment is clean.
+# This should be run first so that the .dittodb_env environment is clean.
 
 test_that("We can capture db interactions", {
   # our state environment is empty
-  expect_null(.dbtest_env$curr_file_path)
-  expect_null(.dbtest_env$db_path)
+  expect_null(.dittodb_env$curr_file_path)
+  expect_null(.dittodb_env$db_path)
 
   start_db_capturing()
   con <- nycflights13_sqlite()
 
   # our state has been updated
-  expect_identical(.dbtest_env$db_path, file.path(temp_dir, "_memory_"))
+  expect_identical(.dittodb_env$db_path, file.path(temp_dir, "_memory_"))
 
   # make a query
   result <- dbSendQuery(con, "SELECT * FROM airlines")
 
   # our state has been updated
   expect_identical(
-    .dbtest_env$curr_file_path,
+    .dittodb_env$curr_file_path,
     file.path(temp_dir, "_memory_/SELECT-b1fffc.R")
   )
 
@@ -39,7 +39,7 @@ test_that("We can specify the path when starting capture", {
   con <- nycflights13_sqlite()
 
   # our state has been updated
-  expect_identical(.dbtest_env$db_path, file.path(new_path, "_memory_"))
+  expect_identical(.dittodb_env$db_path, file.path(new_path, "_memory_"))
 
   dbDisconnect(con)
   stop_db_capturing()

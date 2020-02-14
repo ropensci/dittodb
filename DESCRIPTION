@@ -1,4 +1,4 @@
-Package: dbtest
+Package: dittodb
 Title: A Test Environment for DB Requests
 Version: 0.0.0.9000
 Authors@R: c(
@@ -13,8 +13,8 @@ Authors@R: c(
           email = "mvargas@dcc.uchile.cl",
           comment = c(ORCID = "0000-0003-1017-7574"))         
   )
-URL: https://jonkeane.com/dbtest, https://github.com/jonkeane/dbtest
-BugReports: https://github.com/jonkeane/dbtest/issues
+URL: https://jonkeane.com/dittodb, https://github.com/jonkeane/dittodb
+BugReports: https://github.com/jonkeane/dittodb/issues
 Description: Testing and documenting code that communicates with remote
   databases can be painful. Although the interaction with R is usually relatively 
   simple (e.g. data(frames) passed to and from a database), because they rely on 

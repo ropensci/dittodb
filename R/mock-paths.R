@@ -12,7 +12,7 @@
 #'
 #' For finer-grained control, or to completely override the default behavior
 #' of searching in the current working directory, you can set the option
-#' "dbtest.mock.paths" directly.
+#' "dittodb.mock.paths" directly.
 #'
 #' This function is similar to [httptest::.mockPaths()] from
 #' [httptest](https://CRAN.R-project.org/package=httptest)
@@ -34,18 +34,18 @@
   # use both "." and testthat::test_path(".") in case they are different
   def <- unique(c("tests/testthat/", "."))
 
-  current <- getOption("dbtest.mock.paths", default = def)
+  current <- getOption("dittodb.mock.paths", default = def)
   if (missing(new)) {
     ## We're calling the function to get the list of paths
     return(current)
   } else if (is.null(new)) {
     ## We're calling the function to reset to the default
-    options(dbtest.mock.paths = new)
+    options(dittodb.mock.paths = new)
     return(invisible(current))
   } else {
     ## We're adding one or more paths
     current <- unique(c(new, current))
-    options(dbtest.mock.paths = current)
+    options(dittodb.mock.paths = current)
     return(invisible(current))
   }
 }
@@ -57,8 +57,8 @@
 
 #' Run the DBI queries in an alternate mock directory
 #'
-#' When testing with dbtest, wrap your tests in `with_mock_path({})` to use the
-#' database fixtures located in other directories. `dbtest` will look for
+#' When testing with dittodb, wrap your tests in `with_mock_path({})` to use the
+#' database fixtures located in other directories. `dittodb` will look for
 #' fixtures in the directory specified by the user, which can be a temporal
 #' or permanent location.
 #'
@@ -71,11 +71,11 @@
 with_mock_path <- function(path, expr, replace = FALSE) {
   oldmp <- .db_mock_paths()
   if (replace) {
-    options(dbtest.mock.paths = path)
+    options(dittodb.mock.paths = path)
   } else {
     ## Append
     .db_mock_paths(path)
   }
-  on.exit(options(dbtest.mock.paths = oldmp))
+  on.exit(options(dittodb.mock.paths = oldmp))
   return(eval.parent(expr))
 }

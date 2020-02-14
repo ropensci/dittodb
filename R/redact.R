@@ -29,7 +29,7 @@ standard_redactors <- function(data, columns) {
 #' Redact columns from a dataframe with the default redactors
 #'
 #' This function redacts the columns specified in `columns` in the data given in
-#' `data` using dbtest's standard redactors.
+#' `data` using dittodb's standard redactors.
 #'
 #' The standard redactors replace all values in the column with the following
 #' values based on the columns type:

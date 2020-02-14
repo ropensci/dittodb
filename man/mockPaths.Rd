@@ -29,7 +29,7 @@ position.
 
 For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option
-"dbtest.mock.paths" directly.
+"dittodb.mock.paths" directly.
 
 This function is similar to \code{\link[httptest:.mockPaths]{httptest::.mockPaths()}} from
 \href{https://CRAN.R-project.org/package=httptest}{httptest}

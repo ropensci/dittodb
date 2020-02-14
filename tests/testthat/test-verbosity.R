@@ -4,8 +4,8 @@ context("verbosity")
 capture_output({
   test_that("level 1 includes statements and hashes", {
     withr::with_options(c(
-      "dbtest.debug" = 1,
-      dbtest.mock.paths = file.path(temp_dir, "verbosity_mock")
+      "dittodb.debug" = 1,
+      dittodb.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
       start_db_capturing()
       con <- nycflights13_sqlite()
@@ -39,8 +39,8 @@ capture_output({
 
   test_that("level 2 includes more", {
     withr::with_options(c(
-      "dbtest.debug" = 2,
-      dbtest.mock.paths = file.path(temp_dir, "verbosity_mock")
+      "dittodb.debug" = 2,
+      dittodb.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
       expect_message({
           start_db_capturing()

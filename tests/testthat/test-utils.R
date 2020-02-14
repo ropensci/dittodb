@@ -47,18 +47,18 @@ test_that("we can remove the unique dbplyr names", {
 })
 
 test_that("debugging helper", {
-  expect_true(dbtest_debug_level(-1))
-  expect_true(dbtest_debug_level(0))
-  expect_false(dbtest_debug_level(1))
-  expect_false(dbtest_debug_level(2))
-  expect_false(dbtest_debug_level(3))
+  expect_true(dittodb_debug_level(-1))
+  expect_true(dittodb_debug_level(0))
+  expect_false(dittodb_debug_level(1))
+  expect_false(dittodb_debug_level(2))
+  expect_false(dittodb_debug_level(3))
   withr::with_options(
-    c("dbtest.debug" = 2), {
-      expect_true(dbtest_debug_level(-1))
-      expect_true(dbtest_debug_level(0))
-      expect_true(dbtest_debug_level(1))
-      expect_true(dbtest_debug_level(2))
-      expect_false(dbtest_debug_level(3))
+    c("dittodb.debug" = 2), {
+      expect_true(dittodb_debug_level(-1))
+      expect_true(dittodb_debug_level(0))
+      expect_true(dittodb_debug_level(1))
+      expect_true(dittodb_debug_level(2))
+      expect_false(dittodb_debug_level(3))
     }
   )
 })

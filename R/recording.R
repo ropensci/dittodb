@@ -14,7 +14,7 @@
 #' by always passing the data being saved through [`redact_columns()`].
 #'
 #' _note_ You should always call [`DBI::dbConnect`] inside of the capturing
-#' block. When you connect to the database, dbtest sets up the mocks for the
+#' block. When you connect to the database, dittodb sets up the mocks for the
 #' specific database you're connecting to when you call [`DBI::dbConnect`].
 #'
 #' `start_capturing()` and `stop_capturing()` do the exact same thing as
@@ -76,7 +76,7 @@ safe_untrace <- function(what, where = sys.frame()) {
 # borrowed from httptest
 quietly <- function(expr) {
   env <- parent.frame()
-  if (dbtest_debug_level(2)) {
+  if (dittodb_debug_level(2)) {
     eval(expr, env)
   } else {
     suppressMessages(eval(expr, env))
@@ -86,7 +86,7 @@ quietly <- function(expr) {
 # borrowed from httptest
 trace_dbi <- function(...,
                       where_list = list(sys.frame(), asNamespace("DBI")),
-                      print = dbtest_debug_level(2)) {
+                      print = dittodb_debug_level(2)) {
   for (place in where_list) {
     quietly(trace(..., print = print, where = place))
   }
@@ -119,22 +119,22 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   quietly(trace_dbi(
     "dbConnect",
     exit = quote({
-      .dbtest_env$db_path <- file.path(.db_mock_paths()[1], get_dbname(list(...)))
-      dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
+      .dittodb_env$db_path <- file.path(.db_mock_paths()[1], get_dbname(list(...)))
+      dir.create(.dittodb_env$db_path, showWarnings = FALSE, recursive = TRUE)
     })
   ))
 
   quietly(trace_dbi(
     "dbSendQuery",
     exit = quote({
-      if (dbtest_debug_level(1)) {
+      if (dittodb_debug_level(1)) {
         message(
           "The statement: \n", statement,
           "\nis being hased to: ", hash(statement)
         )
       }
-      .dbtest_env$curr_file_path <- make_path(
-        .dbtest_env$db_path,
+      .dittodb_env$curr_file_path <- make_path(
+        .dittodb_env$db_path,
         get_type(statement),
         hash(statement)
       )
@@ -144,11 +144,11 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   #' @export
   #' @keywords internal
   recordFetch <- quote({
-    if (dbtest_debug_level(1)) {
-      message("Writing to ", .dbtest_env$curr_file_path)
+    if (dittodb_debug_level(1)) {
+      message("Writing to ", .dittodb_env$curr_file_path)
     }
     out <- redact_columns(ans, columns = get_redactor())
-    dput(out, .dbtest_env$curr_file_path, control = c("all", "hexNumeric"))
+    dput(out, .dittodb_env$curr_file_path, control = c("all", "hexNumeric"))
   })
 
   quietly(trace_dbi(
@@ -167,7 +167,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
       thing <- returnValue()
       dput(
         thing,
-        file.path(.dbtest_env$db_path, "dbListTables.R"),
+        file.path(.dittodb_env$db_path, "dbListTables.R"),
         control = c("all", "hexNumeric")
       )
     })
@@ -180,7 +180,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
       name <- sanitize_table_id(name, ...)
       dput(
         thing,
-        file.path(.dbtest_env$db_path, glue("dbListFields-{name}.R")),
+        file.path(.dittodb_env$db_path, glue("dbListFields-{name}.R")),
         control = c("all", "hexNumeric")
       )
     })
@@ -202,7 +202,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
       } else {
         # TODO: some default?
       }
-      path <- make_path(.dbtest_env$db_path, "columnInfo", hash)
+      path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
       dput(thing, path, control = c("all", "hexNumeric"))
     })
   ))
@@ -219,9 +219,9 @@ start_db_capturing <- function(path, redact_columns = NULL) {
         signature = conn,
         exit = quote({
           thing <- returnValue()
-          path <- make_path(.dbtest_env$db_path, "conInfo", "")
+          path <- make_path(.dittodb_env$db_path, "conInfo", "")
           if (length(path) > 0) {
-            # generally .dbtest_env$db_path is not-null, but RPostgreSQL uses
+            # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
             # dbGetInfo in the connection process, don't record mocks then.
             dput(thing, path, control = c("all", "hexNumeric"))
           }
@@ -243,7 +243,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
       } else {
         # TODO: some default?
       }
-      path <- make_path(.dbtest_env$db_path, "resultInfo", hash)
+      path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
       dput(thing, path, control = c("all", "hexNumeric"))
     })
   ))
@@ -256,9 +256,9 @@ start_db_capturing <- function(path, redact_columns = NULL) {
         thing <- returnValue()
         result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
         hash <- hash(result_info$statement)
-        path <- make_path(.dbtest_env$db_path, "resultInfo", hash)
+        path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
         if (length(path) > 0) {
-          # generally .dbtest_env$db_path is not-null, but RPostgreSQL uses
+          # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
           # dbGetInfo in the connection process, don't record mocks then.
           dput(thing, path, control = c("all", "hexNumeric"))
         }
@@ -275,11 +275,11 @@ start_db_capturing <- function(path, redact_columns = NULL) {
 #' @keywords internal
 start_capturing <- start_db_capturing
 
-#' an environment for dbtest storing state
+#' an environment for dittodb storing state
 #'
 #' @export
 #' @keywords internal
-.dbtest_env <- new.env(parent = emptyenv())
+.dittodb_env <- new.env(parent = emptyenv())
 
 #' @rdname capture_requests
 #' @export
@@ -306,13 +306,13 @@ stop_db_capturing <- function() {
 stop_capturing <- stop_db_capturing
 
 set_redactor <- function(redactors) {
-  .dbtest_env$redactor <- redactors
+  .dittodb_env$redactor <- redactors
   return(invisible(redactors))
 }
 
 remove_redactor <- function() {
-  if (exists("redactor", envir = .dbtest_env)) {
-    rm("redactor", envir = .dbtest_env)
+  if (exists("redactor", envir = .dittodb_env)) {
+    rm("redactor", envir = .dittodb_env)
   }
 
   return(invisible(NULL))
@@ -327,8 +327,8 @@ remove_redactor <- function() {
 #' @export
 #' @keywords internal
 get_redactor <- function() {
-  if (exists("redactor", envir = .dbtest_env)) {
-    return(get("redactor", envir = .dbtest_env))
+  if (exists("redactor", envir = .dittodb_env)) {
+    return(get("redactor", envir = .dittodb_env))
   }
 
   return(NULL)

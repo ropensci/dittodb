@@ -1,5 +1,5 @@
 ---
-title: "Getting Started with `dbtest`"
+title: "Getting Started with `dittodb`"
 author: "Jonathan Keane"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -11,7 +11,7 @@ vignette: >
 
 ```{r, include = FALSE}
 library(testthat)
-library(dbtest)
+library(dittodb)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 .db_mock_paths("getting-started")
 ```
 
-`dbtest` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
+`dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
 
 To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights13_description). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
 
@@ -83,7 +83,7 @@ Great, now that we have our function we want to test it to make sure it is opera
 
 ```{r tests_1, eval = FALSE}
 library(testthat)
-library(dbtest)
+library(dittodb)
 
 test_that("mean_delays()", {
   out <- mean_delays("month")
@@ -120,7 +120,7 @@ So, now we can write our tests like:
 
 ```{r tests_2}
 library(testthat)
-library(dbtest)
+library(dittodb)
 
 with_mock_db(
   test_that("mean_delays()", {
@@ -141,7 +141,7 @@ out <- mean_delays("day")
 stop_db_capturing()
 ```
 
-This will create a new file (`SELECT-16d120.R`) which contains the response when aggregating by day. dbtest saves each database interaction with a hash of the query that is sent, so that a number of different responses from a database can be saved and the correct one will be used when called inside of `with_mock_db(...)`. So now, we could write our new test with:
+This will create a new file (`SELECT-16d120.R`) which contains the response when aggregating by day. dittodb saves each database interaction with a hash of the query that is sent, so that a number of different responses from a database can be saved and the correct one will be used when called inside of `with_mock_db(...)`. So now, we could write our new test with:
 
 ```{r tests_day_2}
 with_mock_db(
@@ -155,11 +155,11 @@ with_mock_db(
 
 ## Things to be careful about
 
-There are a few things to be careful about when using dbtest. 
+There are a few things to be careful about when using dittodb. 
 
 ### When to call `dbConnect()`
 
-Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dbtest where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording snapshots with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
+Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dittodb where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording snapshots with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
 
 ### Query size
 
@@ -174,13 +174,13 @@ There are a number of advanced features that might be useful. However they take 
 
 You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`.db_mock_paths()`]. 
 
-You can see what paths are being used by calling `.db_mock_paths()` with no arguments. dbtest will look for mocks in each path starting with the first one. When recording mocks, dbtest always uses the first path that is returned by `.db_mock_paths()`.
+You can see what paths are being used by calling `.db_mock_paths()` with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by `.db_mock_paths()`.
 
 You can add a new path by calling `.db_mock_paths("new/path/here")` which will add the path provided to the top of the list of paths to use.
 
 ### Redacting
 
-Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dbtest allows you to specify columns that should always be redacted by specifying them like so: 
+Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dittodb allows you to specify columns that should always be redacted by specifying them like so: 
 ```
 start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))
 ```
@@ -189,7 +189,7 @@ This will always redact the columns "sensitive_column" and "other_sensitive_colu
 
 ### You, too, can write a snapshot!
 
-When we use `start_db_recording()` to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dbtest, these files contain the data that dbtest uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
+When we use `start_db_recording()` to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
 
 You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like "Couldn't find the file nycflights/SELECT-16d120.R in any of the mock directories." and use the filename from there.) and then saving the dataframe that you want the test to use with the command `dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))` (if the dataframe you want to save is `df` and we are using the path we saw in the example error message). And you've created your own fixture!
 

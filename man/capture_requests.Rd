@@ -43,7 +43,7 @@ replace the values in the column with a generic redacted version. This works
 by always passing the data being saved through \code{\link[=redact_columns]{redact_columns()}}.
 
 \emph{note} You should always call \code{\link[DBI:dbConnect]{DBI::dbConnect}} inside of the capturing
-block. When you connect to the database, dbtest sets up the mocks for the
+block. When you connect to the database, dittodb sets up the mocks for the
 specific database you're connecting to when you call \code{\link[DBI:dbConnect]{DBI::dbConnect}}.
 
 \code{start_capturing()} and \code{stop_capturing()} do the exact same thing as

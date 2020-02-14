@@ -1,4 +1,4 @@
 library(testthat)
-library(dbtest)
+library(dittodb)
 
-test_check("dbtest")
+test_check("dittodb")

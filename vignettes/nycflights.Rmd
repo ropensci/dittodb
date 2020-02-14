@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-library(dbtest)
+library(dittodb)
 
 # set the mockPaths for this vignette
 .db_mock_paths("nycflights13")
@@ -18,7 +18,7 @@ library(dbtest)
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```
 
-`dbtest` uses the `nycflights13` dataset (from the `nycflights13` package) for 
+`dittodb` uses the `nycflights13` dataset (from the `nycflights13` package) for 
 testing and example purposes.
 
 # Exploring `nycflights13`

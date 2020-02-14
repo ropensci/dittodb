@@ -64,7 +64,7 @@ ignore_quotes <- function(statement) {
   return(gsub("(`|\"|')", "`", statement))
 }
 
-#' Get the dbtest debug level and evaluate if it is above a level
+#' Get the dittodb debug level and evaluate if it is above a level
 #'
 #' @param level the level to test against (greater than or equal to)
 #'
@@ -74,10 +74,10 @@ ignore_quotes <- function(statement) {
 #' @keywords internal
 #'
 #' @examples
-#' dbtest_debug_level(0)
-#' dbtest_debug_level(2)
-dbtest_debug_level <- function(level) {
-  return(getOption("dbtest.debug", 0) >= level)
+#' dittodb_debug_level(0)
+#' dittodb_debug_level(2)
+dittodb_debug_level <- function(level) {
+  return(getOption("dittodb.debug", 0) >= level)
 }
 
 #' Get the type of an SQL statement
@@ -93,7 +93,7 @@ get_type <- function(statement) return(strsplit(statement, " ")[[1]][1])
 #' Sanitize Table id
 #'
 #' Tables are identified and specified with a large number of ways across
-#' drivers. For the purposes of `dbtest`, the details are less important since
+#' drivers. For the purposes of `dittodb`, the details are less important since
 #' we almost always just want a flat representation (_ie_ for filenames). This
 #' takes the various formats and returns a string with various elements
 #' separated by dots.
