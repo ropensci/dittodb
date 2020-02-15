@@ -79,17 +79,13 @@ jobs:
           sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
           # mysql needs time to boot, try it every 5 seconds for 1 minute
           n=0
-          until [ $n -ge 25 ]
+          until [ $n -ge 12 ]
           do
-            mysql -h 127.0.0.1 -u root -e "SHOW DATABASES" && break
+            mysql -h 127.0.0.1 -u root -p${{ env.DBROOTPASS }} -e "SHOW DATABASES" && break
             sleep 5
             n=$[$n+1]
           done
         if: contains(runner.os, 'linux')
-
-      - uses: actions/checkout@v1
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
 
       - name: Install databases (windows)
         run: |

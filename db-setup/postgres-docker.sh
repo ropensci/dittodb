@@ -4,4 +4,4 @@
 docker pull postgres
 
 # on macos, you can only run port forwards
-docker run --name dittodb-postgres -p 5432:5432 -e POSTGRES_USER=postgres -d postgres:latest
+docker run --name dittodb-postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=r2N5y7V* -d postgres:latest
