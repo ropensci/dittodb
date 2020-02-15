@@ -81,7 +81,7 @@ jobs:
           n=0
           until [ $n -ge 12 ]
           do
-            mysql -h 127.0.0.1 -u root -e "SHOW DATABASES" && break
+            mysql -h 127.0.0.1 -u root -p${{ env.DBROOTPASS }} -e "SHOW DATABASES" && break
             sleep 5
             n=$[$n+1]
           done
