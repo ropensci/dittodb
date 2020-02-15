@@ -87,6 +87,10 @@ jobs:
           done
         if: contains(runner.os, 'linux')
 
+      - uses: actions/checkout@v1
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v1
+
       - name: Install databases (windows)
         run: |
           $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
