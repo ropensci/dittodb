@@ -2,7 +2,7 @@
 <!-- badges: start -->
 [![Windows](https://github.com/jonkeane/dittodb/workflows/check-windows/badge.svg)](https://github.com/jonkeane/dittodb/actions?workflow=check-windows)
 [![Mac](https://github.com/jonkeane/dittodb/workflows/check-mac/badge.svg)](https://github.com/jonkeane/dittodb/actions?workflow=check-mac)
-[![Linux](https://github.com/jonkeane/dittodb/workflows/check-windows/badge.svg)](https://github.com/jonkeane/dittodb/actions?workflow=check-linux)
+[![Linux](https://github.com/jonkeane/dittodb/workflows/check-linux/badge.svg)](https://github.com/jonkeane/dittodb/actions?workflow=check-linux)
 [![Codecov test coverage](https://codecov.io/gh/jonkeane/dittodb/branch/master/graph/badge.svg)](https://codecov.io/gh/jonkeane/dittodb?branch=master)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN status](https://www.r-pkg.org/badges/version/dittodb)](https://CRAN.R-project.org/package=dittodb)
