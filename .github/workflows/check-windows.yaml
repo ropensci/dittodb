@@ -1,0 +1,110 @@
+on: [push, pull_request]
+
+name: check-windows
+
+jobs:
+  check-windows:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: windows-latest, r: 'release', args: "--no-manual" }
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      CRAN: ${{ matrix.config.cran }}
+      DBROOTPASS: r2N5y7V*
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - uses: r-lib/actions/setup-tinytex@master
+        if: contains(matrix.config.args, 'no-manual') == false
+
+      - name: Ensure that tex has all the correct packages
+        if: contains(matrix.config.args, 'no-manual') == false
+        run: |
+          tlmgr install gettitlestring
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        id: rlibcache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Cache Windows Chocolatey downloads
+        uses: actions/cache@v1
+        if: contains(runner.os, 'windows')
+        with:
+          path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+          key: Choco-${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Install databases (windows)
+        run: |
+          $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          choco install mariadb
+          choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          choco install psqlodbc
+
+          # add choco-added paths to the actions path
+          $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          $newpath = ($endingpath -split ';') | Where {($startingpath -split ';') -NotContains $_}
+          $newpath = $newpath -Join ';'
+          echo "::add-path::$newpath"
+
+          # change the password for mariadb
+          $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
+          mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
+        if: contains(runner.os, 'windows')
+
+      - name: Install R dependencies
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
+
+      - name: Build R DB Dependencies on cache miss
+        if: steps.rlibcache.outputs.cache-hit != 'true' && contains(runner.os, 'windows') == false
+        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
+      - name: Build RPostgres on windows
+        # RMariaDB and RPostgres interact in funny ways on windows:
+        # https://github.com/r-dbi/RMariaDB/issues/119
+        if: steps.rlibcache.outputs.cache-hit != 'true' && contains(runner.os, 'windows')
+        run: Rscript -e "remotes::install_github('r-dbi/RPostgres');"
+
+      - name: Setup databases
+        run: |
+          psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+          psql -h 127.0.0.1 -U postgres -d nycflights -f db-setup/postgres-nycflights.sql
+
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: Show installed R packages
+        run: Rscript -e "print(installed.packages()[,c(1,3)]);"
+
+      - name: Check
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
+
+      - name: Alter the path to avoid using rtool's tar before cache posting
+        run: echo "::add-path::C:\Program Files\Git\usr\bin\"
+        if: contains(runner.os, 'windows')
