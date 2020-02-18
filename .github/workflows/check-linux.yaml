@@ -74,14 +74,8 @@ jobs:
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
       - name: Build R DB Dependencies on cache miss
-        if: steps.rlibcache.outputs.cache-hit != 'true' && contains(runner.os, 'windows') == false
+        if: steps.rlibcache.outputs.cache-hit != 'true'
         run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
-
-      - name: Build RPostgres on windows
-        # RMariaDB and RPostgres interact in funny ways on windows:
-        # https://github.com/r-dbi/RMariaDB/issues/119
-        if: steps.rlibcache.outputs.cache-hit != 'true' && contains(runner.os, 'windows')
-        run: Rscript -e "remotes::install_github('r-dbi/RPostgres');"
 
       - name: Setup databases
         run: |
@@ -106,4 +100,3 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-
