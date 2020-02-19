@@ -16,7 +16,6 @@ jobs:
         - { os: macOS-latest, r: 'devel', args: "--no-manual" }
 
     env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
       DBROOTPASS: r2N5y7V*
 
