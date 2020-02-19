@@ -1,9 +1,9 @@
 on: [push, pull_request]
 
-name: check-linux
+name: check-linux-ubuntu
 
 jobs:
-  check-linux:
+  check:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -78,18 +78,10 @@ jobs:
         run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Setup databases
-        run: |
-          psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
-          psql -h 127.0.0.1 -U postgres -d nycflights -f db-setup/postgres-nycflights.sql
-
-          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
-          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
+        run: bash db-setup/populate-dbs.sh
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
-
-      - name: Show installed R packages
-        run: Rscript -e "print(installed.packages()[,c(1,3)]);"
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
