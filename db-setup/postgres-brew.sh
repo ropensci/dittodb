@@ -2,8 +2,7 @@ rm -rf /usr/local/var/postgres
 rm -rf /usr/local/bin/psql
 # for odbc tests, we need to also install the odbc drivers
 # we might also need to install unixodbc here if it's not already installed.
-brew install postgresql
-brew install psqlodbc
+brew install postgresql psqlodbc
 cat <<EOT >> /usr/local/etc/odbcinst.ini
 [PostgreSQL Unicode]
 Description     = PostgreSQL ODBC driver (Unicode 9.2)
@@ -16,4 +15,3 @@ initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
 sleep 2
- /usr/local/bin/psql
