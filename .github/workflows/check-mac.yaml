@@ -39,6 +39,9 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v1
+
       - name: Install databases (macOS)
         run: |
            brew update
