@@ -1,7 +1,8 @@
 rm -rf /usr/local/var/postgres
 # for odbc tests, we need to also install the odbc drivers
-# unixodbc is already installed, but if it isn't it should be added.
 brew install psqlodbc
+# this shouldn't be necessary, but might be for GH actions now?
+brew link --overwrite postgresql
 cat <<EOT >> /usr/local/etc/odbcinst.ini
 [PostgreSQL Unicode]
 Description     = PostgreSQL ODBC driver (Unicode 9.2)
