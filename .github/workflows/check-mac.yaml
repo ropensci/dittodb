@@ -32,11 +32,6 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@master
         if: contains(matrix.config.args, 'no-manual') == false
 
-      - name: Ensure that tex has all the correct packages
-        if: contains(matrix.config.args, 'no-manual') == false
-        run: |
-          tlmgr install gettitlestring
-
       - name: Cache R packages
         uses: actions/cache@v1
         id: rlibcache
@@ -75,7 +70,7 @@ jobs:
           path: check
 
       - name: Test coverage
-        if: contains(runner.os, 'macOS') && contains(matrix.config.r, 'release')
+        if: contains(matrix.config.r, 'release')
         run: |
           # wipe databases
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
@@ -91,3 +86,7 @@ jobs:
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: linting
+        if:
+        run: Rscript -e "lintr::lint_package()"

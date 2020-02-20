@@ -49,7 +49,8 @@ Suggests:
     RSQLite,
     spelling,
     withr,
-    rmarkdown
+    rmarkdown,
+    lintr
 RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 Language: en-US
