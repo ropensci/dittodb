@@ -88,5 +88,5 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: linting
-        if:
+        if: contains(matrix.config.r, 'release')
         run: Rscript -e "lintr::lint_package()"
