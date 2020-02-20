@@ -1,10 +1,9 @@
 rm -rf /usr/local/var/postgres
 # Unlink libpq first so that installing postgresql next will not error.
-brew unlink libpq psql
+brew unlink libpq
 # for odbc tests, we need to also install the odbc drivers
 # we might also need to install unixodbc here if it's not already installed.
 brew install psqlodbc
-brew link --overwrite postgresql
 cat <<EOT >> /usr/local/etc/odbcinst.ini
 [PostgreSQL Unicode]
 Description     = PostgreSQL ODBC driver (Unicode 9.2)
