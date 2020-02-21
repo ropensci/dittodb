@@ -1,0 +1,88 @@
+on: [push, pull_request]
+
+name: check-linux-ubuntu
+
+jobs:
+  check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: ubuntu-18.04, r: '3.3', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '3.4', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '3.5', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: 'release', args: "--no-manual" }
+
+    env:
+      CRAN: ${{ matrix.config.cran }}
+      DBROOTPASS: r2N5y7V*
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - uses: r-lib/actions/setup-tinytex@master
+        if: contains(matrix.config.args, 'no-manual') == false
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        id: rlibcache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Install dependencies (linux)
+        run: |
+          sudo apt install unixodbc unixodbc-dev --install-suggests
+          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
+        if: contains(runner.os, 'linux')
+
+      - name: Install databases and odbc manual adjustments (linux)
+        run: |
+          bash db-setup/postgres-docker.sh
+          sudo service mysql stop
+          bash db-setup/mariadb-docker.sh
+          # the driver as installed in odbcinst.ini isn't located
+          sudo sed -i 's/Driver=psqlodbcw.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbcw.so/g' /etc/odbcinst.ini
+          sudo sed -i 's/Driver=psqlodbca.so/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psqlodbca.so/g' /etc/odbcinst.ini
+          # mysql needs time to boot, try it every 5 seconds for 1 minute
+          n=0
+          until [ $n -ge 12 ]
+          do
+            mysql -h 127.0.0.1 -u root -p${{ env.DBROOTPASS }} -e "SHOW DATABASES" && break
+            sleep 5
+            n=$[$n+1]
+          done
+        if: contains(runner.os, 'linux')
+
+      - name: Install R dependencies
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
+
+      - name: Build R DB Dependencies on cache miss
+        if: steps.rlibcache.outputs.cache-hit != 'true'
+        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
+      - name: Setup databases
+        run: bash db-setup/populate-dbs.sh
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: Check
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check

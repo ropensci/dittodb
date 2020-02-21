@@ -1,0 +1,92 @@
+on: [push, pull_request]
+
+name: check-mac
+
+jobs:
+  check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: macOS-latest, r: 'release' }
+        - { os: macOS-latest, r: 'devel', args: "--no-manual" }
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      CRAN: ${{ matrix.config.cran }}
+      DBROOTPASS: r2N5y7V*
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - uses: r-lib/actions/setup-tinytex@master
+        if: contains(matrix.config.args, 'no-manual') == false
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        id: rlibcache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+
+      - name: Install databases (macOS)
+        run: |
+           brew update
+           bash db-setup/postgres-brew.sh
+           bash db-setup/mariadb-brew.sh
+        if: contains(runner.os, 'macOS')
+
+      - name: Install R dependencies
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
+
+      - name: Build R DB Dependencies on cache miss
+        if: steps.rlibcache.outputs.cache-hit != 'true'
+        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
+
+      - name: Setup databases
+        run: bash db-setup/populate-dbs.sh
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: Check
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
+
+      - name: Test coverage
+        if: contains(matrix.config.r, 'release')
+        run: |
+          # wipe databases
+          psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-reset.sql"
+
+          # restore
+          psql -h 127.0.0.1 -U postgres -d nycflights -f db-setup/postgres-nycflights.sql
+          mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
+
+          # coverage
+          Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
+          Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: linting
+        if: contains(matrix.config.r, 'release')
+        run: Rscript -e "lintr::lint_package()"
