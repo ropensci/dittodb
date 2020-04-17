@@ -118,11 +118,13 @@ devtools::install_github("jonkeane/dittodb")
 ```
 
 ## Development
+
 In order to test `dittodb` recording functionality locally or on CI, it is helpful to have databases with test data available. This can be accomplished using the scripts in the `db-setup` directory. By default, `dittodbs` does not run any tests that require database infrastructure locally.
 
 To get local databases, the easiest way is to use docker and run either the `postgres-docker-reset.sh` or `mariadb-docker-reset.sh` which will pull a docker image and set up a test database with the user and passwords that the `dittodb` tests are expecting (and will stop and remove the docker images if they are present). 
 
 On continuous integration, (using GitHub Actions) these scripts in the `db-setup` directory are used to set up these test databases so we can run integration tests (predominantly in the file `tests/testthat/test-dbi-generic-integration.R`).
 
--## Code of Conduct
+## Code of Conduct
+
 Please note that the 'dittodb' project is released with a  [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
