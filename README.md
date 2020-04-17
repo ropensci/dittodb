@@ -124,7 +124,5 @@ To get local databases, the easiest way is to use docker and run either the `pos
 
 On continuous integration, (using GitHub Actions) these scripts in the `db-setup` directory are used to set up these test databases so we can run integration tests (predominantly in the file `tests/testthat/test-dbi-generic-integration.R`).
 
----
-
-Please note that the 'dittodb' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
-
+-## Code of Conduct
+Please note that the 'dittodb' project is released with a  [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

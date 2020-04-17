@@ -15,3 +15,4 @@ dev
 ^dittodb.*\.tar\.gz$
 ^dittodb.*\.tgz$
 ^\.lintr$
+^\.github$
