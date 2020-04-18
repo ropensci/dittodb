@@ -48,15 +48,14 @@ standard_redactors <- function(data, columns) {
 #' @return data, with the columns specified in `columns` duly redacted
 #' @export
 redact_columns <- function(data, columns, ignore.case = TRUE, ...) { # nolint
-  columns <- lapply(
-    columns,
+  columns <- unlist(lapply(
+    glue("^{columns}$"),
     grep,
     x = colnames(data),
     value = TRUE,
     ignore.case = ignore.case,
     ...
-  )
-
+  ))
 
   # remove non-matches
   columns <- columns[lapply(columns, length) > 0]
