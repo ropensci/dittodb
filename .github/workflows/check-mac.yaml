@@ -49,7 +49,7 @@ jobs:
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
-     - name: Install xml2 from github (for devel only \#296)
+      - name: Install xml2 from github (for devel only \#296)
         if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
         run: Rscript -e "remotes::install_github('r-lib/xml2')"
 
