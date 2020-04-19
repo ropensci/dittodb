@@ -31,6 +31,13 @@ standard_redactors <- function(data, columns) {
 #' This function redacts the columns specified in `columns` in the data given in
 #' `data` using dittodb's standard redactors.
 #'
+#' The column names given in the `columns` argument are treated as regular
+#' expressions, however they always have `^` and `$` added to the beginning and
+#' end of the strings. So if you would like to match any column that starts with
+#' the string `sensitive` (e.g. `sensitive_name`, `sensitive_date`) you could
+#' use `"sensitive.*` and this would catch all of those columns (though it would
+#' not catch a column called `most_sensitive_name`).
+#'
 #' The standard redactors replace all values in the column with the following
 #' values based on the columns type:
 #'
