@@ -27,7 +27,7 @@ con_odbc <- DBI::dbConnect(
   Database = "postgres",
   UID = db_user,
   PWD = db_pass,
-  Port = 5432
+  Port = 2345
 )
 
 test_that("DBI, with a new schema creation and odbc package", {
@@ -63,7 +63,7 @@ con_rpostgresql <- RPostgreSQL::dbConnect(
   dbname = "postgres",
   user = db_user,
   password = db_pass,
-  port = 5432
+  port = 2345
 )
 
 test_that("DBI, with a new schema creation and rpostgresql package", {
@@ -101,7 +101,7 @@ test_that("RPostgres", {
     dbname = "postgres",
     user = db_user,
     password = db_pass,
-    port = 5432
+    port = 2345
   )
 
   test_that("DBI, with a new schema creation and rpostgres package", {
