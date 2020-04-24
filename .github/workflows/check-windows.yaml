@@ -57,9 +57,14 @@ jobs:
           $newpath = $newpath -Join ';'
           echo "::add-path::$newpath"
 
+          # change the port for postgres
+          pg_ctl -o "-F -p 2345" start
+
+          # change the port for mariadb
+          mysqld --port=6033
           # change the password for mariadb
           $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
-          mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
+          mysql -u root --port=6033 -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
 
       - name: Install R dependencies
