@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sanitize Table id — sanitize_table_id • dittodb</title>
+<title>Contributing to dittodb • dittodb</title>
 
 
 <!-- jquery -->
@@ -29,19 +29,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Sanitize Table id — sanitize_table_id" />
-<meta property="og:description" content="Tables are identified and specified with a large number of ways across
-drivers. For the purposes of dittodb, the details are less important since
-we almost always just want a flat representation (ie for filenames). This
-takes the various formats and returns a string with various elements
-separated by dots." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Contributing to dittodb" />
 
 
 
@@ -70,7 +64,7 @@ separated by dots." />
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -82,7 +76,7 @@ separated by dots." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dittodb</a>
+        <a class="navbar-link" href="index.html">dittodb</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -90,10 +84,10 @@ separated by dots." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/dittodb.html">Get started</a>
+  <a href="articles/dittodb.html">Get started</a>
 </li>
 <li>
-  <a href="../reference/">Reference</a>
+  <a href="reference/">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -103,18 +97,18 @@ separated by dots." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/dittodb.html">Getting Started with dittodb</a>
+      <a href="articles/dittodb.html">Getting Started with dittodb</a>
     </li>
     <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
+      <a href="articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
     </li>
     <li>
-      <a href="../articles/nycflights.html">nycflights data</a>
+      <a href="articles/nycflights.html">nycflights data</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/">News</a>
+  <a href="news/">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -135,51 +129,52 @@ separated by dots." />
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Sanitize Table id</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>sanitize_table_id.Rd</code></div>
+      <h1>Contributing to dittodb</h1>
     </div>
 
-    <div class="ref-description">
-    <p>Tables are identified and specified with a large number of ways across
-drivers. For the purposes of <code>dittodb</code>, the details are less important since
-we almost always just want a flat representation (<em>ie</em> for filenames). This
-takes the various formats and returns a string with various elements
-separated by dots.</p>
-    </div>
+<div id="contributing-to-dittodb" class="section level1">
 
-    <pre class="usage"><span class='fu'>sanitize_table_id</span>(<span class='no'>id</span>, <span class='no'>...</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>id</th>
-      <td><p>the table identifier (an <code>Id</code>, a vector of strings, or a string)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional arguments (to allow for things like <code>schema_name</code> that
-<code>odbc</code> uses.)</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>the first word in the statement</p>
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-    </ul>
-
-  </div>
+<p>This outlines how to propose a change to <code>dittodb</code>.</p>
+<div id="fixing-typos" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fixing-typos" class="anchor"></a>Fixing typos</h3>
+<p>Small typos or grammatical errors in documentation may be edited directly using the GitHub web interface, so long as the changes are made in the <em>source</em> file. We love getting help with this!</p>
+<ul>
+<li>
+<strong>Yes, please:</strong> you edit a roxygen comment in a <code>.R</code> file under the <code>R/</code> directory.</li>
+<li>
+<strong>No, thanks:</strong> you edit an <code>.Rd</code> file under the <code>man/</code> directory.</li>
+</ul>
 </div>
+<div id="prerequisites" class="section level3">
+<h3 class="hasAnchor">
+<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
+<p>In order to not waste effort and time, before you make a substantial pull request, you should file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>.</p>
+</div>
+<div id="pull-request-process" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
+<ul>
+<li>We recommend that you create a new git branch for each pull request (PR).</li>
+<li>Look at the GitHub Actions build status before and after making changes.</li>
+<li>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a>, with <a href="https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html">Markdown syntax</a>, for documentation.</li>
+<li>We use <a href="https://cran.r-project.org/package=testthat">testthat</a>. Contributions with test cases included are easier to accept.</li>
+<li>New code should generally follow the tidyverse <a href="http://style.tidyverse.org">style guide</a>. You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.</li>
+</ul>
+</div>
+<div id="code-of-conduct" class="section level3">
+<h3 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h3>
+<p>Please note that the <code>dittodb</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+</div>
+</div>
+
+  </div>
+
+</div>
+
 
 
       <footer>
