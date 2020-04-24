@@ -23,12 +23,14 @@ navbar:
   title: dittodb
   type: default
   left:
+    - text: Get started
+      href: articles/dittodb.html
     - text: Reference
       href: reference/
     - text: Articles
       menu:
       -  text: Getting Started with dittodb
-         href: articles/getting-started.html
+         href: articles/dittodb.html
       -  text: Recording SQL queries with dittodb for travelling
          href: articles/travelling.html
       -  text: nycflights data
