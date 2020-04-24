@@ -6,6 +6,7 @@
 ^db-setup
 .sh$
 ^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$
 docs
 ^_pkgdown.yml$
 ^\.github

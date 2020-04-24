@@ -74,7 +74,7 @@ jobs:
           path: check
 
       - name: Test coverage
-        if: contains(matrix.config.r, 'release')
+        if: contains(matrix.config.r, '3.6')
         run: |
           # wipe databases
           psql -h 127.0.0.1 -U postgres -f db-setup/postgres-reset.sql
@@ -92,5 +92,5 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: linting
-        if: contains(matrix.config.r, 'release')
+        if: contains(matrix.config.r, '3.6')
         run: Rscript -e "lintr::lint_package()"
