@@ -170,7 +170,13 @@ names</p></td>
     <p>data, with the columns specified in <code>columns</code> duly redacted</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The standard redactors replace all values in the column with the following
+    <p>The column names given in the <code>columns</code> argument are treated as regular
+expressions, however they always have <code>^</code> and <code>$</code> added to the beginning and
+end of the strings. So if you would like to match any column that starts with
+the string <code>sensitive</code> (e.g. <code>sensitive_name</code>, <code>sensitive_date</code>) you could
+use <code>"sensitive.*</code> and this would catch all of those columns (though it would
+not catch a column called <code>most_sensitive_name</code>).</p>
+<p>The standard redactors replace all values in the column with the following
 values based on the columns type:</p><ul>
 <li><p>integer -- <code>9L</code></p></li>
 <li><p>numeric -- <code>9</code></p></li>

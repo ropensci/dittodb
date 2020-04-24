@@ -92,7 +92,7 @@
 </h1>
                         <h4 class="author">Jonathan Keane</h4>
             
-            <h4 class="date">2020-02-21</h4>
+            <h4 class="date">2020-04-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonkeane/dittodb/blob/master/vignettes/getting-started.Rmd"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -116,7 +116,7 @@
 <span id="cb1-11"><a href="#cb1-11"></a>  )</span>
 <span id="cb1-12"><a href="#cb1-12"></a>  <span class="kw"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span>(<span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect</a></span>(con))</span>
 <span id="cb1-13"><a href="#cb1-13"></a>  </span>
-<span id="cb1-14"><a href="#cb1-14"></a>  query &lt;-<span class="st"> </span>glue<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span>(</span>
+<span id="cb1-14"><a href="#cb1-14"></a>  query &lt;-<span class="st"> </span>glue<span class="op">::</span><span class="kw"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span>(</span>
 <span id="cb1-15"><a href="#cb1-15"></a>    <span class="st">"SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights "</span>,</span>
 <span id="cb1-16"><a href="#cb1-16"></a>    <span class="st">"WHERE arr_delay &gt; 0 GROUP BY {group_col}"</span></span>
 <span id="cb1-17"><a href="#cb1-17"></a>  )</span>
@@ -143,10 +143,10 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(testthat)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dittodb)</span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="kw"><a href="https://rdrr.io/pkg/testthat/man/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
 <span id="cb4-5"><a href="#cb4-5"></a>  out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))</span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))</span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
 <span id="cb4-8"><a href="#cb4-8"></a>})</span></code></pre></div>
 <p>And this works just fine if we only ever run your tests locally, but if we want to <a href="http://r-pkgs.had.co.nz/check.html#check">run our tests with a Continuous Integration system</a> (and yes, we want to do that!), this won’t work without first setting up our production database of flights. For our tests, we don’t actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of running the test code, and then be able to use that recorded snapshot when we run tests later.</p>
 <div id="recording-snapshots" class="section level2">
@@ -184,10 +184,10 @@
 <span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dittodb)</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
 <span id="cb7-6"><a href="#cb7-6"></a>    out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))</span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
 <span id="cb7-9"><a href="#cb7-9"></a>  })</span>
 <span id="cb7-10"><a href="#cb7-10"></a>)</span></code></pre></div>
 <p>When placed inside of <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our snapshot <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, or operational.</p>
@@ -197,10 +197,10 @@
 <span id="cb8-3"><a href="#cb8-3"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
 <p>This will create a new file (<code>SELECT-16d120.R</code>) which contains the response when aggregating by day. dittodb saves each database interaction with a hash of the query that is sent, so that a number of different responses from a database can be saved and the correct one will be used when called inside of <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>. So now, we could write our new test with:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>(</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
 <span id="cb9-3"><a href="#cb9-3"></a>    out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"day"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a>    <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"day"</span>, <span class="st">"mean_delay"</span>))</span>
-<span id="cb9-5"><a href="#cb9-5"></a>    <span class="kw"><a href="https://rdrr.io/pkg/testthat/man/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">31</span>, <span class="dv">2</span>))</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"day"</span>, <span class="st">"mean_delay"</span>))</span>
+<span id="cb9-5"><a href="#cb9-5"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">31</span>, <span class="dv">2</span>))</span>
 <span id="cb9-6"><a href="#cb9-6"></a>  })</span>
 <span id="cb9-7"><a href="#cb9-7"></a>)</span></code></pre></div>
 </div>
