@@ -64,6 +64,20 @@ test_that("standard_redactors", {
   )
 })
 
+test_that("redact_columns when the same name appears more than once", {
+  df <- data.frame(name = c(1, 2), other_name = c(3, 4))
+
+  out <- redact_columns(df, "name")
+  expect_identical(out$name, c(9, 9))
+  expect_identical(out$other_name, c(3, 4))
+
+  out <- redact_columns(df, ".*name")
+  expect_identical(out$name, c(9, 9))
+  expect_identical(out$other_name, c(9, 9))
+})
+
+
+
 test_that("standard redactors, empty df", {
   empty_df <- df[0, ]
 

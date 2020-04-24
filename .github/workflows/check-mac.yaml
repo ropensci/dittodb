@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: macOS-latest, r: 'release' }
+        - { os: macOS-latest, r: '3.6' }
         - { os: macOS-latest, r: 'devel', args: "--no-manual" }
 
     env:
@@ -45,6 +45,10 @@ jobs:
            bash db-setup/postgres-brew.sh
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')
+
+      - name: Install xml2 from github (for devel only \#296)
+        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
+        run: Rscript -e "install.packages('remotes', type = 'source')" -e "remotes::install_github('r-lib/xml2')"
 
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"

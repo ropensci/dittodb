@@ -24,6 +24,13 @@ This function redacts the columns specified in \code{columns} in the data given 
 \code{data} using dittodb's standard redactors.
 }
 \details{
+The column names given in the \code{columns} argument are treated as regular
+expressions, however they always have \code{^} and \code{$} added to the beginning and
+end of the strings. So if you would like to match any column that starts with
+the string \code{sensitive} (e.g. \code{sensitive_name}, \code{sensitive_date}) you could
+use \verb{"sensitive.*} and this would catch all of those columns (though it would
+not catch a column called \code{most_sensitive_name}).
+
 The standard redactors replace all values in the column with the following
 values based on the columns type:
 \itemize{
