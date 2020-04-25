@@ -13,6 +13,7 @@ UsageCount      = 1
 EOT
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
-pg_ctl -o "-F -p 2345"
 /usr/local/opt/postgres/bin/createuser -s postgres
+psql -U postgres -c 'SHOW config_file'
+# sed -i 's/5432/2345/g' foo
 sleep 2
