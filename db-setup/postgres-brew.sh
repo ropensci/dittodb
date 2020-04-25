@@ -13,6 +13,6 @@ UsageCount      = 1
 EOT
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
-postgres -p 5433
+postgres -p 2345
 /usr/local/opt/postgres/bin/createuser -s postgres
 sleep 2
