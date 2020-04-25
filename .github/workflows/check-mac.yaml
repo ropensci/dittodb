@@ -43,7 +43,6 @@ jobs:
         run: |
            brew update
            bash db-setup/postgres-brew.sh
-           pg_ctl -o "-F -p 2345" start
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')
 
