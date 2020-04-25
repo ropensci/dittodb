@@ -14,5 +14,7 @@ EOT
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
-ipfw add fwd 127.0.0.1,5432 tcp from me to 127.0.0.1 dst-port 2345
+echo "
+rdr pass inet proto tcp from any to any port 5432 -> 127.0.0.1 port 2345
+" | pfctl -ef -
 sleep 2
