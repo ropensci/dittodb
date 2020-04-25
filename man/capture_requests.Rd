@@ -3,18 +3,12 @@
 \name{capture_requests}
 \alias{capture_requests}
 \alias{start_db_capturing}
-\alias{start_capturing}
 \alias{stop_db_capturing}
-\alias{stop_capturing}
 \title{Capture and record database transactions and save them as mocks}
 \usage{
 start_db_capturing(path, redact_columns = NULL)
 
-start_capturing(path, redact_columns = NULL)
-
 stop_db_capturing()
-
-stop_capturing()
 }
 \arguments{
 \item{path}{the path to record mocks (default if missing: the first path in
@@ -45,10 +39,6 @@ by always passing the data being saved through \code{\link[=redact_columns]{reda
 \emph{note} You should always call \code{\link[DBI:dbConnect]{DBI::dbConnect}} inside of the capturing
 block. When you connect to the database, dittodb sets up the mocks for the
 specific database you're connecting to when you call \code{\link[DBI:dbConnect]{DBI::dbConnect}}.
-
-\code{start_capturing()} and \code{stop_capturing()} do the exact same thing as
-\code{start_db_capturing()} and \code{stop_db_capturing()}. They are both deprecated so
-as not to clash with other packages when loaded.
 }
 \examples{
 \dontrun{
