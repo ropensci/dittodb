@@ -42,8 +42,10 @@ jobs:
       - name: Install databases (macOS)
         run: |
            brew update
-           bash db-setup/postgres-brew.sh
-           bash db-setup/mariadb-brew.sh
+           brew install docker
+           bash db-setup/postgres-docker.sh
+           sudo service mysql stop
+           bash db-setup/mariadb-docker.sh
         if: contains(runner.os, 'macOS')
 
       - name: Install xml2 from github (for devel only \#296)
