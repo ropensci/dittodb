@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: macOS-latest, r: '3.6' }
+        - { os: macOS-latest, r: '3.6', args: "--no-manual" }
         - { os: macOS-latest, r: '4.0' }
         - { os: macOS-latest, r: 'devel', args: "--no-manual" }
 
