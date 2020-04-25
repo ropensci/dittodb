@@ -13,8 +13,6 @@ UsageCount      = 1
 EOT
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
+postgres -p 5433
 /usr/local/opt/postgres/bin/createuser -s postgres
-# psql -U postgres -c 'SHOW config_file'
-sed -i 's/#port = 5432/port = 2345/g'  `/usr/local/var/postgres/postgresql.conf`
-pg_ctl -D /usr/local/var/postgres restart
 sleep 2
