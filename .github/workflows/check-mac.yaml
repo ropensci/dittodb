@@ -43,6 +43,7 @@ jobs:
         run: |
            brew update
            brew install docker
+           docker run hello-world
            bash db-setup/postgres-docker.sh
            sudo service mysql stop
            bash db-setup/mariadb-docker.sh
