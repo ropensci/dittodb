@@ -22,7 +22,7 @@
 #' as not to clash with other packages when loaded.
 #'
 #' @param path the path to record mocks (default if missing: the first path in
-#' `.db_mock_paths()`.
+#' `db_mock_paths()`.
 #' @param redact_columns a character vector of columns to redact. Any column
 #' that matches an entry will be redacted with a standard value for the column
 #' type (e.g. characters will be replaced with "\[redacted\]")
@@ -111,7 +111,7 @@ method_loaded <- Vectorize(function(method, signature) {
 start_db_capturing <- function(path, redact_columns = NULL) {
   if (!missing(path)) {
     ## Note that this changes state and doesn't reset it
-    .db_mock_paths(path)
+    db_mock_paths(path)
   }
 
   set_redactor(redact_columns)
@@ -120,7 +120,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
     "dbConnect",
     exit = quote({
       .dittodb_env$db_path <- file.path(
-        .db_mock_paths()[1],
+        db_mock_paths()[1],
         get_dbname(list(...))
       )
       dir.create(.dittodb_env$db_path, showWarnings = FALSE, recursive = TRUE)

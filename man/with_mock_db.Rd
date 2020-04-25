@@ -15,7 +15,7 @@ nothing
 \description{
 When testing with dittodb, wrap your tests in \code{with_mock_db({})} to use the
 database fixtures. \code{dittodb} will look for fixtures in all entries of
-\code{\link{.db_mock_paths}}.
+\code{\link{db_mock_paths}}.
 }
 \details{
 Connections should be made inside of \code{with_mock_db()} because \code{dittodb} uses

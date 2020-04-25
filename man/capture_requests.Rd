@@ -18,7 +18,7 @@ stop_capturing()
 }
 \arguments{
 \item{path}{the path to record mocks (default if missing: the first path in
-\code{.db_mock_paths()}.}
+\code{db_mock_paths()}.}
 
 \item{redact_columns}{a character vector of columns to redact. Any column
 that matches an entry will be redacted with a standard value for the column
