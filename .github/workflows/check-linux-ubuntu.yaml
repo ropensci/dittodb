@@ -16,6 +16,7 @@ jobs:
         - { os: ubuntu-18.04, r: '3.4', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.5', args: "--no-manual" }
         - { os: ubuntu-18.04, r: '3.6', args: "--no-manual" }
+        - { os: ubuntu-18.04, r: '4.0', args: "--no-manual" }
 
     env:
       CRAN: ${{ matrix.config.cran }}
