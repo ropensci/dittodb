@@ -14,7 +14,5 @@ EOT
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
-# psql -U postgres -c 'SHOW config_file'
-sed -i 's/#port = 5432/port = 2345/g' '/usr/local/var/postgres/postgresql.conf'
-pg_ctl -D /usr/local/var/postgres restart
+pg_ctl -o "-F -p 2345" restart
 sleep 2
