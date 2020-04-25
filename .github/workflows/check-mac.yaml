@@ -47,10 +47,6 @@ jobs:
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')
 
-      - name: Install xml2 from github (for devel only \#296)
-        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
-        run: Rscript -e "install.packages('remotes', type = 'source')" -e "remotes::install_github('r-lib/xml2')"
-
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
