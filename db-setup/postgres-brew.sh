@@ -16,5 +16,5 @@ pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
 echo "
 rdr pass inet proto tcp from any to any port 2345 -> 127.0.0.1 port 5432
-" | pfctl -ef -
+" | sudo pfctl -ef -
 sleep 2
