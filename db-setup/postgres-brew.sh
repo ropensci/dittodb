@@ -15,6 +15,6 @@ initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
 echo "
-rdr pass proto tcp from any to any port 5432 -> 127.0.0.1 port 2345
+rdr pass proto tcp from any to any port 2345 -> 127.0.0.1 port 5432
 " | pfctl -ef -
 sleep 2
