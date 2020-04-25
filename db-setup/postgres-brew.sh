@@ -12,7 +12,7 @@ CommLog         = 1
 UsageCount      = 1
 EOT
 initdb /usr/local/var/postgres
-pg_ctl -D /usr/local/var/postgres -o "-F -p 2345" start
+pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
 ipfw add fwd 127.0.0.1,5432 tcp from me to 127.0.0.1 dst-port 2345
 sleep 2
