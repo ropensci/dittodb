@@ -17,10 +17,6 @@
 #' block. When you connect to the database, dittodb sets up the mocks for the
 #' specific database you're connecting to when you call [`DBI::dbConnect`].
 #'
-#' `start_capturing()` and `stop_capturing()` do the exact same thing as
-#' `start_db_capturing()` and `stop_db_capturing()`. They are both deprecated so
-#' as not to clash with other packages when loaded.
-#'
 #' @param path the path to record mocks (default if missing: the first path in
 #' `.db_mock_paths()`.
 #' @param redact_columns a character vector of columns to redact. Any column
@@ -272,12 +268,6 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   return(invisible(NULL))
 }
 
-# for backwards compatibility
-#' @rdname capture_requests
-#' @export
-#' @keywords internal
-start_capturing <- start_db_capturing
-
 #' an environment for dittodb storing state
 #'
 #' @export
@@ -301,12 +291,6 @@ stop_db_capturing <- function() {
 
   remove_redactor()
 }
-
-# for backwards compatibility
-#' @rdname capture_requests
-#' @export
-#' @keywords internal
-stop_capturing <- stop_db_capturing
 
 set_redactor <- function(redactors) {
   .dittodb_env$redactor <- redactors
