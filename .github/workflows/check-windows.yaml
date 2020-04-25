@@ -57,11 +57,10 @@ jobs:
           $newpath = $newpath -Join ';'
           echo "::add-path::$newpath"
 
-          # change the port for postgres
-          pg_ctl -o "-F -p 2345" start
+          # change the ports
+          netsh interface portproxy add v4tov4 listenport=2345 connectport=5432 connectaddress=127.0.0.1
+          netsh interface portproxy add v4tov4 listenport=6033 connectport=3306 connectaddress=127.0.0.1
 
-          # change the port for mariadb
-          mysqld --port=6033
           # change the password for mariadb
           $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
           mysql -u root --port=6033 -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
