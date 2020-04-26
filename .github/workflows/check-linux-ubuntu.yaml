@@ -20,8 +20,8 @@ jobs:
     env:
       CRAN: ${{ matrix.config.cran }}
       DBROOTPASS: r2N5y7V*
-      DITTODB_ENABLE_PG: true
-      DITTODB_ENABLE_MARIA: true
+      DITTODB_ENABLE_PG_TESTS: true
+      DITTODB_ENABLE_MARIA_TESTS: true
 
     steps:
       - uses: actions/checkout@v1
