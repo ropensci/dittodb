@@ -10,7 +10,6 @@
 docs
 ^_pkgdown.yml$
 ^\.github
-dev
 ^presentations
 ^dittodb\.Rcheck$
 ^dittodb.*\.tar\.gz$
