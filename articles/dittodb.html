@@ -128,7 +128,7 @@
 <span id="cb1-20"><a href="#cb1-20"></a>}</span></code></pre></div>
 <p>If we give it the column <code>"month"</code>, we get the following dataframe:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>(<span class="kw">mean_delays</span>(<span class="st">"month"</span>))</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>(<span class="kw">mean_delays</span>(<span class="st">"month"</span>))</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;    month mean_delay</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; 1      1   34.47749</span></span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; 2      2   33.68921</span></span>
@@ -165,8 +165,8 @@
 <h2 class="hasAnchor">
 <a href="#with_mock_db" class="anchor"></a><code>with_mock_db()</code>
 </h2>
-<p>Now that we have a snapshot, we can use that snapshot by wrapping our call that includes a database interaction with the function <code><a href="../reference/with_mock_db.html">with_mock_db()</a></code>. This will look for snapshots and use those.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>(</span>
+<p>Now that we have a snapshot, we can use that snapshot by wrapping our call that includes a database interaction with the function <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This will look for snapshots and use those.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3"></a>)</span>
 <span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;    month mean_delay</span></span>
@@ -186,20 +186,20 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(testthat)</span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dittodb)</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>(</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>(</span>
 <span id="cb7-5"><a href="#cb7-5"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
 <span id="cb7-6"><a href="#cb7-6"></a>    out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span>
 <span id="cb7-7"><a href="#cb7-7"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))</span>
 <span id="cb7-8"><a href="#cb7-8"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
 <span id="cb7-9"><a href="#cb7-9"></a>  })</span>
 <span id="cb7-10"><a href="#cb7-10"></a>)</span></code></pre></div>
-<p>When placed inside of <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our snapshot <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, or operational.</p>
+<p>When placed inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our snapshot <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, or operational.</p>
 <p>If we wanted to test that a day-based aggregation works, we can, although we will have to make a new snapshot. First we would run the following interactively:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()</span>
 <span id="cb8-2"><a href="#cb8-2"></a>out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"day"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
-<p>This will create a new file (<code>SELECT-16d120.R</code>) which contains the response when aggregating by day. dittodb saves each database interaction with a hash of the query that is sent, so that a number of different responses from a database can be saved and the correct one will be used when called inside of <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>. So now, we could write our new test with:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>(</span>
+<p>This will create a new file (<code>SELECT-16d120.R</code>) which contains the response when aggregating by day. dittodb saves each database interaction with a hash of the query that is sent, so that a number of different responses from a database can be saved and the correct one will be used when called inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. So now, we could write our new test with:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>(</span>
 <span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/test_that.html">test_that</a></span>(<span class="st">"mean_delays()"</span>, {</span>
 <span id="cb9-3"><a href="#cb9-3"></a>    out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"day"</span>)</span>
 <span id="cb9-4"><a href="#cb9-4"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"day"</span>, <span class="st">"mean_delay"</span>))</span>
@@ -215,7 +215,7 @@
 <h3 class="hasAnchor">
 <a href="#when-to-call-dbconnect" class="anchor"></a>When to call <code>dbConnect()</code>
 </h3>
-<p>Always call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> inside of <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>. You can make as many calls as you want to the mock database inside of a <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>, but you should always make sure that you connect to the database inside of and not outside of <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>. This is because when you “connect” to the mock database, a few variables are set that tell dittodb where to look for mocks. It’s less important (though still a good idea) to call <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code> inside of <code><a href="../reference/with_mock_db.html">with_mock_db()</a></code>. This is also true when recording snapshots with <code>start_db_recording()</code>, you should start the recording and then call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code>.</p>
+<p>Always call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. You can make as many calls as you want to the mock database inside of a <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>, but you should always make sure that you connect to the database inside of and not outside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. This is because when you “connect” to the mock database, a few variables are set that tell dittodb where to look for mocks. It’s less important (though still a good idea) to call <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This is also true when recording snapshots with <code>start_db_recording()</code>, you should start the recording and then call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code>.</p>
 </div>
 <div id="query-size" class="section level3">
 <h3 class="hasAnchor">
@@ -230,7 +230,7 @@
 <div id="specify-a-new-path" class="section level3">
 <h3 class="hasAnchor">
 <a href="#specify-a-new-path" class="anchor"></a>Specify a new path</h3>
-<p>You can control where mocks are read from (when you’re using <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>) as well as where they are written to (when using <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>). To do this, use the function [<code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>].</p>
+<p>You can control where mocks are read from (when you’re using <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>) as well as where they are written to (when using <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>). To do this, use the function [<code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>].</p>
 <p>You can see what paths are being used by calling <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code> with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>.</p>
 <p>You can add a new path by calling <code><a href="../reference/mockPaths.html">db_mock_paths("new/path/here")</a></code> which will add the path provided to the top of the list of paths to use.</p>
 </div>

@@ -40,6 +40,9 @@
     <loc>https://jonkeane.com/dittodb/reference/mockPaths.html</loc>
   </url>
   <url>
+    <loc>https://jonkeane.com/dittodb/reference/mockdb.html</loc>
+  </url>
+  <url>
     <loc>https://jonkeane.com/dittodb/reference/nycflights13_sql.html</loc>
   </url>
   <url>
@@ -50,9 +53,6 @@
   </url>
   <url>
     <loc>https://jonkeane.com/dittodb/reference/sanitize_table_id.html</loc>
-  </url>
-  <url>
-    <loc>https://jonkeane.com/dittodb/reference/with_mock_db.html</loc>
   </url>
   <url>
     <loc>https://jonkeane.com/dittodb/reference/with_mock_path.html</loc>

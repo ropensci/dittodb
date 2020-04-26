@@ -108,7 +108,7 @@
 <a href="#scope" class="anchor"></a>Scope</h1>
 <p>The present consists in mocking the connection to a real PostgreSQL server that contains a database version of the <code>nycflights13</code> dataset (among other databases). See <a href="nycflights.html">the <code>nycflights13</code> vignette</a> for more information about this database.</p>
 <p>This example is for you if you ever wondered how to use scripts that you use at the office when you are at home or travelling. Or how to continue developing these scripts while you don’t have an internet connection.</p>
-<p>Many of us have to use databases that are only accessible from a local network. The package <code>dittodb</code> provides <code><a href="../reference/with_mock_db.html">with_mock_db()</a></code> that wraps the code and makes it possible to run outside the office (or even with no internet access at all!).</p>
+<p>Many of us have to use databases that are only accessible from a local network. The package <code>dittodb</code> provides <code><a href="../reference/mockdb.html">with_mock_db()</a></code> that wraps the code and makes it possible to run outside the office (or even with no internet access at all!).</p>
 </div>
 <div id="recording-queries" class="section level1">
 <h1 class="hasAnchor">
@@ -181,7 +181,7 @@
 <h1 class="hasAnchor">
 <a href="#reproducing-query-results" class="anchor"></a>Reproducing query results</h1>
 <p>If there was a success capturing one or more queries, then we are able to replicate the result connected to a different network or even without internet access:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/with_mock_db.html">with_mock_db</a></span>({</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>({</span>
 <span id="cb5-2"><a href="#cb5-2"></a>  con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>

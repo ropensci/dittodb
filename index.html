@@ -130,7 +130,7 @@
 <span id="cb2-14"><a href="#cb2-14"></a><span class="kw"><a href="reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
 <p>This will run the query from <code>get_an_airline()</code>, and save the response in a mock directory and file. Then, when we are testing, we can use the following:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># With RPostgres package</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="reference/with_mock_db.html">with_mock_db</a></span>({</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="reference/mockdb.html">with_mock_db</a></span>({</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(</span>
 <span id="cb3-4"><a href="#cb3-4"></a>    RPostgres<span class="op">::</span><span class="kw"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html">Postgres</a></span>(),</span>
 <span id="cb3-5"><a href="#cb3-5"></a>    <span class="dt">dbname =</span> <span class="st">"nycflights"</span>,</span>
@@ -164,7 +164,7 @@
 <span id="cb4-13"><a href="#cb4-13"></a></span>
 <span id="cb4-14"><a href="#cb4-14"></a><span class="kw"><a href="reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
 <p>and then</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="reference/with_mock_db.html">with_mock_db</a></span>({</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="reference/mockdb.html">with_mock_db</a></span>({</span>
 <span id="cb5-2"><a href="#cb5-2"></a>  con &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    <span class="dt">dbname =</span> <span class="st">"nycflights"</span>,</span>
