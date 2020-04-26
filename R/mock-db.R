@@ -91,7 +91,7 @@ NULL
 #' @export
 start_mock_db <- function() {
   # store the original function for DBI::dbConnect() for use by stop_mock_db()
-  .dittodb_env$orig_dbi_dbConnect <- .Call(
+  .dittodb_env$orig_dbi_dbconnect <- .Call(
     duplicate_,
     get("dbConnect", envir = asNamespace("DBI"), mode = "function")
   )
@@ -102,7 +102,7 @@ start_mock_db <- function() {
 #' @rdname mockdb
 #' @export
 stop_mock_db <- function() {
-  mock_dbConnect(.dittodb_env$orig_dbi_dbConnect)
+  mock_dbConnect(.dittodb_env$orig_dbi_dbconnect)
 }
 
 mock_dbConnect <- function(new_func) {
