@@ -20,40 +20,44 @@ skip_locally("use postgres-docker.sh and then this can be unskipped locally")
 
 # odbc ----
 
-con_odbc <- DBI::dbConnect(
-  odbc::odbc(),
-  Driver = odbc_driver,
-  Server = "127.0.0.1",
-  Database = "postgres",
-  UID = db_user,
-  PWD = db_pass,
-  Port = 5432
-)
+test_that("odbc", {
+  skip_env("odbc")
 
-test_that("DBI, with a new schema creation and odbc package", {
-  expect_message(
-    nycflights13_sql(con_odbc, schema = "new_schema"),
-    paste0(c(
-      "Creating the testing database from nycflights13",
-      "Creating table: airlines",
-      "Creating table: airports",
-      "Creating table: flights",
-      "Creating table: planes",
-      "Creating table: weather"
-    ),
-    collapse = "|"
+  con_odbc <- DBI::dbConnect(
+    odbc::odbc(),
+    Driver = odbc_driver,
+    Server = "127.0.0.1",
+    Database = "postgres",
+    UID = db_user,
+    PWD = db_pass,
+    Port = 5432
+  )
+
+  test_that("DBI, with a new schema creation and odbc package", {
+    expect_message(
+      nycflights13_sql(con_odbc, schema = "new_schema"),
+      paste0(c(
+        "Creating the testing database from nycflights13",
+        "Creating table: airlines",
+        "Creating table: airports",
+        "Creating table: flights",
+        "Creating table: planes",
+        "Creating table: weather"
+      ),
+      collapse = "|"
+      )
     )
-  )
-})
+  })
 
-test_that("DBI, with a same schema creation and odbc package", {
-  expect_message(
-    nycflights13_sql(con_odbc, schema = "new_schema"),
-    "Creating the testing database from nycflights13"
-  )
-})
+  test_that("DBI, with a same schema creation and odbc package", {
+    expect_message(
+      nycflights13_sql(con_odbc, schema = "new_schema"),
+      "Creating the testing database from nycflights13"
+    )
+  })
 
-dbDisconnect(con_odbc)
+  dbDisconnect(con_odbc)
+})
 
 # rpostgresql ----
 
