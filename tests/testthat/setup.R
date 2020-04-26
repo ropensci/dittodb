@@ -12,11 +12,8 @@ db_pass <- "*V7y5N2r"
 
 
 win_x64 <- .Platform$OS.type == "windows" & version$arch == "x86_64"
-win_x32 <- .Platform$OS.type == "windows" & version$arch != "x86_64"
 odbc_driver <- if (win_x64) {
   "PostgreSQL Unicode(x64)"
-} else if (win_x32) {
-  "PostgreSQL Unicode(x32)"
   } else {
   "PostgreSQL Unicode"
 }

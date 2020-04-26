@@ -50,7 +50,6 @@ jobs:
           choco install mariadb
           choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
-          choco install psqlodbc --x86
 
           # add choco-added paths to the actions path
           $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -77,13 +76,6 @@ jobs:
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
-
-
-      - name: odbc R 64
-        run: Rscript -e "odbc::odbcListDrivers()"
-
-      - name: odbc R 32
-        run: Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'odbc::odbcListDrivers()'))"
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
