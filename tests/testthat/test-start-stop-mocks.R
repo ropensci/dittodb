@@ -1,3 +1,11 @@
+
+test_that("stop_mock_db() doesn't fail if there is no DB being mocked", {
+  expect_message(
+    expect_null(stop_mock_db()),
+    "There is no mock database being used."
+  )
+})
+
 start_mock_db()
 
 con <- dbConnect(RSQLite::SQLite(), dbname = "new_db")
@@ -23,3 +31,10 @@ test_that("We can use mocks from the new path", {
 dbDisconnect(con)
 
 stop_mock_db()
+
+test_that("stop_mock_db() doesn't fail if there is no DB being mocked", {
+  expect_message(
+    expect_null(stop_mock_db()),
+    "There is no mock database being used."
+  )
+})

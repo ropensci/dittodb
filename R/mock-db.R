@@ -73,6 +73,7 @@
 #' })
 #' }
 with_mock_db <- function(expr) {
+  # TODO: change this to use start_mock_db()?
   with_mock(
     dbConnect = function(...) dbMockConnect(...),
     .env = "DBI",
@@ -96,16 +97,27 @@ start_mock_db <- function() {
     get("dbConnect", envir = asNamespace("DBI"), mode = "function")
   )
 
-  mock_dbConnect(function(...) dbMockConnect(...))
+  # TODO: mention which directories are going to be looked in?
+
+  mock_dbconnect(function(...) dbMockConnect(...))
 }
 
 #' @rdname mockdb
 #' @export
 stop_mock_db <- function() {
-  mock_dbConnect(.dittodb_env$orig_dbi_dbconnect)
+  if (is.null(.dittodb_env$orig_dbi_dbconnect)) {
+    message("There is no mock database being used.")
+    return(invisible(NULL))
+  }
+
+  mock_dbconnect(.dittodb_env$orig_dbi_dbconnect)
+
+  # "unset" the orig_dbi_dbconnec, not strictly necesary, but could be a good
+  # check if there is a mock db going.
+  .dittodb_env$orig_dbi_dbconnect <- NULL
 }
 
-mock_dbConnect <- function(new_func) {
+mock_dbconnect <- function(new_func) {
   .Call(
     reassign_function,
     as.name("dbConnect"),

@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("can check for packages", {
   expect_true(check_for_pkg("testthat"))
 
