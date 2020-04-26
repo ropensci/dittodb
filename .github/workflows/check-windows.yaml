@@ -32,6 +32,14 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@master
         if: contains(matrix.config.args, 'no-manual') == false
 
+      - name: R 32bit
+        run: |
+          Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'version$arch'))"
+          Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'Sys.getenv("R_ARCH")'))"
+          Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'Sys.info()[["machine"]]'))"
+          Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'version'))"
+          Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'Sys.info()'))"
+
       - name: Cache R packages
         uses: actions/cache@v1
         id: rlibcache
