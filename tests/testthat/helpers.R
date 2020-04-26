@@ -7,7 +7,7 @@ skip_env <- function(which = c("RPostgres", "RMariaDB", "RPostgreSQL", "odbc")) 
   # installing both 32-bit and 64-bit odbc drivers on windows is non-trivial, so
   # skipping the 32-bit version of odbc tests which struggle to find an
   # appropriate 32-bit driver.
-  win_x32 <- .Platform$OS.type == "windows" && version$arch == "x86_32"
+  win_x32 <- .Platform$OS.type == "windows" && version[["arch"]] == "i386"
   if ("odbc" %in% which && win_x32) {
     skip("Skipping odbc tests on 32bit windows.")
   }
