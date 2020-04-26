@@ -77,6 +77,13 @@ jobs:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
+
+      - name: odbc R 64
+        run: Rscript -e "odbc::odbcListDrivers()"
+
+      - name: odbc R 32
+        run: Rscript -e "system(paste0(Sys.getenv('R_HOME'), '/bin/i386/Rscript.exe', ' -e ', 'odbc::odbcListDrivers()'))"
+
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
 
