@@ -12,7 +12,8 @@ db_pkgs <- list(
     dbname = "nycflights",
     host = "127.0.0.1",
     username = "travis",
-    password = ""
+    password = "",
+    port = testing_port("maria")
   )),
   "odbc" = quote(dbConnect(
     odbc::odbc(),
@@ -21,21 +22,23 @@ db_pkgs <- list(
     Database = "nycflights",
     UID = db_user,
     PWD = db_pass,
-    Port = 5432
+    Port = testing_port("postgres")
   )),
   "RPostgreSQL" = quote(dbConnect(
     RPostgreSQL::PostgreSQL(),
     dbname = "nycflights",
     host = "127.0.0.1",
     user = db_user,
-    password = db_pass
+    password = db_pass,
+    port = testing_port("postgres")
   )),
   "RPostgres" = quote(dbConnect(
     RPostgres::Postgres(),
     dbname = "nycflights",
     host = "127.0.0.1",
     user = db_user,
-    password = db_pass
+    password = db_pass,
+    port = testing_port("postgres")
   ))
 )
 
@@ -46,7 +49,6 @@ for (pkg in names(db_pkgs)) {
   context(glue("Integration tests for {pkg}"))
   test_that(glue("Isolate {pkg}"), {
     skip_env(pkg)
-    skip_locally("use (postgres|mariadb)-docker.sh and test manually")
 
     # setup the database that will be mocked and then tested
     con <- eval(db_pkgs[[pkg]])
