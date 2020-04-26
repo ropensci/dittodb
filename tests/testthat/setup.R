@@ -10,9 +10,7 @@ library(glue)
 db_user <- "travis"
 db_pass <- "*V7y5N2r"
 
-
-win_x64 <- .Platform$OS.type == "windows" & version$arch == "x86_64"
-odbc_driver <- if (win_x64) {
+odbc_driver <- if (.Platform[["OS.type"]] == "windows") {
   "PostgreSQL Unicode(x64)"
   } else {
   "PostgreSQL Unicode"
