@@ -7,7 +7,7 @@ reference:
 - title: Capturing and testing
   contents:
   - capture_requests
-  - with_mock_db
+  - mockdb
   - mockPaths
   - redact_columns
   - driver-specifc-mock-connections

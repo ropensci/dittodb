@@ -1,12 +1,20 @@
-skip_env <- function(which = c("RPostgres", "RMariaDB")) {
-  if ("RPostgres" %in% which &&
-      tolower(Sys.getenv("dittodb_DISABLE_PG")) == "true") {
-    skip("Skipping tests that need functioning RPostgres.")
+skip_env <- function(which = c("RPostgres", "RMariaDB", "RPostgreSQL", "odbc")) {
+  if (any(c("RPostgres", "RPostgreSQL", "odbc") %in% which) &&
+      tolower(Sys.getenv("DITTODB_ENABLE_PG_TESTS")) != "true") {
+    skip("Skipping tests that need functioning Postgres.")
+  }
+
+  # installing both 32-bit and 64-bit odbc drivers on windows is non-trivial, so
+  # skipping the 32-bit version of odbc tests which struggle to find an
+  # appropriate 32-bit driver.
+  win_x32 <- .Platform[["OS.type"]] == "windows" && version[["arch"]] == "i386"
+  if ("odbc" %in% which && win_x32) {
+    skip("Skipping odbc tests on 32bit windows.")
   }
 
   if ("RMariaDB" %in% which &&
-      tolower(Sys.getenv("dittodb_DISABLE_MARIA")) == "true") {
-    skip("Skipping tests that need functioning RMariaDB.")
+      tolower(Sys.getenv("DITTODB_ENABLE_MARIA_TESTS")) != "true") {
+    skip("Skipping tests that need functioning MariaDB.")
   }
 
   # always skip on cran
