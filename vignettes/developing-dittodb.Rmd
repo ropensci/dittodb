@@ -4,7 +4,7 @@ author: "Jonathan Keane"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getting-started}
+  %\VignetteIndexEntry{developing-dittodb}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -60,4 +60,10 @@ The other scripts (e.g. `db-setup/[mariadb|postgres]-brew.sh`) are only intended
 
 ## Some of the tricky bits that `dittodb` uses
 
-In order to provide a seamless experience between using a real database connection and using the mocked version of the database `dittodb` uses some features of R that are pretty uncommon. 
+In order to provide a seamless experience between using a real database connection and using the mocked version of the database `dittodb` uses some features of R that are pretty uncommon. This is not intended to be a comprehensive description of `dittodb`'s architecture, but a few things that are uncommon or a little strange.
+
+### Recording
+In order to record fixtures while using a real database connection, we use `base::trace()` to add code that inspects the queries (to define unique hashes) and saves the results so that they can be used later. This tracing only happens when using the `start_db_capturing()` functions and should generally not be used during testing by packages that use `dittodb`. Rather, this functionality should generally be used to see what interactoins a piece of code to be tested is having with a database and either use or edit and use the fixtures it produces in testing.
+
+### Using a mocked databse
+When using fixtures (i.e. with a mocked database), we use `testthat::with_mock()` and some internals to mock the `DBI::dbConnect()` function and replace the true connection with a special mock connection class from `dittodb` (`DBIMockConnection`, though there are specific sub-classes for some drivers, e.g. `DBIMockRPostgresConnection`). Then `dittodb` relies on standard S4 method dispatch to find the appropriate fixture for queries being run during testing. 
