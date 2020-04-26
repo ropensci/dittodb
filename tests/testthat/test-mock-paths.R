@@ -26,17 +26,17 @@ with_mock_path(path = "new_mock_path", {
 withr::with_options(
   c(dittodb.mock.paths = "new_one"), {
     test_that("dittodb.mock.paths is used", {
-      expect_identical(.db_mock_paths(), "new_one")
+      expect_identical(db_mock_paths(), "new_one")
     })
 
     test_that("and we can unset", {
-      .db_mock_paths(NULL)
-      expect_identical(.db_mock_paths(), c("tests/testthat/", "."))
+      db_mock_paths(NULL)
+      expect_identical(db_mock_paths(), c("tests/testthat/", "."))
     })
 
     test_that("with_mock_path can replace", {
       with_mock_path("baz", replace = TRUE, {
-        expect_identical(.db_mock_paths(), "baz")
+        expect_identical(db_mock_paths(), "baz")
       })
     })
   }

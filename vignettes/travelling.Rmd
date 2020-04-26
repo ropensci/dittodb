@@ -50,7 +50,7 @@ stop_db_capturing()
 library(dittodb)
 
 # set the mockPaths for this vignette
-.db_mock_paths("travelling")
+db_mock_paths("travelling")
 
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```

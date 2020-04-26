@@ -3,7 +3,8 @@
 #' Start and stop using a mocked database with `start_mock_db()` and
 #' `stop_mock_db()` respectively. Alternatively, you can wrap a chunk of code in
 #' `with_mock_db()` to execute the whole thing without needing to remember to
-#' stop the mocking.
+#' stop the mocking.When testing with `dittodb`, it will look for fixtures in
+#'  all entries of [`db_mock_paths`].
 #'
 #' You only need to use one approach: either use `start_mock_db()` to start
 #' using mocks and then `stop_mock_db()` to stop or use `with_mock_db()` wrapped

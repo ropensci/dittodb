@@ -23,7 +23,8 @@ nothing
 Start and stop using a mocked database with \code{start_mock_db()} and
 \code{stop_mock_db()} respectively. Alternatively, you can wrap a chunk of code in
 \code{with_mock_db()} to execute the whole thing without needing to remember to
-stop the mocking.
+stop the mocking.When testing with \code{dittodb}, it will look for fixtures in
+all entries of \code{\link{db_mock_paths}}.
 }
 \details{
 You only need to use one approach: either use \code{start_mock_db()} to start
