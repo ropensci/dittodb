@@ -1,5 +1,5 @@
 skip_env <- function(which = c("RPostgres", "RMariaDB", "RPostgreSQL", "odbc")) {
-  if (any(c("RPostgres", "RPostgreSQL") %in% which) &&
+  if (any(c("RPostgres", "RPostgreSQL", "odbc") %in% which) &&
       tolower(Sys.getenv("DITTODB_ENABLE_PG")) != "true") {
     skip("Skipping tests that need functioning Postgres.")
   }
