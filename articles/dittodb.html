@@ -95,7 +95,7 @@
 </h1>
                         <h4 class="author">Jonathan Keane</h4>
             
-            <h4 class="date">2020-04-25</h4>
+            <h4 class="date">2020-04-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonkeane/dittodb/blob/master/vignettes/dittodb.Rmd"><code>vignettes/dittodb.Rmd</code></a></small>
       <div class="hidden name"><code>dittodb.Rmd</code></div>
@@ -230,9 +230,9 @@
 <div id="specify-a-new-path" class="section level3">
 <h3 class="hasAnchor">
 <a href="#specify-a-new-path" class="anchor"></a>Specify a new path</h3>
-<p>You can control where mocks are read from (when you’re using <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>) as well as where they are written to (when using <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>). To do this, use the function [<code><a href="../reference/mockPaths.html">.db_mock_paths()</a></code>].</p>
-<p>You can see what paths are being used by calling <code><a href="../reference/mockPaths.html">.db_mock_paths()</a></code> with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by <code><a href="../reference/mockPaths.html">.db_mock_paths()</a></code>.</p>
-<p>You can add a new path by calling <code><a href="../reference/mockPaths.html">.db_mock_paths("new/path/here")</a></code> which will add the path provided to the top of the list of paths to use.</p>
+<p>You can control where mocks are read from (when you’re using <code><a href="../reference/with_mock_db.html">with_mock_db(...)</a></code>) as well as where they are written to (when using <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>). To do this, use the function [<code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>].</p>
+<p>You can see what paths are being used by calling <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code> with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>.</p>
+<p>You can add a new path by calling <code><a href="../reference/mockPaths.html">db_mock_paths("new/path/here")</a></code> which will add the path provided to the top of the list of paths to use.</p>
 </div>
 <div id="redacting" class="section level3">
 <h3 class="hasAnchor">

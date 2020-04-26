@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set an alternate directory for mock API fixtures — .db_mock_paths • dittodb</title>
+<title>Set an alternate directory for mock API fixtures — mockPaths • dittodb</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,10 @@
 
 
 
-<meta property="og:title" content="Set an alternate directory for mock API fixtures — .db_mock_paths" />
+<meta property="og:title" content="Set an alternate directory for mock API fixtures — mockPaths" />
 <meta property="og:description" content="By default, with_mock_api will look for mocks relative to the current
 working directory (or the test directory). If you want to look in other
-places, you can call .db_mock_paths to add directories to the search path." />
+places, you can call db_mock_paths to add directories to the search path." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -143,10 +143,12 @@ places, you can call .db_mock_paths to add directories to the search path." />
     <div class="ref-description">
     <p>By default, <code>with_mock_api</code> will look for mocks relative to the current
 working directory (or the test directory). If you want to look in other
-places, you can call <code>.db_mock_paths</code> to add directories to the search path.</p>
+places, you can call <code>db_mock_paths</code> to add directories to the search path.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>.db_mock_paths</span>(<span class='no'>new</span>)</pre>
+    <pre class="usage"><span class='fu'>db_mock_paths</span>(<span class='no'>new</span>)
+
+<span class='fu'>.db_mock_paths</span>(<span class='no'>new</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,18 +170,20 @@ invisibly.</p>
     <p>It works like <code><a href='https://rdrr.io/r/base/libPaths.html'>base::.libPaths()</a></code>: any directories you specify will be added
 to the list and searched first. The default directory will be searched last.
 Only unique values are kept: if you provide a path that is already found in
-<code>.db_mock_paths</code>, the result effectively moves that path to the first
+<code>db_mock_paths</code>, the result effectively moves that path to the first
 position.</p>
 <p>For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option
 "dittodb.mock.paths" directly.</p>
 <p>This function is similar to <code>.mockPaths()</code> from
 <a href='https://CRAN.R-project.org/package=httptest'>httptest</a></p>
+<p>The function <code>.db_mock_paths</code> is the same as <code>db_mock_paths</code> although it is
+deprecated and should not be used.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>.db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>.db_mock_paths</span>(<span class='st'>"/var/somewhere/else"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>.db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"/var/somewhere/else"</span>, <span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>.db_mock_paths</span>(<span class='kw'>NULL</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>.db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>db_mock_paths</span>(<span class='st'>"/var/somewhere/else"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"/var/somewhere/else"</span>, <span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>db_mock_paths</span>(<span class='kw'>NULL</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
