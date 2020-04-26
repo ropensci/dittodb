@@ -2,7 +2,7 @@
 #'
 #' When testing with dittodb, wrap your tests in `with_mock_db({})` to use the
 #' database fixtures. `dittodb` will look for fixtures in all entries of
-#' [`.db_mock_paths`].
+#' [`db_mock_paths`].
 #'
 #' Connections should be made inside of `with_mock_db()` because `dittodb` uses
 #' the database name (given in `dbname` or `Database` argument of [`dbConnect`]

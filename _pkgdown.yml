@@ -8,8 +8,8 @@ reference:
   contents:
   - capture_requests
   - with_mock_db
+  - mockPaths
   - redact_columns
-  - .db_mock_paths
   - driver-specifc-mock-connections
 - title: Mock DB methods
   contents:

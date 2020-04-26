@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-.db_mock_paths("dittodb")
+db_mock_paths("dittodb")
 ```
 
 `dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
@@ -172,11 +172,11 @@ There are a number of advanced features that might be useful. However they take 
 
 ### Specify a new path
 
-You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`.db_mock_paths()`]. 
+You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`db_mock_paths()`]. 
 
-You can see what paths are being used by calling `.db_mock_paths()` with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by `.db_mock_paths()`.
+You can see what paths are being used by calling `db_mock_paths()` with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by `db_mock_paths()`.
 
-You can add a new path by calling `.db_mock_paths("new/path/here")` which will add the path provided to the top of the list of paths to use.
+You can add a new path by calling `db_mock_paths("new/path/here")` which will add the path provided to the top of the list of paths to use.
 
 ### Redacting
 
