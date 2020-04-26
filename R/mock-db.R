@@ -81,14 +81,10 @@ with_mock_db <- function(expr) {
   )
 }
 
-# the @useDynLib dittodb reassign_function shouldn't be necesary with this, but
-# they were
 #' @useDynLib dittodb, .registration = TRUE
 NULL
 
 #' @rdname mockdb
-#' @useDynLib dittodb reassign_function
-#' @useDynLib dittodb duplicate_
 #' @export
 start_mock_db <- function() {
   # store the original function for DBI::dbConnect() for use by stop_mock_db()
