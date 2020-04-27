@@ -105,8 +105,7 @@ test_that("testing_port", {
     list(
       "DITTODB_MARIA_TEST_PORT" = NA,
       "DITTODB_PG_TEST_PORT" = NA
-    ),
-    {
+    ), {
       expect_identical(testing_port("maria"), 3306L)
       expect_identical(testing_port("postgres"), 5432L)
     }
@@ -117,8 +116,7 @@ test_that("testing_port", {
     list(
       "DITTODB_MARIA_TEST_PORT" = "6033",
       "DITTODB_PG_TEST_PORT" = "2345"
-    ),
-    {
+    ), {
       expect_identical(testing_port("maria"), 6033L)
       expect_identical(testing_port("postgres"), 2345L)
     }
