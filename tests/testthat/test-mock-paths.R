@@ -39,5 +39,13 @@ withr::with_options(
         expect_identical(db_mock_paths(), "baz")
       })
     })
+
+    test_that(".db_mock_paths is deprecated", {
+      expect_warning(
+        expect_identical(.db_mock_paths(), c("tests/testthat/", ".")),
+        "'.db_mock_paths' is deprecated.\nUse 'db_mock_paths' instead.",
+        fixed = TRUE
+      )
+    })
   }
 )

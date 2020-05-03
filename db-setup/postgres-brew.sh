@@ -1,5 +1,4 @@
 rm -rf /usr/local/var/postgres
-rm -rf /usr/local/bin/psql
 # for odbc tests, we need to also install the odbc drivers
 # we might also need to install unixodbc here if it's not already installed.
 brew install postgresql psqlodbc
