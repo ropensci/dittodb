@@ -91,11 +91,34 @@ test_that("sanitize_table_id()", {
   )
 })
 
-
 test_that("%||%", {
   a <- "a"
   b <- "b"
   expect_identical(a %||% b, a)
   expect_identical(NULL %||% b, b)
   expect_identical(NA %||% b, NA)
+})
+
+test_that("testing_port", {
+  # ensure our default tests are really default (that is: unset envvars)
+  withr::with_envvar(
+    list(
+      "DITTODB_MARIA_TEST_PORT" = NA,
+      "DITTODB_PG_TEST_PORT" = NA
+    ), {
+      expect_identical(testing_port("maria"), 3306L)
+      expect_identical(testing_port("postgres"), 5432L)
+    }
+  )
+
+  # now use new envvars
+  withr::with_envvar(
+    list(
+      "DITTODB_MARIA_TEST_PORT" = "6033",
+      "DITTODB_PG_TEST_PORT" = "2345"
+    ), {
+      expect_identical(testing_port("maria"), 6033L)
+      expect_identical(testing_port("postgres"), 2345L)
+    }
+  )
 })
