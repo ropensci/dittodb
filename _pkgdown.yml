@@ -35,5 +35,7 @@ navbar:
          href: articles/travelling.html
       -  text: nycflights data
          href: articles/nycflights.html
+      -  text: Developing dittodb
+         href: articles/developing-dittodb.html
     - text: News
       href: news/
