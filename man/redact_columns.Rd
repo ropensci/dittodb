@@ -40,3 +40,21 @@ values based on the columns type:
 \item \code{POSIXct} (date times) -- \code{as.POSIXct("1988-10-11T17:00:00", tz = tzone)}
 }
 }
+\examples{
+small_flights <- head(nycflights13::flights)
+
+# with no columns specified, redacting does nothing
+redact_columns(small_flights, columns = NULL)
+
+# integer
+redact_columns(small_flights, columns = c("arr_time"))
+
+# numeric
+redact_columns(small_flights, columns = c("arr_delay"))
+
+# characters
+redact_columns(small_flights, columns = c("origin", "dest"))
+
+# datetiems
+redact_columns(small_flights, columns = c("time_hour"))
+}

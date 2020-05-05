@@ -34,6 +34,20 @@ withr::with_options(
       expect_identical(db_mock_paths(), c("tests/testthat/", "."))
     })
 
+    test_that("we can add to the beginning", {
+      db_mock_paths("beginning")
+      expect_identical(db_mock_paths(), c("beginning", "tests/testthat/", "."))
+      # cleanup
+      db_mock_paths(NULL)
+    })
+
+    test_that("and we can add to the end", {
+      db_mock_paths("end", last = TRUE)
+      expect_identical(db_mock_paths(), c("tests/testthat/", ".", "end"))
+      # cleanup
+      db_mock_paths(NULL)
+    })
+
     test_that("with_mock_path can replace", {
       with_mock_path("baz", replace = TRUE, {
         expect_identical(db_mock_paths(), "baz")

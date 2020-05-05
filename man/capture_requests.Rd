@@ -42,23 +42,40 @@ specific database you're connecting to when you call \code{\link[DBI:dbConnect]{
 }
 \examples{
 \dontrun{
-start_db_capturing()
-con <- dbConnect(RSQLite::SQLite(), "memory")
+# Temporary files for examples
+nycflights_path <- tempfile()
 
-df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
-res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
+con <- nycflights13_sqlite(location = nycflights_path)
+dbDisconnect(con)
+
+start_db_capturing()
+con <- dbConnect(RSQLite::SQLite(), nycflights_path)
+
+df_1 <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
+res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
 df_2 <- dbFetch(res)
+dbClearResult(res)
 
 dbDisconnect(con)
 stop_db_capturing()
 
 start_db_capturing(redact_columns = "carrier")
-con <- dbConnect(RSQLite::SQLite(), "memory")
+con <- dbConnect(RSQLite::SQLite(), nycflights_path)
 
-df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
+df_3 <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 3")
 
 dbDisconnect(con)
 stop_db_capturing()
+
+with_mock_db({
+  con <- dbConnect(RSQLite::SQLite(), nycflights_path)
+
+  # the result from df1 above
+  print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"))
+
+  # the result from df3 above
+  print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"))
+})
 }
 }
 \keyword{internal}
