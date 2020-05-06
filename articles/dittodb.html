@@ -154,21 +154,21 @@
 <span id="cb4-6"><a href="#cb4-6"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(out, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))</span>
 <span id="cb4-7"><a href="#cb4-7"></a>  <span class="kw"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
 <span id="cb4-8"><a href="#cb4-8"></a>})</span></code></pre></div>
-<p>And this works just fine if we only ever run your tests locally, but if we want to <a href="http://r-pkgs.had.co.nz/check.html#check">run our tests with a Continuous Integration system</a> (and yes, we want to do that!), this won’t work without first setting up our production database of flights. For our tests, we don’t actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of running the test code, and then be able to use that recorded snapshot when we run tests later.</p>
-<div id="recording-snapshots" class="section level2">
+<p>And this works just fine if we only ever run your tests locally, but if we want to <a href="http://r-pkgs.had.co.nz/check.html#check">run our tests with a Continuous Integration system</a> (and yes, we want to do that!), this won’t work without first setting up our production database of flights. For our tests, we don’t actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of what happens when running the test code, and then be able to use that snapshot when we run tests later. These snapshots are frequently called fixtures (though you might hear people use other names like stubs or mocks).</p>
+<div id="recording-fixtures" class="section level2">
 <h2 class="hasAnchor">
-<a href="#recording-snapshots" class="anchor"></a>Recording snapshots</h2>
-<p>We can record snapshots of the database interactions with the commands <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>, run the functions we want to record, and then stop recording with <code><a href="../reference/capture_requests.html">stop_db_capturing()</a></code>.</p>
+<a href="#recording-fixtures" class="anchor"></a>Recording fixtures</h2>
+<p>We can record fixtures of the database interactions with the commands <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>, run the functions we want to record, and then stop recording with <code><a href="../reference/capture_requests.html">stop_db_capturing()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()</span>
 <span id="cb5-2"><a href="#cb5-2"></a>out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
-<p>This will write a new folder (by default in <code>./tests/testthat/</code>) with the name of the database (here: <code>nycflights</code>) and then write one file with the name <code>SELECT-e53189.R</code> which is the snapshot for this example. This <code>SELECT-*</code> file contains the data that was received from the database for use in tests.</p>
+<p>This will write a new folder (by default in <code>./tests/testthat/</code>) with the name of the database (here: <code>nycflights</code>) and then write one file with the name <code>SELECT-e53189.R</code> which is the fixture for this example. This <code>SELECT-*</code> file contains the data that was received from the database for use in tests.</p>
 </div>
 <div id="with_mock_db" class="section level2">
 <h2 class="hasAnchor">
 <a href="#with_mock_db" class="anchor"></a><code>with_mock_db()</code>
 </h2>
-<p>Now that we have a snapshot, we can use that snapshot by wrapping our call that includes a database interaction with the function <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This will look for snapshots and use those.</p>
+<p>Now that we have a fixture, we can use that fixture by wrapping our call that includes a database interaction with the function <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This will look for fixtures and use those.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3"></a>)</span>
@@ -196,8 +196,8 @@
 <span id="cb7-8"><a href="#cb7-8"></a>    <span class="kw"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">2</span>))</span>
 <span id="cb7-9"><a href="#cb7-9"></a>  })</span>
 <span id="cb7-10"><a href="#cb7-10"></a>)</span></code></pre></div>
-<p>When placed inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our snapshot <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, or operational.</p>
-<p>If we wanted to test that a day-based aggregation works, we can, although we will have to make a new snapshot. First we would run the following interactively:</p>
+<p>When placed inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our fixture <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, or operational.</p>
+<p>If we wanted to test that a day-based aggregation works, we can, although we will have to make a new fixture. First we would run the following interactively:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()</span>
 <span id="cb8-2"><a href="#cb8-2"></a>out &lt;-<span class="st"> </span><span class="kw">mean_delays</span>(<span class="st">"day"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
@@ -218,12 +218,12 @@
 <h3 class="hasAnchor">
 <a href="#when-to-call-dbconnect" class="anchor"></a>When to call <code>dbConnect()</code>
 </h3>
-<p>Always call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. You can make as many calls as you want to the mock database inside of a <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>, but you should always make sure that you connect to the database inside of and not outside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. This is because when you “connect” to the mock database, a few variables are set that tell dittodb where to look for mocks. It’s less important (though still a good idea) to call <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This is also true when recording snapshots with <code>start_db_recording()</code>, you should start the recording and then call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code>.</p>
+<p>Always call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. You can make as many calls as you want to the mock database inside of a <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>, but you should always make sure that you connect to the database inside of and not outside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code>. This is because when you “connect” to the mock database, a few variables are set that tell dittodb where to look for mocks. It’s less important (though still a good idea) to call <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html">dbDisconnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This is also true when recording fixtures with <code>start_db_recording()</code>, you should start the recording and then call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect()</a></code>.</p>
 </div>
 <div id="query-size" class="section level3">
 <h3 class="hasAnchor">
 <a href="#query-size" class="anchor"></a>Query size</h3>
-<p>Recording snapshots saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you’ll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren’t relevant to the test (you don’t have to change the way data is represented if it’s not important to what you’re testing) and it makes your tests run faster.</p>
+<p>Recording fixtures saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you’ll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren’t relevant to the test (you don’t have to change the way data is represented if it’s not important to what you’re testing) and it makes your tests run faster.</p>
 </div>
 </div>
 <div id="advanced-uses" class="section level2">
@@ -244,10 +244,10 @@
 <pre><code><a href="../reference/capture_requests.html">start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))</a></code></pre>
 <p>This will always redact the columns “sensitive_column” and “other_sensitive_column” every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example “[redacted]” for characters, <code>9</code> for numerics, <code>1988-10-11T17:00:00</code> for date times) see <code><a href="../reference/redact_columns.html">redact_columns()</a></code> for more information.</p>
 </div>
-<div id="you-too-can-write-a-snapshot" class="section level3">
+<div id="you-too-can-write-a-fixture" class="section level3">
 <h3 class="hasAnchor">
-<a href="#you-too-can-write-a-snapshot" class="anchor"></a>You, too, can write a snapshot!</h3>
-<p>When we use <code>start_db_recording()</code> to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. <code>SELECT</code>), a dash, and the hash using the <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.</p>
+<a href="#you-too-can-write-a-fixture" class="anchor"></a>You, too, can write a fixture!</h3>
+<p>When we use <code>start_db_recording()</code> to record fixtures, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. <code>SELECT</code>), a dash, and the hash using the <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.</p>
 <p>You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like “Couldn’t find the file nycflights/SELECT-16d120.R in any of the mock directories.” and use the filename from there.) and then saving the dataframe that you want the test to use with the command <code><a href="https://rdrr.io/r/base/dput.html">dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))</a></code> (if the dataframe you want to save is <code>df</code> and we are using the path we saw in the example error message). And you’ve created your own fixture!</p>
 <p>You can also take the approach of recording fixtures and then editing them manually to pare them down. The workflow for that would be something like:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># read in the recorded fixture</span></span>
@@ -268,7 +268,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#recording-snapshots">Recording snapshots</a></li>
+<li><a href="#recording-fixtures">Recording fixtures</a></li>
       <li><a href="#with_mock_db"><code>with_mock_db()</code></a></li>
       <li><a href="#things-to-be-careful-about">Things to be careful about</a></li>
       <li><a href="#advanced-uses">Advanced uses</a></li>
