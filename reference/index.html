@@ -148,7 +148,27 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-capturing-and-testing" class="hasAnchor"><a href="#section-capturing-and-testing" class="anchor"></a>Capturing and testing</h2>
+          <h2 id="section-mock-db-methods" class="hasAnchor"><a href="#section-mock-db-methods" class="anchor"></a>Mock DB methods</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="mockdb.html">with_mock_db()</a></code> <code><a href="mockdb.html">start_mock_db()</a></code> <code><a href="mockdb.html">stop_mock_db()</a></code> </p>
+        </td>
+        <td><p>Run DBI queries against a mocked database</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="with_mock_path.html">with_mock_path()</a></code> </p>
+        </td>
+        <td><p>Run the DBI queries in an alternate mock directory</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-capturing-fixtures" class="hasAnchor"><a href="#section-capturing-fixtures" class="anchor"></a>Capturing fixtures</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -158,13 +178,15 @@
           <p><code><a href="capture_requests.html">start_db_capturing()</a></code> <code><a href="capture_requests.html">stop_db_capturing()</a></code> </p>
         </td>
         <td><p>Capture and record database transactions and save them as mocks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mockdb.html">with_mock_db()</a></code> <code><a href="mockdb.html">start_mock_db()</a></code> <code><a href="mockdb.html">stop_mock_db()</a></code> </p>
-        </td>
-        <td><p>Run DBI queries against a mocked database</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="mockPaths.html">db_mock_paths()</a></code> <code><a href="mockPaths.html">.db_mock_paths()</a></code> </p>
@@ -179,14 +201,14 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="driver-specifc-mock-connections.html">driver-specifc-mock-connections</a></code> </p>
+          <p><code><a href="set_dittodb_debug_level.html">set_dittodb_debug_level()</a></code> </p>
         </td>
-        <td><p>Driver-specific mock classes</p></td>
+        <td><p>Set dittodb's debug level</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-mock-db-methods" class="hasAnchor"><a href="#section-mock-db-methods" class="anchor"></a>Mock DB methods</h2>
+          <h2 id="section-dbi-methods" class="hasAnchor"><a href="#section-dbi-methods" class="anchor"></a>DBI methods</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -196,12 +218,6 @@
           <p><code><a href="mock-db-methods.html">dbDisconnect(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbWriteTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>,<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbRemoveTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;SQL&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbSendQuery(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbFetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbClearResult(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbHasCompleted(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbColumnInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> </p>
         </td>
         <td><p>Methods for interacting with DB mocks instead of an actual database</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="with_mock_path.html">with_mock_path()</a></code> </p>
-        </td>
-        <td><p>Run the DBI queries in an alternate mock directory</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -230,8 +246,10 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-capturing-and-testing">Capturing and testing</a></li>
       <li><a href="#section-mock-db-methods">Mock DB methods</a></li>
+      <li><a href="#section-capturing-fixtures">Capturing fixtures</a></li>
+      <li><a href="#section-utilities">Utilities</a></li>
+      <li><a href="#section-dbi-methods">DBI methods</a></li>
       <li><a href="#section-test-db-creation">Test DB creation</a></li>
     </ul>
   </div>
