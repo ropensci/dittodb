@@ -73,7 +73,8 @@ setMethod("fetch", signature("DBIMockResult", "missing"), mock_fetch)
 #' @rdname mock-db-methods
 #' @export
 setMethod(
-  "dbClearResult", signature("DBIMockResult"),
+  "dbClearResult",
+  signature("DBIMockResult"),
   function(res, n, ...) return(invisible(TRUE))
 )
 
@@ -81,16 +82,17 @@ setMethod(
 #' @rdname mock-db-methods
 #' @export
 setMethod(
-  "dbHasCompleted", signature("DBIMockResult"),
+  "dbHasCompleted",
+  signature("DBIMockResult"),
   function(res, ...) return(invisible(TRUE))
 )
 
-
 #' @rdname mock-db-methods
 #' @importFrom methods setMethod new
 #' @export
 setMethod(
-  "dbGetQuery", signature("DBIMockRPostgreSQLConnection", "character"),
+  "dbGetQuery",
+  signature("DBIMockRPostgreSQLConnection", "character"),
   function(conn, statement, ...) {
     # TODO: this is really only needed for RPostgreSQL, and even for that, we
     # likely could instead just mock `isPostgresqlIdCurrent` to return a valid
@@ -101,12 +103,12 @@ setMethod(
   }
 )
 
-
 #' @rdname mock-db-methods
 #' @importFrom methods setMethod new
 #' @export
 setMethod(
-  "dbGetQuery", signature("DBIMockRPostgreSQLConnection", "character"),
+  "dbGetQuery",
+  signature("DBIMockRPostgreSQLConnection", "character"),
   function(conn, statement, ...) {
     # TODO: this is really only needed for RPostgreSQL, and even for that, we
     # likely could instead just mock `isPostgresqlIdCurrent` to return a valid
@@ -116,25 +118,3 @@ setMethod(
     return(mock_fetch(res, -1))
   }
 )
-
-# This is only strictly necesary for odbc, RPostgres, RPostgreSQL, and RMariaDB
-# use standard queries to list tables.
-# TODO: investigate if it is better to have a special case for ODBC and use
-# the standard sql for the others or use this code for all.
-#' @rdname mock-db-methods
-#'
-#' @importFrom glue glue
-#'
-#' @export
-setMethod("dbColumnInfo", signature("DBIMockResult"), function(res, ...) {
-  path <- make_path(res@path, "columnInfo", res@hash)
-  return(read_file(find_file(path)))
-})
-
-#' @rdname mock-db-methods
-#'
-#' @export
-setMethod("dbGetInfo", signature("DBIMockResult"), function(dbObj, ...) {
-  path <- make_path(dbObj@path, "resultInfo", dbObj@hash)
-  return(read_file(find_file(path)))
-})
