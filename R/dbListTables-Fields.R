@@ -16,7 +16,6 @@ setMethod("dbListTables", signature("DBIMockConnection"), function(conn, ...) {
   return(list_helper("dbListTables", conn, ...))
 })
 
-
 # We need to be overly-specific with multiple dispatch here because "ANY", even
 # in the second argument won't over-ride the built-in methods.
 .dbListFields <- function(conn, name, ...) {

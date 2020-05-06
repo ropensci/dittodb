@@ -16,6 +16,34 @@ check_for_pkg <- function(package) {
   return(invisible(TRUE))
 }
 
+#' Get the `dbname` from a connection call
+#'
+#' @param dots from the argument being passed to the connection
+#'
+#' @return the name, sanitized if needed
+#'
+#' @keywords internal
+#'
+#' @export
+get_dbname <- function(dots) {
+  # look through dots to grab either dbname or the first unnammed argument
+  named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
+  named_database <- !is.null(dots$Database) && dots$Database != ""
+  unnamed_dbname <- length(dots) > 0 &&
+    (is.null(names(dots[1])) || names(dots[1]) == "")
+  # if there is no name, or it's empty
+  if (named_dbname) {
+    path <- dots$dbname
+  } else if (named_database) {
+    path <- dots$Database
+  } else if (unnamed_dbname) {
+    path <- dots[[1]]
+  } else {
+    stop("There was no dbname, so I don't know where to look for mocks.")
+  }
+  return(db_path_sanitize(path))
+}
+
 #' Switch illegal characters for legal ones
 #'
 #' Inspired by the [fs](https://CRAN.R-project.org/package=fs) package's
