@@ -61,6 +61,15 @@ test_that("debugging helper", {
   )
 })
 
+test_that("set_dittodb_debug_level", {
+  withr::with_options(list(
+    dittodb.debug = 0
+  ), {
+    set_dittodb_debug_level(1)
+    expect_identical(getOption("dittodb.debug"), 1)
+  })
+})
+
 test_that("We ignore quote differences in statements", {
   string_with_quotes <- "Wow\"there'are`a lot of quotes here!"
   expect_identical(
