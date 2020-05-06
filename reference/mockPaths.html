@@ -149,7 +149,7 @@ working directory (or the test directory). If you want to look in other
 places, you can call <code>db_mock_paths</code> to add directories to the search path.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>db_mock_paths</span>(<span class='no'>new</span>)
+    <pre class="usage"><span class='fu'>db_mock_paths</span>(<span class='no'>new</span>, <span class='kw'>last</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>.db_mock_paths</span>(<span class='no'>new</span>)</pre>
 
@@ -158,8 +158,13 @@ places, you can call <code>db_mock_paths</code> to add directories to the search
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>new</th>
-      <td><p>Either a character vector of path(s) to add, or <code>NULL</code> to reset
+      <td><p>either a character vector of path(s) to add, or <code>NULL</code> to reset
 to the default.</p></td>
+    </tr>
+    <tr>
+      <th>last</th>
+      <td><p>a logical, should the new path given be added to the end of the
+list of paths? (default: <code>FALSE</code>)</p></td>
     </tr>
     </table>
 
@@ -175,6 +180,10 @@ to the list and searched first. The default directory will be searched last.
 Only unique values are kept: if you provide a path that is already found in
 <code>db_mock_paths</code>, the result effectively moves that path to the first
 position.</p>
+<p>When you are capturing fixtures (e.g. with <code><a href='capture_requests.html'>start_db_capturing</a></code>), the first
+path is used as the path to save the fixtures in. For this reason, you may
+want to set the <code>last</code> argument to <code>TRUE</code> if you want to read from a
+directory but don't want to write to it.</p>
 <p>For finer-grained control, or to completely override the default behavior
 of searching in the current working directory, you can set the option
 "dittodb.mock.paths" directly.</p>
@@ -184,9 +193,18 @@ of searching in the current working directory, you can set the option
 deprecated and should not be used.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>db_mock_paths</span>(<span class='st'>"/var/somewhere/else"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"/var/somewhere/else"</span>, <span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>db_mock_paths</span>(<span class='kw'>NULL</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># reset mock paths to default</span>
+<span class='fu'>db_mock_paths</span>(<span class='kw'>NULL</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))
+<span class='fu'>db_mock_paths</span>(<span class='st'>"/var/somewhere/else"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"/var/somewhere/else"</span>, <span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))
+<span class='fu'>db_mock_paths</span>(<span class='kw'>NULL</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>))
+<span class='fu'>db_mock_paths</span>(<span class='st'>"/var/somewhere/else"</span>, <span class='kw'>last</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'>db_mock_paths</span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"tests/testthat/"</span>, <span class='st'>"."</span>, <span class='st'>"/var/somewhere/else"</span>))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

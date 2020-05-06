@@ -36,11 +36,12 @@
 
 
 <meta property="og:title" content="Run DBI queries against a mocked database — mockdb" />
-<meta property="og:description" content="Start and stop using a mocked database with start_mock_db() and
-stop_mock_db() respectively. Alternatively, you can wrap a chunk of code in
-with_mock_db() to execute the whole thing without needing to remember to
-stop the mocking.When testing with dittodb, it will look for fixtures in
-all entries of db_mock_paths." />
+<meta property="og:description" content="Wrap a chunk of code in with_mock_db() to use mocked databases that will
+use fixtures instead of connecting to a real database. Alternatively, you can
+start and stop using a mocked database with start_mock_db() and
+stop_mock_db() respectively.to execute the whole thing without needing to
+remember to stop the mocking. When testing with dittodb, it will look for
+fixtures in all entries of db_mock_paths." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -146,11 +147,12 @@ all entries of db_mock_paths." />
     </div>
 
     <div class="ref-description">
-    <p>Start and stop using a mocked database with <code>start_mock_db()</code> and
-<code>stop_mock_db()</code> respectively. Alternatively, you can wrap a chunk of code in
-<code>with_mock_db()</code> to execute the whole thing without needing to remember to
-stop the mocking.When testing with <code>dittodb</code>, it will look for fixtures in
-all entries of <code><a href='mockPaths.html'>db_mock_paths</a></code>.</p>
+    <p>Wrap a chunk of code in <code>with_mock_db()</code> to use mocked databases that will
+use fixtures instead of connecting to a real database. Alternatively, you can
+start and stop using a mocked database with <code>start_mock_db()</code> and
+<code>stop_mock_db()</code> respectively.to execute the whole thing without needing to
+remember to stop the mocking. When testing with <code>dittodb</code>, it will look for
+fixtures in all entries of <code><a href='mockPaths.html'>db_mock_paths</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>with_mock_db</span>(<span class='no'>expr</span>)
@@ -176,7 +178,10 @@ all entries of <code><a href='mockPaths.html'>db_mock_paths</a></code>.</p>
     <p>You only need to use one approach: either use <code>start_mock_db()</code> to start
 using mocks and then <code>stop_mock_db()</code> to stop or use <code>with_mock_db()</code> wrapped
 around the code you want to execute against the mocked database. You don't
-need to (and should not) use both at the same time.</p>
+need to (and should not) use both at the same time. Generally
+<code>with_mock_db()</code> is preferred because it is slightly safer and you don't have
+to remember to <code>stop_mock_db()</code> when you're done. However, it is easier to
+step through tests interactively using <code>start_mock_db()</code>/<code>stop_mock_db()</code>.</p>
 <p>Connections should be made after <code>start_mock_db()</code> if you're using that
 function or they should be made inside of <code>with_mock_db()</code> if you're using
 that function because <code>dittodb</code> uses the database name (given in <code>dbname</code> or
@@ -185,13 +190,35 @@ different fixtures.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>start_mock_db</span>()
+<span class='co'># Add the mocks included with dittodb to the db_mock_paths to use them below</span>
+<span class='fu'><a href='mockPaths.html'>db_mock_paths</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nycflight_mocks"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dittodb"</span>), <span class='kw'>last</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
+<span class='co'># using  `with_mock_db()`</span>
+<span class='fu'>with_mock_db</span>({
+  <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(
+    <span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(),
+    <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"nycflights"</span>
+  )
+
+  <span class='fu'>test_that</span>(<span class='st'>"We get one airline"</span>, {
+    <span class='no'>one_airline</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(
+      <span class='no'>con</span>,
+      <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
+    )
+    <span class='fu'>expect_is</span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
+    <span class='fu'>expect_equal</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
+    <span class='fu'>expect_equal</span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)
+    <span class='fu'>expect_equal</span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
+  })
+})
+
+<span class='co'># using `start_mock_db()` and `stop_mock_db()` (and a different driver)</span>
+<span class='fu'>start_mock_db</span>()
 <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(
   <span class='kw pkg'>RPostgreSQL</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html'>PostgreSQL</a></span>(),
   <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"nycflights"</span>,
   <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
-  <span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"travis"</span>,
+  <span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"some_user"</span>,
   <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>
 )
 
@@ -206,29 +233,8 @@ different fixtures.</p>
   <span class='fu'>expect_equal</span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
 })
 
+<span class='fu'>dbDisconnect</span>(<span class='no'>con</span>)
 <span class='fu'>stop_mock_db</span>()
-
-<span class='co'># or use `with_mock_db()`</span>
-<span class='fu'>with_mock_db</span>({
-  <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(
-    <span class='kw pkg'>RPostgreSQL</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html'>PostgreSQL</a></span>(),
-    <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"nycflights"</span>,
-    <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"127.0.0.1"</span>,
-    <span class='kw'>user</span> <span class='kw'>=</span> <span class='st'>"travis"</span>,
-    <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>
-  )
-
-  <span class='fu'>test_that</span>(<span class='st'>"We get one airline"</span>, {
-    <span class='no'>one_airline</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(
-      <span class='no'>con</span>,
-      <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
-    )
-    <span class='fu'>expect_is</span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
-    <span class='fu'>expect_equal</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
-    <span class='fu'>expect_equal</span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)
-    <span class='fu'>expect_equal</span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
-  })
-})
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
