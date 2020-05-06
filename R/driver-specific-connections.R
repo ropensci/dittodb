@@ -6,7 +6,7 @@
 #' is installed.
 #'
 #' @name driver-specifc-mock-connections
-#'
+#' @keywords internal
 NULL
 
 #' @rdname driver-specifc-mock-connections

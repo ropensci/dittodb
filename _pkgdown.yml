@@ -4,17 +4,21 @@ template:
     bootswatch: flatly
     ganalytics: UA-150741105-1
 reference:
-- title: Capturing and testing
-  contents:
-  - capture_requests
-  - mockdb
-  - mockPaths
-  - redact_columns
-  - driver-specifc-mock-connections
 - title: Mock DB methods
   contents:
-  - mock-db-methods
+  - mockdb
   - with_mock_path
+- title: Capturing fixtures
+  contents:
+  - capture_requests
+- title: Utilities
+  contents:
+  - mockPaths
+  - redact_columns
+  - set_dittodb_debug_level
+- title: DBI methods
+  contents:
+    - mock-db-methods
 - title: Test DB creation
   contents:
   - nycflights13_sql

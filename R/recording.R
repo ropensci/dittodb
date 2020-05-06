@@ -89,7 +89,7 @@ safe_untrace <- function(what, where = sys.frame()) {
 # borrowed from httptest
 quietly <- function(expr) {
   env <- parent.frame()
-  if (dittodb_debug_level(2)) {
+  if (dittodb_debug_level(1)) {
     eval(expr, env)
   } else {
     suppressMessages(eval(expr, env))
@@ -99,7 +99,7 @@ quietly <- function(expr) {
 # borrowed from httptest
 trace_dbi <- function(...,
                       where_list = list(sys.frame(), asNamespace("DBI")),
-                      print = dittodb_debug_level(2)) {
+                      print = dittodb_debug_level(1)) {
   for (place in where_list) {
     quietly(trace(..., print = print, where = place))
   }
