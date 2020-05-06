@@ -6,7 +6,7 @@ redact <- function(data, redactors) {
 
 standard_redactors <- function(data, columns) {
   out <- lapply(columns, function(x) {
-    col <- data[, x]
+    col <- data[[x]]
 
     if (inherits(col, "integer")) {
       return(function(data) return(rep(9L, length(data))))
@@ -54,6 +54,24 @@ standard_redactors <- function(data, columns) {
 #'
 #' @return data, with the columns specified in `columns` duly redacted
 #' @export
+#'
+#' @examples
+#' small_flights <- head(nycflights13::flights)
+#'
+#' # with no columns specified, redacting does nothing
+#' redact_columns(small_flights, columns = NULL)
+#'
+#' # integer
+#' redact_columns(small_flights, columns = c("arr_time"))
+#'
+#' # numeric
+#' redact_columns(small_flights, columns = c("arr_delay"))
+#'
+#' # characters
+#' redact_columns(small_flights, columns = c("origin", "dest"))
+#'
+#' # datetiems
+#' redact_columns(small_flights, columns = c("time_hour"))
 redact_columns <- function(data, columns, ignore.case = TRUE, ...) { # nolint
   columns <- unlist(lapply(
     glue("^{columns}$"),

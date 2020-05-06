@@ -122,3 +122,17 @@ sanitize_table_id <- function(id, ...) {
 
 # borrowed from Neal borrowing from Hadley
 "%||%" <- function(a, b) if (!is.null(a)) a else b # nolint
+
+testing_port <- function(db) {
+  port <- NULL
+
+  if (grepl("maria|mysql", db, ignore.case = TRUE)) {
+    port <- as.integer(Sys.getenv("DITTODB_MARIA_TEST_PORT", "3306"))
+  }
+
+  if (grepl("postgres|psql|pg", db, ignore.case = TRUE)) {
+    port <- as.integer(Sys.getenv("DITTODB_PG_TEST_PORT", "5432"))
+  }
+
+  return(port)
+}

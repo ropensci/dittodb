@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-.db_mock_paths("dittodb")
+db_mock_paths("dittodb")
 ```
 
 `dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
@@ -92,11 +92,11 @@ test_that("mean_delays()", {
 })
 ```
 
-And this works just fine if we only ever run your tests locally, but if we want to [run our tests with a Continuous Integration system](http://r-pkgs.had.co.nz/check.html#check) (and yes, we want to do that!), this won't work without first setting up our production database of flights. For our tests, we don't actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of running the test code, and then be able to use that recorded snapshot when we run tests later.
+And this works just fine if we only ever run your tests locally, but if we want to [run our tests with a Continuous Integration system](http://r-pkgs.had.co.nz/check.html#check) (and yes, we want to do that!), this won't work without first setting up our production database of flights. For our tests, we don't actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of what happens when running the test code, and then be able to use that snapshot when we run tests later. These snapshots are frequently called fixtures (though you might hear people use other names like stubs or mocks).
 
-## Recording snapshots
+## Recording fixtures
 
-We can record snapshots of the database interactions with the commands `start_db_capturing()`, run the functions we want to record, and then stop recording with `stop_db_capturing()`.
+We can record fixtures of the database interactions with the commands `start_db_capturing()`, run the functions we want to record, and then stop recording with `stop_db_capturing()`.
 
 ```{r recording, eval = FALSE}
 start_db_capturing()
@@ -104,11 +104,11 @@ out <- mean_delays("month")
 stop_db_capturing()
 ```
 
-This will write a new folder (by default in `./tests/testthat/`) with the name of the database (here: `nycflights`) and then write one file with the name `SELECT-e53189.R` which is the snapshot for this example. This `SELECT-*` file contains the data that was received from the database for use in tests.
+This will write a new folder (by default in `./tests/testthat/`) with the name of the database (here: `nycflights`) and then write one file with the name `SELECT-e53189.R` which is the fixture for this example. This `SELECT-*` file contains the data that was received from the database for use in tests.
 
 ## `with_mock_db()`
 
-Now that we have a snapshot, we can use that snapshot by wrapping our call that includes a database interaction with the function `with_mock_db()`. This will look for snapshots and use those.
+Now that we have a fixture, we can use that fixture by wrapping our call that includes a database interaction with the function `with_mock_db()`. This will look for fixtures and use those.
 
 ```{r with_mock_1}
 with_mock_db(
@@ -131,9 +131,9 @@ with_mock_db(
 )
 ```
 
-When placed inside of `with_mock_db(...)` a call to `mean_delays("month")` will return what we saved as our snapshot _as if it had actually connected to the database_ without needing the database to be installed, reachable, or operational.
+When placed inside of `with_mock_db(...)` a call to `mean_delays("month")` will return what we saved as our fixture _as if it had actually connected to the database_ without needing the database to be installed, reachable, or operational.
 
-If we wanted to test that a day-based aggregation works, we can, although we will have to make a new snapshot. First we would run the following interactively:
+If we wanted to test that a day-based aggregation works, we can, although we will have to make a new fixture. First we would run the following interactively:
 
 ```{r recording_days, eval = FALSE}
 start_db_capturing()
@@ -159,11 +159,11 @@ There are a few things to be careful about when using dittodb.
 
 ### When to call `dbConnect()`
 
-Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dittodb where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording snapshots with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
+Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dittodb where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording fixtures with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
 
 ### Query size
 
-Recording snapshots saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you'll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren't relevant to the test (you don't have to change the way data is represented if it's not important to what you're testing) and it makes your tests run faster.
+Recording fixtures saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you'll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren't relevant to the test (you don't have to change the way data is represented if it's not important to what you're testing) and it makes your tests run faster.
 
 
 ## Advanced uses
@@ -172,11 +172,11 @@ There are a number of advanced features that might be useful. However they take 
 
 ### Specify a new path
 
-You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`.db_mock_paths()`]. 
+You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`db_mock_paths()`]. 
 
-You can see what paths are being used by calling `.db_mock_paths()` with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by `.db_mock_paths()`.
+You can see what paths are being used by calling `db_mock_paths()` with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by `db_mock_paths()`.
 
-You can add a new path by calling `.db_mock_paths("new/path/here")` which will add the path provided to the top of the list of paths to use.
+You can add a new path by calling `db_mock_paths("new/path/here")` which will add the path provided to the top of the list of paths to use.
 
 ### Redacting
 
@@ -187,9 +187,9 @@ start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_colum
 
 This will always redact the columns "sensitive_column" and "other_sensitive_column" every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example "[redacted]" for characters, `9` for numerics, `1988-10-11T17:00:00` for date times) see `redact_columns()` for more information.
 
-### You, too, can write a snapshot!
+### You, too, can write a fixture!
 
-When we use `start_db_recording()` to record snapshots, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
+When we use `start_db_recording()` to record fixtures, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
 
 You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like "Couldn't find the file nycflights/SELECT-16d120.R in any of the mock directories." and use the filename from there.) and then saving the dataframe that you want the test to use with the command `dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))` (if the dataframe you want to save is `df` and we are using the path we saw in the example error message). And you've created your own fixture!
 

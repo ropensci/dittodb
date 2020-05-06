@@ -17,12 +17,8 @@
 #' block. When you connect to the database, dittodb sets up the mocks for the
 #' specific database you're connecting to when you call [`DBI::dbConnect`].
 #'
-#' `start_capturing()` and `stop_capturing()` do the exact same thing as
-#' `start_db_capturing()` and `stop_db_capturing()`. They are both deprecated so
-#' as not to clash with other packages when loaded.
-#'
 #' @param path the path to record mocks (default if missing: the first path in
-#' `.db_mock_paths()`.
+#' `db_mock_paths()`.
 #' @param redact_columns a character vector of columns to redact. Any column
 #' that matches an entry will be redacted with a standard value for the column
 #' type (e.g. characters will be replaced with "\[redacted\]")
@@ -31,23 +27,40 @@
 #'
 #' @examples
 #' \dontrun{
-#' start_db_capturing()
-#' con <- dbConnect(RSQLite::SQLite(), "memory")
+#' # Temporary files for examples
+#' nycflights_path <- tempfile()
 #'
-#' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
-#' res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
+#' con <- nycflights13_sqlite(location = nycflights_path)
+#' dbDisconnect(con)
+#'
+#' start_db_capturing()
+#' con <- dbConnect(RSQLite::SQLite(), nycflights_path)
+#'
+#' df_1 <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
+#' res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
 #' df_2 <- dbFetch(res)
+#' dbClearResult(res)
 #'
 #' dbDisconnect(con)
 #' stop_db_capturing()
 #'
 #' start_db_capturing(redact_columns = "carrier")
-#' con <- dbConnect(RSQLite::SQLite(), "memory")
+#' con <- dbConnect(RSQLite::SQLite(), nycflights_path)
 #'
-#' df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
+#' df_3 <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 3")
 #'
 #' dbDisconnect(con)
 #' stop_db_capturing()
+#'
+#' with_mock_db({
+#'   con <- dbConnect(RSQLite::SQLite(), nycflights_path)
+#'
+#'   # the result from df1 above
+#'   print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"))
+#'
+#'   # the result from df3 above
+#'   print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"))
+#' })
 #' }
 #' @name capture_requests
 NULL
@@ -111,7 +124,7 @@ method_loaded <- Vectorize(function(method, signature) {
 start_db_capturing <- function(path, redact_columns = NULL) {
   if (!missing(path)) {
     ## Note that this changes state and doesn't reset it
-    .db_mock_paths(path)
+    db_mock_paths(path)
   }
 
   set_redactor(redact_columns)
@@ -120,7 +133,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
     "dbConnect",
     exit = quote({
       .dittodb_env$db_path <- file.path(
-        .db_mock_paths()[1],
+        db_mock_paths()[1],
         get_dbname(list(...))
       )
       dir.create(.dittodb_env$db_path, showWarnings = FALSE, recursive = TRUE)
@@ -272,12 +285,6 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   return(invisible(NULL))
 }
 
-# for backwards compatibility
-#' @rdname capture_requests
-#' @export
-#' @keywords internal
-start_capturing <- start_db_capturing
-
 #' an environment for dittodb storing state
 #'
 #' @export
@@ -301,12 +308,6 @@ stop_db_capturing <- function() {
 
   remove_redactor()
 }
-
-# for backwards compatibility
-#' @rdname capture_requests
-#' @export
-#' @keywords internal
-stop_capturing <- stop_db_capturing
 
 set_redactor <- function(redactors) {
   .dittodb_env$redactor <- redactors

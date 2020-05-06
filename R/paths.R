@@ -35,9 +35,9 @@ hash <- function(string, n = 6) {
 
 read_file <- function(file_path) source(file_path, keep.source = FALSE)$value
 
-# search through .db_mock_paths() to find a file, returning the first
+# search through db_mock_paths() to find a file, returning the first
 find_file <- function(file_path) {
-  for (mock_path in .db_mock_paths()) {
+  for (mock_path in db_mock_paths()) {
     path_to_check <- file.path(mock_path, file_path)
     if (file.exists(path_to_check)) {
       return(path_to_check)

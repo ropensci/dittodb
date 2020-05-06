@@ -20,6 +20,8 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
       DBROOTPASS: r2N5y7V*
+      DITTODB_ENABLE_PG_TESTS: true
+      DITTODB_ENABLE_MARIA_TESTS: true
 
     steps:
       - uses: actions/checkout@v1
@@ -42,7 +44,8 @@ jobs:
 
       - name: Install databases (macOS)
         run: |
-           brew update
+           brew update || brew update
+           brew upgrade
            bash db-setup/postgres-brew.sh
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')

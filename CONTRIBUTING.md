@@ -1,6 +1,7 @@
 # Contributing to `dittodb`
 
-This outlines how to propose a change to `dittodb`.
+This outlines how to propose a change to `dittodb`. For detailed information 
+about developing `dittodb` see the [developing `dittodb` vignette](articles/developing-dittodb.html).
 
 
 ### Fixing typos

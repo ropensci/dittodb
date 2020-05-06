@@ -7,12 +7,11 @@
 .sh$
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
-docs
 ^_pkgdown.yml$
 ^\.github
-dev
 ^presentations
 ^dittodb\.Rcheck$
 ^dittodb.*\.tar\.gz$
 ^dittodb.*\.tgz$
 ^\.lintr$
+^docs$

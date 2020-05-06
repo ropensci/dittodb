@@ -1,0 +1,67 @@
+---
+title: "Developing `dittodb`"
+author: "Jonathan Keane"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{developing-dittodb}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(testthat)
+library(dittodb)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+db_mock_paths("dittodb")
+```
+
+We welcome contributions from anyone, no matter how small or trivial. Documentation additions or typo fixes are especially welcome. For larger, more-functional changes, either see if there is an issue open on Github already, or open one with a proposal of the change you would like to make. Please also see our [code of conduct](../docs/CODE_OF_CONDUCT.html) and [contributing guide](../docs/CONTRIBUTING.html).
+
+Developing `dittodb` requires is a bit more complication than developing other R packages for a few reasons: 1. setting up all of the databases to fully test recording is complicated (which is in some ways the exact reason `dittodb` exists, so you don't have to do this!) and 2. some of the mechanisms that make `dittodb` work aren't commonly used in other R packages.
+
+## Setting up databases
+In order to fully test that `dittodb` works, we aim to have full coverage and test as many database backends as possible for both recording and using as a mocked database. To do this on CI (or even locally) can be finicky to get working (and on the CI front, we did it once, so that you can use `dittodb` and you won't have to setup your own database backend just to run tests!). We include in the repository a few scripts that make it (relatively) easy to setup testing database backends, as well as some scripts that we use to setup database backends on Github Actions.
+
+### What we test
+We currently test against the following database backends with Github Actions for CI: 
+
+* Postgres (with drivers: [RPostgres](https://CRAN.R-project.org/package=RPostgres), [RPostgreSQL](https://CRAN.R-project.org/package=RPostgreSQL), and [odbc](https://CRAN.R-project.org/package=odbc))
+* MariaDB (with driver: [RMariaDB](https://CRAN.R-project.org/package=RMariaDB))
+* SQLite (with driver: [RSQLite](https://CRAN.R-project.org/package=RSQLite))
+
+### How to setup test databases locally
+All of these (with the exception of SQLite) are tested in the test file `test-dbi-generic-integration.R`. However, tests for each database are only run if specific environment variables are set that trigger them. The reason for this is so that it is easy to test locally without needing to setup databases, but we are covered by these tests being run on Github Actions. If you would like to run these tests locally, you can set the following environment variables and run tests as usual (e.g. with `R CMD check`, `devtools::check()`, `devtools::test()`)
+
+* if `DITTODB_ENABLE_PG_TESTS` is `TRUE`, then Postgres-based tests will be run
+* if `DITTODB_ENABLE_MARIA_TESTS` is `TRUE`, then MariaDB-based tests will be run
+
+There are a few scripts included in the `db-setup` folder that are helpful for setting up databases. For local tests, we highly recommend using the docker scripts:
+
+* `db-setup/local-mariadb-docker-setup.sh` which starts (or stops and then starts if it's already running) a docker container, installs MariaDB in that container (running on the default port 3306), and loads the correct test user and test data into the database for running tests.
+* `db-setup/local-postgres-docker-setup.sh` which starts (or stops and then starts if it's already running) a docker container, installs Postgres in that container (running on the default port 5432), and loads the correct test user and test data into the database for running tests.
+
+If you've already got databases running on the default ports (3306 for MariaDB and 5432 for Postgres) and you want to use the docker scripts, we recommend that you change the ports that docker is using for any databases you're already running. You can use the `DITTODB_MARIA_TEST_PORT` and `DITTODB_PG_TEST_PORT` environment variables to change which port `dittodb` uses to connect to the test databases. The docker scripts above will use these environment variables to map ports if they are set (and exported) for convenience. One thing to note: during `dittodb` tests, if some database drivers attempt to connect to not-running or on-the-wrong-port database backends, they can segfault instead of erroring with a more informative error. If you see this, the first thing to check is that the port variables are being set correctly and that the database backend is up and running normally.
+
+Both of these utilize a few SQL scripts for their respective backends. These might be useful if you're manually adding the test data into a database you already have running, but if you're using the docker scripts above, you shouldn't need to use them at all. 
+
+* `db-setup/[mariadb|postgres]-reset.sql` creates the database `nycflights` and test users (dropping them if they already exist so they are fresh).
+* `db-setup/[mariadb|postgres]-nycflights.sql` creates the necessary tables in the `nycflights` database for use in testing.
+* `db-setup/populate-dbs.sh` uses the above scripts to populate the databases on Github Actions.
+
+### ☠️ What not to run ☠️
+The other scripts (e.g. `db-setup/[mariadb|postgres]-brew.sh` and `db-setup/[mariadb|postgres]-docker-container-only.sh`) are only intended for use on Github Actions and should not be run locally. They include commands that will remove files necessary to reset database setups that allow for tests to be run. Running them locally will delete files that you might care about.
+
+## Some of the tricky bits that `dittodb` uses
+In order to provide a seamless experience between using a real database connection and using the mocked version of the database `dittodb` uses some features of R that are pretty uncommon. This is not intended to be a comprehensive description of `dittodb`'s architecture, but a few things that are uncommon or a little strange.
+
+### Recording
+In order to record fixtures while using a real database connection, we use `base::trace()` to add code that inspects the queries (to define unique hashes) and saves the results so that they can be used later. This tracing only happens when using the `start_db_capturing()` functions and should generally not be used during testing by packages that use `dittodb`. Rather, this functionality should generally be used to see what interactions a piece of code to be tested is having with a database and either use or edit and use the fixtures it produces in testing.
+
+### Using a mocked database
+When using fixtures (i.e. with a mocked database), we use `testthat::with_mock()` and some internals to mock the `DBI::dbConnect()` function and replace the true connection with a special mock connection class from `dittodb` (`DBIMockConnection`, though there are specific sub-classes for some drivers, e.g. `DBIMockRPostgresConnection`). Then `dittodb` relies on standard S4 method dispatch to find the appropriate fixture for queries being run during testing. 

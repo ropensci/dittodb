@@ -3,22 +3,16 @@
 \name{capture_requests}
 \alias{capture_requests}
 \alias{start_db_capturing}
-\alias{start_capturing}
 \alias{stop_db_capturing}
-\alias{stop_capturing}
 \title{Capture and record database transactions and save them as mocks}
 \usage{
 start_db_capturing(path, redact_columns = NULL)
 
-start_capturing(path, redact_columns = NULL)
-
 stop_db_capturing()
-
-stop_capturing()
 }
 \arguments{
 \item{path}{the path to record mocks (default if missing: the first path in
-\code{.db_mock_paths()}.}
+\code{db_mock_paths()}.}
 
 \item{redact_columns}{a character vector of columns to redact. Any column
 that matches an entry will be redacted with a standard value for the column
@@ -45,30 +39,43 @@ by always passing the data being saved through \code{\link[=redact_columns]{reda
 \emph{note} You should always call \code{\link[DBI:dbConnect]{DBI::dbConnect}} inside of the capturing
 block. When you connect to the database, dittodb sets up the mocks for the
 specific database you're connecting to when you call \code{\link[DBI:dbConnect]{DBI::dbConnect}}.
-
-\code{start_capturing()} and \code{stop_capturing()} do the exact same thing as
-\code{start_db_capturing()} and \code{stop_db_capturing()}. They are both deprecated so
-as not to clash with other packages when loaded.
 }
 \examples{
 \dontrun{
-start_db_capturing()
-con <- dbConnect(RSQLite::SQLite(), "memory")
+# Temporary files for examples
+nycflights_path <- tempfile()
 
-df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 1")
-res <- dbSendQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 2")
+con <- nycflights13_sqlite(location = nycflights_path)
+dbDisconnect(con)
+
+start_db_capturing()
+con <- dbConnect(RSQLite::SQLite(), nycflights_path)
+
+df_1 <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
+res <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
 df_2 <- dbFetch(res)
+dbClearResult(res)
 
 dbDisconnect(con)
 stop_db_capturing()
 
 start_db_capturing(redact_columns = "carrier")
-con <- dbConnect(RSQLite::SQLite(), "memory")
+con <- dbConnect(RSQLite::SQLite(), nycflights_path)
 
-df_1 <- dbGetQuery(con, "SELECT * FROM rpostgresql.airlines LIMIT 3")
+df_3 <- dbGetQuery(con, "SELECT * FROM airlines LIMIT 3")
 
 dbDisconnect(con)
 stop_db_capturing()
+
+with_mock_db({
+  con <- dbConnect(RSQLite::SQLite(), nycflights_path)
+
+  # the result from df1 above
+  print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"))
+
+  # the result from df3 above
+  print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"))
+})
 }
 }
 \keyword{internal}
