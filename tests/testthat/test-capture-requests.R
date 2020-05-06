@@ -1,6 +1,5 @@
 context("Recording tracing is happening in the right place(s)")
 
-
 with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   start_db_capturing()
 

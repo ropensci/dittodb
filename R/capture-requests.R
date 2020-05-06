@@ -23,7 +23,7 @@
 #' that matches an entry will be redacted with a standard value for the column
 #' type (e.g. characters will be replaced with "\[redacted\]")
 #'
-#' @return NULL (invisibily)
+#' @return `NULL` (invisibily)
 #'
 #' @examples
 #' \dontrun{
@@ -65,47 +65,6 @@
 #' @name capture_requests
 NULL
 
-# borrowed from httptest
-safe_untrace <- function(what, where = sys.frame()) {
-  ## If you attempt to untrace a function (1) that isn't exported from
-  ## whatever namespace it lives in and (2) that isn't currently traced,
-  ## it errors. This prevents that so that it's always safe to call `untrace`
-
-  ## untrace() and get() handle enviroments differently
-  if (is.environment(where)) {
-    env <- where
-  } else {
-    env <- environment(where)
-  }
-
-  if (inherits(
-    try(get(what, env), silent = TRUE),
-    c("functionWithTrace", "standardGenericWithTrace")
-  )) {
-    quietly(untrace(what, where = where))
-  }
-}
-
-# borrowed from httptest
-quietly <- function(expr) {
-  env <- parent.frame()
-  if (dittodb_debug_level(1)) {
-    eval(expr, env)
-  } else {
-    suppressMessages(eval(expr, env))
-  }
-}
-
-# borrowed from httptest
-trace_dbi <- function(...,
-                      where_list = list(sys.frame(), asNamespace("DBI")),
-                      print = dittodb_debug_level(1)) {
-  for (place in where_list) {
-    quietly(trace(..., print = print, where = place))
-  }
-}
-
-
 connection_list <- c(
   "MariaDBConnection",
   "PostgreSQLConnection",
@@ -113,11 +72,6 @@ connection_list <- c(
   "SQLiteConnection",
   "OdbcConnection"
 )
-
-# for detecting if a particular method has been loaded
-method_loaded <- Vectorize(function(method, signature) {
-  return(any(grepl(signature, methods(method))))
-}, vectorize.args = "signature")
 
 #' @rdname capture_requests
 #' @export
@@ -307,6 +261,51 @@ stop_db_capturing <- function() {
   }
 
   remove_redactor()
+}
+
+# for detecting if a particular method has been loaded
+method_loaded <- Vectorize(function(method, signature) {
+  return(any(grepl(signature, methods(method))))
+}, vectorize.args = "signature")
+
+# borrowed from httptest
+safe_untrace <- function(what, where = sys.frame()) {
+  ## If you attempt to untrace a function (1) that isn't exported from
+  ## whatever namespace it lives in and (2) that isn't currently traced,
+  ## it errors. This prevents that so that it's always safe to call `untrace`
+
+  ## untrace() and get() handle enviroments differently
+  if (is.environment(where)) {
+    env <- where
+  } else {
+    env <- environment(where)
+  }
+
+  if (inherits(
+    try(get(what, env), silent = TRUE),
+    c("functionWithTrace", "standardGenericWithTrace")
+  )) {
+    quietly(untrace(what, where = where))
+  }
+}
+
+# borrowed from httptest
+quietly <- function(expr) {
+  env <- parent.frame()
+  if (dittodb_debug_level(1)) {
+    eval(expr, env)
+  } else {
+    suppressMessages(eval(expr, env))
+  }
+}
+
+# borrowed from httptest
+trace_dbi <- function(...,
+                      where_list = list(sys.frame(), asNamespace("DBI")),
+                      print = dittodb_debug_level(1)) {
+  for (place in where_list) {
+    quietly(trace(..., print = print, where = place))
+  }
 }
 
 set_redactor <- function(redactors) {
