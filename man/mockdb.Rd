@@ -20,17 +20,21 @@ stop_mock_db()
 nothing
 }
 \description{
-Start and stop using a mocked database with \code{start_mock_db()} and
-\code{stop_mock_db()} respectively. Alternatively, you can wrap a chunk of code in
-\code{with_mock_db()} to execute the whole thing without needing to remember to
-stop the mocking.When testing with \code{dittodb}, it will look for fixtures in
-all entries of \code{\link{db_mock_paths}}.
+Wrap a chunk of code in \code{with_mock_db()} to use mocked databases that will
+use fixtures instead of connecting to a real database. Alternatively, you can
+start and stop using a mocked database with \code{start_mock_db()} and
+\code{stop_mock_db()} respectively.to execute the whole thing without needing to
+remember to stop the mocking. When testing with \code{dittodb}, it will look for
+fixtures in all entries of \code{\link{db_mock_paths}}.
 }
 \details{
 You only need to use one approach: either use \code{start_mock_db()} to start
 using mocks and then \code{stop_mock_db()} to stop or use \code{with_mock_db()} wrapped
 around the code you want to execute against the mocked database. You don't
-need to (and should not) use both at the same time.
+need to (and should not) use both at the same time. Generally
+\code{with_mock_db()} is preferred because it is slightly safer and you don't have
+to remember to \code{stop_mock_db()} when you're done. However, it is easier to
+step through tests interactively using \code{start_mock_db()}/\code{stop_mock_db()}.
 
 Connections should be made after \code{start_mock_db()} if you're using that
 function or they should be made inside of \code{with_mock_db()} if you're using
@@ -40,13 +44,35 @@ different fixtures.
 }
 \examples{
 \dontrun{
-start_mock_db()
+# Add the mocks included with dittodb to the db_mock_paths to use them below
+db_mock_paths(system.file("nycflight_mocks", package = "dittodb"), last = TRUE)
 
+# using  `with_mock_db()`
+with_mock_db({
+  con <- dbConnect(
+    RSQLite::SQLite(),
+    dbname = "nycflights"
+  )
+
+  test_that("We get one airline", {
+    one_airline <- dbGetQuery(
+      con,
+      "SELECT carrier, name FROM airlines LIMIT 1"
+    )
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+
+# using `start_mock_db()` and `stop_mock_db()` (and a different driver)
+start_mock_db()
 con <- dbConnect(
   RPostgreSQL::PostgreSQL(),
   dbname = "nycflights",
   host = "127.0.0.1",
-  user = "travis",
+  user = "some_user",
   password = ""
 )
 
@@ -61,28 +87,7 @@ test_that("We get one airline", {
   expect_equal(one_airline$name, "Endeavor Air Inc.")
 })
 
+dbDisconnect(con)
 stop_mock_db()
-
-# or use `with_mock_db()`
-with_mock_db({
-  con <- dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = "travis",
-    password = ""
-  )
-
-  test_that("We get one airline", {
-    one_airline <- dbGetQuery(
-      con,
-      "SELECT carrier, name FROM airlines LIMIT 1"
-    )
-    expect_is(one_airline, "data.frame")
-    expect_equal(nrow(one_airline), 1)
-    expect_equal(one_airline$carrier, "9E")
-    expect_equal(one_airline$name, "Endeavor Air Inc.")
-  })
-})
 }
 }
