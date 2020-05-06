@@ -4,14 +4,19 @@
 #' the responses from the database for use in crafting tests.
 #'
 #' You can start capturing with `start_db_capturing()` and end it with
-#' `stop_db_capturing`. All queries run against a database will be executed like
+#' `stop_db_capturing()`. All queries run against a database will be executed like
 #' normal, but their responses will be saved to the mock path given, so that if
 #' you use the same queries later inside of a [`with_mock_db`] block, the
 #' database functions will return as if they had been run against the database.
 #'
+#' Alternatively, you can wrap the code that you are trying to capture in the
+#' function `capture_db_requests({...})` this does the same thing as
+#' `start_db_capturing()` and `stop_db_capturing()` but without needing to
+#' remember to stop the recording.
+#'
 #' You can redact certain columns using the `redact_columns` argument. This will
 #' replace the values in the column with a generic redacted version. This works
-#' by always passing the data being saved through [`redact_columns()`].
+#' by always passing the data being saved through [`redact_columns`].
 #'
 #' _note_ You should always call [`DBI::dbConnect`] inside of the capturing
 #' block. When you connect to the database, dittodb sets up the mocks for the
@@ -261,6 +266,19 @@ stop_db_capturing <- function() {
   }
 
   remove_redactor()
+}
+
+#' @rdname capture_requests
+#' @export
+capture_db_requests <- function(expr, path, redact_columns = NULL) {
+  start_db_capturing(redact_columns = redact_columns)
+  on.exit(stop_db_capturing())
+  where <- parent.frame()
+  if (!missing(path)) {
+    with_mock_path(path, eval(expr, where))
+  } else {
+    eval(expr, where)
+  }
 }
 
 # for detecting if a particular method has been loaded

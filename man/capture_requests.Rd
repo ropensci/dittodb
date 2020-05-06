@@ -4,11 +4,14 @@
 \alias{capture_requests}
 \alias{start_db_capturing}
 \alias{stop_db_capturing}
+\alias{capture_db_requests}
 \title{Capture and record database transactions and save them as mocks}
 \usage{
 start_db_capturing(path, redact_columns = NULL)
 
 stop_db_capturing()
+
+capture_db_requests(expr, path, redact_columns = NULL)
 }
 \arguments{
 \item{path}{the path to record mocks (default if missing: the first path in
@@ -27,14 +30,19 @@ the responses from the database for use in crafting tests.
 }
 \details{
 You can start capturing with \code{start_db_capturing()} and end it with
-\code{stop_db_capturing}. All queries run against a database will be executed like
+\code{stop_db_capturing()}. All queries run against a database will be executed like
 normal, but their responses will be saved to the mock path given, so that if
 you use the same queries later inside of a \code{\link{with_mock_db}} block, the
 database functions will return as if they had been run against the database.
 
+Alternatively, you can wrap the code that you are trying to capture in the
+function \code{capture_db_requests({...})} this does the same thing as
+\code{start_db_capturing()} and \code{stop_db_capturing()} but without needing to
+remember to stop the recording.
+
 You can redact certain columns using the \code{redact_columns} argument. This will
 replace the values in the column with a generic redacted version. This works
-by always passing the data being saved through \code{\link[=redact_columns]{redact_columns()}}.
+by always passing the data being saved through \code{\link{redact_columns}}.
 
 \emph{note} You should always call \code{\link[DBI:dbConnect]{DBI::dbConnect}} inside of the capturing
 block. When you connect to the database, dittodb sets up the mocks for the

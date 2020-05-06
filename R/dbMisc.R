@@ -1,3 +1,6 @@
+#' @include dbQueries-Results.R
+NULL
+
 # Miscellaneous DBI methods from the respective DBI DB implementations
 # TODO: make a list of these so that it's not just copy/paste?
 
