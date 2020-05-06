@@ -106,7 +106,7 @@
 
     
     
-<p><code>dittodb</code> uses the <code>nycflights13</code> dataset (from the <code>nycflights13</code> package) for testing and example purposes.</p>
+<p><code>dittodb</code> uses the <a href="https://CRAN.R-project.org/package=nycflights13"><code>nycflights13</code></a> dataset for testing and example purposes.</p>
 <div id="exploring-nycflights13" class="section level1">
 <h1 class="hasAnchor">
 <a href="#exploring-nycflights13" class="anchor"></a>Exploring <code>nycflights13</code>
@@ -117,6 +117,12 @@
 <img src="relational-nycflights.svg" alt=""><p class="caption"><code>nycflights13</code> relational diagram.</p>
 </div>
 </div>
+<div id="adding-nycflights13-data-to-a-database" class="section level1">
+<h1 class="hasAnchor">
+<a href="#adding-nycflights13-data-to-a-database" class="anchor"></a>Adding <code>nycflights13</code> data to a database</h1>
+<p><code>dittodb</code> has a few functions that make loading <code>nycflights13</code> data into a database easier. <code><a href="../reference/nycflights13_sql.html">nycflights13_sql(con, schema = "nycflights")</a></code> will write the <code>nycflights13</code> data to the database connect to with <code>con</code> and write it to the schema <code>nycflights</code>.</p>
+<p>To quickly set up an SQLite version <code><a href="../reference/nycflights13_sqlite.html">nycflights13_sqlite()</a></code> will create an in-memory SQLite database with the <code>nycflights13</code> data.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -126,6 +132,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#exploring-nycflights13">Exploring <code>nycflights13</code></a></li>
+      <li><a href="#adding-nycflights13-data-to-a-database">Adding <code>nycflights13</code> data to a database</a></li>
       </ul>
 </div>
       </div>
