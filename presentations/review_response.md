@@ -24,6 +24,7 @@ Community guidelines comments:
 Other comments:
 * Starting and stopping mocks. Both reviewers mentioned wanting an additional way to start and stop mocking besides `with_mock_db()`. I've added `start_mock_db()` and `stop_mock_db()` to turn mocking on and off. This way people can step through their tests if they want (and this addresses some of the other comments as well). 
 
+
 * Organization I've reorganized some of the methods to be more thematic and all of the methods that work with the various `DBI` methods (e.g. `DBI::dbQueries-Results.R` for query and result focused methods).
 
 * Debugging: thank you for the suggestion, I've added `set_dittodb_debug_level()` and included some documentation about how to use it and what is printed with debugging turned on.
@@ -33,6 +34,7 @@ Other comments:
 * Thank you for catching the bug in `redact_columns()`. I intended for `grep` to work there and possibly even match multiple columns, but it would not have done that without a fix. I've not fixed that and added to the documentation how to use regex to specify more than one column at a time.
 
 * Developer setup, I've added a whole vignette devoted to how to develop `dittodb` and to set up testing databases. I've also reorganized some of the setup scripts to make it easier to see which ones to use, how to turn on the tests for those when you're ready. Finally, I've added a method for changing the ports that are used by the test databases. 
+
 
 @etiennebr's comments
 
