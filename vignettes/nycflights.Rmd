@@ -18,11 +18,9 @@ db_mock_paths("nycflights13")
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```
 
-`dittodb` uses the `nycflights13` dataset (from the `nycflights13` package) for 
-testing and example purposes.
+`dittodb` uses the [`nycflights13`](https://CRAN.R-project.org/package=nycflights13) dataset for testing and example purposes.
 
 # Exploring `nycflights13`
-
 The `nycflights13` dataset contains airline on-time data for all flights 
 departing NYC in 2013. It also includes useful 'metadata' on airlines, airports,
 weather, and planes.
@@ -31,3 +29,7 @@ Have a look to the database schema:
 
 ![`nycflights13` relational diagram.](relational-nycflights.svg)
 
+# Adding `nycflights13` data to a database
+`dittodb` has a few functions that make loading `nycflights13` data into a database easier. `nycflights13_sql(con, schema = "nycflights")` will write the `nycflights13` data to the database connect to with `con` and write it to the schema `nycflights`.
+
+To quickly set up an SQLite version `nycflights13_sqlite()` will create an in-memory SQLite database with the `nycflights13` data.
