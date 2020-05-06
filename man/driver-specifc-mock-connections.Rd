@@ -14,3 +14,4 @@ They all inherit from \code{DBIMockConnection} as well as their own driver's
 connection class. Each is only really available if the corresponding package
 is installed.
 }
+\keyword{internal}
