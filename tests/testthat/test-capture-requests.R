@@ -42,6 +42,35 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   )
 
   stop_db_capturing()
+
+  capture_db_requests({
+    test_that("DBI and the top-most dbSenQuery has been traced", {
+      # the first instance of dbSendQuery is mocked:
+      expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
+
+      # the DBI namespace instance of dbQuery is also mocked:
+      dbi_ind <- which(getAnywhere("dbSendQuery")$where == "namespace:DBI")
+      expect_s4_class(
+        getAnywhere("dbSendQuery")[dbi_ind],
+        "standardGenericWithTrace"
+      )
+    })
+  })
+
+  # while setting a path
+  capture_db_requests(path = tempdir(), {
+    test_that("DBI and the top-most dbSenQuery has been traced", {
+      # the first instance of dbSendQuery is mocked:
+      expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
+
+      # the DBI namespace instance of dbQuery is also mocked:
+      dbi_ind <- which(getAnywhere("dbSendQuery")$where == "namespace:DBI")
+      expect_s4_class(
+        getAnywhere("dbSendQuery")[dbi_ind],
+        "standardGenericWithTrace"
+      )
+    })
+  })
 })
 
 test_that("set_redactor sets and unsets", {

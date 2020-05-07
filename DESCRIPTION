@@ -55,3 +55,17 @@ RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Language: en-US
 VignetteBuilder: knitr
+Collate: 
+    'capture-requests.R'
+    'connection.R'
+    'dbListTables-Fields.R'
+    'driver-specific-connections.R'
+    'dbQueries-Results.R'
+    'dbMisc.R'
+    'mock-db.R'
+    'mock-paths.R'
+    'nycflights13_sql.R'
+    'paths.R'
+    'quote.R'
+    'redact.R'
+    'utils.R'

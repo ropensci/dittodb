@@ -1,3 +1,6 @@
+#' @include driver-specific-connections.R
+NULL
+
 #' @rdname mock-db-methods
 #' @import DBI
 #' @export

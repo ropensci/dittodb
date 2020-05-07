@@ -75,7 +75,7 @@ If we give it the column `"month"`, we get the following dataframe:
 mean_delays("month")
 ```
 
-```{r cooking_show}
+```{r cooking_show, echo = FALSE}
 with_mock_db(mean_delays("month"))
 ```
 
