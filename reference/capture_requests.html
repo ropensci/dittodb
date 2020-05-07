@@ -149,7 +149,9 @@ the responses from the database for use in crafting tests.</p>
 
     <pre class="usage"><span class='fu'>start_db_capturing</span>(<span class='no'>path</span>, <span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>stop_db_capturing</span>()</pre>
+<span class='fu'>stop_db_capturing</span>()
+
+<span class='fu'>capture_db_requests</span>(<span class='no'>expr</span>, <span class='no'>path</span>, <span class='kw'>redact_columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,13 +175,17 @@ type (e.g. characters will be replaced with "[redacted]")</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>You can start capturing with <code>start_db_capturing()</code> and end it with
-<code>stop_db_capturing</code>. All queries run against a database will be executed like
+<code>stop_db_capturing()</code>. All queries run against a database will be executed like
 normal, but their responses will be saved to the mock path given, so that if
 you use the same queries later inside of a <code><a href='mockdb.html'>with_mock_db</a></code> block, the
 database functions will return as if they had been run against the database.</p>
+<p>Alternatively, you can wrap the code that you are trying to capture in the
+function <code>capture_db_requests({...})</code> this does the same thing as
+<code>start_db_capturing()</code> and <code>stop_db_capturing()</code> but without needing to
+remember to stop the recording.</p>
 <p>You can redact certain columns using the <code>redact_columns</code> argument. This will
 replace the values in the column with a generic redacted version. This works
-by always passing the data being saved through <code><a href='redact_columns.html'>redact_columns()</a></code>.</p>
+by always passing the data being saved through <code><a href='redact_columns.html'>redact_columns</a></code>.</p>
 <p><em>note</em> You should always call <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect</a></code> inside of the capturing
 block. When you connect to the database, dittodb sets up the mocks for the
 specific database you're connecting to when you call <code><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>DBI::dbConnect</a></code>.</p>

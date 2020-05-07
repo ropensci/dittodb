@@ -98,7 +98,7 @@
 </h1>
                         <h4 class="author">Jonathan Keane</h4>
             
-            <h4 class="date">2020-05-06</h4>
+            <h4 class="date">2020-05-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonkeane/dittodb/blob/master/vignettes/dittodb.Rmd"><code>vignettes/dittodb.Rmd</code></a></small>
       <div class="hidden name"><code>dittodb.Rmd</code></div>
@@ -131,20 +131,19 @@
 <span id="cb1-20"><a href="#cb1-20"></a>}</span></code></pre></div>
 <p>If we give it the column <code>"month"</code>, we get the following dataframe:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">mean_delays</span>(<span class="st">"month"</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>(<span class="kw">mean_delays</span>(<span class="st">"month"</span>))</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;    month mean_delay</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; 1      1   34.47749</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; 2      2   33.68921</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; 3      3   40.57166</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; 4      4   42.73958</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; 5      5   41.88586</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; 6      6   53.73827</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 7      7   53.95152</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; 8      8   39.51294</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; 9      9   38.80555</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 10    10   29.03665</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 11    11   27.48459</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 12    12   39.72725</span></span></code></pre></div>
+<pre><code>#&gt;    month mean_delay
+#&gt; 1      1   34.47749
+#&gt; 2      2   33.68921
+#&gt; 3      3   40.57166
+#&gt; 4      4   42.73958
+#&gt; 5      5   41.88586
+#&gt; 6      6   53.73827
+#&gt; 7      7   53.95152
+#&gt; 8      8   39.51294
+#&gt; 9      9   38.80555
+#&gt; 10    10   29.03665
+#&gt; 11    11   27.48459
+#&gt; 12    12   39.72725</code></pre>
 <p>Great, now that we have our function we want to test it to make sure it is operating as expected. Normally, we could write something like:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(testthat)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dittodb)</span>

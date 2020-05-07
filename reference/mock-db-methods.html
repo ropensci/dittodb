@@ -140,7 +140,7 @@ used directly, but are part of how dittodb works." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Methods for interacting with DB mocks instead of an actual database</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/jonkeane/dittodb/blob/master/R/listTables.R'><code>R/listTables.R</code></a>, <a href='https://github.com/jonkeane/dittodb/blob/master/R/quote.R'><code>R/quote.R</code></a>, and 2 more</small>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/jonkeane/dittodb/blob/master/R/dbListTables-Fields.R'><code>R/dbListTables-Fields.R</code></a>, <a href='https://github.com/jonkeane/dittodb/blob/master/R/dbQueries-Results.R'><code>R/dbQueries-Results.R</code></a>, and 3 more</small>
     <div class="hidden name"><code>mock-db-methods.Rd</code></div>
     </div>
 
@@ -155,15 +155,6 @@ used directly, but are part of how <code>dittodb</code> works.</p>
 <span class='fu'>dbDisconnect</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection</span>
-<span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for DBIMockConnection,character,data.frame</span>
-<span class='fu'>dbWriteTable</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>value</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for DBIMockConnection,character</span>
-<span class='fu'>dbRemoveTable</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbListTables</span>(<span class='no'>conn</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection,character</span>
@@ -174,12 +165,6 @@ used directly, but are part of how <code>dittodb</code> works.</p>
 
 <span class='co'># S4 method for DBIMockConnection,ANY</span>
 <span class='fu'>dbListFields</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for DBIMockRPostgresConnection,character</span>
-<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for DBIMockRPostgresConnection,SQL</span>
-<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection,character</span>
 <span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
@@ -205,11 +190,26 @@ used directly, but are part of how <code>dittodb</code> works.</p>
 <span class='co'># S4 method for DBIMockRPostgreSQLConnection,character</span>
 <span class='fu'>dbGetQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
 
+<span class='co'># S4 method for DBIMockConnection</span>
+<span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,character,data.frame</span>
+<span class='fu'>dbWriteTable</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>value</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,character</span>
+<span class='fu'>dbRemoveTable</span>(<span class='no'>conn</span>, <span class='no'>name</span>, <span class='no'>...</span>)
+
 <span class='co'># S4 method for DBIMockResult</span>
 <span class='fu'>dbColumnInfo</span>(<span class='no'>res</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockResult</span>
-<span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgresConnection,character</span>
+<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgresConnection,SQL</span>
+<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,22 +224,9 @@ be of class <code>DBIMockConnection</code>)</p></td>
       <td><p>arguments passed on inside of the methods</p></td>
     </tr>
     <tr>
-      <th>dbObj</th>
-      <td><p>a database object (a connection, result, etc.) for use in
-<code>dbGetInfo</code></p></td>
-    </tr>
-    <tr>
       <th>name</th>
       <td><p>name of the table (for <code>dbListFields</code>, <code>dbWriteTable</code>,
 <code>dbRemoveTable</code>)</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>a value (generally a <code>data.frame</code>) for use in <code>dbWriteTable</code></p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>a name to quote (for <code>dbQuoteIdentifier</code>)</p></td>
     </tr>
     <tr>
       <th>statement</th>
@@ -253,6 +240,19 @@ class <code>DBIMockResult</code>)</p></td>
     <tr>
       <th>n</th>
       <td><p>number of results to fetch (ignored)</p></td>
+    </tr>
+    <tr>
+      <th>dbObj</th>
+      <td><p>a database object (a connection, result, etc.) for use in
+<code>dbGetInfo</code></p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>a value (generally a <code>data.frame</code>) for use in <code>dbWriteTable</code></p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>a name to quote (for <code>dbQuoteIdentifier</code>)</p></td>
     </tr>
     </table>
 
