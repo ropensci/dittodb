@@ -13,36 +13,44 @@ vignette: >
 library(dplyr)
 library(dbplyr)
 
-con_psql <- RPostgreSQL::dbConnect(
+con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "dittodb",
-  host = "postgres.server",
-  user = "dittodb",
-  password = "_dittodb_"
+  dbname = "",
+  host = "127.0.0.1",
+  user = "travis",
+  password = "*V7y5N2r"
 )
+DBI::dbSendStatement(con, "CREATE DATABASE travelling")
+DBI::dbDisconnect(con_psql)
 
+
+con_psql <- DBI::dbConnect(
+  drv = DBI::dbDriver("PostgreSQL"),
+  dbname = "travelling",
+  host = "127.0.0.1",
+  user = "travis",
+  password = "*V7y5N2r"
+)
 nycflights13_sql(con_psql)
-
-dbDisconnect(con_psql)
+DBI::dbDisconnect(con_psql)
 
 start_db_capturing(path = "vignettes/")
-
-con_psql <- RPostgreSQL::dbConnect(
+con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "dittodb",
-  host = "postgres.server",
-  user = "dittodb",
-  password = "_dittodb_"
+  dbname = "travelling",
+  host = "127.0.0.1",
+  user = "travis",
+  password = "*V7y5N2r"
 )
 
-tbl(con_psql, in_schema("public", "flights")) %>%
+tbl(con_psql, "flights") %>%
   filter(!is.na(tailnum)) %>%
-  group_by(tailnum) %>%
-  count() %>%
-  filter(n >= 10L)
+  filter(arr_delay >= 180) %>% 
+  select(tailnum) %>%
+  distinct() %>% 
+  collect()
 
 dbDisconnect(con_psql)
-
 stop_db_capturing()
 ```
 
@@ -73,11 +81,12 @@ possible to run outside the office (or even with no internet access at all!).
 # Recording queries
 
 Suppose we are asked to analyze the flights to only show flights with planes 
-that have flown at least 100 flights.
+that have been delayed at least 3 hours.
 
-One would find all planes that have flown at least 100 flights. The only 
-consideration would be to filter those flights with missing tail number or those
-will be treated as a single plane.
+One would find all the flights that have been delayed by over 3 hours, and then 
+only grab the distinct tail numbers. The only consideration would be to filter 
+those flights with missing tail number or those will be treated as a single 
+plane.
 
 We could run the following code to get that data with a direct connection to the 
 database (i.e. at the office):
@@ -85,19 +94,19 @@ database (i.e. at the office):
 library(dplyr)
 library(dbplyr)
 
-con_psql <- RPostgreSQL::dbConnect(
+con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "dittodb",
-  host = "postgres.server",
-  user = "dittodb",
-  password = "_dittodb_"
+  dbname = "travelling",
+  host = "127.0.0.1",
+  user = "travis",
+  password = "*V7y5N2r"
 )
 
-tbl(con_psql, in_schema("public", "flights")) %>%
+tbl(con_psql, "flights") %>%
   filter(!is.na(tailnum)) %>%
-  group_by(tailnum) %>%
-  count() %>%
-  filter(n >= 10L)
+  filter(arr_delay >= 180) %>% 
+  select(tailnum) %>%
+  distinct()
 ```
 
 However, this won't work if we can't connect to our database server. And since 
@@ -128,7 +137,7 @@ library(dittodb)
 
 start_db_capturing()
 
-con_psql <- RPostgreSQL::dbConnect(
+con_psql <- DBI::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "dittodb",
     host = "postgres.server",
@@ -136,14 +145,14 @@ con_psql <- RPostgreSQL::dbConnect(
     password = "_dittodb_"
   )
 
-flights_100 <- tbl(con_psql, in_schema("public", "flights")) %>%
+flights_delayed <- tbl(con_psql, "flights") %>%
   filter(!is.na(tailnum)) %>%
-  group_by(tailnum) %>%
-  count() %>%
-  filter(n >= 10L) %>%
+  filter(arr_delay >= 180) %>% 
+  select(tailnum) %>%
+  distinct() %>%
   collect()
 
-flights_100
+flights_delayed
 
 dbDisconnect(con_psql)
 
@@ -157,22 +166,22 @@ library(dbplyr)
 # this is the same code that is echoed below, but used here to show output that 
 # the chunk above would produce if it were able to connect
 with_mock_db({
-  con_psql <- RPostgreSQL::dbConnect(
+  con_psql <- DBI::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dittodb",
-    host = "postgres.server",
-    user = "dittodb",
-    password = "_dittodb_"
+    dbname = "travelling",
+    host = "127.0.0.1",
+    user = "travis",
+    password = "*V7y5N2r"
   )
 
-  flights_100_from_mock <- tbl(con_psql, in_schema("public", "flights")) %>%
+  flights_delayed_from_mock <- tbl(con_psql, "flights") %>%
     filter(!is.na(tailnum)) %>%
-    group_by(tailnum) %>%
-    count() %>%
-    filter(n >= 10L) %>%
+    filter(arr_delay >= 180) %>% 
+    select(tailnum) %>%
+    distinct() %>% 
     collect()
   
-  flights_100_from_mock
+  flights_delayed_from_mock
 })
 
 # `dbDisconnect` returns TRUE
@@ -187,22 +196,22 @@ access:
 
 ```{r}
 with_mock_db({
-  con_psql <- RPostgreSQL::dbConnect(
+  con_psql <- DBI::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "dittodb",
-    host = "postgres.server",
-    user = "dittodb",
-    password = "_dittodb_"
+    dbname = "travelling",
+    host = "127.0.0.1",
+    user = "travis",
+    password = "*V7y5N2r"
   )
 
-  flights_100_from_mock <- tbl(con_psql, in_schema("public", "flights")) %>%
+  flights_delayed_from_mock <- tbl(con_psql, "flights") %>%
     filter(!is.na(tailnum)) %>%
-    group_by(tailnum) %>%
-    count() %>%
-    filter(n >= 10L) %>%
+    filter(arr_delay >= 180) %>% 
+    select(tailnum) %>%
+    distinct() %>%
     collect()
   
-  flights_100_from_mock
+  flights_delayed_from_mock
 })
 ```
 
