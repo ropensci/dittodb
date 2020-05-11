@@ -52,7 +52,7 @@
 #' # nycflights13_sql(connections$rpostgres, schema = "nycflights13")
 #' }
 nycflights13_sql <- function(con, schema = "", ...) {
-  local_tables <- utils::data(package = "nycflights13")$results[, 3]
+  local_tables <- utils::data(package = "nycflights13")$results[, "Item"]
 
   unique_index <- list(
     airlines = list("carrier"),

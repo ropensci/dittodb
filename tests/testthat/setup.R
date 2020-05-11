@@ -7,6 +7,7 @@ library(DBI)
 library(RSQLite)
 library(glue)
 
+# TODO: use options dittodb.test.user and dittodb.test.pw?
 db_user <- "travis"
 db_pass <- "*V7y5N2r"
 
