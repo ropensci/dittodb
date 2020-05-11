@@ -27,6 +27,8 @@
 #' @param redact_columns a character vector of columns to redact. Any column
 #' that matches an entry will be redacted with a standard value for the column
 #' type (e.g. characters will be replaced with "\[redacted\]")
+#' @param expr an expression to evaluate while capturing requests (for
+#' `capture_db_requests()`)
 #'
 #' @return `NULL` (invisibily)
 #'
@@ -88,43 +90,17 @@ start_db_capturing <- function(path, redact_columns = NULL) {
 
   set_redactor(redact_columns)
 
+  ### functions
+
   quietly(trace_dbi(
     "dbConnect",
-    exit = quote({
-      .dittodb_env$db_path <- file.path(
-        db_mock_paths()[1],
-        get_dbname(list(...))
-      )
-      dir.create(.dittodb_env$db_path, showWarnings = FALSE, recursive = TRUE)
-    })
+    exit = dbConnectTrace
   ))
 
   quietly(trace_dbi(
     "dbSendQuery",
-    exit = quote({
-      if (dittodb_debug_level(1)) {
-        message(
-          "The statement: \n", statement,
-          "\nis being hased to: ", hash(statement)
-        )
-      }
-      .dittodb_env$curr_file_path <- make_path(
-        .dittodb_env$db_path,
-        get_type(statement),
-        hash(statement)
-      )
-    })
+    exit = dbSendQueryTrace
   ))
-
-  #' @export
-  #' @keywords internal
-  recordFetch <- quote({
-    if (dittodb_debug_level(1)) {
-      message("Writing to ", .dittodb_env$curr_file_path)
-    }
-    out <- redact_columns(ans, columns = get_redactor())
-    dput(out, .dittodb_env$curr_file_path, control = c("all", "hexNumeric"))
-  })
 
   quietly(trace_dbi(
     "dbFetch",
@@ -138,48 +114,17 @@ start_db_capturing <- function(path, redact_columns = NULL) {
 
   quietly(trace_dbi(
     "dbListTables",
-    exit = quote({
-      thing <- returnValue()
-      dput(
-        thing,
-        file.path(.dittodb_env$db_path, "dbListTables.R"),
-        control = c("all", "hexNumeric")
-      )
-    })
+    exit = dbListTablesTrace
   ))
 
   quietly(trace_dbi(
     "dbListFields",
-    exit = quote({
-      thing <- returnValue()
-      name <- sanitize_table_id(name, ...)
-      dput(
-        thing,
-        file.path(.dittodb_env$db_path, glue("dbListFields-{name}.R")),
-        control = c("all", "hexNumeric")
-      )
-    })
+    exit = dbListFieldsTrace
   ))
-
 
   quietly(trace_dbi(
     "dbColumnInfo",
-    exit = quote({
-      thing <- returnValue()
-      # TODO: would this be better if we traced the methods using signature?
-      if (inherits(res, "PostgreSQLResult")) {
-        result_info <- RPostgreSQL::postgresqlResultInfo(res)
-        hash <- hash(result_info$statement)
-      } else if (inherits(res, c("MariaDBResult", "PqResult"))) {
-        hash <- hash(res@sql)
-      } else if (inherits(res, "OdbcResult")) {
-        hash <- hash(res@statement)
-      } else {
-        # TODO: some default?
-      }
-      path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
-      dput(thing, path, control = c("all", "hexNumeric"))
-    })
+    exit = dbColumnInfoTrace
   ))
 
   # TODO: for RPostgreSQL to work, we need to prevent RPostgreSQL's
@@ -192,15 +137,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
       quietly(trace_dbi(
         "dbGetInfo",
         signature = conn,
-        exit = quote({
-          thing <- returnValue()
-          path <- make_path(.dittodb_env$db_path, "conInfo", "")
-          if (length(path) > 0) {
-            # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
-            # dbGetInfo in the connection process, don't record mocks then.
-            dput(thing, path, control = c("all", "hexNumeric"))
-          }
-        })
+        exit = dbGetInfoConTrace
       ))
     }
   }
@@ -208,41 +145,121 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   quietly(trace_dbi(
     "dbGetInfo",
     signature = "DBIResult",
-    exit = quote({
-      thing <- returnValue()
-      # TODO: would this be better if we traced the methods individually?
-      if (inherits(dbObj, c("MariaDBResult", "PqResult"))) {
-        hash <- hash(dbObj@sql)
-      } else if (inherits(dbObj, "OdbcResult")) {
-        hash <- hash(dbObj@statement)
-      } else {
-        # TODO: some default?
-      }
-      path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
-      dput(thing, path, control = c("all", "hexNumeric"))
-    })
+    exit = dbGetInfoResultTrace
   ))
 
   if (method_loaded("dbGetInfo", "PostgreSQLResult")) {
     quietly(trace_dbi(
       "dbGetInfo",
       signature = "PostgreSQLResult",
-      exit = quote({
-        thing <- returnValue()
-        result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
-        hash <- hash(result_info$statement)
-        path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
-        if (length(path) > 0) {
-          # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
-          # dbGetInfo in the connection process, don't record mocks then.
-          dput(thing, path, control = c("all", "hexNumeric"))
-        }
-      })
+      exit = dbGetInfoPsqlresultTrace
     ))
   }
 
   return(invisible(NULL))
 }
+
+recordFetch <- quote({
+  if (dittodb_debug_level(1)) {
+    message("Writing to ", .dittodb_env$curr_file_path)
+  }
+  out <- redact_columns(ans, columns = get_redactor())
+  dput(out, .dittodb_env$curr_file_path, control = c("all", "hexNumeric"))
+})
+
+dbConnectTrace <- quote({
+  .dittodb_env$db_path <- file.path(
+    db_mock_paths()[1],
+    get_dbname(list(...))
+  )
+  dir.create(.dittodb_env$db_path, showWarnings = FALSE, recursive = TRUE)
+})
+
+dbSendQueryTrace <- quote({
+  if (dittodb_debug_level(1)) {
+    message(
+      "The statement: \n", statement,
+      "\nis being hased to: ", hash(statement)
+    )
+  }
+  .dittodb_env$curr_file_path <- make_path(
+    .dittodb_env$db_path,
+    get_type(statement),
+    hash(statement)
+  )
+})
+
+dbListTablesTrace <- quote({
+  thing <- returnValue()
+  dput(
+    thing,
+    file.path(.dittodb_env$db_path, "dbListTables.R"),
+    control = c("all", "hexNumeric")
+  )
+})
+
+dbListFieldsTrace <- quote({
+  thing <- returnValue()
+  name <- sanitize_table_id(name, ...)
+  dput(
+    thing,
+    file.path(.dittodb_env$db_path, glue("dbListFields-{name}.R")),
+    control = c("all", "hexNumeric")
+  )
+})
+
+dbGetInfoConTrace <- quote({
+  thing <- returnValue()
+  path <- make_path(.dittodb_env$db_path, "conInfo", "")
+  if (length(path) > 0) {
+    # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
+    # dbGetInfo in the connection process, don't record mocks then.
+    dput(thing, path, control = c("all", "hexNumeric"))
+  }
+})
+
+dbGetInfoResultTrace <- quote({
+  thing <- returnValue()
+  # TODO: would this be better if we traced the methods individually?
+  if (inherits(dbObj, c("MariaDBResult", "PqResult"))) {
+    hash <- hash(dbObj@sql)
+  } else if (inherits(dbObj, "OdbcResult")) {
+    hash <- hash(dbObj@statement)
+  } else {
+    # TODO: some default?
+  }
+  path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
+  dput(thing, path, control = c("all", "hexNumeric"))
+})
+
+dbGetInfoPsqlresultTrace <- quote({
+  thing <- returnValue()
+  result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
+  hash <- hash(result_info$statement)
+  path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
+  if (length(path) > 0) {
+    # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
+    # dbGetInfo in the connection process, don't record mocks then.
+    dput(thing, path, control = c("all", "hexNumeric"))
+  }
+})
+
+dbColumnInfoTrace <- quote({
+  thing <- returnValue()
+  # TODO: would this be better if we traced the methods using signature?
+  if (inherits(res, "PostgreSQLResult")) {
+    result_info <- RPostgreSQL::postgresqlResultInfo(res)
+    hash <- hash(result_info$statement)
+  } else if (inherits(res, c("MariaDBResult", "PqResult"))) {
+    hash <- hash(res@sql)
+  } else if (inherits(res, "OdbcResult")) {
+    hash <- hash(res@statement)
+  } else {
+    # TODO: some default?
+  }
+  path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
+  dput(thing, path, control = c("all", "hexNumeric"))
+})
 
 #' an environment for dittodb storing state
 #'
