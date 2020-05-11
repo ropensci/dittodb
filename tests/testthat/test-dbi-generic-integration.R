@@ -11,7 +11,7 @@ db_pkgs <- list(
     RMariaDB::MariaDB(),
     dbname = "nycflights",
     host = "127.0.0.1",
-    username = "travis",
+    username = db_user,
     password = "",
     port = testing_port("maria")
   )),

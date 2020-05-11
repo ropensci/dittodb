@@ -17,8 +17,8 @@ con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
   dbname = "",
   host = "127.0.0.1",
-  user = "travis",
-  password = "*V7y5N2r"
+  user = getOption("dittodb.test.user"),
+  password = getOption("dittodb.test.pw")
 )
 DBI::dbSendStatement(con, "CREATE DATABASE travelling")
 DBI::dbDisconnect(con_psql)
@@ -28,8 +28,8 @@ con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
   dbname = "travelling",
   host = "127.0.0.1",
-  user = "travis",
-  password = "*V7y5N2r"
+  user = getOption("dittodb.test.user"),
+  password = getOption("dittodb.test.pw")
 )
 nycflights13_sql(con_psql)
 DBI::dbDisconnect(con_psql)
@@ -39,8 +39,8 @@ con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
   dbname = "travelling",
   host = "127.0.0.1",
-  user = "travis",
-  password = "*V7y5N2r"
+  user = getOption("dittodb.test.user"),
+  password = getOption("dittodb.test.pw")
 )
 
 tbl(con_psql, "flights") %>%
@@ -98,8 +98,7 @@ con_psql <- DBI::dbConnect(
   drv = DBI::dbDriver("PostgreSQL"),
   dbname = "travelling",
   host = "127.0.0.1",
-  user = "travis",
-  password = "*V7y5N2r"
+  user = "m.ciccone"
 )
 
 tbl(con_psql, "flights") %>%
@@ -114,9 +113,9 @@ However, this won't work if we can't connect to our database server. And since
 our office, we couldn't run this code and get a result elsewhere. But what if we 
 wanted to continue work on this analysis on the train home?
 
-*Important:* This was just an example. Please never write your passwords in 
-scripts, use your `.Rprofile`, an environment variable, or some other 
-more-secure method instead.
+*Important:* This example is using phony authentication. Please never write your 
+passwords in scripts, use your `.Rprofile`, an environment variable, or some other 
+more secure method instead.
 
 One option would be saving a CSV or TXT file of the data manually, and then
 manually reading it in to our R session. But this has a number of drawbacks: we
@@ -141,8 +140,7 @@ con_psql <- DBI::dbConnect(
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "dittodb",
     host = "postgres.server",
-    user = "dittodb",
-    password = "_dittodb_"
+    user = "m.ciccone"
   )
 
 flights_delayed <- tbl(con_psql, "flights") %>%
@@ -170,8 +168,7 @@ with_mock_db({
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "travelling",
     host = "127.0.0.1",
-    user = "travis",
-    password = "*V7y5N2r"
+    user = "m.ciccone"
   )
 
   flights_delayed_from_mock <- tbl(con_psql, "flights") %>%
@@ -200,8 +197,7 @@ with_mock_db({
     drv = DBI::dbDriver("PostgreSQL"),
     dbname = "travelling",
     host = "127.0.0.1",
-    user = "travis",
-    password = "*V7y5N2r"
+    user = "m.ciccone"
   )
 
   flights_delayed_from_mock <- tbl(con_psql, "flights") %>%
