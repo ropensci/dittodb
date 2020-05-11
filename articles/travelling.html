@@ -97,7 +97,7 @@
       <h1>Recording SQL queries with dittodb for travelling</h1>
                         <h4 class="author">Mauricio Vargas</h4>
             
-            <h4 class="date">2020-05-08</h4>
+            <h4 class="date">2020-05-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonkeane/dittodb/blob/master/vignettes/travelling.Rmd"><code>vignettes/travelling.Rmd</code></a></small>
       <div class="hidden name"><code>travelling.Rmd</code></div>
@@ -116,68 +116,65 @@
 <div id="recording-queries" class="section level1">
 <h1 class="hasAnchor">
 <a href="#recording-queries" class="anchor"></a>Recording queries</h1>
-<p>Suppose we are asked to analyze the flights to only show flights with planes that have flown at least 100 flights.</p>
-<p>One would find all planes that have flown at least 100 flights. The only consideration would be to filter those flights with missing tail number or those will be treated as a single plane.</p>
+<p>Suppose we are asked to analyze the flights to only show flights with planes that have been delayed at least 3 hours.</p>
+<p>One would find all the flights that have been delayed by over 3 hours, and then only grab the distinct tail numbers. The only consideration would be to filter those flights with missing tail number or those will be treated as a single plane.</p>
 <p>We could run the following code to get that data with a direct connection to the database (i.e. at the office):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dbplyr)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
+<span id="cb1-4"><a href="#cb1-4"></a>con_psql &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(</span>
 <span id="cb1-5"><a href="#cb1-5"></a>  <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="dt">host =</span> <span class="st">"postgres.server"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>  <span class="dt">user =</span> <span class="st">"dittodb"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>  <span class="dt">password =</span> <span class="st">"_dittodb_"</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="kw"><a href="https://dbplyr.tidyverse.org/reference/in_schema.html">in_schema</a></span>(<span class="st">"public"</span>, <span class="st">"flights"</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(tailnum)) <span class="op">%&gt;%</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(tailnum) <span class="op">%&gt;%</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(n <span class="op">&gt;=</span><span class="st"> </span>10L)</span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">dbname =</span> <span class="st">"travelling"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="dt">host =</span> <span class="st">"127.0.0.1"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="dt">user =</span> <span class="st">"m.ciccone"</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="st">"flights"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(tailnum)) <span class="op">%&gt;%</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(arr_delay <span class="op">&gt;=</span><span class="st"> </span><span class="dv">180</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(tailnum) <span class="op">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>()</span></code></pre></div>
 <p>However, this won’t work if we can’t connect to our database server. And since <code>postgres.server</code> is an alias to an IP only accessible from the local network at our office, we couldn’t run this code and get a result elsewhere. But what if we wanted to continue work on this analysis on the train home?</p>
-<p><em>Important:</em> This was just an example. Please never write your passwords in scripts, use your <code>.Rprofile</code>, an environment variable, or some other more-secure method instead.</p>
+<p><em>Important:</em> This example is using phony authentication. Please never write your passwords in scripts, use your <code>.Rprofile</code>, an environment variable, or some other more secure method instead.</p>
 <p>One option would be saving a CSV or TXT file of the data manually, and then manually reading it in to our R session. But this has a number of drawbacks: we have to mentally keep track of where each query is from, save it to the right file, read it in to the right place, etc. We also have to maintain a separate system or code path for reading in the saved files. <code>dittodb</code> can take care of all of this for us in the background, allowing us to record the results of the necessary queries, and playing them back when those same queries are called without a connection to the database.</p>
 <p>While we are able to connect to the database (i.e. when we are at the office) we can save the results returned by queries with code like the following (by calling <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code> before the connection and the code that executes the queries and then <code><a href="../reference/capture_requests.html">stop_db_capturing()</a></code> at the end):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dittodb)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()</span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
+<span id="cb2-5"><a href="#cb2-5"></a>con_psql &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(</span>
 <span id="cb2-6"><a href="#cb2-6"></a>    <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
 <span id="cb2-7"><a href="#cb2-7"></a>    <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>
 <span id="cb2-8"><a href="#cb2-8"></a>    <span class="dt">host =</span> <span class="st">"postgres.server"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="dt">user =</span> <span class="st">"dittodb"</span>,</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    <span class="dt">password =</span> <span class="st">"_dittodb_"</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>  )</span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a>flights_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="kw"><a href="https://dbplyr.tidyverse.org/reference/in_schema.html">in_schema</a></span>(<span class="st">"public"</span>, <span class="st">"flights"</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(tailnum)) <span class="op">%&gt;%</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(tailnum) <span class="op">%&gt;%</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(n <span class="op">&gt;=</span><span class="st"> </span>10L) <span class="op">%&gt;%</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/compute.html">collect</a></span>()</span>
-<span id="cb2-19"><a href="#cb2-19"></a></span>
-<span id="cb2-20"><a href="#cb2-20"></a>flights_<span class="dv">100</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="kw">dbDisconnect</span>(con_psql)</span>
-<span id="cb2-23"><a href="#cb2-23"></a></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
-<pre><code>## # A tibble: 1,000 x 2
-## # Groups:   tailnum [1,000]
-##    tailnum     n
-##  * &lt;chr&gt;   &lt;dbl&gt;
-##  1 N4XKAA     39
-##  2 N904WN     19
-##  3 N3BWAA     80
-##  4 N3CJAA     56
-##  5 N67052     24
-##  6 N521JB    263
-##  7 N8307K     12
-##  8 N662AW     67
-##  9 N8974C     31
-## 10 N8855A     57
-## # … with 990 more rows</code></pre>
+<span id="cb2-9"><a href="#cb2-9"></a>    <span class="dt">user =</span> <span class="st">"m.ciccone"</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>  )</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>flights_delayed &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="st">"flights"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(tailnum)) <span class="op">%&gt;%</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(arr_delay <span class="op">&gt;=</span><span class="st"> </span><span class="dv">180</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(tailnum) <span class="op">%&gt;%</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>() <span class="op">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/compute.html">collect</a></span>()</span>
+<span id="cb2-18"><a href="#cb2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19"></a>flights_delayed</span>
+<span id="cb2-20"><a href="#cb2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="kw">dbDisconnect</span>(con_psql)</span>
+<span id="cb2-22"><a href="#cb2-22"></a></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="kw"><a href="../reference/capture_requests.html">stop_db_capturing</a></span>()</span></code></pre></div>
+<pre><code>## # A tibble: 1,883 x 1
+##    tailnum
+##  * &lt;chr&gt;  
+##  1 N912XJ 
+##  2 N645JB 
+##  3 N904WN 
+##  4 N3BWAA 
+##  5 N3CJAA 
+##  6 N14972 
+##  7 N667UA 
+##  8 N998AT 
+##  9 N521JB 
+## 10 N16559 
+## # … with 1,873 more rows</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="reproducing-query-results" class="section level1">
@@ -185,38 +182,36 @@
 <a href="#reproducing-query-results" class="anchor"></a>Reproducing query results</h1>
 <p>If there was a success capturing one or more queries, then we are able to replicate the result connected to a different network or even without internet access:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/mockdb.html">with_mock_db</a></span>({</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  con_psql &lt;-<span class="st"> </span>RPostgreSQL<span class="op">::</span><span class="kw">dbConnect</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  con_psql &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    <span class="dt">drv =</span> DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    <span class="dt">dbname =</span> <span class="st">"dittodb"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="dt">host =</span> <span class="st">"postgres.server"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    <span class="dt">user =</span> <span class="st">"dittodb"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7"></a>    <span class="dt">password =</span> <span class="st">"_dittodb_"</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  )</span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a>  flights_<span class="dv">100</span>_from_mock &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="kw"><a href="https://dbplyr.tidyverse.org/reference/in_schema.html">in_schema</a></span>(<span class="st">"public"</span>, <span class="st">"flights"</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(tailnum)) <span class="op">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(tailnum) <span class="op">%&gt;%</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(n <span class="op">&gt;=</span><span class="st"> </span>10L) <span class="op">%&gt;%</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/compute.html">collect</a></span>()</span>
-<span id="cb5-16"><a href="#cb5-16"></a>  </span>
-<span id="cb5-17"><a href="#cb5-17"></a>  flights_<span class="dv">100</span>_from_mock</span>
-<span id="cb5-18"><a href="#cb5-18"></a>})</span></code></pre></div>
-<pre><code>## # A tibble: 1,000 x 2
-## # Groups:   tailnum [1,000]
-##    tailnum     n
-##  * &lt;chr&gt;   &lt;dbl&gt;
-##  1 N4XKAA     39
-##  2 N904WN     19
-##  3 N3BWAA     80
-##  4 N3CJAA     56
-##  5 N67052     24
-##  6 N521JB    263
-##  7 N8307K     12
-##  8 N662AW     67
-##  9 N8974C     31
-## 10 N8855A     57
-## # … with 990 more rows</code></pre>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="dt">dbname =</span> <span class="st">"travelling"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>    <span class="dt">host =</span> <span class="st">"127.0.0.1"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6"></a>    <span class="dt">user =</span> <span class="st">"m.ciccone"</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>  )</span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a>  flights_delayed_from_mock &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con_psql, <span class="st">"flights"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(tailnum)) <span class="op">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(arr_delay <span class="op">&gt;=</span><span class="st"> </span><span class="dv">180</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(tailnum) <span class="op">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>() <span class="op">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/compute.html">collect</a></span>()</span>
+<span id="cb5-15"><a href="#cb5-15"></a>  </span>
+<span id="cb5-16"><a href="#cb5-16"></a>  flights_delayed_from_mock</span>
+<span id="cb5-17"><a href="#cb5-17"></a>})</span></code></pre></div>
+<pre><code>## # A tibble: 1,883 x 1
+##    tailnum
+##  * &lt;chr&gt;  
+##  1 N912XJ 
+##  2 N645JB 
+##  3 N904WN 
+##  4 N3BWAA 
+##  5 N3CJAA 
+##  6 N14972 
+##  7 N667UA 
+##  8 N998AT 
+##  9 N521JB 
+## 10 N16559 
+## # … with 1,873 more rows</code></pre>
 <p>One thing to note is that when using <code>dbplyr</code>, we need to be a bit careful that we wrap the entire interaction in with the database objects in <code>with_mock_db</code> if we are taking advantage of <code>dbplyr</code>’s lazy evaluation (which is by default) and use <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> to return the results when you want them recorded. Because <code>dbplyr</code> waits until the last possible second to request the data, if you don’t have a <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> call (or a call the will implicitly send the query) there won’t be a query called, and <code>dittodb</code> won’t see be able to record the response from that query.</p>
 </div>
   </div>
