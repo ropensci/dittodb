@@ -119,7 +119,7 @@ devtools::install_github("jonkeane/dittodb")
 
 ## Development
 
-Here is extensive information about developing `dittodb` in the vignette [Developing `dittodb`](https://dittodb.jonkeane.com/articles/developing-dittodb.html, please read that before trying to make changes to `dittodb` or running any of the scripts provided in the `db-setup` directory.
+There is extensive information about developing `dittodb` in the vignette [Developing `dittodb`](https://dittodb.jonkeane.com/articles/developing-dittodb.html, please read that before trying to make changes to `dittodb` or running any of the scripts provided in the `db-setup` directory.
 
 In order to test `dittodb` recording functionality locally or on CI, it is helpful to have databases with test data available. This can be accomplished using the scripts in the `db-setup` directory. By default, `dittodb` does not run any tests that require database infrastructure locally.
 
