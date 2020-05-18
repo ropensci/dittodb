@@ -194,7 +194,7 @@
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
-<p>here is extensive information about developing <code>dittodb</code> in the vignette [Developing <code>dittodb</code>](ahttps://dittodb.jonkeane.com/articles/developing-dittodb.html, please read that before trying to make changes to <code>dittodb</code> or running any of the scripts provided in the <code>db-setup</code> directory.</p>
+<p>There is extensive information about developing <code>dittodb</code> in the vignette [Developing <code>dittodb</code>](<a href="https://dittodb.jonkeane.com/articles/developing-dittodb.html" class="uri">https://dittodb.jonkeane.com/articles/developing-dittodb.html</a>, please read that before trying to make changes to <code>dittodb</code> or running any of the scripts provided in the <code>db-setup</code> directory.</p>
 <p>In order to test <code>dittodb</code> recording functionality locally or on CI, it is helpful to have databases with test data available. This can be accomplished using the scripts in the <code>db-setup</code> directory. By default, <code>dittodb</code> does not run any tests that require database infrastructure locally.</p>
 <p>To get local databases, the easiest way is to use docker and run either the <code>db-setup/local-mariadb-docker-setup.sh</code> or <code>db-setup/local-postgres-docker-setup.sh</code> which will pull a docker image and set up a test database with the user and passwords that the <code>dittodb</code> tests are expecting (and will stop and remove the docker images if they are present).</p>
 <p>On continuous integration, (using GitHub Actions) these scripts in the <code>db-setup</code> directory are used to set up these test databases so we can run integration tests (predominantly in the file <code>tests/testthat/test-dbi-generic-integration.R</code>).</p>
@@ -202,7 +202,7 @@
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>lease note that the <code>dittodb</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the <code>dittodb</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
