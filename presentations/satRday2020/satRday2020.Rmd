@@ -1,0 +1,384 @@
+---
+title: "dittodb"
+subtitle: "making testing databases easy"
+author: "Jonathan Keane"
+institute: "Socure"
+date: "2020-05-30 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["xaringan-themer.css", "Azuro.css"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+background-image: url("images/IMG_5793.png")
+background-position: 50% 50%
+background-size: cover
+
+class: inverse, center, top
+
+
+# What is testing?
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(emojifont) 
+library(xaringanthemer)
+style_mono_accent(
+  base_color = "#1c5253",
+  header_font_family = "Azuro",
+  text_font_family = "Azuro",
+  code_font_google   = google_font("Fira Mono"),
+  text_font_size = "1.25rem",
+  colors = c(white = "#FFFFFF", gray = "#898C9C"),
+  header_h2_font_size = "1.75rem",
+  header_h3_font_size = "1.25rem",
+  extra_css = list(
+    ".large" = list(
+      "font-size" = "2.75rem"
+    ),
+    ".inverse > h1 > code" = list(
+      "color" = "var(--inverse-header-color)"
+    ),
+    ".colophon" = list(
+      "font-size" = "0.9rem",
+      "position" = "absolute",
+      "bottom" = 0
+    ),
+    ".flex-box" = list(
+    "display" = "flex",
+    "flex-direction" = "column",
+    "justify-content" = "space-between",
+    "height" = "70%"
+    ),
+    # the first p of .flext-box should have no top-margin
+    ".flex-box > p:first-child" = list(
+      "margin-top" = 0
+    ),
+    ".flex-box > p:last-of-type" = list(
+      "padding-bottom" = "1em"
+    ),
+    ".seventyfive" = list(
+      "width" = "75%",
+      "margin" = "0 auto"
+    )
+  )
+)
+```
+
+---
+class: inverse, center, middle
+
+## A way to check that the code you wrote is doing what you expect it to.
+
+---
+# Easier said than done
+
+<br /><br />
+Any test is better than no tests
+
+--
+<br /><br />
+
+but a good test is worth its (metaphorical) weight in gold
+
+---
+# A good test is ...
+* quick to run
+* expressive
+* doesn't require special set up
+
+--
+
+# But databases are ...
+* (relatively) slow
+* rely on external state or set up
+* requires a connection or custom setup
+
+---
+# CI + DBs = ☠️
+
+Continuous integration (like GitHub Actions, Travis, AppVeyor) is wonderful, 
+you can run your code on someone else's ☁️ 💻 
+<br/> <br/>
+
+--
+
+But then you're running your code in an environment you have to set up.
+--
+ That you can't interactively iterate on.
+<br/> <br/>
+
+--
+
+Even installing R dependencies can be a pain.
+
+---
+background-image: url("images/db-test-ci-db-hard-more-again.png")
+background-position: 50% 50%
+background-size: contain
+class: center, bottom
+
+---
+background-image: url("images/db-test-ci-db-hard-more.png")
+background-position: 0% 20%
+background-size: contain
+class: center, bottom
+
+--
+
+# I've slogged through this <br/> so you don't have to
+
+---
+background-image: url("images/_DSC1176.png")
+background-position: 50% 50%
+background-size: cover
+class: center, top
+
+# How does `dittodb` help?
+
+---
+# Imagine we had a function
+
+```r
+#' Get random airline(s)
+#' ...
+get_an_airline <- function(n = 1) {
+  con <- DBI::dbConnect(RPostgres::Postgres(), dbname = "nycflights")
+  on.exit(DBI::dbDisconnect(con))
+
+  query <- paste0(
+    "SELECT carrier, name FROM airlines ",
+    "ORDER BY random() LIMIT ", 
+    n
+  )
+  
+  out <- dbGetQuery(con, query)
+  
+  if (out$name == "Testy McAirline") {
+    stop("This is the test airline 🙃")
+  }
+  
+  return(out)
+}
+```
+---
+# How can we test it?
+Locally is “easy” we:
+ * setup a local postgres server
+ * make sure the correct users exist
+ * add the test data
+ * profit
+
+--
+
+On CI we “just” do the same:  
+ * setup a local postgres server
+ * make sure the correct users exist
+ * add the test data
+--
+<br/>
+<div class = "large">❌ ❌ ❌ ❌ ☠️ ☠️ ☠️ ❌ ❌ ❌ ❌</div>
+ 
+---
+# `dittodb` lets you ...
+
+Write tests that act like they are connected to a real-live database using `with_mock_db({...})`
+
+```r
+with_mock_db({
+  test_that("We get one airline", {
+    one_airline <- get_an_airline()
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+```
+
+---
+
+# Testing terminology aside
+
+* mocks
+
+* fixtures
+
+* stubs
+
+* spies
+
+* fakes
+
+* `r emoji("scream")`
+
+???
+
+* mocks -- objects pre-programmed with expectations which form a specification 
+* fixtures -- data used by mocked objects to configure them or provide info 
+* stubs -- provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test.
+* spies -- stubs, but keep and provide info about how and if they were called
+* fakes -- objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example)
+
+Much of the above is from https://www.martinfowler.com/articles/mocksArentStubs.html
+
+---
+
+# Testing terminology aside
+
+* mocks
+
+* fixtures 
+
+.gray[
+* stubs
+
+* spies
+
+* fakes
+
+* `r emoji("scream")`
+]
+
+???
+
+If <5 minutes type 26 to go to the next section
+
+---
+background-image: url("images/_DSC1098.png")
+background-position: 50% 50%
+background-size: cover
+class: center, top
+
+# Demo
+
+---
+# Mandatory plug
+.flex-box[
+## Socure is hiring — [socure.com/about/careers](https://www.socure.com/about/careers)
+
+.center.seventyfive[![](https://www.socure.com/hubfs/Assets_2018/SOC-logo-color.svg)]
+]
+
+---
+
+# Thanks!
+.flex-box[
+`dittodb` lives at [_dittodb.jonkeane.com_](https://dittodb.jonkeane.com)
+
+Install `dittodb` with `remotes::install_github("jonkeane/dittodb")`
+
+Extra special thanks to Mauricio Vargas @pachamaltese and thanks to [`httptest`](https://enpiar.com/r/httptest) for inspiration.
+
+@jonkeane 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[_jonkeane.com_](https://jonkeane.com) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[github.com/jonkeane](https://github.com/jonkeane)
+
+.colophon[
+created with the R package [**xaringan**](https://github.com/yihui/xaringan) · all photos taken by Jonathan Keane, all rights reserved <br />
+presentation slides + content (except for photos) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <br />
+]
+]
+
+---
+# `dittodb` lets you ...
+
+Write tests that include edge cases that “shouldn't” “happen” in your databse.
+
+
+```r
+with_mock_path(path = "error_db_fixt/", {
+  with_mock_db({
+    test_that("We get one airline", {
+      expect_error(
+        get_an_airline(),
+        "This is the test airline \U1F643
+      )
+    })
+  })
+})
+```
+
+
+---
+# Capturing DB interactions
+
+Capture database interactions so that writing and editing the above is easier.
+
+```r
+capture_db_requests({
+  one_airline <- get_an_airline()
+})
+```
+
+Where `one_airline` is
+
+```r
+  carrier                 name
+1      AS Alaska Airlines Inc.
+```
+
+---
+# Capturing DB interactions
+
+This response is saved to `testthat/tests/nycflights` in a file called `SELECT-c3427d.R`:
+
+```r
+structure(
+  list(carrier = "AS", name = "Alaska Airlines Inc."), 
+  class = "data.frame", 
+  row.names = c(NA, -1L)
+)
+```
+
+--
+
+The path is `testthat/tests` and then the db name `nycflights` being connected to.
+
+--
+
+The filename starts with the SQL verb `SELECT`, followed by a hash that is unique to the query.
+
+???
+
+Because the hash is unique per-query that means this particular query will always return the same thing each time. But there are ways around this, for example by using a different mock paths.
+
+---
+# Mandatory plug
+.flex-box[
+## Socure is hiring — [socure.com/about/careers](https://www.socure.com/about/careers)
+
+.center.seventyfive[![](https://www.socure.com/hubfs/Assets_2018/SOC-logo-color.svg)]
+]
+
+---
+
+# Thanks!
+.flex-box[
+`dittodb` lives at [_dittodb.jonkeane.com_](https://dittodb.jonkeane.com)
+
+Install `dittodb` with `remotes::install_github("jonkeane/dittodb")`
+
+Extra special thanks to Mauricio Vargas @pachamaltese and thanks to [`httptest`](https://enpiar.com/r/httptest) for inspiration.
+
+@jonkeane 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[_jonkeane.com_](https://jonkeane.com) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[github.com/jonkeane](https://github.com/jonkeane)
+
+.colophon[
+slides created via the R package [**xaringan**](https://github.com/yihui/xaringan) · photos taken by Jonathan Keane, all rights reserved <br />
+presentation slides + content (except for photos) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <br />
+]
+]
+
