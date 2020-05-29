@@ -1,8 +1,8 @@
 ---
 title: "dittodb"
 subtitle: "making testing databases easy"
-author: "Jonathan Keane"
-institute: "Socure"
+author: "Jonathan Keane · Socure"
+institute: "Chicago satRdays 2020"
 date: "2020-05-30 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
@@ -37,8 +37,6 @@ style_mono_accent(
   code_font_google   = google_font("Fira Mono"),
   text_font_size = "1.25rem",
   colors = c(white = "#FFFFFF", gray = "#898C9C"),
-  header_h2_font_size = "1.75rem",
-  header_h3_font_size = "1.25rem",
   extra_css = list(
     ".large" = list(
       "font-size" = "2.75rem"
@@ -67,6 +65,25 @@ style_mono_accent(
     ".seventyfive" = list(
       "width" = "75%",
       "margin" = "0 auto"
+    ),
+    ".title-slide h1" = list(
+      "font-size" = "4rem",
+      "margin-bottom" = "0rem"
+      ),
+    ".title-slide h2" = list(
+      "font-size" = "1.75rem",
+      "margin-top" = "0rem",
+      "margin-bottom" = "4rem"
+      ),
+    ".title-slide h3" = list(
+      "font-size" = "1.75rem",
+      "margin-block-start" = "0rem",
+      "margin-block-end" = "0rem"
+      ),
+    ".title-slide > h3:last-of-type" = list(
+      "font-size" = "1rem",
+      "margin-block-start" = "4rem",
+      "margin-block-end" = "2rem"
     )
   )
 )
@@ -189,7 +206,10 @@ On CI we “just” do the same:
 ---
 # `dittodb` lets you ...
 
-Write tests that act like they are connected to a real-live database using `with_mock_db({...})`
+Write tests that act like they are connected to a real-live database using 
+`with_mock_db({...})` without ever having to set one up.
+
+<br/ >
 
 ```r
 with_mock_db({
@@ -247,10 +267,6 @@ Much of the above is from https://www.martinfowler.com/articles/mocksArentStubs.
 * `r emoji("scream")`
 ]
 
-???
-
-If <5 minutes type 26 to go to the next section
-
 ---
 background-image: url("images/_DSC1098.png")
 background-position: 50% 50%
@@ -259,55 +275,9 @@ class: center, top
 
 # Demo
 
----
-# Mandatory plug
-.flex-box[
-## Socure is hiring — [socure.com/about/careers](https://www.socure.com/about/careers)
+???
 
-.center.seventyfive[![](https://www.socure.com/hubfs/Assets_2018/SOC-logo-color.svg)]
-]
-
----
-
-# Thanks!
-.flex-box[
-`dittodb` lives at [_dittodb.jonkeane.com_](https://dittodb.jonkeane.com)
-
-Install `dittodb` with `remotes::install_github("jonkeane/dittodb")`
-
-Extra special thanks to Mauricio Vargas @pachamaltese and thanks to [`httptest`](https://enpiar.com/r/httptest) for inspiration.
-
-@jonkeane 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-[_jonkeane.com_](https://jonkeane.com) 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-[github.com/jonkeane](https://github.com/jonkeane)
-
-.colophon[
-created with the R package [**xaringan**](https://github.com/yihui/xaringan) · all photos taken by Jonathan Keane, all rights reserved <br />
-presentation slides + content (except for photos) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <br />
-]
-]
-
----
-# `dittodb` lets you ...
-
-Write tests that include edge cases that “shouldn't” “happen” in your databse.
-
-
-```r
-with_mock_path(path = "error_db_fixt/", {
-  with_mock_db({
-    test_that("We get one airline", {
-      expect_error(
-        get_an_airline(),
-        "This is the test airline \U1F643
-      )
-    })
-  })
-})
-```
-
+If doing the demo, jump to slide 30
 
 ---
 # Capturing DB interactions
@@ -319,6 +289,8 @@ capture_db_requests({
   one_airline <- get_an_airline()
 })
 ```
+
+<br />
 
 Where `one_airline` is
 
@@ -353,6 +325,52 @@ The filename starts with the SQL verb `SELECT`, followed by a hash that is uniqu
 Because the hash is unique per-query that means this particular query will always return the same thing each time. But there are ways around this, for example by using a different mock paths.
 
 ---
+# `dittodb` lets you ...
+.flex-box[
+So you can write your test like this
+
+```r
+with_mock_db({
+  test_that("We get one airline", {
+    one_airline <- get_an_airline()
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+```
+
+.pull-right[... and it will run anywhere!]
+]
+
+---
+# `dittodb` lets you ...
+
+Write tests that include edge cases that “shouldn't” “happen” in your databse.
+
+
+```r
+with_mock_path(path = "error_db_fixt/", {
+  with_mock_db({
+    test_that("We get one airline", {
+      expect_error(
+        get_an_airline(),
+        "This is the test airline \U1F643
+      )
+    })
+  })
+})
+```
+---
+background-image: url("images/_DSC1098.png")
+background-position: 50% 50%
+background-size: cover
+class: center, top
+
+# It really is as easy as that!
+
+---
 # Mandatory plug
 .flex-box[
 ## Socure is hiring — [socure.com/about/careers](https://www.socure.com/about/careers)
@@ -377,7 +395,7 @@ Extra special thanks to Mauricio Vargas @pachamaltese and thanks to [`httptest`]
 [github.com/jonkeane](https://github.com/jonkeane)
 
 .colophon[
-slides created via the R package [**xaringan**](https://github.com/yihui/xaringan) · photos taken by Jonathan Keane, all rights reserved <br />
+created with the R package [**xaringan**](https://github.com/yihui/xaringan) · all photos taken by Jonathan Keane, all rights reserved <br />
 presentation slides + content (except for photos) are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <br />
 ]
 ]

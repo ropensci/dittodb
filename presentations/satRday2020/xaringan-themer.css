@@ -38,8 +38,8 @@
   --code-font-size: 0.9rem;
   --code-inline-font-size: 1em;
   --header-h1-font-size: 2.75rem;
-  --header-h2-font-size: 1.75rem;
-  --header-h3-font-size: 1.25rem;
+  --header-h2-font-size: 2.25rem;
+  --header-h3-font-size: 1.75rem;
 
   /* Colors */
   --text-color: #272822;
@@ -295,4 +295,23 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 .seventyfive {
   width: 75%;
   margin: 0 auto;
+}
+.title-slide h1 {
+  font-size: 4rem;
+  margin-bottom: 0rem;
+}
+.title-slide h2 {
+  font-size: 1.75rem;
+  margin-top: 0rem;
+  margin-bottom: 4rem;
+}
+.title-slide h3 {
+  font-size: 1.75rem;
+  margin-block-start: 0rem;
+  margin-block-end: 0rem;
+}
+.title-slide > h3:last-of-type {
+  font-size: 1rem;
+  margin-block-start: 4rem;
+  margin-block-end: 2rem;
 }
