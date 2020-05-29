@@ -90,7 +90,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
 
   quietly(trace_dbi(
     "dbConnect",
-    exit = quote({
+    tracer = quote({
       .dittodb_env$db_path <- file.path(
         db_mock_paths()[1],
         get_dbname(list(...))
@@ -119,11 +119,12 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   #' @export
   #' @keywords internal
   recordFetch <- quote({
+    filepath <- .dittodb_env$curr_file_path
     if (dittodb_debug_level(1)) {
-      message("Writing to ", .dittodb_env$curr_file_path)
+      message("Writing to ", filepath)
     }
     out <- redact_columns(ans, columns = get_redactor())
-    dput(out, .dittodb_env$curr_file_path, control = c("all", "hexNumeric"))
+    dput(out, filepath, control = c("all", "hexNumeric"))
   })
 
   quietly(trace_dbi(
