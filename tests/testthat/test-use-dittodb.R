@@ -1,8 +1,8 @@
-test_add_to_desc <- function (str, msg="Adding 'dittodb' to Suggests") {
+test_add_to_desc <- function(str, msg = "Adding 'dittodb' to Suggests") {
   f <- tempfile()
-  cat(str, file=f)
+  cat(str, file = f)
   expect_message(add_dittodb_to_desc(f), msg)
-  setNames(read.dcf(f, keep.white="Suggests")[,"Suggests"], NULL)
+  setNames(read.dcf(f, keep.white = "Suggests")[, "Suggests"], NULL)
 }
 
 test_that("add to desc adds Suggests if not present", {
@@ -43,16 +43,16 @@ test_that("add to desc adds Suggests multiline", {
 })
 
 test_that("add to desc doesn't add if already present", {
-  expect_identical(test_add_to_desc("Suggests: dittodb", msg=NA), "dittodb")
-  expect_identical(test_add_to_desc("Suggests: pkg, dittodb", msg=NA),
+  expect_identical(test_add_to_desc("Suggests: dittodb", msg = NA), "dittodb")
+  expect_identical(test_add_to_desc("Suggests: pkg, dittodb", msg = NA),
                    "pkg, dittodb")
 })
 
-expect_added_to_helper <- function (str, msg="Adding library\\(dittodb\\)") {
+expect_added_to_helper <- function(str, msg = "Adding library\\(dittodb\\)") {
   f <- tempfile()
-  cat(str, file=f)
+  cat(str, file = f)
   expect_message(add_dittodb_to_helper(f), msg)
-  expect_true(any(grepl("library(dittodb)", readLines(f), fixed=TRUE)))
+  expect_true(any(grepl("library(dittodb)", readLines(f), fixed = TRUE)))
 }
 
 test_that("add to helper creates file if doesn't exist", {
@@ -68,7 +68,7 @@ test_that("add to helper adds", {
 })
 
 test_that("add to helper doesn't duplicate", {
-  expect_added_to_helper("library(dittodb)\n", msg=NA)
+  expect_added_to_helper("library(dittodb)\n", msg = NA)
 })
 
 test_that("use_dittodb integration test", {
@@ -77,7 +77,7 @@ test_that("use_dittodb integration test", {
   expect_error(use_dittodb(testpkg), "is not an R package directory")
 
   desc <- file.path(testpkg, "DESCRIPTION")
-  cat("Title: Foo\n", file=desc)
+  cat("Title: Foo\n", file = desc)
   helper <- file.path(testpkg, "tests", "testthat", "helper.R")
   expect_message(use_dittodb(testpkg))
   expect_identical(readLines(desc), c("Title: Foo", "Suggests: dittodb"))
