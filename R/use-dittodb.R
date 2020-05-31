@@ -1,7 +1,7 @@
 #' Use 'dittodb' in your tests
 #'
 #' This function adds `dittodb` to Suggests in the package DESCRIPTION and
-#' loads it in `tests/testthat/helpers.R`. Call it once when you're setting up
+#' loads it in `tests/testthat/helper.R`. Call it once when you're setting up
 #' a new package test suite.
 #'
 #' The function is idempotent: if `dittodb` is already added to these files, no
@@ -17,7 +17,7 @@ use_dittodb <- function (path=".") {
   }
   add_dittodb_to_desc(file.path(path, "DESCRIPTION"))
   # TODO: could allow helper.r too
-  add_dittodb_to_helper(file.path(path, "tests", "testthat", "helpers.R"))
+  add_dittodb_to_helper(file.path(path, "tests", "testthat", "helper.R"))
   invisible()
 }
 
@@ -52,12 +52,12 @@ add_dittodb_to_desc <- function (file) {
 }
 
 add_dittodb_to_helper <- function (file) {
-  # Create tests/testthat/helpers.R if it does not exist
+  # Create tests/testthat/helper.R if it does not exist
 
   if (!file.exists(file)) {
     message("Creating ", file)
     message("Adding library(dittodb) to ", file)
-    mkdir_p(file)
+    dir.create(dirname(file), showWarnings=FALSE, recursive=TRUE)
     cat("library(dittodb)\n", file=file)
     # Msg and write
   } else {
@@ -70,12 +70,4 @@ add_dittodb_to_helper <- function (file) {
       writeLines(helper_lines, file)
     }
   }
-}
-
-mkdir_p <- function (filename) {
-  # Recursively create the directories so that we can write this file.
-  # If they already exist, do nothing.
-  # Like mkdir -p path
-
-  dir.create(dirname(filename), showWarnings=FALSE, recursive=TRUE)
 }
