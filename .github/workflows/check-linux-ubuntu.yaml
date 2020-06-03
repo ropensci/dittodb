@@ -31,9 +31,6 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
-      - name: test
-        run: Rscript -e 'print(tools:::.build_packages)'
-
       - uses: r-lib/actions/setup-pandoc@master
 
       - uses: r-lib/actions/setup-tinytex@master
@@ -83,8 +80,8 @@ jobs:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
-      - name: test R cmd
-        run: R CMD build .
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v2
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
