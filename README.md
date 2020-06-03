@@ -117,6 +117,11 @@ Currently, dittodb is not on CRAN. You can install from source, or use `devtools
 devtools::install_github("jonkeane/dittodb")
 ```
 
+## Setup a package to use `dittodb`
+Use the function `dittodb::use_dittodb()` to easily get started using `dittodb`. 
+It will add `dittodb` to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
+to `tests/testthat/helper.R`.
+
 ## Development
 
 There is extensive information about developing `dittodb` in the vignette [Developing `dittodb`](https://dittodb.jonkeane.com/articles/developing-dittodb.html, please read that before trying to make changes to `dittodb` or running any of the scripts provided in the `db-setup` directory.

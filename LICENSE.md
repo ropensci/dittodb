@@ -196,9 +196,9 @@ third-party archives.
     
 --------------------------------------------------------------------------------
 
-The files R/recordingR and R/mock-paths.R are adapted from
-Neal Richardson's httptest package (https://github.com/nealrichardson/httptest/)
-It is licensed under MIT license.
+The files R/recording.R, R/mock-paths.R, use-dittodb.r, and test-use-dittodb.R 
+are adapted from Neal Richardson's httptest package 
+(https://github.com/nealrichardson/httptest/) It is licensed under MIT license.
 
 The MIT License (MIT)
 Copyright (c) 2016 Neal Richardson
