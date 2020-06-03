@@ -50,6 +50,15 @@ jobs:
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')
 
+      - name: Make sure rcpp is available so that rmarkdown is built on oldrel
+        if: contains(matrix.config.r, '3.6')
+        run: |
+          Rscript -e "install.packages('Rcpp')"
+          # this shouldn't be needed, but if it's not installed here rmarkdown +
+          # Rcpp are installed in the wrong order and rmarkdown fails to compile
+          # This should be removed when the binary for rmarkdown on oldrel is
+          # updated
+
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
