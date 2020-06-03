@@ -1,4 +1,4 @@
-if [ -z "$(docker ps -q -f name=dittodb-mariadb)" ]
+if [ -z "$(docker ps -a -q -f name=dittodb-mariadb)" ]
 then
   echo "Starting docker container fresh..."
 else

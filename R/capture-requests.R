@@ -94,7 +94,7 @@ start_db_capturing <- function(path, redact_columns = NULL) {
 
   quietly(trace_dbi(
     "dbConnect",
-    exit = dbConnectTrace
+    tracer = dbConnectTrace
   ))
 
   quietly(trace_dbi(

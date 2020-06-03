@@ -34,7 +34,8 @@ Imports:
     digest,
     glue,
     methods,
-    testthat
+    testthat,
+    utils
 Suggests: 
     callr,
     covr,
@@ -68,4 +69,5 @@ Collate:
     'paths.R'
     'quote.R'
     'redact.R'
+    'use-dittodb.R'
     'utils.R'

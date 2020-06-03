@@ -153,6 +153,11 @@ with_mock_db(
 )
 ```
 
+## Getting setup to use `dittodb`
+Use the function `dittodb::use_dittodb()` to easily get started using `dittodb`. 
+It will add `dittodb` to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
+to `tests/testthat/helper.R`.
+
 ## Things to be careful about
 
 There are a few things to be careful about when using dittodb. 
