@@ -16,6 +16,7 @@ reference:
   - mockPaths
   - redact_columns
   - set_dittodb_debug_level
+  - use_dittodb
 - title: DBI methods
   contents:
     - mock-db-methods

@@ -4,7 +4,7 @@ author: "Mauricio Vargas"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Recording SQL queries with dittodb}
+  %\VignetteIndexEntry{Recording SQL queries with dittodb for travelling}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

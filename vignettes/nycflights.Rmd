@@ -4,7 +4,7 @@ author: "Mauricio Vargas and Jonathan Keane"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{nycflights13_description}
+  %\VignetteIndexEntry{nycflights13 data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
