@@ -70,6 +70,9 @@ jobs:
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
+      - name: Install dev rmarkdown
+        run: Rscript -e "remotes::install_github('rstudio/rmarkdown')"
+
       - name: Build R DB Dependencies on cache miss
         if: steps.rlibcache.outputs.cache-hit != 'true'
         run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
@@ -79,9 +82,6 @@ jobs:
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v2
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
