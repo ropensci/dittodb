@@ -191,6 +191,12 @@
 <p>Currently, dittodb is not on CRAN. You can install from source, or use <code>devtools</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"jonkeane/dittodb"</span>)</span></code></pre></div>
 </div>
+<div id="setup-a-package-to-use-dittodb" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setup-a-package-to-use-dittodb" class="anchor"></a>Setup a package to use <code>dittodb</code>
+</h2>
+<p>Use the function <code><a href="reference/use_dittodb.html">dittodb::use_dittodb()</a></code> to easily get started using <code>dittodb</code>. It will add <code>dittodb</code> to <code>Suggests</code> in the <code>DESCRIPTION</code> file and add <code><a href="https://rdrr.io/r/base/library.html">library(dittodb)</a></code> to <code>tests/testthat/helper.R</code>.</p>
+</div>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
