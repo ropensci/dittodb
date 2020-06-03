@@ -1,4 +1,4 @@
-#' Use 'dittodb' in your tests
+#' Use `dittodb` in your tests
 #'
 #' This function adds `dittodb` to Suggests in the package DESCRIPTION and
 #' loads it in `tests/testthat/helper.R`. Call it once when you're setting up
@@ -8,9 +8,17 @@
 #' additional changes will be made.
 #'
 #' @param path character path to the package
-#' @importFrom utils tail
+#'
 #' @return Nothing: called for file system side effects.
+#'
+#' @importFrom utils tail
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' use_dittodb()
+#' use_dittodb("/path/to/package")
+#' }
 use_dittodb <- function(path = ".") {
   if (!("DESCRIPTION" %in% dir(path))) {
     stop(path, " is not an R package directory", call. = FALSE)

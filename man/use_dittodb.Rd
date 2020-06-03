@@ -2,7 +2,7 @@
 % Please edit documentation in R/use-dittodb.R
 \name{use_dittodb}
 \alias{use_dittodb}
-\title{Use 'dittodb' in your tests}
+\title{Use \code{dittodb} in your tests}
 \usage{
 use_dittodb(path = ".")
 }
@@ -20,4 +20,10 @@ a new package test suite.
 \details{
 The function is idempotent: if \code{dittodb} is already added to these files, no
 additional changes will be made.
+}
+\examples{
+\dontrun{
+use_dittodb()
+use_dittodb("/path/to/package")
+}
 }
