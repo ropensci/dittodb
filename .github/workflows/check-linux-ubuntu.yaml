@@ -32,7 +32,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - name: test
-        run: Rscript -e 'installed.packages()["tools",]'
+        run: Rscript -e 'print(tools:::.check_packages)'
 
       - uses: r-lib/actions/setup-pandoc@master
 
