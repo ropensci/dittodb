@@ -20,6 +20,9 @@ capture_db_requests(expr, path, redact_columns = NULL)
 \item{redact_columns}{a character vector of columns to redact. Any column
 that matches an entry will be redacted with a standard value for the column
 type (e.g. characters will be replaced with "[redacted]")}
+
+\item{expr}{an expression to evaluate while capturing requests (for
+\code{capture_db_requests()})}
 }
 \value{
 \code{NULL} (invisibily)
@@ -86,4 +89,3 @@ with_mock_db({
 })
 }
 }
-\keyword{internal}
