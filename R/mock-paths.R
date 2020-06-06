@@ -92,10 +92,35 @@ db_mock_paths <- function(new, last = FALSE) {
 #'
 #' @param path the alternate directory
 #' @param expr the expression to execute
-#' @param replace foobar
+#' @param replace logical, should the path replace the current mock paths
+#' (`TRUE`) or should they be appended (to the beginning) of the current mock
+#' paths (default, `FALSE`)
 #'
-#' @return nothing
+#' @return nothing, called to execute the expression(s) in `expr`
 #' @export
+#'
+#' @examples
+#' with_mock_path(
+#'   system.file("nycflight_mocks", package = "dittodb"),
+#'   with_mock_db({
+#'     con <- DBI::dbConnect(
+#'       RSQLite::SQLite(),
+#'       dbname = "nycflights"
+#'     )
+#'
+#'     one_airline <- dbGetQuery(
+#'       con,
+#'       "SELECT carrier, name FROM airlines LIMIT 1"
+#'     )
+#'     testthat::test_that("We get one airline", {
+#'       testthat::expect_s3_class(one_airline, "data.frame")
+#'       testthat::expect_equal(nrow(one_airline), 1)
+#'       testthat::expect_equal(one_airline$carrier, "9E")
+#'       testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
+#'     })
+#'     one_airline
+#'   })
+#' )
 with_mock_path <- function(path, expr, replace = FALSE) {
   oldmp <- db_mock_paths()
   if (replace) {

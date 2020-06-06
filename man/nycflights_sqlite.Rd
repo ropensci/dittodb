@@ -21,5 +21,10 @@ The airports table has also been limited to only the New York and Chicago
 area airports.
 }
 \examples{
-con <- nycflights13_create_sqlite()
+con <- nycflights_sqlite()
+
+DBI::dbGetQuery(con, "SELECT flight, tailnum, origin, dest FROM flights LIMIT 10")
+DBI::dbGetQuery(con, "SELECT faa, name, lat, lon, alt, tz FROM airports")
+
+DBI::dbDisconnect(con)
 }

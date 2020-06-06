@@ -26,28 +26,13 @@ from the \url{nycflights13} dataset.
 connections <- list(
  odbc = DBI::dbConnect(
   odbc::odbc(),
-  Driver   = "PostgreSQL Unicode",
-  Server   = "127.0.0.1",
-  Database = "postgres",
-  UID      = "travis",
-  PWD      = "",
-  Port     = 5432
+  Driver   = "PostgreSQL Unicode"
  ),
  rpostgresql = RPostgreSQL::dbConnect(
-  drv      = DBI::dbDriver("PostgreSQL"),
-  host     = "127.0.0.1",
-  dbname   = "postgres",
-  user     = "travis",
-  password = "",
-  port     = 5432
+  drv      = DBI::dbDriver("PostgreSQL")
  ),
  rpostgres = DBI::dbConnect(
-  drv      = RPostgres::Postgres(),
-  host     = "127.0.0.1",
-  dbname   = "postgres",
-  user     = "travis",
-  password = "",
-  port     = 5432
+  drv      = RPostgres::Postgres()
  )
 )
 

@@ -20,28 +20,13 @@
 #' connections <- list(
 #'  odbc = DBI::dbConnect(
 #'   odbc::odbc(),
-#'   Driver   = "PostgreSQL Unicode",
-#'   Server   = "127.0.0.1",
-#'   Database = "postgres",
-#'   UID      = "travis",
-#'   PWD      = "",
-#'   Port     = 5432
+#'   Driver   = "PostgreSQL Unicode"
 #'  ),
 #'  rpostgresql = RPostgreSQL::dbConnect(
-#'   drv      = DBI::dbDriver("PostgreSQL"),
-#'   host     = "127.0.0.1",
-#'   dbname   = "postgres",
-#'   user     = "travis",
-#'   password = "",
-#'   port     = 5432
+#'   drv      = DBI::dbDriver("PostgreSQL")
 #'  ),
 #'  rpostgres = DBI::dbConnect(
-#'   drv      = RPostgres::Postgres(),
-#'   host     = "127.0.0.1",
-#'   dbname   = "postgres",
-#'   user     = "travis",
-#'   password = "",
-#'   port     = 5432
+#'   drv      = RPostgres::Postgres()
 #'  )
 #' )
 #'
@@ -179,11 +164,16 @@ nycflights13_create_sqlite <- function(location = ":memory:", ...) {
 #' @export
 #'
 #' @examples
-#' con <- nycflights13_create_sqlite()
+#' con <- nycflights_sqlite()
+#'
+#' DBI::dbGetQuery(con, "SELECT flight, tailnum, origin, dest FROM flights LIMIT 10")
+#' DBI::dbGetQuery(con, "SELECT faa, name, lat, lon, alt, tz FROM airports")
+#'
+#' DBI::dbDisconnect(con)
 nycflights_sqlite <- function() {
   check_for_pkg("RSQLite")
   path <- system.file("nycflights.sqlite", package = "dittodb")
 
-  return(dbConnect(RSQLite::SQLite(), path))
+  return(DBI::dbConnect(RSQLite::SQLite(), path))
 }
 
