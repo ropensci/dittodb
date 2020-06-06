@@ -7,7 +7,7 @@
 .sh$
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
-^_pkgdown.yml$
+^pkgdown
 ^\.github
 ^presentations
 ^dittodb\.Rcheck$

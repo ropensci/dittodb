@@ -13,8 +13,8 @@ dittodb (formerly dbtest) is a package that makes testing against databases easy
 
 dittodb is heavily inspired by [httptest](https://CRAN.R-project.org/package=httptest), if you've used httptest before, you'll find many of the interactions similar.
 
-## A quick example
-Say we have a Postgres database with some [`nycflights`](https://CRAN.R-project.org/package=nycflights13) data in it and we are writing functions that query this data that we want to test.
+## A quick example {.tabset}
+Say we have a database with some [`nycflights`](https://CRAN.R-project.org/package=nycflights13) data in it and we are writing functions that query this data that we want to test. 
 
 For example, we have the simple function that retrieves one airline:
 
@@ -27,15 +27,28 @@ get_an_airline <- function(con) {
 
 But we want to make sure that this function returns what we expect. To do this, we first record the response we get from the production database:
 
+### RMariaDB
+```r
+start_db_capturing()
+
+con <- DBI::dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "nycflights"
+)
+
+get_an_airline(con)
+DBI::dbDisconnect(con)
+
+stop_db_capturing()
+```
+
+### RPostgres
 ```r
 start_db_capturing()
 
 con <- DBI::dbConnect(
   RPostgres::Postgres(),
-  dbname = "nycflights",
-  host = "127.0.0.1",
-  user = "travis",
-  password = ""
+  dbname = "nycflights"
 )
 
 get_an_airline(con)
@@ -44,43 +57,11 @@ DBI::dbDisconnect(con)
 stop_db_capturing()
 ```
 
-This will run the query from `get_an_airline()`, and save the response in a mock directory and file. Then, when we are testing, we can use the following:
-
-```r
-# With RPostgres package
-with_mock_db({
-  con <- DBI::dbConnect(
-    RPostgres::Postgres(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = "travis",
-    password = ""
-  )
-  
-  test_that("We get one airline", {
-    one_airline <- get_an_airline()
-    expect_is(one_airline, "data.frame")
-    expect_equal(nrow(one_airline), 1)
-    expect_equal(one_airline$carrier, "9E")
-    expect_equal(one_airline$name, "Endeavor Air Inc.")
-  })
-})
-```
-
-All without having to ever set a database up on Travis 🎉
-
-
-Alternatively, any other driver could be used:
+### RSQLite
 ```r
 start_db_capturing()
 
-con <- DBI::dbConnect(
-  drv = DBI::dbDriver("PostgreSQL"),
-  dbname = "nycflights",
-  host = "127.0.0.1",
-  user = "travis",
-  password = ""
-)
+con <- DBI::dbConnect(RSQLite::SQLite())
 
 get_an_airline(con)
 DBI::dbDisconnect(con)
@@ -88,16 +69,17 @@ DBI::dbDisconnect(con)
 stop_db_capturing()
 ```
 
-and then
+## {.tabset}
 
+This will run the query from `get_an_airline()`, and save the response in a mock directory and file. Then, when we are testing, we can use the following:
+
+
+### RMariaDB
 ```r
 with_mock_db({
-  con <- RPostgreSQL::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = "travis",
-    password = ""
+  con <- DBI::dbConnect(
+    RMariaDB::MariaDB(),
+    dbname = "nycflights"
   )
   
   test_that("We get one airline", {
@@ -109,6 +91,43 @@ with_mock_db({
   })
 })
 ```
+
+### RPostgres
+```r
+with_mock_db({
+  con <- DBI::dbConnect(
+    RPostgres::Postgres(),
+    dbname = "nycflights"
+  )
+  
+  test_that("We get one airline", {
+    one_airline <- get_an_airline()
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+```
+
+### RSQLite
+```r
+with_mock_db({
+  con <- DBI::dbConnect(RSQLite::SQLite())
+  
+  test_that("We get one airline", {
+    one_airline <- get_an_airline()
+    expect_is(one_airline, "data.frame")
+    expect_equal(nrow(one_airline), 1)
+    expect_equal(one_airline$carrier, "9E")
+    expect_equal(one_airline$name, "Endeavor Air Inc.")
+  })
+})
+```
+
+##
+
+All without having to ever set a database up on Travis 🎉
 
 ## Installation
 Currently, dittodb is not on CRAN. You can install from source, or use `devtools`:
