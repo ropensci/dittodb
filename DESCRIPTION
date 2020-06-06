@@ -65,7 +65,7 @@ Collate:
     'dbMisc.R'
     'mock-db.R'
     'mock-paths.R'
-    'nycflights13_sql.R'
+    'nycflights13-sql.R'
     'paths.R'
     'quote.R'
     'redact.R'

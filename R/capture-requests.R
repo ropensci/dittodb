@@ -37,7 +37,7 @@
 #' # Temporary files for examples
 #' nycflights_path <- tempfile()
 #'
-#' con <- nycflights13_sqlite(location = nycflights_path)
+#' con <- nycflights13_create_sqlite(location = nycflights_path)
 #' dbDisconnect(con)
 #'
 #' start_db_capturing()

@@ -45,13 +45,13 @@
 #'  )
 #' )
 #'
-#' nycflights13_sql(connections$odbc, schema = "nycflights13")
+#' nycflights13_create_sql(connections$odbc, schema = "nycflights13")
 #' # same as
-#' # nycflights13_sql(connections$rpostgresql, schema = "nycflights13")
+#' # nycflights13_create_sql(connections$rpostgresql, schema = "nycflights13")
 #' # also same as
-#' # nycflights13_sql(connections$rpostgres, schema = "nycflights13")
+#' # nycflights13_create_sql(connections$rpostgres, schema = "nycflights13")
 #' }
-nycflights13_sql <- function(con, schema = "", ...) {
+nycflights13_create_sql <- function(con, schema = "", ...) {
   local_tables <- utils::data(package = "nycflights13")$results[, "Item"]
 
   unique_index <- list(
@@ -144,7 +144,7 @@ nycflights13_sql <- function(con, schema = "", ...) {
 #'
 #' @param location where to store the database
 #' @param ... additional parameters to connect to a database (most are passed on
-#' to [`nycflights13_sql`])
+#' to [`nycflights13_create_sql`])
 #'
 #' @return RSQLiteConnection
 #'
@@ -152,13 +152,38 @@ nycflights13_sql <- function(con, schema = "", ...) {
 #'
 #' @examples
 #' \dontrun{
-#' con <- nycflights13_sqlite()
+#' con <- nycflights13_create_sqlite()
 #' }
-nycflights13_sqlite <- function(location = ":memory:", ...) {
+nycflights13_create_sqlite <- function(location = ":memory:", ...) {
   check_for_pkg("RSQLite")
   sqlite_con <- dbConnect(RSQLite::SQLite(), location)
 
-  sqlite_con <- nycflights13_sql(sqlite_con, schema = "", ...)
+  sqlite_con <- nycflights13_create_sql(sqlite_con, schema = "", ...)
 
   return(invisible(sqlite_con))
 }
+
+#' An SQLite connection to a subset of nycflights13
+#'
+#' Included with `dittodb` is a small subset of [`nycflights13`](nycflights13)
+#' prepopulated into a `sqlite` database.
+#'
+#' This database is helpful for getting to know `dittodb` and running example
+#' code. It contains a small subset of the data in nycflights13: namely only the
+#' flights and planes that had a destination of ORD or MDW in February of 2013.
+#' The airports table has also been limited to only the New York and Chicago
+#' area airports.
+#'
+#' @return an RSQLiteConnection
+#'
+#' @export
+#'
+#' @examples
+#' con <- nycflights13_create_sqlite()
+nycflights_sqlite <- function() {
+  check_for_pkg("RSQLite")
+  path <- system.file("nycflights.sqlite", package = "dittodb")
+
+  return(dbConnect(RSQLite::SQLite(), path))
+}
+

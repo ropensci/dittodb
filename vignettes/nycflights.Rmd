@@ -30,6 +30,6 @@ Have a look to the database schema:
 ![`nycflights13` relational diagram.](relational-nycflights.svg)
 
 # Adding `nycflights13` data to a database
-`dittodb` has a few functions that make loading `nycflights13` data into a database easier. `nycflights13_sql(con, schema = "nycflights")` will write the `nycflights13` data to the database connect to with `con` and write it to the schema `nycflights`.
+`dittodb` has a few functions that make loading `nycflights13` data into a database easier. `nycflights13_create_sql(con, schema = "nycflights")` will write the `nycflights13` data to the database connect to with `con` and write it to the schema `nycflights`.
 
-To quickly set up an SQLite version `nycflights13_sqlite()` will create an in-memory SQLite database with the `nycflights13` data.
+To quickly set up an SQLite version `nycflights13_create_sql()` will create an in-memory SQLite database with the `nycflights13` data.

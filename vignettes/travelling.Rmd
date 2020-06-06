@@ -31,7 +31,7 @@ con_psql <- DBI::dbConnect(
   user = getOption("dittodb.test.user"),
   password = getOption("dittodb.test.pw")
 )
-nycflights13_sql(con_psql)
+nycflights13_create_sql(con_psql)
 DBI::dbDisconnect(con_psql)
 
 start_db_capturing(path = "vignettes/")

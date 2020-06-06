@@ -8,7 +8,7 @@ capture_output({
       dittodb.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
       start_db_capturing()
-      con <- nycflights13_sqlite()
+      con <- nycflights13_create_sqlite()
       expect_message(
         dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
         paste0(
@@ -44,7 +44,7 @@ capture_output({
     ), {
       expect_message({
           start_db_capturing()
-          con <- nycflights13_sqlite()
+          con <- nycflights13_create_sqlite()
         }, ".*Tracing.*"
       )
       expect_message(

@@ -35,7 +35,7 @@ con <- dbConnect(
   password = ""
 )
 
-nycflights13_sql(con, schema = "nycflights13")
+nycflights13_create_sql(con, schema = "nycflights13")
 
 # record interactions
 
@@ -45,10 +45,10 @@ out <- mean_delays("month")
 stop_db_capturing()
 ```
 
-# Testing `mean_delays()` {.tabset}
+## Our function `mean_delays()` {.tabset}
 To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights.html). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
 
-## RMariaDB
+### RMariaDB
 ```{r mean_delays}
 library(DBI)
 
@@ -68,7 +68,7 @@ mean_delays <- function(group_col) {
 }
 ```
 
-## RPostgres
+### RPostgres
 ```{r mean_delays_rpostgres, eval = FALSE}
 library(DBI)
 
@@ -88,7 +88,7 @@ mean_delays <- function(group_col) {
 }
 ```
 
-## RSQLite
+### RSQLite
 ```{r mean_delays_rsqlite, eval = FALSE}
 library(DBI)
 
@@ -105,7 +105,7 @@ mean_delays <- function(group_col) {
 }
 ```
 
-<div />
+## {.unlisted .unnumbered}
 
 If we give it the column `"month"`, we get the following dataframe:
 
