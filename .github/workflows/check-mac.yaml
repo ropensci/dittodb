@@ -14,6 +14,7 @@ jobs:
         config:
         - { os: macOS-latest, r: '3.6', args: "--no-manual" }
         - { os: macOS-latest, r: '4.0' }
+        - { os: macOS-latest, r: 'devel', args: "--no-manual" }
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -25,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: jonkeane/actions/setup-r@vers_failures
+      - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
 
