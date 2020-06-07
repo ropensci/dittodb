@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
+        r-version: '4.0.0'
       - uses: r-lib/actions/setup-pandoc@master
       - name: Install databases (macOS)
         run: |
