@@ -2,10 +2,10 @@ on:
   push:
     branches: codemetadata
 
-name: pkgdown + codemeta
+name: pkgdown+codemeta
 
 jobs:
-  pkgdown + codemeta:
+  pkgdown-codemeta:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
