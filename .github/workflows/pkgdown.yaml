@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           Rscript -e 'install.packages("remotes")' \
-                  -e 'install.packages("ps")' \
+                  -e 'install.packages(c("ps", "codemetar"))' \
                   -e 'remotes::install_deps(dependencies = TRUE)' \
                   -e 'remotes::install_github("jonkeane/pkgdown@header_attributes")'
       - name: Install package
