@@ -176,4 +176,3 @@ nycflights_sqlite <- function() {
 
   return(DBI::dbConnect(RSQLite::SQLite(), path))
 }
-
