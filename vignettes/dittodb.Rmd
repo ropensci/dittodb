@@ -9,6 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
 library(testthat)
 library(dittodb)
@@ -23,8 +24,6 @@ db_mock_paths("dittodb")
 
 `dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
 
-To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights.html). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
-
 ```{r setup db, include = FALSE, eval = FALSE}
 # setup the DB used in the rest of the vignette
 
@@ -36,7 +35,7 @@ con <- dbConnect(
   password = ""
 )
 
-nycflights13_sql(con, schema = "nycflights13")
+nycflights13_create_sql(con, schema = "nycflights13")
 
 # record interactions
 
@@ -46,17 +45,17 @@ out <- mean_delays("month")
 stop_db_capturing()
 ```
 
+## Our function `mean_delays()` {.tabset}
+To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights.html). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
+
+### RMariaDB
 ```{r mean_delays}
 library(DBI)
-library(RMariaDB)
 
 mean_delays <- function(group_col) {
   con <- dbConnect(
     RMariaDB::MariaDB(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    username = "travis",
-    password = ""
+    dbname = "nycflights"
   )
   on.exit(dbDisconnect(con))
   
@@ -68,6 +67,45 @@ mean_delays <- function(group_col) {
   return(dbGetQuery(con, query))
 }
 ```
+
+### RPostgres
+```{r mean_delays_rpostgres, eval = FALSE}
+library(DBI)
+
+mean_delays <- function(group_col) {
+  con <- dbConnect(
+    RPostgres::Postgres(),
+    dbname = "nycflights"
+  )
+  on.exit(dbDisconnect(con))
+  
+  query <- glue::glue(
+    "SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights ",
+    "WHERE arr_delay > 0 GROUP BY {group_col}"
+  )
+  
+  return(dbGetQuery(con, query))
+}
+```
+
+### RSQLite
+```{r mean_delays_rsqlite, eval = FALSE}
+library(DBI)
+
+mean_delays <- function(group_col) {
+  con <- dbConnect(RSQLite::SQLite())
+  on.exit(dbDisconnect(con))
+  
+  query <- glue::glue(
+    "SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights ",
+    "WHERE arr_delay > 0 GROUP BY {group_col}"
+  )
+  
+  return(dbGetQuery(con, query))
+}
+```
+
+## {.unlisted .unnumbered}
 
 If we give it the column `"month"`, we get the following dataframe:
 
@@ -94,7 +132,7 @@ test_that("mean_delays()", {
 
 And this works just fine if we only ever run your tests locally, but if we want to [run our tests with a Continuous Integration system](http://r-pkgs.had.co.nz/check.html#check) (and yes, we want to do that!), this won't work without first setting up our production database of flights. For our tests, we don't actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of what happens when running the test code, and then be able to use that snapshot when we run tests later. These snapshots are frequently called fixtures (though you might hear people use other names like stubs or mocks).
 
-## Recording fixtures
+# Recording fixtures
 
 We can record fixtures of the database interactions with the commands `start_db_capturing()`, run the functions we want to record, and then stop recording with `stop_db_capturing()`.
 
@@ -106,7 +144,7 @@ stop_db_capturing()
 
 This will write a new folder (by default in `./tests/testthat/`) with the name of the database (here: `nycflights`) and then write one file with the name `SELECT-e53189.R` which is the fixture for this example. This `SELECT-*` file contains the data that was received from the database for use in tests.
 
-## `with_mock_db()`
+# `with_mock_db()`
 
 Now that we have a fixture, we can use that fixture by wrapping our call that includes a database interaction with the function `with_mock_db()`. This will look for fixtures and use those.
 
@@ -153,29 +191,29 @@ with_mock_db(
 )
 ```
 
-## Getting setup to use `dittodb`
+# Getting setup to use `dittodb`
 Use the function `dittodb::use_dittodb()` to easily get started using `dittodb`. 
 It will add `dittodb` to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
 to `tests/testthat/helper.R`.
 
-## Things to be careful about
+# Things to be careful about
 
 There are a few things to be careful about when using dittodb. 
 
-### When to call `dbConnect()`
+## When to call `dbConnect()`
 
 Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many calls as you want to the mock database inside of a `with_mock_db(...)`, but you should always make sure that you connect to the database inside of and not outside of `with_mock_db(...)`. This is because when you "connect" to the mock database, a few variables are set that tell dittodb where to look for mocks. It's less important (though still a good idea) to call `dbDisconnect()` inside of `with_mock_db()`. This is also true when recording fixtures with `start_db_recording()`, you should start the recording and then call `dbConnect()`.
 
-### Query size
+## Query size
 
 Recording fixtures saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you'll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren't relevant to the test (you don't have to change the way data is represented if it's not important to what you're testing) and it makes your tests run faster.
 
 
-## Advanced uses
+# Advanced uses
 
 There are a number of advanced features that might be useful. However they take a bit of configuration to use.
 
-### Specify a new path
+## Specify a new path
 
 You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`db_mock_paths()`]. 
 
@@ -183,7 +221,7 @@ You can see what paths are being used by calling `db_mock_paths()` with no argum
 
 You can add a new path by calling `db_mock_paths("new/path/here")` which will add the path provided to the top of the list of paths to use.
 
-### Redacting
+## Redacting
 
 Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dittodb allows you to specify columns that should always be redacted by specifying them like so: 
 ```
@@ -192,7 +230,7 @@ start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_colum
 
 This will always redact the columns "sensitive_column" and "other_sensitive_column" every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example "[redacted]" for characters, `9` for numerics, `1988-10-11T17:00:00` for date times) see `redact_columns()` for more information.
 
-### You, too, can write a fixture!
+## You, too, can write a fixture!
 
 When we use `start_db_recording()` to record fixtures, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
 
@@ -210,3 +248,4 @@ df_fixt <- dplyr::filter(df_fixt, month <= 2 & day < 10)
 # save the fixture for use in tests
 dput(df_fixt, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))
 ```
+

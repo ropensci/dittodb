@@ -5,7 +5,7 @@ library(dplyr)
 temp_path <- file.path(temp_dir, "dbplyr_integration")
 
 # testing against built-in sqlite database
-con <- nycflights13_sqlite(temp_path)
+con <- nycflights13_create_sqlite(temp_path)
 
 test_that("The fixture is what we expect", {
   expect_identical(

@@ -1,7 +1,7 @@
 context("Test fixture")
 
 # testing against built-in sqlite database
-con <- nycflights13_sqlite()
+con <- nycflights13_create_sqlite()
 
 test_that("The fixture is what we expect", {
   expect_identical(

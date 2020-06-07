@@ -11,14 +11,39 @@ with_mock_path(path, expr, replace = FALSE)
 
 \item{expr}{the expression to execute}
 
-\item{replace}{foobar}
+\item{replace}{logical, should the path replace the current mock paths
+(\code{TRUE}) or should they be appended (to the beginning) of the current mock
+paths (default, \code{FALSE})}
 }
 \value{
-nothing
+nothing, called to execute the expression(s) in \code{expr}
 }
 \description{
 When testing with dittodb, wrap your tests in \code{with_mock_path({})} to use the
 database fixtures located in other directories. \code{dittodb} will look for
 fixtures in the directory specified by the user, which can be a temporal
 or permanent location.
+}
+\examples{
+with_mock_path(
+  system.file("nycflight_mocks", package = "dittodb"),
+  with_mock_db({
+    con <- DBI::dbConnect(
+      RSQLite::SQLite(),
+      dbname = "nycflights"
+    )
+
+    one_airline <- dbGetQuery(
+      con,
+      "SELECT carrier, name FROM airlines LIMIT 1"
+    )
+    testthat::test_that("We get one airline", {
+      testthat::expect_s3_class(one_airline, "data.frame")
+      testthat::expect_equal(nrow(one_airline), 1)
+      testthat::expect_equal(one_airline$carrier, "9E")
+      testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
+    })
+    one_airline
+  })
+)
 }

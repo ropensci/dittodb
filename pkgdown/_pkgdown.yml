@@ -22,8 +22,9 @@ reference:
     - mock-db-methods
 - title: Test DB creation
   contents:
-  - nycflights13_sql
-  - nycflights13_sqlite
+  - nycflights_sqlite
+  - nycflights13_create_sql
+  - nycflights13_create_sqlite
 navbar:
   title: dittodb
   type: default

@@ -3,7 +3,7 @@ context("nycflights13 writing functions")
 # sqlite ----
 test_that("nycflights sqlite can be created", {
   # with DBI
-  con <- nycflights13_sqlite()
+  con <- nycflights13_create_sqlite()
   expect_is(con, "SQLiteConnection")
   expect_identical(
     dbListTables(con),
@@ -29,7 +29,7 @@ test_that("odbc", {
 
   test_that("DBI, with a new schema creation and odbc package", {
     expect_message(
-      nycflights13_sql(con_odbc, schema = "new_schema"),
+      nycflights13_create_sql(con_odbc, schema = "new_schema"),
       paste0(c(
         "Creating the testing database from nycflights13",
         "Creating table: airlines",
@@ -45,7 +45,7 @@ test_that("odbc", {
 
   test_that("DBI, with a same schema creation and odbc package", {
     expect_message(
-      nycflights13_sql(con_odbc, schema = "new_schema"),
+      nycflights13_create_sql(con_odbc, schema = "new_schema"),
       "Creating the testing database from nycflights13"
     )
   })
@@ -68,7 +68,7 @@ test_that("RPostgreSQL", {
 
   test_that("DBI, with a new schema creation and rpostgresql package", {
     expect_message(
-      nycflights13_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
+      nycflights13_create_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
       paste0(c(
         "Creating the testing database from nycflights13",
         "Creating table: airlines",
@@ -84,7 +84,7 @@ test_that("RPostgreSQL", {
 
   test_that("DBI, with a same schema creation and rpostgresql package", {
     expect_message(
-      nycflights13_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
+      nycflights13_create_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
       "Creating the testing database from nycflights13"
     )
   })
@@ -107,7 +107,7 @@ test_that("RPostgres", {
 
   test_that("DBI, with a new schema creation and rpostgres package", {
     expect_message(
-      nycflights13_sql(con_rpostgres, schema = "new_schema"),
+      nycflights13_create_sql(con_rpostgres, schema = "new_schema"),
       paste0(c(
         "Creating the testing database from nycflights13",
         "Creating table: airlines",
@@ -123,10 +123,18 @@ test_that("RPostgres", {
 
   test_that("DBI, with a same schema creation and rpostgres package", {
     expect_message(
-      nycflights13_sql(con_rpostgres, schema = "new_schema"),
+      nycflights13_create_sql(con_rpostgres, schema = "new_schema"),
       "Creating the testing database from nycflights13"
     )
   })
 
   dbDisconnect(con_rpostgres)
+})
+
+test_that("nycflights_db() test databes", {
+  con <- nycflights_sqlite()
+  flights_df <- dbGetQuery(con, "SELECT * FROM flights LIMIT 10;")
+  expect_identical(dim(flights_df), c(10L, 19L))
+
+  DBI::dbDisconnect(con)
 })
