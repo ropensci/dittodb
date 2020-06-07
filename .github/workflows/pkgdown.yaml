@@ -2,13 +2,15 @@ on:
   push:
     branches: master
 
-name: Pkgdown
+name: pkgdown
 
 jobs:
   pkgdown:
     runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: '4.0.0'
