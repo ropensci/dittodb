@@ -43,10 +43,13 @@
     <loc>https://jonkeane.com/dittodb/reference/mockdb.html</loc>
   </url>
   <url>
-    <loc>https://jonkeane.com/dittodb/reference/nycflights13_sql.html</loc>
+    <loc>https://jonkeane.com/dittodb/reference/nycflights13_create_sql.html</loc>
   </url>
   <url>
-    <loc>https://jonkeane.com/dittodb/reference/nycflights13_sqlite.html</loc>
+    <loc>https://jonkeane.com/dittodb/reference/nycflights13_create_sqlite.html</loc>
+  </url>
+  <url>
+    <loc>https://jonkeane.com/dittodb/reference/nycflights_sqlite.html</loc>
   </url>
   <url>
     <loc>https://jonkeane.com/dittodb/reference/redact_columns.html</loc>

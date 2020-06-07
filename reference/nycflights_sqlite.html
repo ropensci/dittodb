@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • dittodb</title>
+<title>An SQLite connection to a subset of nycflights13 — nycflights_sqlite • dittodb</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,9 @@
   
   <script src="../extra.js"></script>
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="An SQLite connection to a subset of nycflights13 — nycflights_sqlite" />
+<meta property="og:description" content="Included with dittodb is a small subset of nycflights13
+prepopulated into a sqlite database." />
 
 
 
@@ -70,7 +72,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -140,24 +142,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>An SQLite connection to a subset of nycflights13</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/nycflights13-sql.R'><code>R/nycflights13-sql.R</code></a></small>
+    <div class="hidden name"><code>nycflights_sqlite.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="developing-dittodb.html">Developing `dittodb`</a></dt>
-        <dd></dt>
-        <dt><a href="dittodb.html">Getting Started with `dittodb`</a></dt>
-        <dd></dt>
-        <dt><a href="nycflights.html">nycflights13 data</a></dt>
-        <dd></dt>
-        <dt><a href="travelling.html">Recording SQL queries with dittodb for travelling</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p>Included with <code>dittodb</code> is a small subset of <a href='nycflights13'>nycflights13</a>
+prepopulated into a <code>sqlite</code> database.</p>
     </div>
+
+    <pre class="usage"><span class='fu'>nycflights_sqlite</span>()</pre>
+
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>an RSQLiteConnection</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This database is helpful for getting to know <code>dittodb</code> and running example
+code. It contains a small subset of the data in nycflights13: namely only the
+flights and planes that had a destination of ORD or MDW in February of 2013.
+The airports table has also been limited to only the New York and Chicago
+area airports.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>nycflights_sqlite</span>()
+
+<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span>(<span class='no'>con</span>, <span class='st'>"SELECT flight, tailnum, origin, dest FROM flights LIMIT 10"</span>)</div><div class='output co'>#&gt;    flight tailnum origin dest
+#&gt; 1     301  N3GKAA    LGA  ORD
+#&gt; 2    3223  N8308K    LGA  MDW
+#&gt; 3    3839  N965WN    EWR  MDW
+#&gt; 4     303  N3DAAA    LGA  ORD
+#&gt; 5     905  N266JB    JFK  ORD
+#&gt; 6     305  N4YRAA    LGA  ORD
+#&gt; 7    3737  N526MQ    EWR  ORD
+#&gt; 8    1162  N76265    EWR  ORD
+#&gt; 9     550  N473UA    LGA  ORD
+#&gt; 10    309  N4XYAA    LGA  ORD</div><div class='input'><span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span>(<span class='no'>con</span>, <span class='st'>"SELECT faa, name, lat, lon, alt, tz FROM airports"</span>)</div><div class='output co'>#&gt;   faa                name      lat       lon alt tz
+#&gt; 1 EWR Newark Liberty Intl 40.69250 -74.16867  18 -5
+#&gt; 2 JFK John F Kennedy Intl 40.63975 -73.77893  13 -5
+#&gt; 3 LGA          La Guardia 40.77725 -73.87261  22 -5
+#&gt; 4 MDW Chicago Midway Intl 41.78597 -87.75242 620 -6
+#&gt; 5 ORD  Chicago Ohare Intl 41.97860 -87.90484 668 -6</div><div class='input'>
+<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbDisconnect.html'>dbDisconnect</a></span>(<span class='no'>con</span>)</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
