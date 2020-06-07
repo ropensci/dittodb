@@ -48,7 +48,6 @@
 }(jQuery));
 
 window.buildTabsets = function(tocID) {
-
   // build a tabset from a section div with the .tabset class
   function buildTabset(tabset) {
 
@@ -148,4 +147,20 @@ $(document).ready(function () {
     $('.tabset-dropdown > .nav-tabs > li').click(function () {
       $(this).parent().toggleClass('nav-tabs-open');
     });
+});
+
+$(document).ready(function () {
+  /**
+   * The tabset creation above sometimes relies on empty headers to stop the
+   * tabbing. Though they shouldn't be included in the TOC in the first place,
+   * this will remove empty headers from the TOC after it's created.
+   */
+
+  // find all the empty <a> elements and remove them (and their parents)
+  var empty_a = $("#toc").find("a").filter(":empty");
+  empty_a.parent().remove();
+
+  // now find any empty <ul>s and remove them too
+  var empty_ul = $("#toc").find("ul").filter(":empty");
+  empty_ul.remove();
 });
