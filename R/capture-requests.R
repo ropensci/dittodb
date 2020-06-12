@@ -123,6 +123,11 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   ))
 
   quietly(trace_dbi(
+    "dbExistsTable",
+    exit = dbExistsTableTrace
+  ))
+
+  quietly(trace_dbi(
     "dbColumnInfo",
     exit = dbColumnInfoTrace
   ))
@@ -204,6 +209,16 @@ dbListFieldsTrace <- quote({
   dput(
     thing,
     file.path(.dittodb_env$db_path, glue("dbListFields-{name}.R")),
+    control = c("all", "hexNumeric")
+  )
+})
+
+dbExistsTableTrace <- quote({
+  thing <- returnValue()
+  name <- sanitize_table_id(name, ...)
+  dput(
+    thing,
+    file.path(.dittodb_env$db_path, glue("dbExistsTable-{name}.R")),
     control = c("all", "hexNumeric")
   )
 })

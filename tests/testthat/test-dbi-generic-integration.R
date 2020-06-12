@@ -158,6 +158,10 @@ for (pkg in names(db_pkgs)) {
       result_info <- dbGetInfo(result)
       dbClearResult(result)
 
+      # dbExistsTable ====
+      table_exists <- dbExistsTable(con, "airlines")
+      table_does_not_exist <- dbExistsTable(con, "doesnotexist")
+
       dbDisconnect(con)
       stop_db_capturing()
 
@@ -298,6 +302,12 @@ for (pkg in names(db_pkgs)) {
           out <- dbGetInfo(result)
           dbClearResult(result)
           expect_identical(out, result_info)
+        })
+
+        # dbExistsTable ====
+        test_that("dbGetInfo", {
+          expect_true(dbExistsTable(con, "airlines"))
+          expect_false(dbExistsTable(con, "doesnotexist"))
         })
 
         # dbWriteTable ====
