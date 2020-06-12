@@ -59,6 +59,7 @@ VignetteBuilder: knitr
 Collate: 
     'capture-requests.R'
     'connection.R'
+    'dbExistsTable.R'
     'dbListTables-Fields.R'
     'driver-specific-connections.R'
     'dbQueries-Results.R'

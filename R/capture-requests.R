@@ -123,6 +123,11 @@ start_db_capturing <- function(path, redact_columns = NULL) {
   ))
 
   quietly(trace_dbi(
+    "dbExistsTable",
+    exit = dbExistsTableTrace
+  ))
+
+  quietly(trace_dbi(
     "dbColumnInfo",
     exit = dbColumnInfoTrace
   ))
@@ -208,6 +213,16 @@ dbListFieldsTrace <- quote({
   )
 })
 
+dbExistsTableTrace <- quote({
+  thing <- returnValue()
+  name <- sanitize_table_id(name, ...)
+  dput(
+    thing,
+    file.path(.dittodb_env$db_path, glue("dbExistsTable-{name}.R")),
+    control = c("all", "hexNumeric")
+  )
+})
+
 dbGetInfoConTrace <- quote({
   thing <- returnValue()
   path <- make_path(.dittodb_env$db_path, "conInfo", "")
@@ -272,7 +287,7 @@ dbColumnInfoTrace <- quote({
 stop_db_capturing <- function() {
   for (func in c(
     "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
-    "dbListFields", "dbColumnInfo", "dbGetInfo")) {
+    "dbExistsTable", "dbListFields", "dbColumnInfo", "dbGetInfo")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

@@ -158,6 +158,34 @@ for (pkg in names(db_pkgs)) {
       result_info <- dbGetInfo(result)
       dbClearResult(result)
 
+      # dbExistsTable ====
+      # dbExistsTable is ever so slightly different for each
+      if (pkg == "RMariaDB") {
+        table_exists <- dbExistsTable(con, "airlines")
+        table_does_not_exist <- dbExistsTable(con, "doesnotexist")
+      } else if (pkg == "odbc") {
+        table_exists <- dbExistsTable(
+          con,
+          Id(schema = schema, table = "airlines")
+        )
+        table_does_not_exist <- dbExistsTable(
+          con,
+          Id(schema = schema, table = "doesnotexist")
+        )
+      } else if (pkg == "RPostgreSQL") {
+        table_exists <- dbExistsTable(con, c(schema, "airlines"))
+        table_does_not_exist <- dbExistsTable(con, c(schema, "doesnotexist"))
+      } else if (pkg == "RPostgres") {
+        table_exists <- dbExistsTable(
+          con,
+          Id(schema = schema, table = "airlines")
+        )
+        table_does_not_exist <- dbExistsTable(
+          con,
+          Id(schema = schema, table = "doesnotexist")
+        )
+      }
+
       dbDisconnect(con)
       stop_db_capturing()
 
@@ -298,6 +326,35 @@ for (pkg in names(db_pkgs)) {
           out <- dbGetInfo(result)
           dbClearResult(result)
           expect_identical(out, result_info)
+        })
+
+        # dbExistsTable ====
+        test_that("dbGetInfo", {
+          if (pkg == "RMariaDB") {
+            expect_true(table_exists <- dbExistsTable(con, "airlines"))
+            expect_false(table_does_not_exist <- dbExistsTable(con, "doesnotexist"))
+          } else if (pkg == "odbc") {
+            expect_true(table_exists <- dbExistsTable(
+              con,
+              Id(schema = schema, table = "airlines")
+            ))
+            expect_false(table_does_not_exist <- dbExistsTable(
+              con,
+              Id(schema = schema, table = "doesnotexist")
+            ))
+          } else if (pkg == "RPostgreSQL") {
+            expect_true(table_exists <- dbExistsTable(con, c(schema, "airlines")))
+            expect_false(table_does_not_exist <- dbExistsTable(con, c(schema, "doesnotexist")))
+          } else if (pkg == "RPostgres") {
+            expect_true(table_exists <- dbExistsTable(
+              con,
+              Id(schema = schema, table = "airlines")
+            ))
+            expect_false(table_does_not_exist <- dbExistsTable(
+              con,
+              Id(schema = schema, table = "doesnotexist")
+            ))
+          }
         })
 
         # dbWriteTable ====
