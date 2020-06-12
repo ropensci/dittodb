@@ -287,7 +287,7 @@ dbColumnInfoTrace <- quote({
 stop_db_capturing <- function() {
   for (func in c(
     "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
-    "dbListFields", "dbColumnInfo", "dbGetInfo")) {
+    "dbExistsTable", "dbListFields", "dbColumnInfo", "dbGetInfo")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment
