@@ -10,3 +10,11 @@ setMethod(
   signature("DBIMockConnection", "character"),
   .dbExistsTable
 )
+
+#' @rdname mock-db-methods
+#' @export
+setMethod(
+  "dbExistsTable",
+  signature("DBIMockConnection", "Id"),
+  .dbExistsTable
+)

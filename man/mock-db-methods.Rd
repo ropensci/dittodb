@@ -7,6 +7,7 @@
 \alias{DBIMockConnection-class}
 \alias{dbDisconnect,DBIMockConnection-method}
 \alias{dbExistsTable,DBIMockConnection,character-method}
+\alias{dbExistsTable,DBIMockConnection,Id-method}
 \alias{dbListTables,DBIMockConnection-method}
 \alias{dbListFields,DBIMockConnection,character-method}
 \alias{dbListFields,DBIMockConnection,Id-method}
@@ -32,6 +33,8 @@
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
 
 \S4method{dbExistsTable}{DBIMockConnection,character}(conn, name, ...)
+
+\S4method{dbExistsTable}{DBIMockConnection,Id}(conn, name, ...)
 
 \S4method{dbListTables}{DBIMockConnection}(conn, ...)
 
