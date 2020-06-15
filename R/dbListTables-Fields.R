@@ -1,5 +1,5 @@
 list_helper <- function(kind, conn, ...) {
-  path <- file.path(conn@path, glue("{kind}.R"))
+  path <- file.path(conn@path, glue::glue("{kind}.R"))
   return(read_file(find_file(path)))
 }
 

@@ -208,7 +208,7 @@ dbListFieldsTrace <- quote({
   name <- sanitize_table_id(name, ...)
   dput(
     thing,
-    file.path(.dittodb_env$db_path, glue("dbListFields-{name}.R")),
+    file.path(.dittodb_env$db_path, glue::glue("dbListFields-{name}.R")),
     control = c("all", "hexNumeric")
   )
 })
@@ -218,7 +218,7 @@ dbExistsTableTrace <- quote({
   name <- sanitize_table_id(name, ...)
   dput(
     thing,
-    file.path(.dittodb_env$db_path, glue("dbExistsTable-{name}.R")),
+    file.path(.dittodb_env$db_path, glue::glue("dbExistsTable-{name}.R")),
     control = c("all", "hexNumeric")
   )
 })
