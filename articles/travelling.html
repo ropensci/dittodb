@@ -123,7 +123,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dbplyr</span>)
 
 <span class="no">con_psql</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(
-  <span class="kw">drv</span> <span class="kw">=</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),
+  <span class="kw pkg">RPostgreSQL</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html">PostgreSQL</a></span>(),
   <span class="kw">dbname</span> <span class="kw">=</span> <span class="st">"travelling"</span>,
   <span class="kw">host</span> <span class="kw">=</span> <span class="st">"127.0.0.1"</span>,
   <span class="kw">user</span> <span class="kw">=</span> <span class="st">"m.ciccone"</span>
@@ -143,7 +143,7 @@
 <span class="fu"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()
 
 <span class="no">con_psql</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(
-    <span class="kw">drv</span> <span class="kw">=</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),
+    <span class="kw pkg">RPostgreSQL</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html">PostgreSQL</a></span>(),
     <span class="kw">dbname</span> <span class="kw">=</span> <span class="st">"dittodb"</span>,
     <span class="kw">host</span> <span class="kw">=</span> <span class="st">"postgres.server"</span>,
     <span class="kw">user</span> <span class="kw">=</span> <span class="st">"m.ciccone"</span>
@@ -183,7 +183,7 @@
 <p>If there was a success capturing one or more queries, then we are able to replicate the result connected to a different network or even without internet access:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/mockdb.html">with_mock_db</a></span>({
   <span class="no">con_psql</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(
-    <span class="kw">drv</span> <span class="kw">=</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDriver.html">dbDriver</a></span>(<span class="st">"PostgreSQL"</span>),
+    <span class="kw pkg">RPostgreSQL</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html">PostgreSQL</a></span>(),
     <span class="kw">dbname</span> <span class="kw">=</span> <span class="st">"travelling"</span>,
     <span class="kw">host</span> <span class="kw">=</span> <span class="st">"127.0.0.1"</span>,
     <span class="kw">user</span> <span class="kw">=</span> <span class="st">"m.ciccone"</span>
