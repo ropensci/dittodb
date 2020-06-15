@@ -14,7 +14,7 @@ library(dplyr)
 library(dbplyr)
 
 con_psql <- DBI::dbConnect(
-  drv = DBI::dbDriver("PostgreSQL"),
+  RPostgreSQL::PostgreSQL(),
   dbname = "",
   host = "127.0.0.1",
   user = getOption("dittodb.test.user"),
@@ -25,7 +25,7 @@ DBI::dbDisconnect(con_psql)
 
 
 con_psql <- DBI::dbConnect(
-  drv = DBI::dbDriver("PostgreSQL"),
+  RPostgreSQL::PostgreSQL(),
   dbname = "travelling",
   host = "127.0.0.1",
   user = getOption("dittodb.test.user"),
@@ -36,7 +36,7 @@ DBI::dbDisconnect(con_psql)
 
 start_db_capturing(path = "vignettes/")
 con_psql <- DBI::dbConnect(
-  drv = DBI::dbDriver("PostgreSQL"),
+  RPostgreSQL::PostgreSQL(),
   dbname = "travelling",
   host = "127.0.0.1",
   user = getOption("dittodb.test.user"),
@@ -95,7 +95,7 @@ library(dplyr)
 library(dbplyr)
 
 con_psql <- DBI::dbConnect(
-  drv = DBI::dbDriver("PostgreSQL"),
+  RPostgreSQL::PostgreSQL(),
   dbname = "travelling",
   host = "127.0.0.1",
   user = "m.ciccone"
@@ -137,7 +137,7 @@ library(dittodb)
 start_db_capturing()
 
 con_psql <- DBI::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
+    RPostgreSQL::PostgreSQL(),
     dbname = "dittodb",
     host = "postgres.server",
     user = "m.ciccone"
@@ -165,7 +165,7 @@ library(dbplyr)
 # the chunk above would produce if it were able to connect
 with_mock_db({
   con_psql <- DBI::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
+    RPostgreSQL::PostgreSQL(),
     dbname = "travelling",
     host = "127.0.0.1",
     user = "m.ciccone"
@@ -194,7 +194,7 @@ access:
 ```{r}
 with_mock_db({
   con_psql <- DBI::dbConnect(
-    drv = DBI::dbDriver("PostgreSQL"),
+    RPostgreSQL::PostgreSQL(),
     dbname = "travelling",
     host = "127.0.0.1",
     user = "m.ciccone"
