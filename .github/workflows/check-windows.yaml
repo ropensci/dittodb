@@ -50,6 +50,7 @@ jobs:
         run: |
           $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           choco install mariadb
+          choco uninstall postgresql
           choco install postgresql --force --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
 
