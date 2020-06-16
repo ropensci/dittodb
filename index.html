@@ -222,8 +222,11 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Currently, dittodb is not on CRAN. You can install from source, or use <code>devtools</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"jonkeane/dittodb"</span>)</pre></div>
+<p>Currently, dittodb is not on CRAN. You can install from source, or use <code>remotes</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"jonkeane/dittodb@main"</span>)</pre></div>
+<p><em>Note</em> the <code>@main</code> at the end is necesary until the <code>remotes</code> package <a href="https://github.com/r-lib/remotes/issues/508">is updated</a> to use the default branch specified for GitHub repositories rather than the hardcoded name it currently uses.</p>
+<p>An alternative method of installation is to use <code>remotes::git()</code> directly:</p>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html">install_git</a></span>(<span class="st">"https://github.com/jonkeane/dittodb.git"</span>)</pre></div>
 </div>
 <div id="setup-a-package-to-use-dittodb" class="section level2">
 <h2 class="hasAnchor">
