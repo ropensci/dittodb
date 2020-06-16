@@ -50,7 +50,7 @@ jobs:
         run: |
           $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           choco install mariadb
-          choco install postgresql --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          choco install postgresql --force --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
 
           # add choco-added paths to the actions path
