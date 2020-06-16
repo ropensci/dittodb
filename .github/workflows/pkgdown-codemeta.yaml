@@ -29,7 +29,7 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Render codemeta
-        run: Rscript -e 'codemetar::write_codemeta()'
+        run: Rscript -e 'options(codemeta_branch = "main"); codemetar::write_codemeta()'
       - name: Commit results
         run: |
           git commit codemeta.json -m 'Re-build codemeta.json' || echo "No changes to commit"
