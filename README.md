@@ -130,10 +130,21 @@ with_mock_db({
 All without having to ever set a database up on Travis 🎉
 
 ## Installation
-Currently, dittodb is not on CRAN. You can install from source, or use `devtools`:
+Currently, dittodb is not on CRAN. You can install from source, or use `remotes`:
 
 ```r
-devtools::install_github("jonkeane/dittodb")
+remotes::install_github("jonkeane/dittodb@main")
+```
+
+_Note_ the `@main` at the end is necesary until the `remotes` package 
+[is updated](https://github.com/r-lib/remotes/issues/508) to use the default 
+branch specified for GitHub repositories rather than the hardcoded name it 
+currently uses.
+
+An alternative method of installation is to use `remotes::git()` directly:
+
+```r
+remotes::install_git("https://github.com/jonkeane/dittodb.git")
 ```
 
 ## Setup a package to use `dittodb`
