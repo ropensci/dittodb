@@ -15,10 +15,10 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.1 (2020-06-06)",
+  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
   "author": [
     {
       "@type": "Person",
@@ -297,7 +297,7 @@
   ],
   "releaseNotes": "https://github.com/jonkeane/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/jonkeane/dittodb/blob/main/README.md",
-  "fileSize": "158.58KB",
+  "fileSize": "158.578KB",
   "contIntegration": "https://codecov.io/gh/jonkeane/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
 }
