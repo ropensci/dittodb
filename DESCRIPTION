@@ -52,7 +52,7 @@ Suggests:
     withr,
     rmarkdown,
     lintr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
 VignetteBuilder: knitr

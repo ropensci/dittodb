@@ -136,9 +136,9 @@ Currently, dittodb is not on CRAN. You can install from source, or use `remotes`
 remotes::install_github("jonkeane/dittodb@main")
 ```
 
-_Note_ the `@main` at the end is necesary until the `remotes` package 
+_Note_ the `@main` at the end is necessary until the `remotes` package 
 [is updated](https://github.com/r-lib/remotes/issues/508) to use the default 
-branch specified for GitHub repositories rather than the hardcoded name it 
+branch specified for GitHub repositories rather than the hard coded name it 
 currently uses.
 
 An alternative method of installation is to use `remotes::git()` directly:
