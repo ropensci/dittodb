@@ -296,7 +296,7 @@
   ],
   "releaseNotes": "https://github.com/jonkeane/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/jonkeane/dittodb/blob/main/README.md",
-  "fileSize": "2021.754KB",
+  "fileSize": "2022.414KB",
   "contIntegration": "https://codecov.io/gh/jonkeane/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
 }
