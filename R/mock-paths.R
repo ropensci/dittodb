@@ -87,7 +87,7 @@ db_mock_paths <- function(new, last = FALSE) {
 #'
 #' When testing with dittodb, wrap your tests in `with_mock_path({})` to use the
 #' database fixtures located in other directories. `dittodb` will look for
-#' fixtures in the directory specified by the user, which can be a temporal
+#' fixtures in the directory specified by the user, which can be a temporary
 #' or permanent location.
 #'
 #' @param path the alternate directory

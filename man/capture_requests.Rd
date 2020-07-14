@@ -28,7 +28,7 @@ type (e.g. characters will be replaced with "[redacted]")}
 \code{NULL} (invisibily)
 }
 \description{
-When creating database fixtures, it can sometimes be helpful to see record
+When creating database fixtures, it can sometimes be helpful to record
 the responses from the database for use in crafting tests.
 }
 \details{

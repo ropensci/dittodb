@@ -1,6 +1,6 @@
 #' Capture and record database transactions and save them as mocks
 #'
-#' When creating database fixtures, it can sometimes be helpful to see record
+#' When creating database fixtures, it can sometimes be helpful to record
 #' the responses from the database for use in crafting tests.
 #'
 #' You can start capturing with `start_db_capturing()` and end it with
