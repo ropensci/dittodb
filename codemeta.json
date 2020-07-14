@@ -15,7 +15,6 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "4.0.2",
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.0.2 (2020-06-22)",
@@ -297,7 +296,7 @@
   ],
   "releaseNotes": "https://github.com/jonkeane/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/jonkeane/dittodb/blob/main/README.md",
-  "fileSize": "158.578KB",
+  "fileSize": "2021.754KB",
   "contIntegration": "https://codecov.io/gh/jonkeane/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
 }
