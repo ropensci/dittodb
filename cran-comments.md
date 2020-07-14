@@ -1,5 +1,7 @@
 ## Resubmission
-* I've corrected 3 (possibly) invalid file URIs in 
+This is a resubmission. In this submission I have:
+
+* Corrected 3 (possibly) invalid file URIs in 
   man/nycflights13_create_sql.Rd, man/nycflights_sqlite.Rd, and README.md
 
 
