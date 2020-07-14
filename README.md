@@ -164,4 +164,4 @@ On continuous integration, (using GitHub Actions) these scripts in the `db-setup
 
 ## Code of Conduct
 
-Please note that the `dittodb` project is released with a  [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the `dittodb` project is released with a [Contributor Code of Conduct](https://dittodb.jonkeane.com/CODE_OF_CONDUCT). By contributing to this project, you agree to abide by its terms.

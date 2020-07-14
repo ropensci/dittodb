@@ -10,7 +10,7 @@ nycflights_sqlite()
 an RSQLiteConnection
 }
 \description{
-Included with \code{dittodb} is a small subset of \url{nycflights13}
+Included with \code{dittodb} is a small subset of \href{https://CRAN.R-project.org/package=nycflights13}{\code{nycflights13}}
 prepopulated into a \code{sqlite} database.
 }
 \details{

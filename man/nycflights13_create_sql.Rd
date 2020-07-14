@@ -19,7 +19,7 @@ side effects of writing to the database
 }
 \description{
 Using the connection given in \code{con}, create a database including a few tables
-from the \url{nycflights13} dataset.
+from the \href{https://CRAN.R-project.org/package=nycflights13}{\code{nycflights13}} dataset.
 }
 \examples{
 \dontrun{

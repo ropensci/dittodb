@@ -1,7 +1,7 @@
 #' Create a standardised database for testing
 #'
 #' Using the connection given in `con`, create a database including a few tables
-#' from the [`nycflights13`](nycflights13) dataset.
+#' from the [`nycflights13`](https://CRAN.R-project.org/package=nycflights13) dataset.
 #'
 #' @param con an SQL connection (i.e a PostgreSQL connection)
 #' @param schema schema to write the tables ("", or no schema by default)
@@ -150,7 +150,7 @@ nycflights13_create_sqlite <- function(location = ":memory:", ...) {
 
 #' An SQLite connection to a subset of nycflights13
 #'
-#' Included with `dittodb` is a small subset of [`nycflights13`](nycflights13)
+#' Included with `dittodb` is a small subset of [`nycflights13`](https://CRAN.R-project.org/package=nycflights13)
 #' prepopulated into a `sqlite` database.
 #'
 #' This database is helpful for getting to know `dittodb` and running example

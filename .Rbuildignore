@@ -16,3 +16,5 @@
 ^\.lintr$
 ^docs$
 ^codemeta\.json$
+^CRAN-RELEASE$
+^cran-comments\.md$
