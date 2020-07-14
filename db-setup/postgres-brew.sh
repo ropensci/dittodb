@@ -14,4 +14,4 @@ EOT
 initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
 /usr/local/opt/postgres/bin/createuser -s postgres
-sleep 2
+sleep 10
