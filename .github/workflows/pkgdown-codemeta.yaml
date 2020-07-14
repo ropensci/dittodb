@@ -28,7 +28,10 @@ jobs:
                   -e 'remotes::install_github("jonkeane/pkgdown@header_attributes")'
       - name: Install package
         run: R CMD INSTALL .
-
+      - name: Git setup
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
       - name: Render codemeta
         run: Rscript -e 'options(codemeta_branch = "main"); codemetar::write_codemeta()'
       - name: Commit results
