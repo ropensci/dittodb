@@ -52,7 +52,6 @@ block. When you connect to the database, dittodb sets up the mocks for the
 specific database you're connecting to when you call \code{\link[DBI:dbConnect]{DBI::dbConnect}}.
 }
 \examples{
-\dontrun{
 # Temporary files for examples
 nycflights_path <- tempfile()
 
@@ -87,5 +86,4 @@ with_mock_db({
   # the result from df3 above
   print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"))
 })
-}
 }

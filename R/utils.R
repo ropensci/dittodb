@@ -1,5 +1,5 @@
 check_for_pkg <- function(package) {
-  if (!requireNamespace(package)) {
+  if (!requireNamespace(package, quietly = TRUE)) {
     # TODO: also allow warnings?
     stop(
       "The package ",
@@ -89,11 +89,13 @@ ignore_quotes <- function(statement) {
   return(gsub("(`|\"|')", "`", statement))
 }
 
-#' Set dittodb's debug level
+#' Set {dittodb}'s debug level
 #'
 #' It can be helpful to see what's going on by increasing {dittodb}'s verbosity
 #' which will show what's going on under the hood (e.g. what queries are being
-#' requested, from where).
+#' requested, from where). This sets the option `dittodb.debug` to the value
+#' given in the `level` argument. The option can be set directly with
+#' `options(dittodb.debug = n)` as well.
 #'
 #' The `level` argument is a numeric, where 0 is the default and (relatively)
 #' silent. The higher the level, the more verbose {dittodb} will be.
@@ -110,7 +112,7 @@ ignore_quotes <- function(statement) {
 #' set_dittodb_debug_level(1)
 #' set_dittodb_debug_level(0)
 set_dittodb_debug_level <- function(level) {
-  stopifnot(is.numeric(level))
+  stopifnot(is.numeric(level) || is.null(level))
   options("dittodb.debug" = level)
 
   return(invisible(level))

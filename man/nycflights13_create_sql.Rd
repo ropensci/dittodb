@@ -22,24 +22,14 @@ Using the connection given in \code{con}, create a database including a few tabl
 from the \href{https://CRAN.R-project.org/package=nycflights13}{\code{nycflights13}} dataset.
 }
 \examples{
-\dontrun{
-connections <- list(
- odbc = DBI::dbConnect(
-  odbc::odbc(),
-  Driver   = "PostgreSQL Unicode"
- ),
- rpostgresql = RPostgreSQL::dbConnect(
-  drv      = DBI::dbDriver("PostgreSQL")
- ),
- rpostgres = DBI::dbConnect(
-  drv      = RPostgres::Postgres()
- )
+con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+
+nycflights13_create_sql(con)
+
+DBI::dbGetQuery(
+  con,
+  "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
 )
 
-nycflights13_create_sql(connections$odbc, schema = "nycflights13")
-# same as
-# nycflights13_create_sql(connections$rpostgresql, schema = "nycflights13")
-# also same as
-# nycflights13_create_sql(connections$rpostgres, schema = "nycflights13")
-}
+DBI::dbDisconnect(con)
 }

@@ -1,21 +1,31 @@
 ## Resubmission
-This is a resubmission. In this submission I have:
+This is a resubmission. In order to address Martina Schmirl's comments I have 
+made the following changes:
 
-* Expanded on all accronyms either writting them out fully everywhere or noting 
-  the use of the accronym when used for the first time in a section.
+* Expanded on all acronyms by either writing them out fully everywhere or noting 
+  the use of the acronym when used for the first time in a section.
 
 * The package does not reference any academic publications.
 
-* Runnable examples - TODO
+* Runnable examples - I have made all examples runnable by removing `\dontrun{}`
+  with one exception: the examples for `use_dittodb()` error when they are 
+  called with paths that are not the root directory of a package. I've included
+  more detailed documentation, but have kept `\dontrun{}` in those examples to 
+  prevent them from erroring.
 
 * Thank you for the note about `system.file()`. The function `use_dittodb()` is 
-  intended to help a developer get started with dittodb by adding the necesary 
-  files and declarations to use dittodb for the package source located at the 
-  path provided in the `path` argument. I've added more details to the 
-  `use_dittodb()` documentation that clairfies its use and what happens when it 
+  intended to help a developer get started with dittodb by adding the necessary 
+  files and declarations to use dittodb. I've added more details to the 
+  `use_dittodb()` documentation that clarifies its use and what happens when it 
   is used. 
 
-* options - TODO
+* I have changed the way that `db_mock_paths()` works to avoid setting or 
+  changing users' options at all. The function `set_dittodb_debug_level()` is 
+  intended to be a helper function for the sole purpose of setting their option 
+  so they don't have to remember the option name. I have made explicit in the 
+  documentation that it will set the `option` "dittodb.debug" so that no one is 
+  surprised by the behavior. `set_dittodb_debug_level()` is not called by any 
+  other functions in the package.
 
 * Thank you for the note about `installed.package()` being slow. I have edited 
   the code that called `installed.package()`to use the `requireNamespace()` 

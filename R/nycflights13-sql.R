@@ -16,26 +16,16 @@
 #'
 #' @export
 #' @examples
-#' \dontrun{
-#' connections <- list(
-#'  odbc = DBI::dbConnect(
-#'   odbc::odbc(),
-#'   Driver   = "PostgreSQL Unicode"
-#'  ),
-#'  rpostgresql = RPostgreSQL::dbConnect(
-#'   drv      = DBI::dbDriver("PostgreSQL")
-#'  ),
-#'  rpostgres = DBI::dbConnect(
-#'   drv      = RPostgres::Postgres()
-#'  )
+#' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+#'
+#' nycflights13_create_sql(con)
+#'
+#' DBI::dbGetQuery(
+#'   con,
+#'   "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
 #' )
 #'
-#' nycflights13_create_sql(connections$odbc, schema = "nycflights13")
-#' # same as
-#' # nycflights13_create_sql(connections$rpostgresql, schema = "nycflights13")
-#' # also same as
-#' # nycflights13_create_sql(connections$rpostgres, schema = "nycflights13")
-#' }
+#' DBI::dbDisconnect(con)
 nycflights13_create_sql <- function(con, schema = "", ...) {
   local_tables <- utils::data(package = "nycflights13")$results[, "Item"]
 
@@ -136,9 +126,14 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' con <- nycflights13_create_sqlite()
-#' }
+#'
+#' DBI::dbGetQuery(
+#'   con,
+#'   "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
+#' )
+#'
+#' DBI::dbDisconnect(con)
 nycflights13_create_sqlite <- function(location = ":memory:", ...) {
   check_for_pkg("RSQLite")
   sqlite_con <- dbConnect(RSQLite::SQLite(), location)

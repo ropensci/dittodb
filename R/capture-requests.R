@@ -33,7 +33,6 @@
 #' @return `NULL` (invisibily)
 #'
 #' @examples
-#' \dontrun{
 #' # Temporary files for examples
 #' nycflights_path <- tempfile()
 #'
@@ -68,7 +67,6 @@
 #'   # the result from df3 above
 #'   print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"))
 #' })
-#' }
 #' @name capture_requests
 NULL
 
@@ -275,12 +273,6 @@ dbColumnInfoTrace <- quote({
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
-
-#' an environment for dittodb storing state
-#'
-#' @export
-#' @keywords internal
-.dittodb_env <- new.env(parent = emptyenv())
 
 #' @rdname capture_requests
 #' @export

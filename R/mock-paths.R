@@ -15,9 +15,11 @@
 #' want to set the `last` argument to `TRUE` if you want to read from a
 #' directory but don't want to write to it.
 #'
-#' For finer-grained control, or to completely override the default behavior
-#' of searching in the current working directory, you can set the option
-#' "dittodb.mock.paths" directly.
+#' For finer-grained control, or to completely override the defaults or any
+#' additions made by calls to `db_mock_paths(...)`, you can set the option
+#' "dittodb.mock.paths". If the option "dittodb.mock.paths" is set it will be
+#' used instead of any paths set with `db_mock_paths(...)` or even inside of
+#' `with_mock_path()`
 #'
 #' This function is similar to `.mockPaths()` from
 #' [httptest](https://CRAN.R-project.org/package=httptest)
@@ -29,12 +31,14 @@
 #' to the default.
 #' @param last a logical, should the new path given be added to the end of the
 #' list of paths? (default: `FALSE`)
+#' @param replace logical, should the path replace the current mock paths
+#' (`TRUE`) or should they be appended (to the beginning) of the current mock
+#' paths (default, `FALSE`)
 #'
 #' @return If `new` is omitted, the function returns the current search paths, a
 #' character vector. If `new` is provided, the updated value will be returned
 #' invisibly.
 #' @examples
-#' \dontrun{
 #' # reset mock paths to default
 #' db_mock_paths(NULL)
 #'
@@ -45,33 +49,54 @@
 #' identical(db_mock_paths(), c("tests/testthat/", "."))
 #' db_mock_paths("/var/somewhere/else", last = TRUE)
 #' identical(db_mock_paths(), c("tests/testthat/", ".", "/var/somewhere/else"))
-#' }
 #' @name mockPaths
 #' @export
-db_mock_paths <- function(new, last = FALSE) {
-  # use both "." and testthat::test_path(".") in case they are different
-  def <- unique(c("tests/testthat/", "."))
-
-  current <- getOption("dittodb.mock.paths", default = def)
+db_mock_paths <- function(new, last = FALSE, replace = FALSE) {
+  # We're calling the function to get the list of paths
   if (missing(new)) {
-    ## We're calling the function to get the list of paths
-    return(current)
-  } else if (is.null(new)) {
-    ## We're calling the function to reset to the default
-    options(dittodb.mock.paths = new)
-  } else {
-    ## We're adding one or more paths
-    if (last) {
-      # if we are post-pending
-      current <- unique(c(current, new), fromLast = TRUE)
-    } else {
-      # if we are pre-pending
-      current <- unique(c(new, current))
-    }
-    options(dittodb.mock.paths = current)
+    return(get_db_mock_paths())
   }
 
-  return(invisible(current))
+  # We're calling the function to reset to the default
+  if (is.null(new)) {
+    return(set_default_db_mock_paths())
+  }
+
+  # We're replacing paths
+  if (replace) {
+    .dittodb_env$mock_paths <- new
+    return(invisible(get_db_mock_paths()))
+  }
+
+  # We're adding one or more paths
+  current <- get_db_mock_paths()
+  if (last) {
+    # if we are post-pending
+    current <- unique(c(current, new), fromLast = TRUE)
+  } else {
+    # if we are pre-pending
+    current <- unique(c(new, current))
+  }
+
+  .dittodb_env$mock_paths <- current
+  return(invisible(get_db_mock_paths()))
+}
+
+get_db_mock_paths <- function() {
+  # If paths are set with the dittodb.mock.paths option, those will always be
+  # used regardless of what is set in `.dittodb_env$mock_paths`
+  env_paths <- .dittodb_env$mock_paths
+  options_paths <- getOption("dittodb.mock.paths")
+  if (length(options_paths) > 0) {
+    return(options_paths)
+  }
+  return(env_paths)
+}
+
+# reset mock paths to the default
+set_default_db_mock_paths <- function() {
+  .dittodb_env$mock_paths <- c("tests/testthat/", ".")
+  return(invisible(get_db_mock_paths))
 }
 
 # for backwards compatibility
@@ -124,11 +149,15 @@ db_mock_paths <- function(new, last = FALSE) {
 with_mock_path <- function(path, expr, replace = FALSE) {
   oldmp <- db_mock_paths()
   if (replace) {
-    options(dittodb.mock.paths = path)
+    .dittodb_env$mock_paths <- NULL
+    db_mock_paths(path)
   } else {
-    ## Append
+    # Append
     db_mock_paths(path)
   }
-  on.exit(options(dittodb.mock.paths = oldmp))
+  on.exit({
+    .dittodb_env$mock_paths <- NULL
+    db_mock_paths(oldmp)
+  })
   return(eval.parent(expr))
 }

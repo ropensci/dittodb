@@ -19,7 +19,12 @@ RSQLiteConnection
 Create an in-memory SQLite database for testing
 }
 \examples{
-\dontrun{
 con <- nycflights13_create_sqlite()
-}
+
+DBI::dbGetQuery(
+  con,
+  "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
+)
+
+DBI::dbDisconnect(con)
 }
