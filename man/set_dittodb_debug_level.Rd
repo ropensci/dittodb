@@ -13,15 +13,15 @@ set_dittodb_debug_level(level)
 the level, invisibly
 }
 \description{
-It can be helpful to see what's going on by increasing \code{dittodb}'s verbosity
+It can be helpful to see what's going on by increasing {dittodb}'s verbosity
 which will show what's going on under the hood (e.g. what queries are being
 requested, from where).
 }
 \details{
 The \code{level} argument is a numeric, where 0 is the default and (relatively)
-silent. The higher the level, the more verbose \code{dittodb} will be.
+silent. The higher the level, the more verbose {dittodb} will be.
 
-Currently, \code{dittodb} only has one level of debugging (any value 1 or
+Currently, {dittodb} only has one level of debugging (any value 1 or
 greater), but more might be used in the future.
 }
 \examples{

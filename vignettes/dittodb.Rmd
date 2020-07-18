@@ -1,10 +1,10 @@
 ---
-title: "Getting Started with `dittodb`"
+title: "Getting Started with {dittodb}"
 author: "Jonathan Keane"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with `dittodb`}
+  %\VignetteIndexEntry{Getting Started with {dittodb}}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 db_mock_paths("dittodb")
 ```
 
-`dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
+{dittodb} is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
 
 ```{r setup db, include = FALSE, eval = FALSE}
 # setup the DB used in the rest of the vignette
@@ -121,7 +121,6 @@ Great, now that we have our function we want to test it to make sure it is opera
 
 ```{r tests_1, eval = FALSE}
 library(testthat)
-library(dittodb)
 
 test_that("mean_delays()", {
   out <- mean_delays("month")
@@ -169,9 +168,9 @@ with_mock_db(
 )
 ```
 
-When placed inside of `with_mock_db(...)` a call to `mean_delays("month")` will return what we saved as our fixture _as if it had actually connected to the database_ without needing the database to be installed, reachable, or operational.
+When placed inside of `with_mock_db(...)` a call to `mean_delays("month")` will return what we saved as our fixture _as if it had actually connected to the database_ without needing the database to be installed, reachable, operational, or to exist at all anywhere.
 
-If we wanted to test that a day-based aggregation works, we can, although we will have to make a new fixture. First we would run the following interactively:
+If we wanted to test that a day-based aggregation works, we can! Although we will have to make a new fixture. First we would run the following interactively:
 
 ```{r recording_days, eval = FALSE}
 start_db_capturing()
@@ -191,9 +190,9 @@ with_mock_db(
 )
 ```
 
-# Getting setup to use `dittodb`
-Use the function `dittodb::use_dittodb()` to easily get started using `dittodb`. 
-It will add `dittodb` to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
+# Getting setup to use {dittodb}
+Use the function `dittodb::use_dittodb()` to easily get started using {dittodb}. 
+It will add {dittodb} to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
 to `tests/testthat/helper.R`.
 
 # Things to be careful about
@@ -215,7 +214,7 @@ There are a number of advanced features that might be useful. However they take 
 
 ## Specify a new path
 
-You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function [`db_mock_paths()`]. 
+You can control where mocks are read from (when you're using `with_mock_db(...)`) as well as where they are written to (when using `start_db_capturing()`). To do this, use the function `db_mock_paths()`] 
 
 You can see what paths are being used by calling `db_mock_paths()` with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by `db_mock_paths()`.
 
@@ -223,7 +222,7 @@ You can add a new path by calling `db_mock_paths("new/path/here")` which will ad
 
 ## Redacting
 
-Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test mocks. dittodb allows you to specify columns that should always be redacted by specifying them like so: 
+Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test fixtures. {dittodb} allows you to specify columns that should always be redacted by specifying them like so: 
 ```
 start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))
 ```
@@ -232,7 +231,7 @@ This will always redact the columns "sensitive_column" and "other_sensitive_colu
 
 ## You, too, can write a fixture!
 
-When we use `start_db_recording()` to record fixtures, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
+When we use `start_db_recording()` to record fixtures, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL (Structured Query Language) verb (e.g. `SELECT`), a dash, and the hash using the `dput()` function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.
 
 You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like "Couldn't find the file nycflights/SELECT-16d120.R in any of the mock directories." and use the filename from there.) and then saving the dataframe that you want the test to use with the command `dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))` (if the dataframe you want to save is `df` and we are using the path we saw in the example error message). And you've created your own fixture!
 

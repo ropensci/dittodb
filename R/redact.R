@@ -1,7 +1,7 @@
 #' Redact columns from a dataframe with the default redactors
 #'
 #' This function redacts the columns specified in `columns` in the data given in
-#' `data` using dittodb's standard redactors.
+#' `data` using {dittodb}'s standard redactors.
 #'
 #' The column names given in the `columns` argument are treated as regular
 #' expressions, however they always have `^` and `$` added to the beginning and
@@ -21,7 +21,7 @@
 #' @param data a dataframe to redact
 #' @param columns character, the columns to redact
 #' @param ignore.case should case be ignored? (default: `TRUE`)
-#' @param ... additional options to pass on to `grep` when matching the column
+#' @param ... additional options to pass on to `grep()` when matching the column
 #' names
 #'
 #' @return data, with the columns specified in `columns` duly redacted

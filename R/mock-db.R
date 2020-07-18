@@ -4,7 +4,7 @@
 #' use fixtures instead of connecting to a real database. Alternatively, you can
 #' start and stop using a mocked database with `start_mock_db()` and
 #' `stop_mock_db()` respectively.to execute the whole thing without needing to
-#' remember to stop the mocking. When testing with `dittodb`, it will look for
+#' remember to stop the mocking. When testing with {dittodb}, it will look for
 #' fixtures in all entries of [`db_mock_paths`].
 #'
 #' You only need to use one approach: either use `start_mock_db()` to start
@@ -17,7 +17,7 @@
 #'
 #' Connections should be made after `start_mock_db()` if you're using that
 #' function or they should be made inside of `with_mock_db()` if you're using
-#' that function because `dittodb` uses the database name (given in `dbname` or
+#' that function because {dittodb} uses the database name (given in `dbname` or
 #' `Database` argument of [`dbConnect`] depending on the driver) to separate
 #' different fixtures.
 #'
