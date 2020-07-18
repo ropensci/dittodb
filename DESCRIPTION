@@ -11,10 +11,18 @@ Authors@R: c(
           family = "Vargas",
           role = c("aut"),
           email = "mvargas@dcc.uchile.cl",
-          comment = c(ORCID = "0000-0003-1017-7574"))         
+          comment = c(ORCID = "0000-0003-1017-7574")),
+    person(given = "Helen",
+           family = "Miller",
+           role = "rev",
+           comment = "reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/366"),
+    person(given = "Etienne",
+           family = "Racine",
+           role = "rev",
+           comment = "reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/366")
   )
-URL: https://dittodb.jonkeane.com/, https://github.com/jonkeane/dittodb
-BugReports: https://github.com/jonkeane/dittodb/issues
+URL: https://docs.ropensci.org/dittodb, https://github.com/ropensci/dittodb
+BugReports: https://github.com/ropensci/dittodb/issues
 Description: Testing and documenting code that communicates with remote
   databases can be painful. Although the interaction with R is usually relatively 
   simple (e.g. data(frames) passed to and from a database), because they rely on 
