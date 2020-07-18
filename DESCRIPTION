@@ -21,7 +21,7 @@ Authors@R: c(
            role = "rev",
            comment = "reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/366")
   )
-URL: https://docs.ropensci.org/dittodb, https://github.com/ropensci/dittodb
+URL: https://dittodb.jonkeane.com/, https://github.com/ropensci/dittodb
 BugReports: https://github.com/ropensci/dittodb/issues
 Description: Testing and documenting code that communicates with remote
   databases can be painful. Although the interaction with R is usually relatively 
