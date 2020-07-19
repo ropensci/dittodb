@@ -44,7 +44,9 @@
 <meta property="og:title" content="Set dittodb's debug level — set_dittodb_debug_level" />
 <meta property="og:description" content="It can be helpful to see what's going on by increasing dittodb's verbosity
 which will show what's going on under the hood (e.g. what queries are being
-requested, from where)." />
+requested, from where). This sets the option dittodb.debug to the value
+given in the level argument. The option can be set directly with
+options(dittodb.debug = n) as well." />
 
 
 
@@ -149,9 +151,11 @@ requested, from where)." />
     </div>
 
     <div class="ref-description">
-    <p>It can be helpful to see what's going on by increasing <code>dittodb</code>'s verbosity
+    <p>It can be helpful to see what's going on by increasing dittodb's verbosity
 which will show what's going on under the hood (e.g. what queries are being
-requested, from where).</p>
+requested, from where). This sets the option <code>dittodb.debug</code> to the value
+given in the <code>level</code> argument. The option can be set directly with
+<code><a href='https://rdrr.io/r/base/options.html'>options(dittodb.debug = n)</a></code> as well.</p>
     </div>
 
     <pre class="usage"><span class='fu'>set_dittodb_debug_level</span>(<span class='no'>level</span>)</pre>
@@ -171,8 +175,8 @@ requested, from where).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>level</code> argument is a numeric, where 0 is the default and (relatively)
-silent. The higher the level, the more verbose <code>dittodb</code> will be.</p>
-<p>Currently, <code>dittodb</code> only has one level of debugging (any value 1 or
+silent. The higher the level, the more verbose dittodb will be.</p>
+<p>Currently, dittodb only has one level of debugging (any value 1 or
 greater), but more might be used in the future.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

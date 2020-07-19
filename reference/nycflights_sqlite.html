@@ -42,7 +42,8 @@
   <script src="../extra.js"></script>
 
 <meta property="og:title" content="An SQLite connection to a subset of nycflights13 — nycflights_sqlite" />
-<meta property="og:description" content="Included with dittodb is a small subset of nycflights13
+<meta property="og:description" content="Included with dittodb is a small subset of
+nycflights13
 prepopulated into a sqlite database." />
 
 
@@ -148,7 +149,8 @@ prepopulated into a sqlite database." />
     </div>
 
     <div class="ref-description">
-    <p>Included with <code>dittodb</code> is a small subset of <a href='https://CRAN.R-project.org/package=nycflights13'><code>nycflights13</code></a>
+    <p>Included with dittodb is a small subset of
+<a href='https://CRAN.R-project.org/package=nycflights13'><code>nycflights13</code></a>
 prepopulated into a <code>sqlite</code> database.</p>
     </div>
 
@@ -160,11 +162,11 @@ prepopulated into a <code>sqlite</code> database.</p>
     <p>an RSQLiteConnection</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This database is helpful for getting to know <code>dittodb</code> and running example
+    <p>This database is helpful for getting to know dittodb and running example
 code. It contains a small subset of the data in nycflights13: namely only the
-flights and planes that had a destination of ORD or MDW in February of 2013.
-The airports table has also been limited to only the New York and Chicago
-area airports.</p>
+flights and planes that had a destination of ORD or MDW (the codes for the
+two major airports in Chicago) in February of 2013. The airports table has
+also been limited to only the New York and Chicago area airports.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>nycflights_sqlite</span>()

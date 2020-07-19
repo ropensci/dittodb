@@ -97,7 +97,7 @@
       <h1 data-toc-skip>nycflights13 data</h1>
                         <h4 class="author">Mauricio Vargas and Jonathan Keane</h4>
             
-            <h4 class="date">2020-07-14</h4>
+            <h4 class="date">2020-07-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonkeane/dittodb/blob/master/vignettes/nycflights.Rmd"><code>vignettes/nycflights.Rmd</code></a></small>
       <div class="hidden name"><code>nycflights.Rmd</code></div>
@@ -106,27 +106,26 @@
 
     
     
-<p><code>dittodb</code> uses the <a href="https://CRAN.R-project.org/package=nycflights13"><code>nycflights13</code></a> dataset for testing and example purposes.</p>
+<p>{dittodb} uses the <a href="https://CRAN.R-project.org/package=nycflights13">{nycflights13}</a> dataset for testing and example purposes.</p>
 <div id="exploring-nycflights13" class="section level1">
 <h1 class="hasAnchor">
-<a href="#exploring-nycflights13" class="anchor"></a>Exploring <code>nycflights13</code>
-</h1>
-<p>The <code>nycflights13</code> dataset contains airline on-time data for all flights departing NYC in 2013. It also includes useful ‘metadata’ on airlines, airports, weather, and planes.</p>
+<a href="#exploring-nycflights13" class="anchor"></a>Exploring {nycflights13}</h1>
+<p>The {nycflights13} dataset contains airline on-time data for all flights departing NYC in 2013. It also includes useful metadata on airlines, airports, weather, and planes.</p>
 <p>Have a look to the database schema:</p>
 <div class="figure">
-<img src="relational-nycflights.svg" alt=""><p class="caption"><code>nycflights13</code> relational diagram.</p>
+<img src="relational-nycflights.svg" alt=""><p class="caption">{nycflights13} relational diagram.</p>
 </div>
 </div>
 <div id="nycflights13-test-database" class="section level1">
 <h1 class="hasAnchor">
-<a href="#nycflights13-test-database" class="anchor"></a><code>nycflights13</code> test database</h1>
-<p><code>dittodb</code> comes with a small subset of <code>nycflights13</code> to be used in testing and examples. To access it, use the convenience function <code><a href="../reference/nycflights_sqlite.html">nycflights_sqlite()</a></code> which will return an <code>RSQLite</code> connection the the <code>nycflights.sqlite</code> file included with <code>dittodb</code>. Alternatively, you can connect to this file with <code><a href="https://rdrr.io/r/base/system.file.html">system.file("nycflights.sqlite", package = "dittodb")</a></code>.</p>
+<a href="#nycflights13-test-database" class="anchor"></a>{nycflights13} test database</h1>
+<p>{dittodb} comes with a small subset of {nycflights13} to be used in testing and examples. To access it, use the convenience function <code><a href="../reference/nycflights_sqlite.html">nycflights_sqlite()</a></code> which will return an <code>RSQLite</code> connection the the <code>nycflights.sqlite</code> file included with {dittodb}. Alternatively, you can connect to this file with <code><a href="https://rdrr.io/r/base/system.file.html">system.file("nycflights.sqlite", package = "dittodb")</a></code>.</p>
 </div>
 <div id="adding-nycflights13-data-to-a-database" class="section level1">
 <h1 class="hasAnchor">
-<a href="#adding-nycflights13-data-to-a-database" class="anchor"></a>Adding <code>nycflights13</code> data to a database</h1>
-<p><code>dittodb</code> has a few functions that make loading <code>nycflights13</code> data into a database easier. <code><a href="../reference/nycflights13_create_sql.html">nycflights13_create_sql(con, schema = "nycflights")</a></code> will write the <code>nycflights13</code> data to the database connect to with <code>con</code> and write it to the schema <code>nycflights</code>.</p>
-<p>To quickly set up an SQLite version <code><a href="../reference/nycflights13_create_sql.html">nycflights13_create_sql()</a></code> will create an in-memory SQLite database with the <code>nycflights13</code> data.</p>
+<a href="#adding-nycflights13-data-to-a-database" class="anchor"></a>Adding {nycflights13} data to a database</h1>
+<p>{dittodb} has a few functions that make loading {nycflights13} data into a database easier. <code><a href="../reference/nycflights13_create_sql.html">nycflights13_create_sql(con, schema = "nycflights")</a></code> will write the {nycflights13} data to the database connect to with <code>con</code> and write it to the schema <code>nycflights</code>.</p>
+<p>To quickly set up an SQLite version <code><a href="../reference/nycflights13_create_sql.html">nycflights13_create_sql()</a></code> will create an in-memory SQLite database with the {nycflights13} data.</p>
 </div>
   </div>
 

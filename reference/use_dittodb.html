@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use <code>dittodb</code> in your tests — use_dittodb • dittodb</title>
+<title>Use dittodb in your tests — use_dittodb • dittodb</title>
 
 
 <!-- jquery -->
@@ -41,10 +41,12 @@
   
   <script src="../extra.js"></script>
 
-<meta property="og:title" content="Use <code>dittodb</code> in your tests — use_dittodb" />
-<meta property="og:description" content="This function adds dittodb to Suggests in the package DESCRIPTION and
-loads it in tests/testthat/helper.R. Call it once when you're setting up
-a new package test suite." />
+<meta property="og:title" content="Use dittodb in your tests — use_dittodb" />
+<meta property="og:description" content="If you would like to use dittodb in your package, and you are already using
+testthat, use this function to
+add dittodb to Suggests in the package DESCRIPTION and loads it in
+tests/testthat/helper.R. Call it once when you're setting up a new package
+test suite." />
 
 
 
@@ -143,15 +145,17 @@ a new package test suite." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use <code>dittodb</code> in your tests</h1>
+    <h1>Use dittodb in your tests</h1>
     <small class="dont-index">Source: <a href='https://github.com/jonkeane/dittodb/blob/master/R/use-dittodb.R'><code>R/use-dittodb.R</code></a></small>
     <div class="hidden name"><code>use_dittodb.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function adds <code>dittodb</code> to Suggests in the package DESCRIPTION and
-loads it in <code>tests/testthat/helper.R</code>. Call it once when you're setting up
-a new package test suite.</p>
+    <p>If you would like to use dittodb in your package, and you are already using
+<a href='https://CRAN.R-project.org/package=testthat'>testthat</a>, use this function to
+add dittodb to Suggests in the package DESCRIPTION and loads it in
+<code>tests/testthat/helper.R</code>. Call it once when you're setting up a new package
+test suite.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_dittodb</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
@@ -170,8 +174,16 @@ a new package test suite.</p>
     <p>Nothing: called for file system side effects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function is idempotent: if <code>dittodb</code> is already added to these files, no
-additional changes will be made.</p>
+    <p>This function should be called with the path to your package source as the
+<code>path</code> argument. The function is idempotent: if dittodb is already added to
+these files, no additional changes will be made.</p>
+<p>It will:</p><ul>
+<li><p>add dittodb to the <code>Suggests</code> field of the DESCRIPTION file in the
+current working directory</p></li>
+<li><p>add <code><a href='https://jonkeane.com/dittodb/reference'>library(dittodb)</a></code> to the file <code>tests/testthat/helper.R</code> (creating it
+if it doesn't already exist)</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
