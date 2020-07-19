@@ -296,7 +296,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
-  "fileSize": "2027.79KB",
+  "fileSize": "2027.77KB",
   "contIntegration": "https://codecov.io/gh/ropensci/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
 }
