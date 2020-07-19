@@ -16,6 +16,7 @@
 #'
 #' @export
 #' @examples
+#' \donttest{
 #' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 #'
 #' nycflights13_create_sql(con)
@@ -26,6 +27,7 @@
 #' )
 #'
 #' DBI::dbDisconnect(con)
+#' }
 nycflights13_create_sql <- function(con, schema = "", ...) {
   local_tables <- utils::data(package = "nycflights13")$results[, "Item"]
 
@@ -126,6 +128,7 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' con <- nycflights13_create_sqlite()
 #'
 #' DBI::dbGetQuery(
@@ -134,6 +137,7 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
 #' )
 #'
 #' DBI::dbDisconnect(con)
+#' }
 nycflights13_create_sqlite <- function(location = ":memory:", ...) {
   check_for_pkg("RSQLite")
   sqlite_con <- dbConnect(RSQLite::SQLite(), location)

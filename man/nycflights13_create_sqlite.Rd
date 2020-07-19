@@ -19,6 +19,7 @@ RSQLiteConnection
 Create an in-memory SQLite database for testing
 }
 \examples{
+\donttest{
 con <- nycflights13_create_sqlite()
 
 DBI::dbGetQuery(
@@ -27,4 +28,5 @@ DBI::dbGetQuery(
 )
 
 DBI::dbDisconnect(con)
+}
 }

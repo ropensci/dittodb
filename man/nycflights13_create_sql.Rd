@@ -22,6 +22,7 @@ Using the connection given in \code{con}, create a database including a few tabl
 from the \href{https://CRAN.R-project.org/package=nycflights13}{\code{nycflights13}} dataset.
 }
 \examples{
+\donttest{
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 
 nycflights13_create_sql(con)
@@ -32,4 +33,5 @@ DBI::dbGetQuery(
 )
 
 DBI::dbDisconnect(con)
+}
 }
