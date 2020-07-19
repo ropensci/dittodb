@@ -12,7 +12,7 @@ made the following changes:
   called with paths that are not the root directory of a package. I've included
   more detailed documentation, but have kept `\dontrun{}` in those examples to 
   prevent them from erroring. Additionally, the examples for 
-  `capture_requests()` and `nycflights13_create_*()` which can take longer than 
+  `capture_requests()` and `nycflights13_create_*()` can take longer than 
   5 seconds to run on some systems, so those were wrapped in `\donttest{}` as 
   suggested.
 
