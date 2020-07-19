@@ -5,6 +5,7 @@ rhub_plat <- cran_plat[!grepl("debian|fedora", cran_plat$name), ]
 
 
 rhub::check_for_cran(platforms = rhub_plat$name)
+rhub::check_for_cran(platforms = "windows-x86_64-devel", env_vars = c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
 ### Flavors for CRAN checks
 # "macos-highsierra-release-cran"
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-3ce1774bd743458f90ff902a6676a2bb
