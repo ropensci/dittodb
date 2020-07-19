@@ -130,17 +130,13 @@ with_mock_db({
 All without having to ever set a database up on Travis or GitHub Actions 🎉
 
 ## Installation
-Currently, {dittodb} is not on CRAN (The Comprehensive R Archive Network). You 
-can install from source, or use {remotes}:
+Currently, {dittodb} is not on CRAN (The Comprehensive R Archive Network). You can install from source, or use {remotes}:
 
 ```r
 remotes::install_github("ropensci/dittodb@main")
 ```
 
-_Note_ the `@main` at the end is necessary until the {remotes} package 
-[is updated](https://github.com/r-lib/remotes/issues/508) to use the default 
-branch specified for GitHub repositories rather than the hard coded name it 
-currently uses.
+_Note_ the `@main` at the end is necessary until the {remotes} package [is updated](https://github.com/r-lib/remotes/issues/508) to use the default branch specified for GitHub repositories rather than the hard coded name it currently uses.
 
 An alternative method of installation is to use `remotes::git()` directly:
 
@@ -149,32 +145,17 @@ remotes::install_git("https://github.com/ropensci/dittodb.git")
 ```
 
 ## Setup a package to use {dittodb}
-Use the function `dittodb::use_dittodb()` to easily get started using {dittodb}. 
-It will add {dittodb} to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
-to `tests/testthat/helper.R`.
+Use the function `dittodb::use_dittodb()` to easily get started using {dittodb}. It will add {dittodb} to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)` to `tests/testthat/helper.R`.
 
 ## Development
-There is extensive information about developing {dittodb} in the vignette [Developing {dittodb}](https://dittodb.jonkeane.com/articles/developing-dittodb.html, please 
-read that before trying to make changes to {dittodb} or running any of the 
-scripts provided in the `db-setup` directory.
+There is extensive information about developing {dittodb} in the vignette [Developing {dittodb}](https://dittodb.jonkeane.com/articles/developing-dittodb.html, please read that before trying to make changes to {dittodb} or running any of the scripts provided in the `db-setup` directory.
 
-In order to test {dittodb} recording functionality locally or on continuous 
-integration, it is helpful to have databases with test data available. This can 
-be accomplished using the scripts in the `db-setup` directory. By default, 
-{dittodb} does not run any tests that require database infrastructure locally.
+In order to test {dittodb} recording functionality locally or on continuous integration, it is helpful to have databases with test data available. This can be accomplished using the scripts in the `db-setup` directory. By default, {dittodb} does not run any tests that require database infrastructure locally.
 
-To get local databases, the easiest way is to use docker and run either the 
-`db-setup/local-mariadb-docker-setup.sh` or `db-setup/local-postgres-docker-setup.sh` 
-which will pull a docker image and set up a test database with the user and 
-passwords that the {dittodb} tests are expecting (and will stop and remove the 
-docker images if they are present). 
+To get local databases, the easiest way is to use docker and run either the `db-setup/local-mariadb-docker-setup.sh` or `db-setup/local-postgres-docker-setup.sh` which will pull a docker image and set up a test database with the user and passwords that the {dittodb} tests are expecting (and will stop and remove the docker images if they are present). 
 
-On continuous integration, (using GitHub Actions) these scripts in the `db-setup` 
-directory are used to set up these test databases so we can run integration tests 
-(predominantly in the file `tests/testthat/test-dbi-generic-integration.R`).
+On continuous integration, (using GitHub Actions) these scripts in the `db-setup` directory are used to set up these test databases so we can run integration tests (predominantly in the file `tests/testthat/test-dbi-generic-integration.R`).
 
 ## Code of Conduct
 
-Please note that the {dittodb} project is released with a 
-[Contributor Code of Conduct](https://dittodb.jonkeane.com/CODE_OF_CONDUCT). 
-By contributing to this project, you agree to abide by its terms.
+Please note that the {dittodb} project is released with a [Contributor Code of Conduct](https://dittodb.jonkeane.com/CODE_OF_CONDUCT). By contributing to this project, you agree to abide by its terms.
