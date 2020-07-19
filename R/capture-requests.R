@@ -33,6 +33,7 @@
 #' @return `NULL` (invisibily)
 #'
 #' @examples
+#' \donttest{
 #' # Temporary files for examples
 #' nycflights_path <- tempfile()
 #'
@@ -67,6 +68,7 @@
 #'   # the result from df3 above
 #'   print(dbGetQuery(con, "SELECT * FROM airlines LIMIT 3"))
 #' })
+#' }
 #' @name capture_requests
 NULL
 

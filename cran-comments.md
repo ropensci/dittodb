@@ -11,7 +11,9 @@ made the following changes:
   with one exception: the examples for `use_dittodb()` error when they are 
   called with paths that are not the root directory of a package. I've included
   more detailed documentation, but have kept `\dontrun{}` in those examples to 
-  prevent them from erroring.
+  prevent them from erroring. Additionally, the examples for 
+  `capture_requests()` can take longer than 5 seconds, so those were wrapped in
+  `\donttest{}` as suggested.
 
 * Thank you for the note about `system.file()`. The function `use_dittodb()` is 
   intended to help a developer get started with dittodb by adding the necessary 
