@@ -86,8 +86,8 @@ jobs:
       - name: Check
         run: |
           # Only error on warnings or above for anything prior to 3.4
-          errornon=$(if (( $(echo "${{ matrix.config.args.r }} < 3.4" | bc -l) )); then echo "warning"; else echo "note"; fi)
-          Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'errornon', check_dir = 'check')"
+          erroron=$(if (( $(echo "${{ matrix.config.args.r }} < 3.4" | bc -l) )); then echo "warning"; else echo "note"; fi)
+          Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = '$erroron', check_dir = 'check')"
 
       - name: Upload check results
         if: failure()
