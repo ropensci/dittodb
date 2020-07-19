@@ -13,7 +13,7 @@ redact_columns(data, columns, ignore.case = TRUE, ...)
 
 \item{ignore.case}{should case be ignored? (default: \code{TRUE})}
 
-\item{...}{additional options to pass on to \code{grep} when matching the column
+\item{...}{additional options to pass on to \code{grep()} when matching the column
 names}
 }
 \value{
@@ -21,7 +21,7 @@ data, with the columns specified in \code{columns} duly redacted
 }
 \description{
 This function redacts the columns specified in \code{columns} in the data given in
-\code{data} using dittodb's standard redactors.
+\code{data} using {dittodb}'s standard redactors.
 }
 \details{
 The column names given in the \code{columns} argument are treated as regular

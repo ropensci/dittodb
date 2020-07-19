@@ -98,8 +98,9 @@ class \code{DBIMockResult})}
 \item{x}{a name to quote (for \code{\link{dbQuoteIdentifier}})}
 }
 \description{
-Various methods (\code{dbSendQuery}, \code{dbFetchQuery}) that are mocks of the DBI
-methods of the same name. Instead of actually interacting with a database,
-they read in mock responses and the code proceeds after that. These aren't
-used directly, but are part of how \code{dittodb} works.
+Various methods (\code{dbSendQuery}, \code{dbFetchQuery}) that are mocks of the
+\href{https://CRAN.R-project.org/package=DBI}{DBI} methods of the same name.
+Instead of actually interacting with a database, they read in mock responses
+and the code proceeds after that. These aren't used directly, but are part of
+how {dittodb} works.
 }

@@ -6,7 +6,7 @@
 \alias{.db_mock_paths}
 \title{Set an alternate directory for mock API fixtures}
 \usage{
-db_mock_paths(new, last = FALSE)
+db_mock_paths(new, last = FALSE, replace = FALSE)
 
 .db_mock_paths(new)
 }
@@ -16,6 +16,10 @@ to the default.}
 
 \item{last}{a logical, should the new path given be added to the end of the
 list of paths? (default: \code{FALSE})}
+
+\item{replace}{logical, should the path replace the current mock paths
+(\code{TRUE}) or should they be appended (to the beginning) of the current mock
+paths (default, \code{FALSE})}
 }
 \value{
 If \code{new} is omitted, the function returns the current search paths, a
@@ -39,9 +43,11 @@ path is used as the path to save the fixtures in. For this reason, you may
 want to set the \code{last} argument to \code{TRUE} if you want to read from a
 directory but don't want to write to it.
 
-For finer-grained control, or to completely override the default behavior
-of searching in the current working directory, you can set the option
-"dittodb.mock.paths" directly.
+For finer-grained control, or to completely override the defaults or any
+additions made by calls to \code{db_mock_paths(...)}, you can set the option
+"dittodb.mock.paths". If the option "dittodb.mock.paths" is set it will be
+used instead of any paths set with \code{db_mock_paths(...)} or even inside of
+\code{with_mock_path()}
 
 This function is similar to \code{.mockPaths()} from
 \href{https://CRAN.R-project.org/package=httptest}{httptest}
@@ -50,7 +56,6 @@ The function \code{.db_mock_paths} is the same as \code{db_mock_paths} although 
 deprecated and should not be used.
 }
 \examples{
-\dontrun{
 # reset mock paths to default
 db_mock_paths(NULL)
 
@@ -61,6 +66,5 @@ db_mock_paths(NULL)
 identical(db_mock_paths(), c("tests/testthat/", "."))
 db_mock_paths("/var/somewhere/else", last = TRUE)
 identical(db_mock_paths(), c("tests/testthat/", ".", "/var/somewhere/else"))
-}
 }
 \keyword{internal}

@@ -20,7 +20,7 @@ nothing, called to execute the expression(s) in \code{expr}
 }
 \description{
 When testing with dittodb, wrap your tests in \code{with_mock_path({})} to use the
-database fixtures located in other directories. \code{dittodb} will look for
+database fixtures located in other directories. {dittodb} will look for
 fixtures in the directory specified by the user, which can be a temporary
 or permanent location.
 }

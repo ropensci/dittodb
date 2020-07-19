@@ -1,8 +1,5 @@
-#' @importFrom utils installed.packages
 check_for_pkg <- function(package) {
-  installed_packages <- rownames(installed.packages())
-
-  if (!package %in% installed_packages) {
+  if (!requireNamespace(package, quietly = TRUE)) {
     # TODO: also allow warnings?
     stop(
       "The package ",
@@ -92,16 +89,18 @@ ignore_quotes <- function(statement) {
   return(gsub("(`|\"|')", "`", statement))
 }
 
-#' Set dittodb's debug level
+#' Set {dittodb}'s debug level
 #'
-#' It can be helpful to see what's going on by increasing `dittodb`'s verbosity
+#' It can be helpful to see what's going on by increasing {dittodb}'s verbosity
 #' which will show what's going on under the hood (e.g. what queries are being
-#' requested, from where).
+#' requested, from where). This sets the option `dittodb.debug` to the value
+#' given in the `level` argument. The option can be set directly with
+#' `options(dittodb.debug = n)` as well.
 #'
 #' The `level` argument is a numeric, where 0 is the default and (relatively)
-#' silent. The higher the level, the more verbose `dittodb` will be.
+#' silent. The higher the level, the more verbose {dittodb} will be.
 #'
-#' Currently, `dittodb` only has one level of debugging (any value 1 or
+#' Currently, {dittodb} only has one level of debugging (any value 1 or
 #' greater), but more might be used in the future.
 #'
 #' @param level a numeric, the level to set to (e.g. 1)
@@ -113,7 +112,7 @@ ignore_quotes <- function(statement) {
 #' set_dittodb_debug_level(1)
 #' set_dittodb_debug_level(0)
 set_dittodb_debug_level <- function(level) {
-  stopifnot(is.numeric(level))
+  stopifnot(is.numeric(level) || is.null(level))
   options("dittodb.debug" = level)
 
   return(invisible(level))
@@ -148,7 +147,7 @@ get_type <- function(statement) return(strsplit(statement, " ")[[1]][1])
 #' Sanitize Table id
 #'
 #' Tables are identified and specified with a large number of ways across
-#' drivers. For the purposes of `dittodb`, the details are less important since
+#' drivers. For the purposes of {dittodb}, the details are less important since
 #' we almost always just want a flat representation (_ie_ for filenames). This
 #' takes the various formats and returns a string with various elements
 #' separated by dots.

@@ -23,4 +23,5 @@ RSQLite
 RSQLiteConnection
 standardised
 tabset
+testthat
 travelling

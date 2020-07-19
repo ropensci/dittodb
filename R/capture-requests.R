@@ -33,7 +33,7 @@
 #' @return `NULL` (invisibily)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Temporary files for examples
 #' nycflights_path <- tempfile()
 #'
@@ -275,12 +275,6 @@ dbColumnInfoTrace <- quote({
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
-
-#' an environment for dittodb storing state
-#'
-#' @export
-#' @keywords internal
-.dittodb_env <- new.env(parent = emptyenv())
 
 #' @rdname capture_requests
 #' @export
