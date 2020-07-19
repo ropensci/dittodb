@@ -32,8 +32,7 @@ withr::with_options(
 
 with_mock_path(
   c("new_one"),
-  replace = TRUE,
-  {
+  replace = TRUE, {
     test_that("the one mockpath is used", {
       expect_identical(db_mock_paths(), "new_one")
     })
