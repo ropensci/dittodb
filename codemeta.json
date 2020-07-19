@@ -5,8 +5,8 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "dittodb",
-  "description": "Testing and documenting code that communicates with remote\n  databases can be painful. Although the interaction with R is usually relatively \n  simple (e.g. data(frames) passed to and from a database), because they rely on \n  a separate service and the data there, testing them can be difficult to set up,\n  unsustainable in a CI environment, or impossible without replicating an entire\n  production cluster. This package addresses that by allowing you to make \n  recordings from your database interactions and then play them back while \n  testing (or in other contexts) all without needing to spin up or have access \n  to the database your code would typically connect to.",
-  "name": "dittodb: A Test Environment for DB Requests",
+  "description": "Testing and documenting code that communicates with remote\n  databases can be painful. Although the interaction with R is usually relatively \n  simple (e.g. data(frames) passed to and from a database), because they rely on \n  a separate service and the data there, testing them can be difficult to set up,\n  unsustainable in a continuous integration environment, or impossible without \n  replicating an entire production cluster. This package addresses that by \n  allowing you to make recordings from your database interactions and then play \n  them back while testing (or in other contexts) all without needing to spin up \n  or have access to the database your code would typically connect to.",
+  "name": "dittodb: A Test Environment for database Requests",
   "codeRepository": "https://github.com/jonkeane/dittodb",
   "relatedLink": "https://dittodb.jonkeane.com/",
   "issueTracker": "https://github.com/jonkeane/dittodb/issues",
@@ -296,7 +296,7 @@
   ],
   "releaseNotes": "https://github.com/jonkeane/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/jonkeane/dittodb/blob/main/README.md",
-  "fileSize": "2022.414KB",
+  "fileSize": "2027.389KB",
   "contIntegration": "https://codecov.io/gh/jonkeane/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
 }
