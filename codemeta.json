@@ -6,7 +6,7 @@
   "@type": "SoftwareSourceCode",
   "identifier": "dittodb",
   "description": "Testing and documenting code that communicates with remote\n  databases can be painful. Although the interaction with R is usually relatively \n  simple (e.g. data(frames) passed to and from a database), because they rely on \n  a separate service and the data there, testing them can be difficult to set up,\n  unsustainable in a continuous integration environment, or impossible without \n  replicating an entire production cluster. This package addresses that by \n  allowing you to make recordings from your database interactions and then play \n  them back while testing (or in other contexts) all without needing to spin up \n  or have access to the database your code would typically connect to.",
-  "name": "dittodb: A Test Environment for database Requests",
+  "name": "dittodb: A Test Environment for Database Requests",
   "codeRepository": "https://github.com/ropensci/dittodb",
   "relatedLink": "https://dittodb.jonkeane.com/",
   "issueTracker": "https://github.com/ropensci/dittodb/issues",
@@ -296,7 +296,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
-  "fileSize": "2027.77KB",
+  "fileSize": "2027.897KB",
   "contIntegration": "https://codecov.io/gh/ropensci/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
 }
