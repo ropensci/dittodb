@@ -24,7 +24,7 @@ Wrap a chunk of code in \code{with_mock_db()} to use mocked databases that will
 use fixtures instead of connecting to a real database. Alternatively, you can
 start and stop using a mocked database with \code{start_mock_db()} and
 \code{stop_mock_db()} respectively.to execute the whole thing without needing to
-remember to stop the mocking. When testing with \code{dittodb}, it will look for
+remember to stop the mocking. When testing with {dittodb}, it will look for
 fixtures in all entries of \code{\link{db_mock_paths}}.
 }
 \details{
@@ -38,12 +38,11 @@ step through tests interactively using \code{start_mock_db()}/\code{stop_mock_db
 
 Connections should be made after \code{start_mock_db()} if you're using that
 function or they should be made inside of \code{with_mock_db()} if you're using
-that function because \code{dittodb} uses the database name (given in \code{dbname} or
+that function because {dittodb} uses the database name (given in \code{dbname} or
 \code{Database} argument of \code{\link{dbConnect}} depending on the driver) to separate
 different fixtures.
 }
 \examples{
-\dontrun{
 # Add the mocks included with dittodb to the db_mock_paths to use them below
 db_mock_paths(system.file("nycflight_mocks", package = "dittodb"), last = TRUE)
 
@@ -54,40 +53,38 @@ with_mock_db({
     dbname = "nycflights"
   )
 
-  test_that("We get one airline", {
+  testthat::test_that("We get one airline", {
     one_airline <- dbGetQuery(
       con,
       "SELECT carrier, name FROM airlines LIMIT 1"
     )
-    expect_is(one_airline, "data.frame")
-    expect_equal(nrow(one_airline), 1)
-    expect_equal(one_airline$carrier, "9E")
-    expect_equal(one_airline$name, "Endeavor Air Inc.")
+    testthat::expect_is(one_airline, "data.frame")
+    testthat::expect_equal(nrow(one_airline), 1)
+    testthat::expect_equal(one_airline$carrier, "9E")
+    testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
   })
+
+  dbDisconnect(con)
 })
 
-# using `start_mock_db()` and `stop_mock_db()` (and a different driver)
+# using `start_mock_db()` and `stop_mock_db()`
 start_mock_db()
-con <- dbConnect(
-  RPostgreSQL::PostgreSQL(),
-  dbname = "nycflights",
-  host = "127.0.0.1",
-  user = "some_user",
-  password = ""
-)
+  con <- dbConnect(
+    RSQLite::SQLite(),
+    dbname = "nycflights"
+  )
 
-test_that("We get one airline", {
+testthat::test_that("We get one airline", {
   one_airline <- dbGetQuery(
     con,
     "SELECT carrier, name FROM airlines LIMIT 1"
   )
-  expect_is(one_airline, "data.frame")
-  expect_equal(nrow(one_airline), 1)
-  expect_equal(one_airline$carrier, "9E")
-  expect_equal(one_airline$name, "Endeavor Air Inc.")
+  testthat::expect_is(one_airline, "data.frame")
+  testthat::expect_equal(nrow(one_airline), 1)
+  testthat::expect_equal(one_airline$carrier, "9E")
+  testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
 })
 
 dbDisconnect(con)
 stop_mock_db()
-}
 }
