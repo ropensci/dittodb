@@ -1,4 +1,4 @@
-url: https://jonkeane.com/dittodb
+url: https://dittodb.jonkeane.com/
 template:
   params:
     bootswatch: flatly
@@ -45,3 +45,10 @@ navbar:
          href: articles/developing-dittodb.html
     - text: News
       href: news/
+
+authors:
+  Jonathan Keane:
+    href: "https://jonkeane.com/"
+
+  Mauricio Vargas:
+    href: "https://pacha.dev/"
