@@ -20,13 +20,15 @@ Create an in-memory SQLite database for testing
 }
 \examples{
 \donttest{
-con <- nycflights13_create_sqlite()
+if (check_for_pkg("RSQLite", message)) {
+  con <- nycflights13_create_sqlite()
 
-DBI::dbGetQuery(
-  con,
-  "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
-)
+  DBI::dbGetQuery(
+    con,
+    "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
+  )
 
-DBI::dbDisconnect(con)
+  DBI::dbDisconnect(con)
+}
 }
 }

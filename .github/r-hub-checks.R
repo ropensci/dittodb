@@ -11,6 +11,8 @@ rhub::check_for_cran(platforms = "windows-x86_64-devel", env_vars = c(R_COMPILE_
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-3ce1774bd743458f90ff902a6676a2bb
 # spell check error?
 
+rhub::check_for_cran(platforms = c("solaris-x86-patched", "solaris-x86-patched-ods"))
+
 # "solaris-x86-patched"
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-67d1384703f144dea2cda0bfd4788c1d
 # 1 WARNING, 3 NOTEs

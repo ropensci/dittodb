@@ -23,15 +23,17 @@ from the \href{https://CRAN.R-project.org/package=nycflights13}{\code{nycflights
 }
 \examples{
 \donttest{
-con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+if (check_for_pkg("RSQLite", message)) {
+  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 
-nycflights13_create_sql(con)
+  nycflights13_create_sql(con)
 
-DBI::dbGetQuery(
-  con,
-  "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
-)
+  DBI::dbGetQuery(
+    con,
+    "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
+  )
 
-DBI::dbDisconnect(con)
+  DBI::dbDisconnect(con)
+}
 }
 }

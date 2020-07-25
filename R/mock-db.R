@@ -33,12 +33,34 @@
 #' # Add the mocks included with dittodb to the db_mock_paths to use them below
 #' db_mock_paths(system.file("nycflight_mocks", package = "dittodb"), last = TRUE)
 #'
-#' # using  `with_mock_db()`
-#' with_mock_db({
-#'   con <- dbConnect(
-#'     RSQLite::SQLite(),
-#'     dbname = "nycflights"
-#'   )
+#' if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
+#'   # using  `with_mock_db()`
+#'   with_mock_db({
+#'     con <- dbConnect(
+#'       RSQLite::SQLite(),
+#'       dbname = "nycflights"
+#'     )
+#'
+#'     testthat::test_that("We get one airline", {
+#'       one_airline <- dbGetQuery(
+#'         con,
+#'         "SELECT carrier, name FROM airlines LIMIT 1"
+#'       )
+#'       testthat::expect_is(one_airline, "data.frame")
+#'       testthat::expect_equal(nrow(one_airline), 1)
+#'       testthat::expect_equal(one_airline$carrier, "9E")
+#'       testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
+#'     })
+#'
+#'     dbDisconnect(con)
+#'   })
+#'
+#'   # using `start_mock_db()` and `stop_mock_db()`
+#'   start_mock_db()
+#'     con <- dbConnect(
+#'       RSQLite::SQLite(),
+#'       dbname = "nycflights"
+#'     )
 #'
 #'   testthat::test_that("We get one airline", {
 #'     one_airline <- dbGetQuery(
@@ -52,28 +74,8 @@
 #'   })
 #'
 #'   dbDisconnect(con)
-#' })
-#'
-#' # using `start_mock_db()` and `stop_mock_db()`
-#' start_mock_db()
-#'   con <- dbConnect(
-#'     RSQLite::SQLite(),
-#'     dbname = "nycflights"
-#'   )
-#'
-#' testthat::test_that("We get one airline", {
-#'   one_airline <- dbGetQuery(
-#'     con,
-#'     "SELECT carrier, name FROM airlines LIMIT 1"
-#'   )
-#'   testthat::expect_is(one_airline, "data.frame")
-#'   testthat::expect_equal(nrow(one_airline), 1)
-#'   testthat::expect_equal(one_airline$carrier, "9E")
-#'   testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
-#' })
-#'
-#' dbDisconnect(con)
-#' stop_mock_db()
+#'   stop_mock_db()
+#' }
 with_mock_db <- function(expr) {
   # TODO: change this to use start_mock_db()?
   with_mock(
