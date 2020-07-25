@@ -1,7 +1,7 @@
-check_for_pkg <- function(package) {
+check_for_pkg <- function(package, func = stop) {
   if (!requireNamespace(package, quietly = TRUE)) {
     # TODO: also allow warnings?
-    stop(
+    func(
       "The package ",
       package,
       " isn't installed but is required for this function. \nPlease install ",

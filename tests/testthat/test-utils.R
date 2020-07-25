@@ -79,6 +79,8 @@ test_that("We ignore quote differences in statements", {
 })
 
 test_that("sanitize_table_id()", {
+  # Skip if RPostgres is not available
+  check_for_pkg("RPostgres", skip)
   id_rpostgres <- RPostgres::Id(
     catalog = "cat",
     schema = "schem",
