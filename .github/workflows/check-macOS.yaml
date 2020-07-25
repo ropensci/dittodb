@@ -13,7 +13,7 @@ jobs:
       matrix:
         config:
         - { os: macOS-latest, r: '3.6', args: "--no-manual" }
-        - { os: macOS-latest, r: '4.0' }
+        - { os: macOS-latest, r: 'release' }
         - { os: macOS-latest, r: 'devel', args: "--no-manual" }
 
     env:
@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check

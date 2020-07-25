@@ -25,7 +25,7 @@ jobs:
                   -e 'install.packages("ps")' \
                   -e 'remotes::install_github("ropensci/codemetar")' \
                   -e 'remotes::install_deps(dependencies = TRUE)' \
-                  -e 'remotes::install_github("jonkeane/pkgdown@header_attributes")'
+                  -e 'remotes::install_github("jonkeane/pkgdown@jk-fork")'
       - name: Install package
         run: R CMD INSTALL .
       - name: Git setup
