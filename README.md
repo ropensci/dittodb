@@ -130,15 +130,15 @@ with_mock_db({
 All without having to ever set a database up on Travis or GitHub Actions 🎉
 
 ## Installation
-Currently, {dittodb} is not on CRAN (The Comprehensive R Archive Network). You can install from source, or use {remotes}:
+Currently, {dittodb} is on CRAN (The Comprehensive R Archive Network), so you can install it with `install.packages("dittodb")`. 
+
+If you would like to use the development version, you can install from github with:
 
 ```r
-remotes::install_github("ropensci/dittodb@main")
+remotes::install_github("ropensci/dittodb")
 ```
 
-_Note_ the `@main` at the end is necessary until the {remotes} package [is updated](https://github.com/r-lib/remotes/issues/508) to use the default branch specified for GitHub repositories rather than the hard coded name it currently uses.
-
-An alternative method of installation is to use `remotes::git()` directly:
+_Note_ You may need to add `@main` at the end if you are using a version of {remotes} prior to 2.2.0. Alternatively, you can use `remotes::git()` directly:
 
 ```r
 remotes::install_git("https://github.com/ropensci/dittodb.git")
