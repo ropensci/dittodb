@@ -1,6 +1,6 @@
 on: [push, pull_request]
 
-name: check-mac
+name: check-macOS
 
 jobs:
   check:
