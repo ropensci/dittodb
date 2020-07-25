@@ -17,18 +17,21 @@
 #' @export
 #' @examples
 #' \donttest{
-#' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+#' if (check_for_pkg("RSQLite", message)) {
+#'   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 #'
-#' nycflights13_create_sql(con)
+#'   nycflights13_create_sql(con)
 #'
-#' DBI::dbGetQuery(
-#'   con,
-#'   "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
-#' )
+#'   DBI::dbGetQuery(
+#'     con,
+#'     "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
+#'   )
 #'
-#' DBI::dbDisconnect(con)
+#'   DBI::dbDisconnect(con)
+#' }
 #' }
 nycflights13_create_sql <- function(con, schema = "", ...) {
+  check_for_pkg("nycflights13", message)
   local_tables <- utils::data(package = "nycflights13")$results[, "Item"]
 
   unique_index <- list(
@@ -129,14 +132,16 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
 #'
 #' @examples
 #' \donttest{
-#' con <- nycflights13_create_sqlite()
+#' if (check_for_pkg("RSQLite", message)) {
+#'   con <- nycflights13_create_sqlite()
 #'
-#' DBI::dbGetQuery(
-#'   con,
-#'   "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
-#' )
+#'   DBI::dbGetQuery(
+#'     con,
+#'     "SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"
+#'   )
 #'
-#' DBI::dbDisconnect(con)
+#'   DBI::dbDisconnect(con)
+#' }
 #' }
 nycflights13_create_sqlite <- function(location = ":memory:", ...) {
   check_for_pkg("RSQLite")
@@ -164,12 +169,14 @@ nycflights13_create_sqlite <- function(location = ":memory:", ...) {
 #' @export
 #'
 #' @examples
-#' con <- nycflights_sqlite()
+#' if (check_for_pkg("RSQLite", message)) {
+#'   con <- nycflights_sqlite()
 #'
-#' DBI::dbGetQuery(con, "SELECT flight, tailnum, origin, dest FROM flights LIMIT 10")
-#' DBI::dbGetQuery(con, "SELECT faa, name, lat, lon, alt, tz FROM airports")
+#'   DBI::dbGetQuery(con, "SELECT flight, tailnum, origin, dest FROM flights LIMIT 10")
+#'   DBI::dbGetQuery(con, "SELECT faa, name, lat, lon, alt, tz FROM airports")
 #'
-#' DBI::dbDisconnect(con)
+#'   DBI::dbDisconnect(con)
+#' }
 nycflights_sqlite <- function() {
   check_for_pkg("RSQLite")
   path <- system.file("nycflights.sqlite", package = "dittodb")

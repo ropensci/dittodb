@@ -1,13 +1,36 @@
+#' Check if a package is installed
+#'
+#' Uses `requireNamespace()` to check if a package is already installed and
+#' provides options for issuing an error, warning, etc. in case the package is
+#' not installed.
+#'
+#' It is only exported for use in examples.
+#'
+#' @param package the name of the package to check for
+#' @param func what should this check call if the package is not installed?
+#' This can be any function, but `stop`, `warning`, `skip`, etc. are likely
+#' candidates (default: `stop`)
+#'
+#' @return `TRUE` if the package is installed, `FALSE` if it is not (invisibly)
+#' @export
+#'
+#' @keywords internal
+#' @examples
+#' check_for_pkg("DBI")
+#' check_for_pkg("no-such-package", func = message)
 check_for_pkg <- function(package, func = stop) {
   if (!requireNamespace(package, quietly = TRUE)) {
-    # TODO: also allow warnings?
-    func(
-      "The package ",
-      package,
-      " isn't installed but is required for this function. \nPlease install ",
-      "it with install.packages(\"", package, "\") and try again.",
-      call. = FALSE
-    )
+    args <- list(glue::glue(
+      "The package {package} isn't installed but is needed for this action.",
+      "Please install it with install.packages(\"{package}\") and try again.",
+      .sep = "\n"
+    ))
+    if ("call." %in% methods::formalArgs(func)) {
+      args <- append(args, c(call. = FALSE))
+    }
+
+    do.call(func, args)
+    return(invisible(FALSE))
   }
 
   return(invisible(TRUE))

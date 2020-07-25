@@ -125,27 +125,30 @@ set_default_db_mock_paths <- function() {
 #' @export
 #'
 #' @examples
-#' with_mock_path(
-#'   system.file("nycflight_mocks", package = "dittodb"),
-#'   with_mock_db({
-#'     con <- DBI::dbConnect(
-#'       RSQLite::SQLite(),
-#'       dbname = "nycflights"
-#'     )
+#' # Only run if RSQLite and testthat are available
+#' if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
+#'   with_mock_path(
+#'     system.file("nycflight_mocks", package = "dittodb"),
+#'     with_mock_db({
+#'       con <- DBI::dbConnect(
+#'         RSQLite::SQLite(),
+#'         dbname = "nycflights"
+#'       )
 #'
-#'     one_airline <- dbGetQuery(
-#'       con,
-#'       "SELECT carrier, name FROM airlines LIMIT 1"
-#'     )
-#'     testthat::test_that("We get one airline", {
-#'       testthat::expect_s3_class(one_airline, "data.frame")
-#'       testthat::expect_equal(nrow(one_airline), 1)
-#'       testthat::expect_equal(one_airline$carrier, "9E")
-#'       testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
+#'       one_airline <- dbGetQuery(
+#'         con,
+#'         "SELECT carrier, name FROM airlines LIMIT 1"
+#'       )
+#'       testthat::test_that("We get one airline", {
+#'         testthat::expect_s3_class(one_airline, "data.frame")
+#'         testthat::expect_equal(nrow(one_airline), 1)
+#'         testthat::expect_equal(one_airline$carrier, "9E")
+#'         testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
+#'       })
+#'       one_airline
 #'     })
-#'     one_airline
-#'   })
-#' )
+#'   )
+#' }
 with_mock_path <- function(path, expr, replace = FALSE) {
   oldmp <- db_mock_paths()
   if (replace) {

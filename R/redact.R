@@ -28,22 +28,24 @@
 #' @export
 #'
 #' @examples
-#' small_flights <- head(nycflights13::flights)
+#' if (check_for_pkg("nycflights13", message)) {
+#'   small_flights <- head(nycflights13::flights)
 #'
-#' # with no columns specified, redacting does nothing
-#' redact_columns(small_flights, columns = NULL)
+#'   # with no columns specified, redacting does nothing
+#'   redact_columns(small_flights, columns = NULL)
 #'
-#' # integer
-#' redact_columns(small_flights, columns = c("arr_time"))
+#'   # integer
+#'   redact_columns(small_flights, columns = c("arr_time"))
 #'
-#' # numeric
-#' redact_columns(small_flights, columns = c("arr_delay"))
+#'   # numeric
+#'   redact_columns(small_flights, columns = c("arr_delay"))
 #'
-#' # characters
-#' redact_columns(small_flights, columns = c("origin", "dest"))
+#'   # characters
+#'   redact_columns(small_flights, columns = c("origin", "dest"))
 #'
-#' # datetiems
-#' redact_columns(small_flights, columns = c("time_hour"))
+#'   # datetiems
+#'   redact_columns(small_flights, columns = c("time_hour"))
+#' }
 redact_columns <- function(data, columns, ignore.case = TRUE, ...) { # nolint
   columns <- unlist(lapply(
     glue("^{columns}$"),

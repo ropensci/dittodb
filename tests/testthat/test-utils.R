@@ -4,8 +4,28 @@ test_that("can check for packages", {
   expect_error(
     check_for_pkg("not_a_package"),
     paste0(
-      "The package not_a_package isn't installed but is required for this ",
-      "function. \nPlease install it with install.packages(\"not_a_package\") ",
+      "The package not_a_package isn't installed but is needed for this ",
+      "action.\nPlease install it with install.packages(\"not_a_package\") ",
+      "and try again."
+    ),
+    fixed = TRUE
+  )
+
+  expect_warning(
+    expect_false(check_for_pkg("not_a_package", func = warning)),
+    paste0(
+      "The package not_a_package isn't installed but is needed for this ",
+      "action.\nPlease install it with install.packages(\"not_a_package\") ",
+      "and try again."
+    ),
+    fixed = TRUE
+  )
+
+  expect_message(
+    expect_false(check_for_pkg("not_a_package", func = message)),
+    paste0(
+      "The package not_a_package isn't installed but is needed for this ",
+      "action.\nPlease install it with install.packages(\"not_a_package\") ",
       "and try again."
     ),
     fixed = TRUE
