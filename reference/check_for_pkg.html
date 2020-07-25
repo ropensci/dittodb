@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An SQLite connection to a subset of nycflights13 — nycflights_sqlite • dittodb</title>
+<title>Check if a package is installed — check_for_pkg • dittodb</title>
 
 
 <!-- jquery -->
@@ -41,10 +41,10 @@
   
   <script src="../extra.js"></script>
 
-<meta property="og:title" content="An SQLite connection to a subset of nycflights13 — nycflights_sqlite" />
-<meta property="og:description" content="Included with dittodb is a small subset of
-nycflights13
-prepopulated into a sqlite database." />
+<meta property="og:title" content="Check if a package is installed — check_for_pkg" />
+<meta property="og:description" content="Uses requireNamespace() to check if a package is already installed and
+provides options for issuing an error, warning, etc. in case the package is
+not installed." />
 
 
 
@@ -157,40 +157,45 @@ prepopulated into a sqlite database." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An SQLite connection to a subset of nycflights13</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/dittodb/blob/master/R/nycflights13-sql.R'><code>R/nycflights13-sql.R</code></a></small>
-    <div class="hidden name"><code>nycflights_sqlite.Rd</code></div>
+    <h1>Check if a package is installed</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/dittodb/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>check_for_pkg.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Included with dittodb is a small subset of
-<a href='https://CRAN.R-project.org/package=nycflights13'><code>nycflights13</code></a>
-prepopulated into a <code>sqlite</code> database.</p>
+    <p>Uses <code>requireNamespace()</code> to check if a package is already installed and
+provides options for issuing an error, warning, etc. in case the package is
+not installed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nycflights_sqlite</span>()</pre>
+    <pre class="usage"><span class='fu'>check_for_pkg</span>(<span class='no'>package</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>stop</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>package</th>
+      <td><p>the name of the package to check for</p></td>
+    </tr>
+    <tr>
+      <th>func</th>
+      <td><p>what should this check call if the package is not installed?
+This can be any function, but <code>stop</code>, <code>warning</code>, <code>skip</code>, etc. are likely
+candidates (default: <code>stop</code>)</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an RSQLiteConnection</p>
+    <p><code>TRUE</code> if the package is installed, <code>FALSE</code> if it is not (invisibly)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This database is helpful for getting to know dittodb and running example
-code. It contains a small subset of the data in nycflights13: namely only the
-flights and planes that had a destination of ORD or MDW (the codes for the
-two major airports in Chicago) in February of 2013. The airports table has
-also been limited to only the New York and Chicago area airports.</p>
+    <p>It is only exported for use in examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='check_for_pkg.html'>check_for_pkg</a></span>(<span class='st'>"RSQLite"</span>, <span class='no'>message</span>)) {
-  <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>nycflights_sqlite</span>()
-
-  <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span>(<span class='no'>con</span>, <span class='st'>"SELECT flight, tailnum, origin, dest FROM flights LIMIT 10"</span>)
-  <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span>(<span class='no'>con</span>, <span class='st'>"SELECT faa, name, lat, lon, alt, tz FROM airports"</span>)
-
-  <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbDisconnect.html'>dbDisconnect</a></span>(<span class='no'>con</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>check_for_pkg</span>(<span class='st'>"DBI"</span>)
+<span class='fu'>check_for_pkg</span>(<span class='st'>"no-such-package"</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>message</span>)</div><div class='output co'>#&gt; <span class='message'>The package no-such-package isn't installed but is needed for this action.</span>
+#&gt; <span class='message'>Please install it with install.packages("no-such-package") and try again.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

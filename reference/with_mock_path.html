@@ -196,27 +196,30 @@ paths (default, <code>FALSE</code>)</p></td>
     <p>nothing, called to execute the expression(s) in <code>expr</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>with_mock_path</span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nycflight_mocks"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dittodb"</span>),
-  <span class='fu'><a href='mockdb.html'>with_mock_db</a></span>({
-    <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(
-      <span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(),
-      <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"nycflights"</span>
-    )
+    <pre class="examples"><div class='input'><span class='co'># Only run if RSQLite and testthat are available</span>
+<span class='kw'>if</span> (<span class='fu'><a href='check_for_pkg.html'>check_for_pkg</a></span>(<span class='st'>"RSQLite"</span>, <span class='no'>message</span>) <span class='kw'>&amp;</span> <span class='fu'><a href='check_for_pkg.html'>check_for_pkg</a></span>(<span class='st'>"testthat"</span>, <span class='no'>message</span>)) {
+  <span class='fu'>with_mock_path</span>(
+    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nycflight_mocks"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"dittodb"</span>),
+    <span class='fu'><a href='mockdb.html'>with_mock_db</a></span>({
+      <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(
+        <span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(),
+        <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"nycflights"</span>
+      )
 
-    <span class='no'>one_airline</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(
-      <span class='no'>con</span>,
-      <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
-    )
-    <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/test_that.html'>test_that</a></span>(<span class='st'>"We get one airline"</span>, {
-      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/inheritance-expectations.html'>expect_s3_class</a></span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
-      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
-      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)
-      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
+      <span class='no'>one_airline</span> <span class='kw'>&lt;-</span> <span class='fu'>dbGetQuery</span>(
+        <span class='no'>con</span>,
+        <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
+      )
+      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/test_that.html'>test_that</a></span>(<span class='st'>"We get one airline"</span>, {
+        <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/inheritance-expectations.html'>expect_s3_class</a></span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
+        <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
+        <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)
+        <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
+      })
+      <span class='no'>one_airline</span>
     })
-    <span class='no'>one_airline</span>
-  })
-)</div><div class='output co'>#&gt;   carrier              name
+  )
+}</div><div class='output co'>#&gt;   carrier              name
 #&gt; 1      9E Endeavor Air Inc.</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

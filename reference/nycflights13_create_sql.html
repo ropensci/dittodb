@@ -192,25 +192,18 @@ side effects of writing to the database</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='check_for_pkg.html'>check_for_pkg</a></span>(<span class='st'>"RSQLite"</span>, <span class='no'>message</span>)) {
+  <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 
-<span class='fu'>nycflights13_create_sql</span>(<span class='no'>con</span>)</div><div class='output co'>#&gt; <span class='message'>Creating the testing database from nycflights13</span></div><div class='output co'>#&gt; <span class='message'>Creating table: airlines</span></div><div class='output co'>#&gt; <span class='message'>Creating table: airports</span></div><div class='output co'>#&gt; <span class='message'>Creating table: flights</span></div><div class='output co'>#&gt; <span class='message'>Creating table: planes</span></div><div class='output co'>#&gt; <span class='message'>Creating table: weather</span></div><div class='input'>
-<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span>(
-  <span class='no'>con</span>,
-  <span class='st'>"SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"</span>
-)</div><div class='output co'>#&gt;    year month day carrier flight tailnum
-#&gt; 1  2013     1   1      UA   1545  N14228
-#&gt; 2  2013     1   1      UA   1714  N24211
-#&gt; 3  2013     1   1      AA   1141  N619AA
-#&gt; 4  2013     1   1      B6    725  N804JB
-#&gt; 5  2013     1   1      DL    461  N668DN
-#&gt; 6  2013     1   1      UA   1696  N39463
-#&gt; 7  2013     1   1      B6    507  N516JB
-#&gt; 8  2013     1   1      EV   5708  N829AS
-#&gt; 9  2013     1   1      B6     79  N593JB
-#&gt; 10 2013     1   1      AA    301  N3ALAA</div><div class='input'>
-<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbDisconnect.html'>dbDisconnect</a></span>(<span class='no'>con</span>)
-<span class='co'># }</span></div></pre>
+  <span class='fu'>nycflights13_create_sql</span>(<span class='no'>con</span>)
+
+  <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span>(
+    <span class='no'>con</span>,
+    <span class='st'>"SELECT year, month, day, carrier, flight, tailnum FROM flights LIMIT 10"</span>
+  )
+
+  <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbDisconnect.html'>dbDisconnect</a></span>(<span class='no'>con</span>)
+}</div><div class='output co'>#&gt; <span class='message'>Creating the testing database from nycflights13</span></div><div class='output co'>#&gt; <span class='message'>Creating table: airlines</span></div><div class='output co'>#&gt; <span class='message'>Creating table: airports</span></div><div class='output co'>#&gt; <span class='message'>Creating table: flights</span></div><div class='output co'>#&gt; <span class='message'>Creating table: planes</span></div><div class='output co'>#&gt; <span class='message'>Creating table: weather</span></div><div class='input'><span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
