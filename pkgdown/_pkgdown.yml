@@ -1,8 +1,10 @@
 url: https://dittodb.jonkeane.com/
+
 template:
   params:
     bootswatch: flatly
     ganalytics: UA-150741105-1
+
 reference:
 - title: Mock DB methods
   contents:
@@ -25,6 +27,7 @@ reference:
   - nycflights_sqlite
   - nycflights13_create_sql
   - nycflights13_create_sqlite
+
 navbar:
   title: dittodb
   type: default
@@ -35,16 +38,22 @@ navbar:
       href: reference/
     - text: Articles
       menu:
-      -  text: Getting Started with dittodb
-         href: articles/dittodb.html
-      -  text: Recording SQL queries with dittodb for travelling
-         href: articles/travelling.html
-      -  text: nycflights data
-         href: articles/nycflights.html
-      -  text: Developing dittodb
-         href: articles/developing-dittodb.html
+      - text: Getting Started with dittodb
+        href: articles/dittodb.html
+      - text: Recording SQL queries with dittodb for travelling
+        href: articles/travelling.html
+      - text: nycflights data
+        href: articles/nycflights.html
+      - text: Developing dittodb
+        href: articles/developing-dittodb.html
     - text: News
-      href: news/
+      menu:
+      - text: "Changelog"
+        href: news/index.html
+      - text: "------------------"
+      - text: "Blog posts"
+      - text: "dittodb 0.1.0"
+        href: https://jonkeane.com/blog/introducing_dittodb/
 
 authors:
   Jonathan Keane:
