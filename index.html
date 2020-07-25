@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dittodb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -222,16 +222,16 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Currently, {dittodb} is not on CRAN (The Comprehensive R Archive Network). You can install from source, or use {remotes}:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ropensci/dittodb@main"</span>)</pre></div>
-<p><em>Note</em> the <code>@main</code> at the end is necessary until the {remotes} package <a href="https://github.com/r-lib/remotes/issues/508">is updated</a> to use the default branch specified for GitHub repositories rather than the hard coded name it currently uses.</p>
-<p>An alternative method of installation is to use <code>remotes::git()</code> directly:</p>
+<p>Currently, {dittodb} is on CRAN (The Comprehensive R Archive Network), so you can install it with <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("dittodb")</a></code>.</p>
+<p>If you would like to use the development version, you can install from github with:</p>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ropensci/dittodb"</span>)</pre></div>
+<p><em>Note</em> You may need to add <code>@main</code> at the end if you are using a version of {remotes} prior to 2.2.0. Alternatively, you can use <code>remotes::git()</code> directly:</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html">install_git</a></span>(<span class="st">"https://github.com/ropensci/dittodb.git"</span>)</pre></div>
 </div>
 <div id="setup-a-package-to-use-dittodb" class="section level2">
 <h2 class="hasAnchor">
 <a href="#setup-a-package-to-use-dittodb" class="anchor"></a>Setup a package to use {dittodb}</h2>
-<p>Use the function <code><a href="reference/use_dittodb.html">dittodb::use_dittodb()</a></code> to easily get started using {dittodb}. It will add {dittodb} to <code>Suggests</code> in the <code>DESCRIPTION</code> file and add <code><a href="https://jonkeane.com/dittodb/reference">library(dittodb)</a></code> to <code>tests/testthat/helper.R</code>.</p>
+<p>Use the function <code><a href="reference/use_dittodb.html">dittodb::use_dittodb()</a></code> to easily get started using {dittodb}. It will add {dittodb} to <code>Suggests</code> in the <code>DESCRIPTION</code> file and add <code><a href="https://dittodb.jonkeane.com//reference">library(dittodb)</a></code> to <code>tests/testthat/helper.R</code>.</p>
 </div>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
@@ -253,6 +253,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=dittodb">https://​cloud.r-project.org/​package=dittodb</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/ropensci/dittodb/">https://​github.com/​ropensci/​dittodb/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/ropensci/dittodb/issues">https://​github.com/​ropensci/​dittodb/​issues</a>
