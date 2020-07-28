@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 db_mock_paths("dittodb")
 ```
 
-We welcome contributions from anyone, no matter how small or trivial. Documentation additions or typo fixes are especially welcome. For larger, more-functional changes, either see if there is an issue open on Github already, or open one with a proposal of the change you would like to make. Please also see our [code of conduct](../docs/CODE_OF_CONDUCT.html) and [contributing guide](../docs/CONTRIBUTING.html).
+We welcome contributions from anyone, no matter how small or trivial. Documentation additions or typo fixes are especially welcome. For larger, more-functional changes, either see if there is an issue open on GitHub already, or open one with a proposal of the change you would like to make. Please also see our [code of conduct](../docs/CODE_OF_CONDUCT.html) and [contributing guide](../docs/CONTRIBUTING.html).
 
 Developing {dittodb} requires is a bit more complication than developing other R packages for a few reasons: 
 
@@ -29,17 +29,17 @@ Developing {dittodb} requires is a bit more complication than developing other R
 2. some of the mechanisms that make {dittodb} work aren't commonly used in other R packages.
 
 ## Setting up databases
-In order to fully test that {dittodb} works, we aim to have full coverage and test as many database backends as possible for both recording and using as a mocked database. To do this on continuous integration (CI for short) can be finicky to get working (and on the CI front, we did it once, so that you can use {dittodb} and you won't have to setup your own database backend just to run tests!). Frankly, even doing this set up locally on a second computer can be a pain! We include in the repository a few scripts that make it (relatively) easy to setup testing database backends, as well as some scripts that we use to setup database backends on Github Actions.
+In order to fully test that {dittodb} works, we aim to have full coverage and test as many database backends as possible for both recording and using as a mocked database. To do this on continuous integration (CI for short) can be finicky to get working (and on the CI front, we did it once, so that you can use {dittodb} and you won't have to setup your own database backend just to run tests!). Frankly, even doing this set up locally on a second computer can be a pain! We include in the repository a few scripts that make it (relatively) easy to setup testing database backends, as well as some scripts that we use to setup database backends on GitHub Actions.
 
 ### What we test
-We currently test against the following database backends with Github Actions for CI: 
+We currently test against the following database backends with GitHub Actions for CI: 
 
 * Postgres (with drivers: [RPostgres](https://CRAN.R-project.org/package=RPostgres), [RPostgreSQL](https://CRAN.R-project.org/package=RPostgreSQL), and [odbc](https://CRAN.R-project.org/package=odbc))
 * MariaDB (with driver: [RMariaDB](https://CRAN.R-project.org/package=RMariaDB))
 * SQLite (with driver: [RSQLite](https://CRAN.R-project.org/package=RSQLite))
 
 ### How to setup test databases locally
-All of these (with the exception of SQLite) are tested in the test file `test-dbi-generic-integration.R`. However, tests for each database are only run if specific environment variables are set that trigger them. The reason for this is so that it is easy to test locally without needing to setup databases, but we are covered by these tests being run on Github Actions. If you would like to run these tests locally, you can set the following environment variables and run tests as usual (e.g. with `R CMD check`, `devtools::check()`, `devtools::test()`)
+All of these (with the exception of SQLite) are tested in the test file `test-dbi-generic-integration.R`. However, tests for each database are only run if specific environment variables are set that trigger them. The reason for this is so that it is easy to test locally without needing to setup databases, but we are covered by these tests being run on GitHub Actions. If you would like to run these tests locally, you can set the following environment variables and run tests as usual (e.g. with `R CMD check`, `devtools::check()`, `devtools::test()`)
 
 * if `DITTODB_ENABLE_PG_TESTS` is `TRUE`, then Postgres-based tests will be run
 * if `DITTODB_ENABLE_MARIA_TESTS` is `TRUE`, then MariaDB-based tests will be run
@@ -55,10 +55,10 @@ Both of these utilize a few SQL (Structured Query Language) scripts for their re
 
 * `db-setup/[mariadb|postgres]-reset.sql` creates the database `nycflights` and test users (dropping them if they already exist so they are fresh).
 * `db-setup/[mariadb|postgres]-nycflights.sql` creates the necessary tables in the `nycflights` database for use in testing.
-* `db-setup/populate-dbs.sh` uses the above scripts to populate the databases on Github Actions.
+* `db-setup/populate-dbs.sh` uses the above scripts to populate the databases on GitHub Actions.
 
 ### ☠️ What not to run ☠️
-The other scripts (e.g. `db-setup/[mariadb|postgres]-brew.sh` and `db-setup/[mariadb|postgres]-docker-container-only.sh`) are only intended for use on Github Actions and should not be run locally. They include commands that will remove files necessary to reset database setups that allow for tests to be run. Running them locally will delete files that you might care about.
+The other scripts (e.g. `db-setup/[mariadb|postgres]-brew.sh` and `db-setup/[mariadb|postgres]-docker-container-only.sh`) are only intended for use on GitHub Actions and should not be run locally. They include commands that will remove files necessary to reset database setups that allow for tests to be run. Running them locally will delete files that you might care about.
 
 ## Some of the tricky bits that {dittodb} uses
 In order to provide a seamless experience between using a real database connection and using the mocked version of the database {dittodb} uses some features of R that are pretty uncommon. This is not intended to be a comprehensive description of {dittodb}'s architecture, but a few things that are uncommon or a little strange.

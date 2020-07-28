@@ -134,9 +134,9 @@ Currently, {dittodb} is on CRAN (The Comprehensive R Archive Network), so you ca
 
 ### Installing a development version
 
-If you would like to use the development version, you can install from github with: `remotes::install_github("ropensci/dittodb")`
+If you would like to use the development version, you can install from GitHub with: `remotes::install_github("ropensci/dittodb")`
 
-_Note_ You may need to add `@main` at the end if you are using a version of {remotes} prior to 2.2.0. Alternatively, you can use `remotes::git()` directly: `remotes::install_git("https://github.com/ropensci/dittodb.git")`
+_Note_ You may need to add `@main` at the end if you are using a version of {remotes} prior to 2.2.0. Alternatively, you can use `remotes::install_git()` directly: `remotes::install_git("https://github.com/ropensci/dittodb.git")`
 
 ## Setup a package to use {dittodb}
 Use the function `dittodb::use_dittodb()` to easily get started using {dittodb}. It will add {dittodb} to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)` to `tests/testthat/helper.R`.
