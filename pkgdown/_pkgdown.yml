@@ -1,5 +1,8 @@
 url: https://dittodb.jonkeane.com/
 
+development:
+  mode: auto
+
 template:
   params:
     bootswatch: flatly
