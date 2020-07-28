@@ -2,7 +2,7 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/dittodb)](https://CRAN.R-project.org/package=dittodb)
 [![macOS](https://github.com/ropensci/dittodb/workflows/check-macOS/badge.svg)](https://github.com/ropensci/dittodb/actions?workflow=check-macOS)
-[![Linux](https://github.com/ropensci/dittodb/workflows/check-linux-ubuntu/badge.svg)](https://github.com/ropensci/dittodb/actions?workflow=check-linux-ubuntu)
+[![Linux](https://github.com/ropensci/dittodb/workflows/check-linux/badge.svg)](https://github.com/ropensci/dittodb/actions?workflow=check-linux)
 [![Windows](https://github.com/ropensci/dittodb/workflows/check-windows/badge.svg)](https://github.com/ropensci/dittodb/actions?workflow=check-windows)
 [![Codecov test coverage](https://codecov.io/gh/ropensci/dittodb/branch/main/graph/badge.svg)](https://codecov.io/gh/ropensci/dittodb?branch=main)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
