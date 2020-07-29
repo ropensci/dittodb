@@ -1,3 +1,5 @@
+# dittodb (development version)
+
 # dittodb 0.1.1
 * Minor CRAN update that makes tests and examples conditional when `Suggests` packages are not available.
 
