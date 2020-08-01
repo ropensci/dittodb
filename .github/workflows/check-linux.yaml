@@ -69,7 +69,7 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: Install R dependencies
-        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest', 'rlang'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
 
       - name: Install dev rmarkdown
         run: Rscript -e "remotes::install_github('rstudio/rmarkdown')"
