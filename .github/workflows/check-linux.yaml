@@ -69,7 +69,7 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: Install R dependencies by source that are having version mismatches
-        run: Rscript -e "install.packages(c('rlang', 'vctrs', 'glue', 'tibble'), type = 'source')"
+        run: Rscript -e "install.packages(c('rlang', 'vctrs', 'glue', 'tibble', 'R6', 'ellipsis', 'processx'), type = 'source')"
 
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
