@@ -23,7 +23,7 @@ jobs:
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
-      RSPM: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"
+      # RSPM: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"
 
     steps:
       - uses: actions/checkout@v1
@@ -67,9 +67,6 @@ jobs:
             n=$[$n+1]
           done
         if: contains(runner.os, 'linux')
-
-      - name: Install R dependencies by source that are having version mismatches
-        run: Rscript -e "install.packages(c('rlang', 'vctrs', 'glue', 'tibble', 'R6', 'ellipsis', 'processx'), type = 'source')"
 
       - name: Install R dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
