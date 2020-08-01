@@ -105,19 +105,3 @@ setMethod(
     return(mock_fetch(res, -1))
   }
 )
-
-#' @rdname mock-db-methods
-#' @importFrom methods setMethod new
-#' @export
-setMethod(
-  "dbGetQuery",
-  signature("DBIMockRPostgreSQLConnection", "character"),
-  function(conn, statement, ...) {
-    # TODO: this is really only needed for RPostgreSQL, and even for that, we
-    # likely could instead just mock `isPostgresqlIdCurrent` to return a valid
-    # value
-    # https://github.com/tomoakin/RPostgreSQL/blob/master/RPostgreSQL/R/PostgreSQLSupport.R#L266 #nolint
-    res <- dbSendQuery(conn, statement, ...)
-    return(mock_fetch(res, -1))
-  }
-)

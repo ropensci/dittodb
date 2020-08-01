@@ -58,8 +58,6 @@
 
 \S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
 
-\S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
-
 \S4method{dbGetInfo}{DBIMockConnection}(dbObj, ...)
 
 \S4method{dbWriteTable}{DBIMockConnection,character,data.frame}(conn, name, value, ...)
