@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies (linux)
         run: |
           sudo apt install unixodbc unixodbc-dev --install-suggests
-          sudo apt install libcurl4-openssl-dev libmariadb-client-lgpl-dev postgresql-client libpq-dev odbc-postgresql
+          sudo apt install libcurl4-openssl-dev libmariadb-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
       - name: Install databases and odbc manual adjustments (linux)
