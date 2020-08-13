@@ -69,10 +69,9 @@ jobs:
 
       - name: Install R dependencies (with dev {testthat} and {devtools})
         run: |
-          Rscript
-          -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source');"
-          -e "remotes::install_deps(dependencies = TRUE);"
-          -e "remotes::install_github(c("r-lib/testthat", "r-lib/devtools"))"
+          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')"
+          Rscript -e "remotes::install_deps(dependencies = TRUE)"
+          Rscript -e "remotes::install_github(c("r-lib/testthat", "r-lib/devtools"))"
 
       - name: Install dev rmarkdown
         run: Rscript -e "remotes::install_github('rstudio/rmarkdown')"
