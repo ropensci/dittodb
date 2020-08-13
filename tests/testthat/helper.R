@@ -39,3 +39,16 @@ skip_locally <- function(message) {
     return(skip(paste("Skipping locally:", message)))
   }
 }
+
+testthat_transition <- function(old, new) {
+  is_3e <- packageVersion("testthat") > "2.99.0"
+
+  # TODO: warn when testthat is > 2.99 and isn't a dev number?
+
+  if (is_3e) {
+    local_edition(3)
+    eval(new, envir = parent.frame())
+  } else {
+    eval(old, envir = parent.frame())
+  }
+}

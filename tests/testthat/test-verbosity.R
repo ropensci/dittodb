@@ -7,7 +7,7 @@ capture_output({
     ), {
       suppressMessages(expect_message(start_db_capturing()))
       suppressMessages(con <- nycflights13_create_sqlite())
-      expect_message(
+      testthat_transition(
         expect_message(
           dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
           paste0(
@@ -16,7 +16,17 @@ capture_output({
           ),
           fixed = TRUE
         ),
-        "Writing to .*SELECT-f2090b.R"
+        expect_message(
+          expect_message(
+            dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+            paste0(
+              "The statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to:",
+              " f2090b"
+            ),
+            fixed = TRUE
+          ),
+          "Writing to .*SELECT-f2090b.R"
+        )
       )
 
       dbDisconnect(con)
@@ -48,7 +58,7 @@ capture_output({
           con <- nycflights13_create_sqlite()
         }, ".*Tracing.*"
       ))
-      expect_message(
+      testthat_transition(
         expect_message(
           dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
           paste0(
@@ -56,6 +66,16 @@ capture_output({
             " f2090b"
           ),
           fixed = TRUE
+        ),
+        expect_message(
+          expect_message(
+            dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+            paste0(
+              "The statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to:",
+              " f2090b"
+            ),
+            fixed = TRUE
+          )
         )
       )
       dbDisconnect(con)

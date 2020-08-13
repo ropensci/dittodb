@@ -22,7 +22,10 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
     test_that(msg, {
       # can't use expect_s4_class because standardGenericWithTrace inherits from
       # standardGeneric
-      expect_equal(class(postCaptureDbSendQuery[i]), "standardGeneric", ignore_attr = TRUE)
+      testthat_transition(
+        expect_equivalent(class(postCaptureDbSendQuery[i]), "standardGeneric"),
+        expect_equal(class(postCaptureDbSendQuery[i]), "standardGeneric", ignore_attr = TRUE)
+      )
     })
   }
 

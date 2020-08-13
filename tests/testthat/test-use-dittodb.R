@@ -58,7 +58,10 @@ expect_added_to_helper <- function(str, msg = "Adding library\\(dittodb\\)") {
 test_that("add to helper creates file if doesn't exist", {
   f <- tempfile()
   expect_false(file.exists(f))
-  expect_message(expect_message(add_dittodb_to_helper(f), "Creating"))
+  testthat_transition(
+    expect_message(add_dittodb_to_helper(f), "Creating"),
+    expect_message(expect_message(add_dittodb_to_helper(f), "Creating"))
+  )
   expect_identical(readLines(f), "library(dittodb)")
 })
 
@@ -79,7 +82,10 @@ test_that("use_dittodb integration test", {
   desc <- file.path(testpkg, "DESCRIPTION")
   cat("Title: Foo\n", file = desc)
   helper <- file.path(testpkg, "tests", "testthat", "helper.R")
-  expect_message(expect_message(expect_message(use_dittodb(testpkg))))
+  testthat_transition(
+    expect_message(use_dittodb(testpkg)),
+    expect_message(expect_message(expect_message(use_dittodb(testpkg))))
+  )
   expect_identical(readLines(desc), c("Title: Foo", "Suggests: dittodb"))
   expect_identical(readLines(helper), "library(dittodb)")
   # It does nothing if you the package already uses dittodb

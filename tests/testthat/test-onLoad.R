@@ -46,7 +46,7 @@ callr::r(function() {
 
     # now we have them all back
     for (class_name in custom_connections) {
-      expect_type(getClass(class_name), "classRepresentation")
+      expect_s4_class(getClass(class_name), "classRepresentation")
     }
   })
 })
