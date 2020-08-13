@@ -64,6 +64,7 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
 VignetteBuilder: knitr
+Config/testthat/edition: 3
 Collate: 
     'capture-requests.R'
     'connection.R'

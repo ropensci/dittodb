@@ -1,5 +1,3 @@
-context("Mock connection")
-
 test_that("Error handling", {
   expect_warning(
     dbMockConnect(data.frame(), dbname = "name"),
@@ -13,7 +11,7 @@ with_mock_db({
   test_that("Our connection is a mock connection", {
     # ":memory:" is non-portable, so using something close, but portable
     con <- dbConnect(RSQLite::SQLite(), "memory")
-    expect_is(con, "DBIMockConnection")
+    expect_s4_class(con, "DBIMockConnection")
     expect_identical(con@path, "memory")
     expect_identical(con@original_class, "SQLiteConnection")
 

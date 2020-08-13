@@ -1,5 +1,3 @@
-context("Mock paths")
-
 # use a new temp directory so we don't have to cleanup later
 with_mock_path(path = "new_mock_path", {
   # we can use an entirely different mock path (and with a named argument)

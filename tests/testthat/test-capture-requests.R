@@ -1,5 +1,3 @@
-context("Recording tracing is happening in the right place(s)")
-
 with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   start_db_capturing()
 
@@ -24,7 +22,7 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
     test_that(msg, {
       # can't use expect_s4_class because standardGenericWithTrace inherits from
       # standardGeneric
-      expect_equivalent(class(postCaptureDbSendQuery[i]), "standardGeneric")
+      expect_equal(class(postCaptureDbSendQuery[i]), "standardGeneric", ignore_attr = TRUE)
     })
   }
 

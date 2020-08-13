@@ -1,5 +1,3 @@
-context("Testing setup of .onLoad()")
-
 # for coverage, we run in this session
 # If the package namespace is locked (e.g. during R CMD check) .onLoad errors
 # when trying to make the class, so test that that is the error (as evidence
@@ -48,7 +46,7 @@ callr::r(function() {
 
     # now we have them all back
     for (class_name in custom_connections) {
-      expect_is(getClass(class_name), "classRepresentation")
+      expect_type(getClass(class_name), "classRepresentation")
     }
   })
 })

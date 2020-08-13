@@ -84,7 +84,7 @@ with_mock_db({
   
   test_that("We get one airline", {
     one_airline <- get_an_airline()
-    expect_is(one_airline, "data.frame")
+    expect_type(one_airline, "data.frame")
     expect_equal(nrow(one_airline), 1)
     expect_equal(one_airline$carrier, "9E")
     expect_equal(one_airline$name, "Endeavor Air Inc.")
@@ -102,7 +102,7 @@ with_mock_db({
   
   test_that("We get one airline", {
     one_airline <- get_an_airline()
-    expect_is(one_airline, "data.frame")
+    expect_type(one_airline, "data.frame")
     expect_equal(nrow(one_airline), 1)
     expect_equal(one_airline$carrier, "9E")
     expect_equal(one_airline$name, "Endeavor Air Inc.")
@@ -117,7 +117,7 @@ with_mock_db({
   
   test_that("We get one airline", {
     one_airline <- get_an_airline()
-    expect_is(one_airline, "data.frame")
+    expect_type(one_airline, "data.frame")
     expect_equal(nrow(one_airline), 1)
     expect_equal(one_airline$carrier, "9E")
     expect_equal(one_airline$name, "Endeavor Air Inc.")
