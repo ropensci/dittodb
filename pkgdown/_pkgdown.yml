@@ -1,4 +1,5 @@
 url: https://dittodb.jonkeane.com/
+default_branch: main
 
 development:
   mode: auto
