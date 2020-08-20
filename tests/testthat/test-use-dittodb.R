@@ -60,7 +60,7 @@ test_that("add to helper creates file if doesn't exist", {
   expect_false(file.exists(f))
   testthat_transition(
     expect_message(add_dittodb_to_helper(f), "Creating"),
-    expect_message(expect_message(add_dittodb_to_helper(f), "Creating"))
+    expect_message(expect_message(add_dittodb_to_helper(f), "Creating"), "Adding library")
   )
   expect_identical(readLines(f), "library(dittodb)")
 })
