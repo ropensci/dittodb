@@ -1,5 +1,7 @@
 url: https://dittodb.jonkeane.com/
-default_branch: main
+
+repo:
+  branch: main
 
 development:
   mode: auto
