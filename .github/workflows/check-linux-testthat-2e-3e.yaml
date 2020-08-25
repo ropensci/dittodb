@@ -12,12 +12,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: ubuntu-20.04, r: '3.6', testhat_e = '2' }
-        - { os: ubuntu-20.04, r: 'release', testhat_e = '2'  }
-        - { os: ubuntu-20.04, r: 'devel', testhat_e = '2' , http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
-        - { os: ubuntu-20.04, r: '3.6', testhat_e = '3' }
-        - { os: ubuntu-20.04, r: 'release', testhat_e = '3'  }
-        - { os: ubuntu-20.04, r: 'devel', testhat_e = '3' , http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
+        - { os: ubuntu-20.04, r: '3.6', testhat_e: '2' }
+        - { os: ubuntu-20.04, r: 'release', testhat_e: '2'  }
+        - { os: ubuntu-20.04, r: 'devel', testhat_e: '2' , http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
+        - { os: ubuntu-20.04, r: '3.6', testhat_e: '3' }
+        - { os: ubuntu-20.04, r: 'release', testhat_e: '3'  }
+        - { os: ubuntu-20.04, r: 'devel', testhat_e: '3' , http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
 
     env:
       CRAN: ${{ matrix.config.cran }}
@@ -33,6 +33,8 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
+
+      - uses: r-lib/actions/setup-pandoc@master
 
       - name: Cache R packages
         uses: actions/cache@v1
@@ -74,7 +76,6 @@ jobs:
       - name: Set the testthat edition
         run: |
           Rscript -e "desc::desc_set('Config/testthat/edition' = '${{ matrix.config.testhat_e }}', file = 'DESCRIPTION')"
-
 
       - name: Build R DB Dependencies on cache miss
         if: steps.rlibcache.outputs.cache-hit != 'true'
