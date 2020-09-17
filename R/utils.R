@@ -49,6 +49,7 @@ get_dbname <- function(dots) {
   # look through dots to grab either dbname or the first unnammed argument
   named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
   named_database <- !is.null(dots$Database) && dots$Database != ""
+  named_dsn <- !is.null(dots$dsn) && dots$dsn != ""
   unnamed_dbname <- length(dots) > 0 &&
     (is.null(names(dots[1])) || names(dots[1]) == "")
   # if there is no name, or it's empty
@@ -56,6 +57,8 @@ get_dbname <- function(dots) {
     path <- dots$dbname
   } else if (named_database) {
     path <- dots$Database
+  } else if (named_dsn) {
+    path <- dots$dsn
   } else if (unnamed_dbname) {
     path <- dots[[1]]
   } else {
