@@ -153,3 +153,16 @@ test_that("testing_port", {
     }
   )
 })
+
+test_that("get_dbname() works", {
+  expect_equal(get_dbname(list(dbname = "db")), "db")
+  expect_equal(get_dbname(list(Database = "db")), "db")
+  expect_equal(get_dbname(list(dsn = "db")), "db")
+  expect_equal(get_dbname(list("db")), "db")
+  expect_equal(get_dbname(list("db1", dbname = "db2")), "db2")
+  expect_equal(get_dbname(list("db1", Database = "db2")), "db2")
+  # Empty argument (needs an error?)
+  expect_error(get_dbname(list()))
+  # Legitimate error
+  expect_error(get_dbname(list(bogus = "oops")))
+})
