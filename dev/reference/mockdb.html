@@ -205,7 +205,8 @@ step through tests interactively using <code>start_mock_db()</code>/<code>stop_m
 function or they should be made inside of <code>with_mock_db()</code> if you're using
 that function because dittodb uses the database name (given in <code>dbname</code> or
 <code>Database</code> argument of <code>dbConnect</code> depending on the driver) to separate
-different fixtures.</p>
+different fixtures. For ODBC connections with only a dsn provided, the dsn is
+used for this directory.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Add the mocks included with dittodb to the db_mock_paths to use them below</span>
