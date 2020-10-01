@@ -27,10 +27,16 @@ make_path <- function(path, type, hash) {
 #'
 #' @export
 hash <- function(string, n = 6) {
+  string <- clean_statement(string)
+
+  return(substr(digest(as.character(string)), 1, n))
+}
+
+clean_statement <- function(string) {
   string <- ignore_quotes(string)
   string <- ignore_dbplyr_unique_names(string)
 
-  return(substr(digest(as.character(string)), 1, n))
+  return(string)
 }
 
 read_file <- function(file_path) source(file_path, keep.source = FALSE)$value
