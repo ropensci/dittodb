@@ -48,8 +48,8 @@ tailnum_delay <- flights_db %>%
     delay = mean(arr_delay, na.rm = TRUE),
     n = n()
   ) %>%
-  arrange(desc(delay)) %>%
   filter(n > 100) %>%
+  arrange(desc(delay)) %>%
   collect()
 
 dbDisconnect(con)
@@ -76,7 +76,7 @@ with_mock_db({
   # our flights table
   expect_warning(
     flights_db <- tbl(con, "flights"),
-    "dbFetch `n` is ignored while mocking databases\\."
+    if (packageVersion("dbplyr") > "1.99") NA else "dbFetch `n` is ignored while mocking databases\\."
   )
 
   test_that("We can select columns", {
@@ -111,8 +111,8 @@ with_mock_db({
         delay = mean(arr_delay, na.rm = TRUE),
         n = n()
       ) %>%
-      arrange(desc(delay)) %>%
       filter(n > 100) %>%
+      arrange(desc(delay)) %>%
       collect()
 
     expect_identical(result, tailnum_delay)
