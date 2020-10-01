@@ -22,24 +22,6 @@ setClass("DBIMockResult",
          contains = "DBIResult"
 )
 
-setValidity("DBIMockResult", function(res) {
-  path <- make_path(res@path, res@type, res@hash)
-  tryCatch(
-    find_file(path),
-    error = function(e) {
-      stop(
-        "Fixture: ",
-        path,
-        "\n",
-        clean_statement(res@statement),
-        call. = FALSE
-      )
-    }
-  )
-
-  return(TRUE)
-})
-
 #' @rdname mock-db-methods
 #' @importFrom methods setMethod new
 #' @export
@@ -56,7 +38,13 @@ setMethod(
 
     # TDOO: if we are in expect_sql, then we should emit an error (or warning?) with SQL here
     if (is_expecting()) {
-      stop(clean_statement(statement), call. = FALSE)
+      stop(
+        "Fixture: ",
+        make_path(conn@path, get_type(statement), hash(statement)),
+        "\n",
+        clean_statement(statement),
+        call. = FALSE
+      )
     }
 
     return(new(

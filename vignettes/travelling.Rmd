@@ -15,12 +15,12 @@ library(dbplyr)
 
 con_psql <- DBI::dbConnect(
   RPostgreSQL::PostgreSQL(),
-  dbname = "",
+  dbname = "nycflights",
   host = "127.0.0.1",
   user = getOption("dittodb.test.user"),
   password = getOption("dittodb.test.pw")
 )
-DBI::dbSendStatement(con, "CREATE DATABASE travelling")
+DBI::dbSendStatement(con_psql, "CREATE DATABASE travelling")
 DBI::dbDisconnect(con_psql)
 
 
@@ -173,7 +173,7 @@ with_mock_db({
 
   flights_delayed_from_mock <- tbl(con_psql, "flights") %>%
     filter(!is.na(tailnum)) %>%
-    filter(arr_delay >= 180) %>% 
+    filter(arr_delay >= 180) %>%
     select(tailnum) %>%
     distinct() %>% 
     collect()
