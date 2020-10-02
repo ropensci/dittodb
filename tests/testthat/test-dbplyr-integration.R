@@ -1,11 +1,10 @@
-context("Test against dbplyr")
-library(dbplyr)
-library(dplyr)
+require(dbplyr, quietly = TRUE)
+require(dplyr,  quietly = TRUE, warn.conflicts = FALSE)
 
 temp_path <- file.path(temp_dir, "dbplyr_integration")
 
 # testing against built-in sqlite database
-con <- nycflights13_create_sqlite(temp_path)
+suppressMessages(con <- nycflights13_create_sqlite(temp_path))
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -60,7 +59,7 @@ with_mock_db({
   con <- dbConnect(RSQLite::SQLite(), temp_path)
 
   test_that("We can mock it", {
-    expect_is(
+    expect_s4_class(
       con,
       "DBIMockConnection"
     )

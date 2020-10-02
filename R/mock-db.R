@@ -47,7 +47,7 @@
 #'         con,
 #'         "SELECT carrier, name FROM airlines LIMIT 1"
 #'       )
-#'       testthat::expect_is(one_airline, "data.frame")
+#'       testthat::expect_s3_class(one_airline, "data.frame")
 #'       testthat::expect_equal(nrow(one_airline), 1)
 #'       testthat::expect_equal(one_airline$carrier, "9E")
 #'       testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
@@ -68,7 +68,7 @@
 #'       con,
 #'       "SELECT carrier, name FROM airlines LIMIT 1"
 #'     )
-#'     testthat::expect_is(one_airline, "data.frame")
+#'     testthat::expect_s3_class(one_airline, "data.frame")
 #'     testthat::expect_equal(nrow(one_airline), 1)
 #'     testthat::expect_equal(one_airline$carrier, "9E")
 #'     testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
@@ -78,12 +78,10 @@
 #'   stop_mock_db()
 #' }
 with_mock_db <- function(expr) {
-  # TODO: change this to use start_mock_db()?
-  with_mock(
-    dbConnect = function(...) dbMockConnect(...),
-    .env = "DBI",
-    expr
-  )
+  start_mock_db()
+  on.exit(stop_mock_db())
+
+  return(eval(expr, parent.frame()))
 }
 
 #' @useDynLib dittodb, .registration = TRUE

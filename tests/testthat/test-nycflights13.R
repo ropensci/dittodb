@@ -1,10 +1,8 @@
-context("nycflights13 writing functions")
-
 # sqlite ----
 test_that("nycflights sqlite can be created", {
   # with DBI
-  con <- nycflights13_create_sqlite()
-  expect_is(con, "SQLiteConnection")
+  suppressMessages(con <- nycflights13_create_sqlite())
+  expect_s4_class(con, "SQLiteConnection")
   expect_identical(
     dbListTables(con),
     c("airlines", "airports", "flights", "planes", "weather")

@@ -1,4 +1,3 @@
-
 test_that("stop_mock_db() doesn't fail if there is no DB being mocked", {
   expect_message(
     expect_null(stop_mock_db()),

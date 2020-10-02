@@ -1,5 +1,3 @@
-context("File paths")
-
 test_that("path operations work", {
   expect_identical(make_path("foo", "bar", "feef"), "foo/bar-feef.R")
 
