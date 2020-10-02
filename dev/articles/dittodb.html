@@ -252,7 +252,8 @@
     <span class="fu"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(<span class="no">out</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"month"</span>, <span class="st">"mean_delay"</span>))
     <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">out</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">12</span>, <span class="fl">2</span>))
   })
-)</pre></body></html></div>
+)
+<span class="co">#&gt; [1] TRUE</span></pre></body></html></div>
 <p>When placed inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our fixture <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, operational, or to exist at all anywhere.</p>
 <p>If we wanted to test that a day-based aggregation works, we can! Although we will have to make a new fixture. First we would run the following interactively:</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()
@@ -265,7 +266,8 @@
     <span class="fu"><a href="https://testthat.r-lib.org/reference/expect_named.html">expect_named</a></span>(<span class="no">out</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"day"</span>, <span class="st">"mean_delay"</span>))
     <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">out</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">31</span>, <span class="fl">2</span>))
   })
-)</pre></body></html></div>
+)
+<span class="co">#&gt; [1] TRUE</span></pre></body></html></div>
 </div>
 <div id="getting-setup-to-use-dittodb" class="section level1">
 <h1 class="hasAnchor">

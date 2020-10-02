@@ -225,7 +225,7 @@ used for this directory.</p>
         <span class='no'>con</span>,
         <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
       )
-      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/expect_is.html'>expect_is</a></span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
+      <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/inheritance-expectations.html'>expect_s3_class</a></span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
       <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
       <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)
       <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
@@ -246,7 +246,7 @@ used for this directory.</p>
       <span class='no'>con</span>,
       <span class='st'>"SELECT carrier, name FROM airlines LIMIT 1"</span>
     )
-    <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/expect_is.html'>expect_is</a></span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
+    <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/inheritance-expectations.html'>expect_s3_class</a></span>(<span class='no'>one_airline</span>, <span class='st'>"data.frame"</span>)
     <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>one_airline</span>), <span class='fl'>1</span>)
     <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>carrier</span>, <span class='st'>"9E"</span>)
     <span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://testthat.r-lib.org/reference/equality-expectations.html'>expect_equal</a></span>(<span class='no'>one_airline</span>$<span class='no'>name</span>, <span class='st'>"Endeavor Air Inc."</span>)
