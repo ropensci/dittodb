@@ -60,7 +60,7 @@ if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
         con,
         "SELECT carrier, name FROM airlines LIMIT 1"
       )
-      testthat::expect_is(one_airline, "data.frame")
+      testthat::expect_s3_class(one_airline, "data.frame")
       testthat::expect_equal(nrow(one_airline), 1)
       testthat::expect_equal(one_airline$carrier, "9E")
       testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")
@@ -81,7 +81,7 @@ if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
       con,
       "SELECT carrier, name FROM airlines LIMIT 1"
     )
-    testthat::expect_is(one_airline, "data.frame")
+    testthat::expect_s3_class(one_airline, "data.frame")
     testthat::expect_equal(nrow(one_airline), 1)
     testthat::expect_equal(one_airline$carrier, "9E")
     testthat::expect_equal(one_airline$name, "Endeavor Air Inc.")

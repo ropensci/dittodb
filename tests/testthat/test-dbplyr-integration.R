@@ -1,11 +1,10 @@
-context("Test against dbplyr")
-library(dbplyr)
-library(dplyr)
+require(dbplyr, quietly = TRUE)
+require(dplyr,  quietly = TRUE, warn.conflicts = FALSE)
 
 temp_path <- file.path(temp_dir, "dbplyr_integration")
 
 # testing against built-in sqlite database
-con <- nycflights13_create_sqlite(temp_path)
+suppressMessages(con <- nycflights13_create_sqlite(temp_path))
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -48,8 +47,8 @@ tailnum_delay <- flights_db %>%
     delay = mean(arr_delay, na.rm = TRUE),
     n = n()
   ) %>%
-  arrange(desc(delay)) %>%
   filter(n > 100) %>%
+  arrange(desc(delay)) %>%
   collect()
 
 dbDisconnect(con)
@@ -60,7 +59,7 @@ with_mock_db({
   con <- dbConnect(RSQLite::SQLite(), temp_path)
 
   test_that("We can mock it", {
-    expect_is(
+    expect_s4_class(
       con,
       "DBIMockConnection"
     )
@@ -76,7 +75,7 @@ with_mock_db({
   # our flights table
   expect_warning(
     flights_db <- tbl(con, "flights"),
-    "dbFetch `n` is ignored while mocking databases\\."
+    if (packageVersion("dbplyr") > "1.99") NA else "dbFetch `n` is ignored while mocking databases\\."
   )
 
   test_that("We can select columns", {
@@ -111,8 +110,8 @@ with_mock_db({
         delay = mean(arr_delay, na.rm = TRUE),
         n = n()
       ) %>%
-      arrange(desc(delay)) %>%
       filter(n > 100) %>%
+      arrange(desc(delay)) %>%
       collect()
 
     expect_identical(result, tailnum_delay)

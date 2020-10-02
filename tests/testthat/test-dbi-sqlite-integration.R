@@ -1,7 +1,5 @@
-context("Test fixture")
-
 # testing against built-in sqlite database
-con <- nycflights13_create_sqlite()
+suppressMessages(con <- nycflights13_create_sqlite())
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -25,7 +23,7 @@ with_mock_db({
   # ":memory:" is non-portable, so using something close, but portable
   con <- dbConnect(RSQLite::SQLite(), "memory")
   test_that("Our connection is a mock connection", {
-    expect_is(
+    expect_s4_class(
       con,
       "DBIMockConnection"
     )

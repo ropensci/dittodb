@@ -1,6 +1,3 @@
-context("redactors")
-
-
 df <- expected <- as.data.frame(nycflights13::flights[1:2, ])
 
 test_that("redact year", {
