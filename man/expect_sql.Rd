@@ -14,12 +14,19 @@ expect_sql(object, regexp = NULL, ...)
 \item{...}{arguments passed to \code{\link[testthat:expect_error]{testthat::expect_error()}}}
 }
 \description{
-Sometimes all you need to check is if a specific SQL statement has been sent
-and you don't care about retrieving the results.
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \details{
+Sometimes all you need to check is if a specific SQL statement has been sent
+and you don't care about retrieving the results.
+
 This works by raising an error that contains the statement that is sent to the
-database as well as the location of the result
+database as well as the location of the result. Currently, \code{expect_sql()} only
+works with \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} (and most implementations of \code{\link[DBI:dbGetQuery]{DBI::dbGetQuery()}}
+which call \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} internally.)
+
+\emph{Note:} this function is experimental and will likely evolve over time. Please
+be prepared that new releases might break backwards compatibility.
 }
 \examples{
 if (check_for_pkg("RSQLite", message)) {

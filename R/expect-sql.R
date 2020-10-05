@@ -1,10 +1,17 @@
 #' Detect if a specific SQL statement is sent
 #'
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#'
 #' Sometimes all you need to check is if a specific SQL statement has been sent
 #' and you don't care about retrieving the results.
 #'
 #' This works by raising an error that contains the statement that is sent to the
-#' database as well as the location of the result
+#' database as well as the location of the result. Currently, `expect_sql()` only
+#' works with [`DBI::dbSendQuery()`] (and most implementations of [`DBI::dbGetQuery()`]
+#' which call [`DBI::dbSendQuery()`] internally.)
+#'
+#' *Note:* this function is experimental and will likely evolve over time. Please
+#' be prepared that new releases might break backwards compatibility.
 #'
 #' @param object the expression to evaluate
 #' @param regexp the statement to match
