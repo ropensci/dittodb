@@ -216,3 +216,7 @@ testing_port <- function(db) {
 
   return(port)
 }
+
+is_expecting <- function() {
+  return(get0("expecting", .dittodb_env, ifnotfound = FALSE))
+}

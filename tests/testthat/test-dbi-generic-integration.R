@@ -392,6 +392,11 @@ for (pkg in names(db_pkgs)) {
           )
         })
 
+        expect_sql(
+          dbGetQuery(con, "SELECT carrier FROM airlines LIMIT 4"),
+          "SELECT carrier FROM airlines LIMIT 4"
+        )
+
         dbDisconnect(con)
       })
     })

@@ -18,6 +18,7 @@ reference:
   - capture_requests
 - title: Utilities
   contents:
+  - expect_sql
   - mockPaths
   - redact_columns
   - set_dittodb_debug_level

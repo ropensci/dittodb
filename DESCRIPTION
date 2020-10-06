@@ -75,6 +75,7 @@ Collate:
     'dbMisc.R'
     'mock-paths.R'
     'dittodb-env.R'
+    'expect-sql.R'
     'mock-db.R'
     'nycflights13-sql.R'
     'paths.R'
