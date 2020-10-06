@@ -6,7 +6,7 @@ jobs:
   check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}, testthat ${{ matrix.config.testhat_e }}e)
 
     strategy:
       fail-fast: false
