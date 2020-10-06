@@ -8,7 +8,7 @@
 #' This works by raising an error that contains the statement that is sent to the
 #' database as well as the location of the result. Currently, `expect_sql()` only
 #' works with [`DBI::dbSendQuery()`] (and most implementations of [`DBI::dbGetQuery()`]
-#' which call [`DBI::dbSendQuery()`] internally.)
+#' which call [`DBI::dbSendQuery()`] internally).
 #'
 #' *Note:* this function is experimental and will likely evolve over time. Please
 #' be prepared that new releases might break backwards compatibility.

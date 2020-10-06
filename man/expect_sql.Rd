@@ -23,7 +23,7 @@ and you don't care about retrieving the results.
 This works by raising an error that contains the statement that is sent to the
 database as well as the location of the result. Currently, \code{expect_sql()} only
 works with \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} (and most implementations of \code{\link[DBI:dbGetQuery]{DBI::dbGetQuery()}}
-which call \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} internally.)
+which call \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} internally).
 
 \emph{Note:} this function is experimental and will likely evolve over time. Please
 be prepared that new releases might break backwards compatibility.
