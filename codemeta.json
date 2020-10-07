@@ -14,7 +14,7 @@
   ],
   "issueTracker": "https://github.com/ropensci/dittodb/issues",
   "license": "https://spdx.org/licenses/Apache-2.0",
-  "version": "0.1.1.9001",
+  "version": "0.1.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -295,11 +295,23 @@
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "lifecycle",
+      "name": "lifecycle",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=lifecycle"
     }
   ],
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
-  "fileSize": "2042.728KB",
+  "fileSize": "2052.959KB",
   "contIntegration": "https://codecov.io/gh/ropensci/dittodb?branch=main",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing",
   "provider": {
