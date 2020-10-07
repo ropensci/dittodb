@@ -43,7 +43,8 @@ Imports:
     glue,
     methods,
     testthat,
-    utils
+    utils,
+    lifecycle
 Suggests: 
     callr,
     covr,
@@ -83,3 +84,4 @@ Collate:
     'redact.R'
     'use-dittodb.R'
     'utils.R'
+RdMacros: lifecycle

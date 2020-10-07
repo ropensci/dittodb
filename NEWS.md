@@ -1,6 +1,6 @@
 # dittodb 0.1.2
 ## New features
-* Experimental support for [`expect_sql()`] to check if a specific SQL statement is sent in tests without needing a fixture. Useful for when you only want or need to check that a specific query was sent and you don't need to check any code after that. This feature is experimental, so might change in a subsequent release. 
+* Experimental support for [`expect_sql()`] to check if a specific SQL statement is sent in a test without needing a fixture. Useful for when you only want or need to check that a specific query was sent and you don't need to check any code after that. This feature is experimental, so might change in a subsequent release. 
 
 ## Bug fixes and test improvements 
 * ODBC connections that only specify a dsn now use the dsn as the path (@klmr, #132). 

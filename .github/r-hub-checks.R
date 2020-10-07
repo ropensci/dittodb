@@ -2,17 +2,27 @@
 plat <- as.data.frame(rhub::platforms())
 cran_plat <- plat[!is.na(plat$`cran-name`), ]
 rhub_plat <- cran_plat[!grepl("debian|fedora", cran_plat$name), ]
+debfed_plat <- cran_plat[grepl("debian|fedora", cran_plat$name), ]
 
 
-rhub::check_for_cran(platforms = rhub_plat$name)
-rhub::check_for_cran(platforms = "windows-x86_64-devel", env_vars = c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
+rhub::check_for_cran()
+
+# fails on setup/dependency installation?
+rhub::check(platform = 'ubuntu-rchk')
+
+rhub::check_with_sanitizers()
+
+revdepcheck::revdep_check(num_workers = 4)
+
 ### Flavors for CRAN checks
+# passed
+rhub::check_for_cran(platforms = "macos-highsierra-release-cran")
 # "macos-highsierra-release-cran"
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-3ce1774bd743458f90ff902a6676a2bb
 # spell check error?
 
+# passed
 rhub::check_for_cran(platforms = c("solaris-x86-patched", "solaris-x86-patched-ods"))
-
 # "solaris-x86-patched"
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-67d1384703f144dea2cda0bfd4788c1d
 # 1 WARNING, 3 NOTEs
@@ -28,6 +38,8 @@ rhub::check_for_cran(platforms = c("solaris-x86-patched", "solaris-x86-patched-o
 # NOTE: Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ being installed.
 # NOTE: Maintainer New submission
 
+# passed
+rhub::check_for_cran(platforms = "windows-x86_64-devel", env_vars = c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
 # "windows-x86_64-devel"
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-573f9fffda0748118878fe9f430952cd
 # 2 ERRORs, 1 WARNING, 1 NOTE
@@ -35,6 +47,8 @@ rhub::check_for_cran(platforms = c("solaris-x86-patched", "solaris-x86-patched-o
 # WARNING: Error(s) in re-building vignettes
 # NOTE: Maintainer New submission
 
+#passed
+rhub::check_for_cran(platforms = c("windows-x86_64-oldrel", "windows-x86_64-release"))
 # "windows-x86_64-oldrel"
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-1e7219f16cce44c0bc95d3384422f090
 # NOTE: Maintainer New submission
@@ -43,8 +57,8 @@ rhub::check_for_cran(platforms = c("solaris-x86-patched", "solaris-x86-patched-o
 # https://builder.r-hub.io/status/dittodb_0.1.0.tar.gz-bafc053c9a7f4f808dc90fceca3613a6
 # NOTE: Maintainer New submission
 
-
-
+# passed
+rhub::check_for_cran(platforms = debfed_plat$name)
 # local checks because sysreqs is not up to date. Running a modified version of
 # sysreqs.app and sysreqs to look locally to detect differences
 # These are bash commands to run in a terminal (in parallel, ideally)
