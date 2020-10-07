@@ -220,3 +220,6 @@ testing_port <- function(db) {
 is_expecting <- function() {
   return(get0("expecting", .dittodb_env, ifnotfound = FALSE))
 }
+
+#' @importFrom lifecycle badge
+NULL

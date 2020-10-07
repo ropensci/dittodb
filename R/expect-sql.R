@@ -1,6 +1,6 @@
 #' Detect if a specific SQL statement is sent
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' Sometimes all you need to check is if a specific SQL statement has been sent
 #' and you don't care about retrieving the results.
