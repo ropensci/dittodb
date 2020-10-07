@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dittodb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -188,7 +188,7 @@
 
   <span class="fu">test_that</span>(<span class="st">"We get one airline"</span>, {
     <span class="no">one_airline</span> <span class="kw">&lt;-</span> <span class="fu">get_an_airline</span>()
-    <span class="fu">expect_is</span>(<span class="no">one_airline</span>, <span class="st">"data.frame"</span>)
+    <span class="fu">expect_s3_class</span>(<span class="no">one_airline</span>, <span class="st">"data.frame"</span>)
     <span class="fu">expect_equal</span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">one_airline</span>), <span class="fl">1</span>)
     <span class="fu">expect_equal</span>(<span class="no">one_airline</span>$<span class="no">carrier</span>, <span class="st">"9E"</span>)
     <span class="fu">expect_equal</span>(<span class="no">one_airline</span>$<span class="no">name</span>, <span class="st">"Endeavor Air Inc."</span>)
@@ -206,7 +206,7 @@
 
   <span class="fu">test_that</span>(<span class="st">"We get one airline"</span>, {
     <span class="no">one_airline</span> <span class="kw">&lt;-</span> <span class="fu">get_an_airline</span>()
-    <span class="fu">expect_is</span>(<span class="no">one_airline</span>, <span class="st">"data.frame"</span>)
+    <span class="fu">expect_s3_class</span>(<span class="no">one_airline</span>, <span class="st">"data.frame"</span>)
     <span class="fu">expect_equal</span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">one_airline</span>), <span class="fl">1</span>)
     <span class="fu">expect_equal</span>(<span class="no">one_airline</span>$<span class="no">carrier</span>, <span class="st">"9E"</span>)
     <span class="fu">expect_equal</span>(<span class="no">one_airline</span>$<span class="no">name</span>, <span class="st">"Endeavor Air Inc."</span>)
@@ -221,7 +221,7 @@
 
   <span class="fu">test_that</span>(<span class="st">"We get one airline"</span>, {
     <span class="no">one_airline</span> <span class="kw">&lt;-</span> <span class="fu">get_an_airline</span>()
-    <span class="fu">expect_is</span>(<span class="no">one_airline</span>, <span class="st">"data.frame"</span>)
+    <span class="fu">expect_s3_class</span>(<span class="no">one_airline</span>, <span class="st">"data.frame"</span>)
     <span class="fu">expect_equal</span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">one_airline</span>), <span class="fl">1</span>)
     <span class="fu">expect_equal</span>(<span class="no">one_airline</span>$<span class="no">carrier</span>, <span class="st">"9E"</span>)
     <span class="fu">expect_equal</span>(<span class="no">one_airline</span>$<span class="no">name</span>, <span class="st">"Endeavor Air Inc."</span>)

@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dittodb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -224,6 +224,12 @@
       <tr>
         
         <td>
+          <p><code><a href="expect_sql.html">expect_sql()</a></code> </p>
+        </td>
+        <td><p>Detect if a specific SQL statement is sent</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="mockPaths.html">db_mock_paths()</a></code> <code><a href="mockPaths.html">.db_mock_paths()</a></code> </p>
         </td>
         <td><p>Set an alternate directory for mock API fixtures</p></td>
@@ -261,7 +267,7 @@
       <tr>
         
         <td>
-          <p><code><a href="mock-db-methods.html">dbDisconnect(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbExistsTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbExistsTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbSendQuery(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbFetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbClearResult(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbHasCompleted(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbWriteTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>,<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbRemoveTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbColumnInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;SQL&gt;</i>)</a></code> </p>
+          <p><code><a href="mock-db-methods.html">dbDisconnect(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbExistsTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbExistsTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListTables(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;Id&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbListFields(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbSendQuery(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbFetch(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="mock-db-methods.html">fetch(<i>&lt;DBIMockResult&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbClearResult(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbHasCompleted(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetQuery(<i>&lt;DBIMockRPostgreSQLConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockConnection&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbWriteTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>,<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbRemoveTable(<i>&lt;DBIMockConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbColumnInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbGetInfo(<i>&lt;DBIMockResult&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;character&gt;</i>)</a></code> <code><a href="mock-db-methods.html">dbQuoteIdentifier(<i>&lt;DBIMockRPostgresConnection&gt;</i>,<i>&lt;SQL&gt;</i>)</a></code> </p>
         </td>
         <td><p>Methods for interacting with DB mocks instead of an actual database</p></td>
       </tr>

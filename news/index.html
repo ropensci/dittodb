@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dittodb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -158,9 +158,30 @@
       <small>Source: <a href='https://github.com/ropensci/dittodb/blob/main/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dittodb-012" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.2">
+<a href="#dittodb-012" class="anchor"></a>dittodb 0.1.2<small> Unreleased </small>
+</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>Experimental support for [<code><a href="../reference/expect_sql.html">expect_sql()</a></code>] to check if a specific SQL statement is sent in a test without needing a fixture. Useful for when you only want or need to check that a specific query was sent and you don’t need to check any code after that. This feature is experimental, so might change in a subsequent release.</li>
+</ul>
+</div>
+<div id="bug-fixes-and-test-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-and-test-improvements" class="anchor"></a>Bug fixes and test improvements</h2>
+<ul>
+<li>ODBC connections that only specify a dsn now use the dsn as the path (<a href='https://github.com/klmr'>@klmr</a>, <a href='https://github.com/ropensci/dittodb/issues/132'>#132</a>).</li>
+<li>Compatibility for the forthcoming {testthat} 3e.</li>
+<li>Test changes for {dbplyr} (<a href='https://github.com/hadley'>@hadley</a>, <a href='https://github.com/ropensci/dittodb/issues/134'>#134</a>).</li>
+</ul>
+</div>
+</div>
     <div id="dittodb-011" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.1">
-<a href="#dittodb-011" class="anchor"></a>dittodb 0.1.1<small> Unreleased </small>
+<a href="#dittodb-011" class="anchor"></a>dittodb 0.1.1<small> 2020-07-29 </small>
 </h1>
 <ul>
 <li>Minor CRAN update that makes tests and examples conditional when <code>Suggests</code> packages are not available.</li>
@@ -171,11 +192,11 @@
 <a href="#dittodb-010" class="anchor"></a>dittodb 0.1.0<small> 2020-07-24 </small>
 </h1>
 <ul>
-<li>Initial release with functionality for recording and playing back database fixtures from a number of DBI-based drivers (RSQLite, RPostgres, RMariaDB, RPostgreSQL)</li>
+<li>Initial release with functionality for recording and playing back database fixtures from a number of DBI-based drivers ({RSQLite}, {RPostgres}, {RMariaDB}, {RPostgreSQL})</li>
 <li>Thanks to <a href='https://github.com/maelle'>@maelle</a> for PR<a href='https://github.com/ropensci/dittodb/issues/12'>#12</a></li>
 <li>
-<code><a href="../reference/nycflights13_create_sql.html">nycflights13_create_sql()</a></code> now always uses DBI</li>
-<li>bug fixes to cope with dbplyr’s unique table name functions and quoting</li>
+<code><a href="../reference/nycflights13_create_sql.html">nycflights13_create_sql()</a></code> now always uses {DBI}</li>
+<li>bug fixes to cope with {dbplyr}’s unique table name functions and quoting</li>
 </ul>
 </div>
   </div>

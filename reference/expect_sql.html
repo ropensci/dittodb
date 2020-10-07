@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check if a package is installed — check_for_pkg • dittodb</title>
+<title>Detect if a specific SQL statement is sent — expect_sql • dittodb</title>
 
 
 <!-- jquery -->
@@ -41,10 +41,8 @@
   
   <script src="../extra.js"></script>
 
-<meta property="og:title" content="Check if a package is installed — check_for_pkg" />
-<meta property="og:description" content="Uses requireNamespace() to check if a package is already installed and
-provides options for issuing an error, warning, etc. in case the package is
-not installed." />
+<meta property="og:title" content="Detect if a specific SQL statement is sent — expect_sql" />
+<meta property="og:description" content="" />
 
 
 
@@ -157,45 +155,57 @@ not installed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check if a package is installed</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/dittodb/blob/main/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>check_for_pkg.Rd</code></div>
+    <h1>Detect if a specific SQL statement is sent</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/dittodb/blob/main/R/expect-sql.R'><code>R/expect-sql.R</code></a></small>
+    <div class="hidden name"><code>expect_sql.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Uses <code>requireNamespace()</code> to check if a package is already installed and
-provides options for issuing an error, warning, etc. in case the package is
-not installed.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_for_pkg</span>(<span class='no'>package</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>stop</span>)</pre>
+    <pre class="usage"><span class='fu'>expect_sql</span>(<span class='no'>object</span>, <span class='kw'>regexp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>package</th>
-      <td><p>the name of the package to check for</p></td>
+      <th>object</th>
+      <td><p>the expression to evaluate</p></td>
     </tr>
     <tr>
-      <th>func</th>
-      <td><p>what should this check call if the package is not installed?
-This can be any function, but <code>stop</code>, <code>warning</code>, <code>skip</code>, etc. are likely
-candidates (default: <code>stop</code>)</p></td>
+      <th>regexp</th>
+      <td><p>the statement to match</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments passed to <code><a href='https://testthat.r-lib.org/reference/expect_error.html'>testthat::expect_error()</a></code></p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p><code>TRUE</code> if the package is installed, <code>FALSE</code> if it is not (invisibly)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>It is only exported for use in examples.</p>
+    <p>Sometimes all you need to check is if a specific SQL statement has been sent
+and you don't care about retrieving the results.</p>
+<p>This works by raising an error that contains the statement that is sent to the
+database as well as the location of the result. Currently, <code>expect_sql()</code> only
+works with <code><a href='https://dbi.r-dbi.org/reference/dbSendQuery.html'>DBI::dbSendQuery()</a></code> (and most implementations of <code><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>DBI::dbGetQuery()</a></code>
+which call <code><a href='https://dbi.r-dbi.org/reference/dbSendQuery.html'>DBI::dbSendQuery()</a></code> internally).</p>
+<p><em>Note:</em> this function is experimental and will likely evolve over time. Please
+be prepared that new releases might break backwards compatibility.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>check_for_pkg</span>(<span class='st'>"DBI"</span>)
-<span class='fu'>check_for_pkg</span>(<span class='st'>"no-such-package"</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>message</span>)</div><div class='output co'>#&gt; <span class='message'>The package no-such-package isn't installed but is needed for this action.</span>
-#&gt; <span class='message'>Please install it with install.packages("no-such-package") and try again.</span></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='check_for_pkg.html'>check_for_pkg</a></span>(<span class='st'>"RSQLite"</span>, <span class='no'>message</span>)) {
+  <span class='fu'><a href='mockdb.html'>with_mock_db</a></span>({
+    <span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(), <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"not_a_db"</span>)
+
+    <span class='fu'>expect_sql</span>(
+      <span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"SELECT carrier, name FROM airlines LIMIT 3"</span>),
+      <span class='st'>"SELECT carrier, name FROM airlines LIMIT 3"</span>
+    )
+  })
+}</div><div class='output co'>#&gt; &lt;simpleError: Fixture: not_a_db/SELECT-4d11cc.R
+#&gt; SELECT carrier, name FROM airlines LIMIT 3&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
