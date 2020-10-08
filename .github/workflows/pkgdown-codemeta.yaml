@@ -21,6 +21,7 @@ jobs:
            bash db-setup/mariadb-brew.sh
       - name: Install dependencies
         run: |
+          brew install libgit2
           Rscript -e 'install.packages("remotes")' \
                   -e 'install.packages("ps")' \
                   -e 'remotes::install_github("ropensci/codemetar")' \
