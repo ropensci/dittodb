@@ -4,6 +4,8 @@ cran_plat <- plat[!is.na(plat$`cran-name`), ]
 rhub_plat <- cran_plat[!grepl("debian|fedora", cran_plat$name), ]
 debfed_plat <- cran_plat[grepl("debian|fedora", cran_plat$name), ]
 
+devtools::check_win_devel()
+devtools::check_win_release()
 
 rhub::check_for_cran()
 

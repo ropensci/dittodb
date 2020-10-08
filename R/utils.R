@@ -108,6 +108,11 @@ ignore_dbplyr_unique_names <- function(statement) {
     "`removed_unique_dplyr_name`",
     statement
   )
+  statement <- gsub(
+    "`q[[:digit:]]+`",
+    "`removed_unique_dplyr_name`",
+    statement
+  )
   return(statement)
 }
 
