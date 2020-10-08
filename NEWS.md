@@ -1,3 +1,6 @@
+# dittodb 0.1.3
+* Minor CRAN update that makes vignette execution conditional when `Suggests` packages are not available.
+
 # dittodb 0.1.2
 ## New features
 * Experimental support for [`expect_sql()`] to check if a specific SQL statement is sent in a test without needing a fixture. Useful for when you only want or need to check that a specific query was sent and you don't need to check any code after that. This feature is experimental, so might change in a subsequent release. 

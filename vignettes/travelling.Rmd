@@ -60,6 +60,11 @@ library(dittodb)
 # set the mockPaths for this vignette
 db_mock_paths("travelling")
 
+has_postgres <- check_for_pkg("RPostgres", func = warning)
+has_dbplyr <- check_for_pkg("dbplyr", func = warning)
+has_dplyr <- check_for_pkg("dplyr", func = warning)
+can_eval <- has_postgres & has_dbplyr & has_dplyr
+
 knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
 ```
 
@@ -157,7 +162,7 @@ dbDisconnect(con_psql)
 stop_db_capturing()
 ```
 
-```{r cooking show trick, echo=FALSE}
+```{r cooking show trick, echo=FALSE, eval=can_eval}
 library(dplyr)
 library(dbplyr)
 
@@ -191,7 +196,7 @@ If there was a success capturing one or more queries, then we are able to
 replicate the result connected to a different network or even without internet
 access:
 
-```{r}
+```{r, eval=can_eval}
 with_mock_db({
   con_psql <- DBI::dbConnect(
     RPostgres::Postgres(),
