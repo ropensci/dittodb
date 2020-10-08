@@ -111,7 +111,7 @@
       <h1 data-toc-skip>Recording queries with {dittodb} for travelling</h1>
                         <h4 class="author">Mauricio Vargas</h4>
             
-            <h4 class="date">2020-10-07</h4>
+            <h4 class="date">2020-10-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/main/vignettes/travelling.Rmd"><code>vignettes/travelling.Rmd</code></a></small>
       <div class="hidden name"><code>travelling.Rmd</code></div>
@@ -137,7 +137,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dbplyr</span>)
 
 <span class="no">con_psql</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(
-  <span class="kw pkg">RPostgreSQL</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html">PostgreSQL</a></span>(),
+  <span class="kw pkg">RPostgres</span><span class="kw ns">::</span><span class="fu"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html">Postgres</a></span>(),
   <span class="kw">dbname</span> <span class="kw">=</span> <span class="st">"travelling"</span>,
   <span class="kw">host</span> <span class="kw">=</span> <span class="st">"127.0.0.1"</span>,
   <span class="kw">user</span> <span class="kw">=</span> <span class="st">"m.ciccone"</span>
@@ -157,7 +157,7 @@
 <span class="fu"><a href="../reference/capture_requests.html">start_db_capturing</a></span>()
 
 <span class="no">con_psql</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(
-    <span class="kw pkg">RPostgreSQL</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html">PostgreSQL</a></span>(),
+    <span class="kw pkg">RPostgres</span><span class="kw ns">::</span><span class="fu"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html">Postgres</a></span>(),
     <span class="kw">dbname</span> <span class="kw">=</span> <span class="st">"dittodb"</span>,
     <span class="kw">host</span> <span class="kw">=</span> <span class="st">"postgres.server"</span>,
     <span class="kw">user</span> <span class="kw">=</span> <span class="st">"m.ciccone"</span>
@@ -185,8 +185,8 @@
 ##  5 N3CJAA 
 ##  6 N14972 
 ##  7 N667UA 
-##  8 N998AT 
-##  9 N521JB 
+##  8 N521JB 
+##  9 N998AT 
 ## 10 N16559 
 ## # … with 1,873 more rows</code></pre>
 <pre><code>## [1] TRUE</code></pre>
@@ -197,7 +197,7 @@
 <p>If there was a success capturing one or more queries, then we are able to replicate the result connected to a different network or even without internet access:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/mockdb.html">with_mock_db</a></span>({
   <span class="no">con_psql</span> <span class="kw">&lt;-</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(
-    <span class="kw pkg">RPostgreSQL</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/RPostgreSQL/man/PostgreSQL.html">PostgreSQL</a></span>(),
+    <span class="kw pkg">RPostgres</span><span class="kw ns">::</span><span class="fu"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html">Postgres</a></span>(),
     <span class="kw">dbname</span> <span class="kw">=</span> <span class="st">"travelling"</span>,
     <span class="kw">host</span> <span class="kw">=</span> <span class="st">"127.0.0.1"</span>,
     <span class="kw">user</span> <span class="kw">=</span> <span class="st">"m.ciccone"</span>
@@ -222,8 +222,8 @@
 ##  5 N3CJAA 
 ##  6 N14972 
 ##  7 N667UA 
-##  8 N998AT 
-##  9 N521JB 
+##  8 N521JB 
+##  9 N998AT 
 ## 10 N16559 
 ## # … with 1,873 more rows</code></pre>
 <p>One thing to note is that when using <code>dbplyr</code>, we need to be a bit careful that we wrap the entire interaction in with the database objects in <code>with_mock_db</code> if we are taking advantage of <code>dbplyr</code>’s lazy evaluation (which is by default) and use <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> to return the results when you want them recorded. Because <code>dbplyr</code> waits until the last possible second to request the data, if you don’t have a <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> call (or a call the will implicitly send the query) there won’t be a query called, and {dittodb} won’t see be able to record the response from that query.</p>
