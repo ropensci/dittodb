@@ -85,10 +85,7 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: Check
-        run: |
-          # Only error on warnings or above for anything prior to 3.4
-          erroron=$(if (( $(echo "${{ matrix.config.r }} <= 3.4" | bc -l) )); then echo "warning"; else echo "note"; fi)
-          Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--as-cran'), error_on = '$erroron', check_dir = 'check')"
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--as-cran'), error_on = 'note', check_dir = 'check')"
 
       - name: Upload check results
         if: failure()
