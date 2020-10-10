@@ -1,3 +1,5 @@
+# dittodb (development version)
+
 # dittodb 0.1.3
 * Minor CRAN update that makes vignette execution conditional when `Suggests` packages are not available.
 
