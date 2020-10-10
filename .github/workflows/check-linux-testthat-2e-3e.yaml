@@ -20,7 +20,6 @@ jobs:
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
-      _R_CHECK_CRAN_INCOMING_REMOTE_: false
       _R_CHECK_CRAN_INCOMING_: false
       RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
 
@@ -86,7 +85,10 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: Check
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--as-cran'), error_on = 'note', check_dir = 'check')"
+        run: |
+        # Only error on warnings or above for anything prior to 3.4
+        erroron=$(if (( $(echo "${{ matrix.config.r }} < 3.4" | bc -l) )); then echo "warning"; else echo "note"; fi)
+        Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--as-cran'), error_on = '$erroron', check_dir = 'check')"
 
       - name: Upload check results
         if: failure()
