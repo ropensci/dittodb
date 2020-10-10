@@ -20,6 +20,7 @@ jobs:
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
+      _R_CHECK_CRAN_INCOMING_REMOTE_: false
       _R_CHECK_CRAN_INCOMING_: false
       RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
 
