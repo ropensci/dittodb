@@ -38,7 +38,7 @@ jobs:
         id: rlibcache
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}-testthat-editions
 
       - name: Install dependencies (linux)
         run: |
