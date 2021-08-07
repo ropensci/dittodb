@@ -219,6 +219,10 @@ testing_port <- function(db) {
     port <- as.integer(Sys.getenv("DITTODB_PG_TEST_PORT", "5432"))
   }
 
+  if (grepl("oracle", db, ignore.case = TRUE)) {
+    port <- as.integer(Sys.getenv("DITTODB_ORACLE_TEST_PORT", "1521"))
+  }
+
   return(port)
 }
 

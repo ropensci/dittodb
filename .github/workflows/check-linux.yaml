@@ -86,6 +86,7 @@ jobs:
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
+          ORACLE_PWD: ${{ env.DBROOTPASS }}
 
       - name: Check
         run: |
