@@ -6,9 +6,6 @@ jobs:
   check:
     runs-on: ${{ matrix.config.os }}
 
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
     name: ${{ matrix.config.os }} (${{ matrix.config.r }}, testthat ${{ matrix.config.testhat_e }}e)
 
     strategy:
@@ -28,6 +25,7 @@ jobs:
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
       RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v1
