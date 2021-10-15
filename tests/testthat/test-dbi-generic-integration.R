@@ -42,9 +42,10 @@ db_pkgs <- list(
   ))
 )
 
+db_pkgs <- db_pkgs["RPostgreSQL"]
+
 # The lintr complains about cyclomatic complexity here because of the stacked
 # calls needed for test_that + dittodb + database calls.
-# nolint start
 for (pkg in names(db_pkgs)) {
   test_that(glue("Integration tests for {pkg}"), {
     skip_env(pkg)
@@ -70,6 +71,21 @@ for (pkg in names(db_pkgs)) {
     } else {
       airlines_table <- paste(schema, "airlines", sep = ".")
       flights_table <- paste(schema, "flights", sep = ".")
+    }
+
+    # slightly different ways to refer to tables/schemas
+    if (pkg == "RMariaDB") {
+      flights_table_obj <- "flights"
+      airlines_table_obj <- "airlines"
+      doesnotexist_table_obj <- "doesnotexist"
+    } else if (pkg == "RPostgreSQL") {
+      flights_table_obj <- c(schema = schema, table = "flights")
+      airlines_table_obj <- c(schema = schema, table = "airlines")
+      doesnotexist_table_obj <- c(schema = schema, table = "doesnotexist")
+    } else if (pkg %in% c("odbc", "RPostgres")) {
+      flights_table_obj <- Id(schema = schema, table = "flights")
+      airlines_table_obj <- Id(schema = schema, table = "airlines")
+      doesnotexist_table_obj <- c(schema = schema, table = "doesnotexist")
     }
 
     test_that(glue("The fixture is what we expect: {pkg}"), {
@@ -112,38 +128,12 @@ for (pkg in names(db_pkgs)) {
       tables <- dbListTables(con)
 
       # dbListFields ====
-      # dbListFields is ever so slightly different for each
-      if (pkg == "RMariaDB") {
-        fields_flights <- dbListFields(con, "flights")
-      } else if (pkg == "odbc") {
-        fields_flights <- dbListFields(
-          con,
-          Id(schema = schema, table = "flights")
-        )
-      } else if (pkg == "RPostgreSQL") {
-        fields_flights <- dbListFields(con, c(schema, "flights"))
-      } else if (pkg == "RPostgres") {
-        fields_flights <- dbListFields(
-          con,
-          Id(schema = schema, table = "flights")
-        )
-      }
+      # dbListFields is ever so slightly different for RPostgresql
+      fields_flights <- dbListFields(con, flights_table_obj)
+
 
       # dbReadTable ====
-      if (pkg == "RMariaDB") {
-        airlines_expected <- dbReadTable(con, "airlines")
-      } else if (pkg == "odbc") {
-        airlines_expected <- dbReadTable(
-          con,
-          Id(schema = schema, table = "airlines")
-        )
-      } else if (pkg == "RPostgreSQL") {
-        airlines_expected <- dbReadTable(con, c(schema, "airlines"))
-      } else if (pkg == "RPostgres") {
-        airlines_expected <- dbReadTable(
-          con, Id(schema = schema, table = "airlines")
-        )
-      }
+      airlines_expected <- dbReadTable(con, c(schema, "airlines"))
 
       # dbClearResult ====
       res <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
@@ -158,31 +148,21 @@ for (pkg in names(db_pkgs)) {
       dbClearResult(result)
 
       # dbExistsTable ====
-      # dbExistsTable is ever so slightly different for each
-      if (pkg == "RMariaDB") {
-        table_exists <- dbExistsTable(con, "airlines")
-        table_does_not_exist <- dbExistsTable(con, "doesnotexist")
-      } else if (pkg == "odbc") {
-        table_exists <- dbExistsTable(
-          con,
-          Id(schema = schema, table = "airlines")
-        )
-        table_does_not_exist <- dbExistsTable(
-          con,
-          Id(schema = schema, table = "doesnotexist")
-        )
-      } else if (pkg == "RPostgreSQL") {
-        table_exists <- dbExistsTable(con, c(schema, "airlines"))
-        table_does_not_exist <- dbExistsTable(con, c(schema, "doesnotexist"))
-      } else if (pkg == "RPostgres") {
-        table_exists <- dbExistsTable(
-          con,
-          Id(schema = schema, table = "airlines")
-        )
-        table_does_not_exist <- dbExistsTable(
-          con,
-          Id(schema = schema, table = "doesnotexist")
-        )
+      table_exists <- dbExistsTable(con, airlines_table_obj)
+      table_does_not_exist <- dbExistsTable(con, doesnotexist_table_obj)
+
+      # capturing with dplyr + a string ----
+      require(dbplyr, quietly = TRUE)
+      require(dplyr,  quietly = TRUE, warn.conflicts = FALSE)
+      if (pkg == "RPostgreSQL") {
+        # The _one_ place where RPostgreSQL needs `Id()` and not `c(schema, table)`
+        dest_ord <- tbl(con, Id(flights_table_obj)) %>%
+          filter(dest == "ORD") %>%
+          collect()
+      } else {
+        dest_ord <- tbl(con, flights_table_obj) %>%
+          filter(dest == "ORD") %>%
+          collect()
       }
 
       dbDisconnect(con)
@@ -257,16 +237,7 @@ for (pkg in names(db_pkgs)) {
 
         # dbListFields ====
         test_that(glue("dbListFields() {pkg}"), {
-          # dbListFields is ever so slightly different for each
-          if (pkg == "RMariaDB") {
-            out <- dbListFields(con, "flights")
-          } else if (pkg == "odbc") {
-            out <- dbListFields(con, Id(schema = schema, table = "flights"))
-          } else if (pkg == "RPostgreSQL") {
-            out <- dbListFields(con, c(schema, "flights"))
-          } else if (pkg == "RPostgres") {
-            out <- dbListFields(con, Id(schema = schema, table = "flights"))
-          }
+          out <- dbListFields(con, flights_table_obj)
           expect_identical(out, fields_flights)
           expect_identical(out, c(
             "year", "month", "day", "dep_time", "sched_dep_time", "dep_delay",
@@ -278,16 +249,7 @@ for (pkg in names(db_pkgs)) {
 
         # dbReadTable ====
         test_that(glue("dbReadTable() {pkg}"), {
-          if (pkg == "RMariaDB") {
-            out <- dbReadTable(con, "airlines")
-          } else if (pkg == "odbc") {
-            out <- dbReadTable(con, Id(schema = schema, table = "airlines"))
-          } else if (pkg == "RPostgreSQL") {
-            out <- dbReadTable(con, c(schema, "airlines"))
-          } else if (pkg == "RPostgres") {
-            out <- dbReadTable(con, Id(schema = schema, table = "airlines"))
-          }
-          expect_identical(out, airlines_expected)
+          expect_identical(dbReadTable(con, airlines_table_obj), airlines_expected)
         })
 
         # dbClearResult====
@@ -329,31 +291,8 @@ for (pkg in names(db_pkgs)) {
 
         # dbExistsTable ====
         test_that("dbGetInfo", {
-          if (pkg == "RMariaDB") {
-            expect_true(table_exists <- dbExistsTable(con, "airlines"))
-            expect_false(table_does_not_exist <- dbExistsTable(con, "doesnotexist"))
-          } else if (pkg == "odbc") {
-            expect_true(table_exists <- dbExistsTable(
-              con,
-              Id(schema = schema, table = "airlines")
-            ))
-            expect_false(table_does_not_exist <- dbExistsTable(
-              con,
-              Id(schema = schema, table = "doesnotexist")
-            ))
-          } else if (pkg == "RPostgreSQL") {
-            expect_true(table_exists <- dbExistsTable(con, c(schema, "airlines")))
-            expect_false(table_does_not_exist <- dbExistsTable(con, c(schema, "doesnotexist")))
-          } else if (pkg == "RPostgres") {
-            expect_true(table_exists <- dbExistsTable(
-              con,
-              Id(schema = schema, table = "airlines")
-            ))
-            expect_false(table_does_not_exist <- dbExistsTable(
-              con,
-              Id(schema = schema, table = "doesnotexist")
-            ))
-          }
+          expect_true(table_exists <- dbExistsTable(con, airlines_table_obj))
+          expect_false(table_does_not_exist <- dbExistsTable(con, doesnotexist_table_obj))
         })
 
         # dbWriteTable ====
@@ -364,6 +303,21 @@ for (pkg in names(db_pkgs)) {
         # dbRemoveTable ====
         test_that("dbRemoveTable", {
           expect_true(dbRemoveTable(con, "mtcars"))
+        })
+
+        # capturing with dplyr + a string ----
+        test_that("capturing with dplyr + a string", {
+          if (pkg == "RPostgreSQL") {
+            out <- tbl(con, Id(flights_table_obj)) %>%
+              filter(dest == "ORD") %>%
+              collect()
+          } else {
+            out <- tbl(con, flights_table_obj) %>%
+              filter(dest == "ORD") %>%
+              collect()
+          }
+
+          expect_identical(out, dest_ord)
         })
 
         # query with redaction ----
@@ -402,5 +356,3 @@ for (pkg in names(db_pkgs)) {
     })
   })
 }
-
-# nolint end

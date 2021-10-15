@@ -45,9 +45,9 @@ con_psql <- DBI::dbConnect(
 
 tbl(con_psql, "flights") %>%
   filter(!is.na(tailnum)) %>%
-  filter(arr_delay >= 180) %>% 
+  filter(arr_delay >= 180) %>%
   select(tailnum) %>%
-  distinct() %>% 
+  distinct() %>%
   collect()
 
 dbDisconnect(con_psql)
@@ -108,7 +108,7 @@ con_psql <- DBI::dbConnect(
 
 tbl(con_psql, "flights") %>%
   filter(!is.na(tailnum)) %>%
-  filter(arr_delay >= 180) %>% 
+  filter(arr_delay >= 180) %>%
   select(tailnum) %>%
   distinct()
 ```
@@ -150,7 +150,7 @@ con_psql <- DBI::dbConnect(
 
 flights_delayed <- tbl(con_psql, "flights") %>%
   filter(!is.na(tailnum)) %>%
-  filter(arr_delay >= 180) %>% 
+  filter(arr_delay >= 180) %>%
   select(tailnum) %>%
   distinct() %>%
   collect()
@@ -166,7 +166,7 @@ stop_db_capturing()
 library(dplyr)
 library(dbplyr)
 
-# this is the same code that is echoed below, but used here to show output that 
+# this is the same code that is echoed below, but used here to show output that
 # the chunk above would produce if it were able to connect
 with_mock_db({
   con_psql <- DBI::dbConnect(
@@ -180,9 +180,9 @@ with_mock_db({
     filter(!is.na(tailnum)) %>%
     filter(arr_delay >= 180) %>%
     select(tailnum) %>%
-    distinct() %>% 
+    distinct() %>%
     collect()
-  
+
   flights_delayed_from_mock
 })
 
@@ -207,11 +207,11 @@ with_mock_db({
 
   flights_delayed_from_mock <- tbl(con_psql, "flights") %>%
     filter(!is.na(tailnum)) %>%
-    filter(arr_delay >= 180) %>% 
+    filter(arr_delay >= 180) %>%
     select(tailnum) %>%
     distinct() %>%
     collect()
-  
+
   flights_delayed_from_mock
 })
 ```

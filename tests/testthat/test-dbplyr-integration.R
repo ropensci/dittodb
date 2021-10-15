@@ -75,7 +75,11 @@ with_mock_db({
   # our flights table
   expect_warning(
     flights_db <- tbl(con, "flights"),
-    if (packageVersion("dbplyr") > "1.99") NA else "dbFetch `n` is ignored while mocking databases\\."
+    if (packageVersion("dbplyr") > "1.99") {
+      NA
+    } else {
+      "dbFetch `n` is ignored while mocking databases\\."
+    }
   )
 
   test_that("We can select columns", {

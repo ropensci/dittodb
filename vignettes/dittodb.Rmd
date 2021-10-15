@@ -58,12 +58,12 @@ mean_delays <- function(group_col) {
     dbname = "nycflights"
   )
   on.exit(dbDisconnect(con))
-  
+
   query <- glue::glue(
     "SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights ",
     "WHERE arr_delay > 0 GROUP BY {group_col}"
   )
-  
+
   return(dbGetQuery(con, query))
 }
 ```
@@ -78,12 +78,12 @@ mean_delays <- function(group_col) {
     dbname = "nycflights"
   )
   on.exit(dbDisconnect(con))
-  
+
   query <- glue::glue(
     "SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights ",
     "WHERE arr_delay > 0 GROUP BY {group_col}"
   )
-  
+
   return(dbGetQuery(con, query))
 }
 ```
@@ -95,12 +95,12 @@ library(DBI)
 mean_delays <- function(group_col) {
   con <- dbConnect(RSQLite::SQLite())
   on.exit(dbDisconnect(con))
-  
+
   query <- glue::glue(
     "SELECT {group_col}, AVG(arr_delay) as mean_delay from nycflights13.flights ",
     "WHERE arr_delay > 0 GROUP BY {group_col}"
   )
-  
+
   return(dbGetQuery(con, query))
 }
 ```
