@@ -44,7 +44,7 @@ jobs:
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v1
         with:
-            extra-packages: remotes, rcmdcheck, httptest
+          extra-packages: remotes, rcmdcheck, httptest
 
       - name: Setup databases
         run: bash db-setup/populate-dbs.sh
@@ -54,7 +54,7 @@ jobs:
 
       - name: Check
         shell: Rscript {0}
-         run: |
+        run: |
            rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')
 
       - name: Upload check results

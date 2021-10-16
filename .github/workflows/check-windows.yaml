@@ -59,9 +59,9 @@ jobs:
         if: contains(runner.os, 'windows')
 
       - name: Install R dependencies
-         uses: r-lib/actions/setup-r-dependencies@v1
-         with:
-             extra-packages: remotes, rcmdcheck, httptest
+        uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: remotes, rcmdcheck, httptest
 
       - name: Setup databases
         run: bash db-setup/populate-dbs.sh
