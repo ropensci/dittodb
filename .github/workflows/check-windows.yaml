@@ -40,26 +40,19 @@ jobs:
           path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
           key: Choco-${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
-      - name: pre-path
-        shell: bash
-        run: echo $GITHUB_PATH
-
       - name: Install databases (windows)
         shell: bash
         run: |
           choco install mariadb
-          choco install postgresql11 --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          choco install postgresql14 --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
 
+          # Needed to get psql on the path
           echo "$PGBIN" >> $GITHUB_PATH
 
           # change the password for mariadb
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
-
-      - name: post-path
-        shell: bash
-        run: echo $GITHUB_PATH
 
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v1
