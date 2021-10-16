@@ -18,7 +18,6 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      CRAN: ${{ matrix.config.cran }}
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
@@ -35,12 +34,12 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@v1
         if: contains(matrix.config.args, 'no-manual') == false
 
-      - name: Install databases (macOS)
-        run: |
-           brew update || brew update
-           bash db-setup/postgres-brew.sh
-           bash db-setup/mariadb-brew.sh
-        if: contains(runner.os, 'macOS')
+      # - name: Install databases (macOS)
+      #   run: |
+      #      brew update || brew update
+      #      bash db-setup/postgres-brew.sh
+      #      bash db-setup/mariadb-brew.sh
+      #   if: contains(runner.os, 'macOS')
 
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v1
