@@ -44,7 +44,7 @@ jobs:
         shell: bash
         run: |
           choco install mariadb
-          choco install postgresql14 --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          choco install postgresql14 --force --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
 
           # Needed to get psql on the path
