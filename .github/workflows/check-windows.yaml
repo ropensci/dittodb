@@ -16,28 +16,22 @@ jobs:
 
     env:
       CRAN: ${{ matrix.config.cran }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
-      - uses: r-lib/actions/setup-tinytex@master
+      - uses: r-lib/actions/setup-tinytex@v1
         if: contains(matrix.config.args, 'no-manual') == false
-
-      - name: Cache R packages
-        uses: actions/cache@v1
-        id: rlibcache
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
       - name: Cache Windows Chocolatey downloads
         uses: actions/cache@v1
@@ -57,7 +51,7 @@ jobs:
           $endingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           $newpath = ($endingpath -split ';') | Where {($startingpath -split ';') -NotContains $_}
           $newpath = $newpath -Join ';'
-          echo "::add-path::$newpath"
+          echo "$newpath" >> $GITHUB_PATH
 
           # change the password for mariadb
           $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -65,13 +59,9 @@ jobs:
         if: contains(runner.os, 'windows')
 
       - name: Install R dependencies
-        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest'), type = 'source')" -e "remotes::install_deps(dependencies = TRUE);"
-
-      - name: Build RPostgres on windows on cache miss
-        # RMariaDB and RPostgres interact in funny ways on windows:
-        # https://github.com/r-dbi/RMariaDB/issues/119
-        if: steps.rlibcache.outputs.cache-hit != 'true'
-        run: Rscript -e "remotes::install_github('r-dbi/RPostgres');"
+         uses: r-lib/actions/setup-r-dependencies@v1
+         with:
+             extra-packages: remotes, rcmdcheck, httptest
 
       - name: Setup databases
         run: bash db-setup/populate-dbs.sh
@@ -80,15 +70,11 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: Check
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')"
+        shell: Rscript {0}
+        run: rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')
 
       - name: Upload check results
-        if: failure()
         uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-
-      - name: Alter the path to avoid using rtool's tar before cache posting
-        run: echo "::add-path::C:\Program Files\Git\usr\bin\"
-        if: contains(runner.os, 'windows')

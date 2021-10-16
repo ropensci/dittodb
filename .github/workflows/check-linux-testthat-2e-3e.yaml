@@ -17,21 +17,23 @@ jobs:
 
     env:
       CRAN: ${{ matrix.config.cran }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
+      _R_CHECK_CRAN_INCOMING_: false
       RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
 
     steps:
       - uses: actions/checkout@v1
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Cache R packages
         uses: actions/cache@v1
@@ -64,19 +66,14 @@ jobs:
           done
         if: contains(runner.os, 'linux')
 
-      - name: Install R dependencies (with dev {testthat} and {devtools})
-        run: |
-          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'httptest', 'desc'), type = 'source')"
-          Rscript -e "remotes::install_deps(dependencies = TRUE)"
-          Rscript -e "remotes::install_github(c('r-lib/testthat', 'r-lib/devtools'))"
+      - name: Install R dependencies
+         uses: r-lib/actions/setup-r-dependencies@v1
+         with:
+             extra-packages: remotes, rcmdcheck, httptest
 
       - name: Set the testthat edition
         run: |
           Rscript -e "desc::desc_set('Config/testthat/edition' = '${{ matrix.config.testhat_e }}', file = 'DESCRIPTION')"
-
-      - name: Build R DB Dependencies on cache miss
-        if: steps.rlibcache.outputs.cache-hit != 'true'
-        run: Rscript -e "install.packages(c('RMariaDB', 'odbc', 'RPostgreSQL', 'RPostgres'), type = 'source');"
 
       - name: Setup databases
         run: bash db-setup/populate-dbs.sh
@@ -85,7 +82,8 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: Check
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--as-cran'), error_on = 'note', check_dir = 'check')"
+        shell: Rscript {0}
+        run: rcmdcheck::rcmdcheck(args = c('--no-manual', '--as-cran'), error_on = 'note', check_dir = 'check')
 
       - name: Upload check results
         if: failure()
