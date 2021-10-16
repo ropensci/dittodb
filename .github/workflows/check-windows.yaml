@@ -44,7 +44,9 @@ jobs:
         shell: bash
         run: |
           choco install mariadb
-          choco install postgresql13 --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
+          # can use postgresql13, but RPostgreSQL still has issues with that
+          # https://github.com/tomoakin/RPostgreSQL/issues/112
+          choco install postgresql11 --params '/Password:${{ env.DBROOTPASS }}' --paramsglobal
           choco install psqlodbc
 
           # Needed to get psql on the path
