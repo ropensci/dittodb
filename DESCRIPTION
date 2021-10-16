@@ -34,7 +34,6 @@ Description: Testing and documenting code that communicates with remote
   or have access to the database your code would typically connect to.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
-LazyData: true
 Depends:
     R (>= 3.3.0),
     DBI
