@@ -20,7 +20,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -311,8 +311,8 @@
   ],
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
-  "fileSize": "2084.137KB",
-  "contIntegration": "https://codecov.io/gh/ropensci/dittodb?branch=main",
+  "fileSize": "720.666KB",
+  "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://codecov.io/gh/ropensci/dittodb?branch=main"],
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing",
   "provider": {
     "@id": "https://cran.r-project.org",
