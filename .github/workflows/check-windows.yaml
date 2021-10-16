@@ -40,6 +40,9 @@ jobs:
           path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
           key: Choco-${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
+      - name: pre-path
+        run: echo $GITHUB_PATH
+
       - name: Install databases (windows)
         run: |
           $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -52,11 +55,15 @@ jobs:
           $newpath = ($endingpath -split ';') | Where {($startingpath -split ';') -NotContains $_}
           $newpath = $newpath -Join ';'
           echo "$newpath" >> $GITHUB_PATH
+          echo "$PGBIN" >> $GITHUB_PATH
 
           # change the password for mariadb
           $env:Path =  [System.Environment]::GetEnvironmentVariable("Path","Machine")
           mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DBROOTPASS }}';"
         if: contains(runner.os, 'windows')
+
+      - name: post-path
+        run: echo $GITHUB_PATH
 
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v1
