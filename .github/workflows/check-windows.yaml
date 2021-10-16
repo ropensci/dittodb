@@ -41,9 +41,11 @@ jobs:
           key: Choco-${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
 
       - name: pre-path
+        shell: bash
         run: echo $GITHUB_PATH
 
       - name: Install databases (windows)
+        shell: bash
         run: |
           $startingpath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
           choco install mariadb
@@ -63,6 +65,7 @@ jobs:
         if: contains(runner.os, 'windows')
 
       - name: post-path
+        shell: bash
         run: echo $GITHUB_PATH
 
       - name: Install R dependencies
