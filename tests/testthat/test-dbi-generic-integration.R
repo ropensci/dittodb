@@ -131,7 +131,7 @@ for (pkg in names(db_pkgs)) {
 
 
       # dbReadTable ====
-      airlines_expected <- dbReadTable(con, c(schema, "airlines"))
+      airlines_expected <- dbReadTable(con, airlines_table_obj)
 
       # dbClearResult ====
       res <- dbSendQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
