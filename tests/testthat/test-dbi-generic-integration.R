@@ -42,8 +42,6 @@ db_pkgs <- list(
   ))
 )
 
-db_pkgs <- db_pkgs["RPostgreSQL"]
-
 # The lintr complains about cyclomatic complexity here because of the stacked
 # calls needed for test_that + dittodb + database calls.
 for (pkg in names(db_pkgs)) {

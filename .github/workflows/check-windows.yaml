@@ -18,7 +18,7 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       DBROOTPASS: r2N5y7V*
-      DITTODB_ENABLE_PG_TESTS: false
+      DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
 
 
