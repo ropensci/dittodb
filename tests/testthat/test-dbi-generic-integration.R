@@ -156,10 +156,12 @@ for (pkg in names(db_pkgs)) {
         # The _one_ place where RPostgreSQL needs `Id()` and not `c(schema, table)`
         dest_ord <- tbl(con, Id(flights_table_obj)) %>%
           filter(dest == "ORD") %>%
+          select(SQL("dest"), everything()) %>%
           collect()
       } else {
         dest_ord <- tbl(con, flights_table_obj) %>%
           filter(dest == "ORD") %>%
+          select(SQL("dest"), everything()) %>%
           collect()
       }
 
@@ -308,10 +310,12 @@ for (pkg in names(db_pkgs)) {
           if (pkg == "RPostgreSQL") {
             out <- tbl(con, Id(flights_table_obj)) %>%
               filter(dest == "ORD") %>%
+              select(SQL("dest"), everything()) %>%
               collect()
           } else {
             out <- tbl(con, flights_table_obj) %>%
               filter(dest == "ORD") %>%
+              select(SQL("dest"), everything()) %>%
               collect()
           }
 
