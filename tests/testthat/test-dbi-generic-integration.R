@@ -83,7 +83,7 @@ for (pkg in names(db_pkgs)) {
     } else if (pkg %in% c("odbc", "RPostgres")) {
       flights_table_obj <- Id(schema = schema, table = "flights")
       airlines_table_obj <- Id(schema = schema, table = "airlines")
-      doesnotexist_table_obj <- c(schema = schema, table = "doesnotexist")
+      doesnotexist_table_obj <- Id(schema = schema, table = "doesnotexist")
     }
 
     test_that(glue("The fixture is what we expect: {pkg}"), {
