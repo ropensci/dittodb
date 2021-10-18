@@ -21,6 +21,7 @@ jobs:
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
 
+
     steps:
       - uses: actions/checkout@v2
 

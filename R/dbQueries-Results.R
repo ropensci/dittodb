@@ -22,40 +22,44 @@ setClass("DBIMockResult",
          contains = "DBIResult"
 )
 
+db_send_query <- function(conn, statement, ...) {
+  # create a new mock result with the type and a hash of the statement.
+  if (dittodb_debug_level(1)) {
+    message(
+      "Sending a query for the statement: \n", statement,
+      "\nis being hased to: ", hash(statement)
+    )
+  }
+
+  # TDOO: if we are in expect_sql, then we should emit an error (or warning?) with SQL here
+  if (is_expecting()) {
+    stop(
+      "Fixture: ",
+      make_path(conn@path, get_type(statement), hash(statement)),
+      "\n",
+      clean_statement(statement),
+      call. = FALSE
+    )
+  }
+
+  return(new(
+    "DBIMockResult",
+    type = get_type(statement),
+    hash = hash(statement),
+    path = conn@path,
+    statement = statement
+  ))
+}
+
 #' @rdname mock-db-methods
 #' @importFrom methods setMethod new
 #' @export
-setMethod(
-  "dbSendQuery", signature("DBIMockConnection", "character"),
-  function(conn, statement, ...) {
-    # create a new mock result with the type and a hash of the statement.
-    if (dittodb_debug_level(1)) {
-      message(
-        "Sending a query for the statement: \n", statement,
-        "\nis being hased to: ", hash(statement)
-      )
-    }
+setMethod("dbSendQuery", signature("DBIMockConnection", "character"), db_send_query)
 
-    # TDOO: if we are in expect_sql, then we should emit an error (or warning?) with SQL here
-    if (is_expecting()) {
-      stop(
-        "Fixture: ",
-        make_path(conn@path, get_type(statement), hash(statement)),
-        "\n",
-        clean_statement(statement),
-        call. = FALSE
-      )
-    }
-
-    return(new(
-      "DBIMockResult",
-      type = get_type(statement),
-      hash = hash(statement),
-      path = conn@path,
-      statement = statement
-    ))
-  }
-)
+#' @rdname mock-db-methods
+#' @importFrom methods setMethod new
+#' @export
+setMethod("dbSendQuery", signature("DBIMockConnection", "sql"), db_send_query)
 
 mock_fetch <- function(res, n, ...) {
   if (n != -1) {

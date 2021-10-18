@@ -14,7 +14,7 @@ expect_sql(object, regexp = NULL, ...)
 \item{...}{arguments passed to \code{\link[testthat:expect_error]{testthat::expect_error()}}}
 }
 \description{
-\ifelse{html}{\out{<a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>}}{\strong{Experimental}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \details{
 Sometimes all you need to check is if a specific SQL statement has been sent

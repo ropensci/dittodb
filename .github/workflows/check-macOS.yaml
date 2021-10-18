@@ -65,7 +65,7 @@ jobs:
       - name: Check
         shell: Rscript {0}
         run: |
-           rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')
+          rcmdcheck::rcmdcheck(args = '${{ matrix.config.args }}', error_on = 'note', check_dir = 'check')
 
       - name: Upload check results
         uses: actions/upload-artifact@main

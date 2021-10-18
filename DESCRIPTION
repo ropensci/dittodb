@@ -60,7 +60,7 @@ Suggests:
     withr,
     rmarkdown,
     lintr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Language: en-US
 VignetteBuilder: knitr
