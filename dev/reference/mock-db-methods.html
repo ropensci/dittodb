@@ -196,6 +196,9 @@ how dittodb works.</p>
 <span class='co'># S4 method for DBIMockConnection,character</span>
 <span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
 
+<span class='co'># S4 method for DBIMockConnection,sql</span>
+<span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
+
 <span class='co'># S4 method for DBIMockResult</span>
 <span class='fu'>dbFetch</span>(<span class='no'>res</span>, <span class='kw'>n</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='no'>...</span>)
 
@@ -233,7 +236,19 @@ how dittodb works.</p>
 <span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockRPostgresConnection,SQL</span>
-<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>dbQuoteIdentifier</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgresConnection,character</span>
+<span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockRPostgresConnection,SQL</span>
+<span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockMariaDBConnection,character</span>
+<span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockMariaDBConnection,SQL</span>
+<span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

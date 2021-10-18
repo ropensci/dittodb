@@ -112,7 +112,7 @@
       <h1 data-toc-skip>Getting Started with {dittodb}</h1>
                         <h4 class="author">Jonathan Keane</h4>
             
-            <h4 class="date">2021-10-17</h4>
+            <h4 class="date">2021-10-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/main/vignettes/dittodb.Rmd"><code>vignettes/dittodb.Rmd</code></a></small>
       <div class="hidden name"><code>dittodb.Rmd</code></div>
@@ -253,7 +253,7 @@
     <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">out</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">12</span>, <span class="fl">2</span>))
   })
 )
-<span class="co">#&gt; Test passed 🎉</span>
+<span class="co">#&gt; Test passed 🥇</span>
 <span class="co">#&gt; [1] TRUE</span></pre></body></html></div>
 <p>When placed inside of <code><a href="../reference/mockdb.html">with_mock_db(...)</a></code> a call to <code>mean_delays("month")</code> will return what we saved as our fixture <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, operational, or to exist at all anywhere.</p>
 <p>If we wanted to test that a day-based aggregation works, we can! Although we will have to make a new fixture. First we would run the following interactively:</p>
