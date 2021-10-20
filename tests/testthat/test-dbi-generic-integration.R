@@ -163,6 +163,17 @@ for (pkg in names(db_pkgs)) {
           collect()
       }
 
+      # joins with df ====
+      local_df <- nycflights13::airlines
+      local_df$name_cleaned <- gsub(" Inc.", "", local_df$name)
+      local_df$name <- NULL
+      # RPostgreSQL does not support creation of temp tables
+      if (pkg != "RPostgreSQL") {
+        airlines_and_cleaned <- tbl(con, airlines_table_obj) %>%
+          left_join(local_df, by = "carrier", copy = TRUE) %>%
+          collect()
+      }
+
       dbDisconnect(con)
       stop_db_capturing()
 
@@ -316,6 +327,22 @@ for (pkg in names(db_pkgs)) {
           }
 
           expect_identical(out, dest_ord)
+        })
+
+        # joins with df ====
+        test_that("a join", {
+          local_df <- nycflights13::airlines
+          local_df$name_cleaned <- gsub(" Inc.", "", local_df$name)
+          local_df$name <- NULL
+          if (pkg == "RPostgreSQL") {
+            skip("RPostgreSQL does not support creation of temp tables")
+          } else {
+            out <- tbl(con, airlines_table_obj) %>%
+              left_join(local_df, by = "carrier", copy = TRUE) %>%
+              collect()
+          }
+
+          expect_identical(out, airlines_and_cleaned)
         })
 
         # query with redaction ----
