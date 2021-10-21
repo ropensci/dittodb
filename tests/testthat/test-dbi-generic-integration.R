@@ -282,13 +282,13 @@ for (pkg in names(db_pkgs)) {
         })
 
         # dbGetInfo ====
-        test_that("dbGetInfo", {
+        test_that(glue("dbGetInfo {pkg}"), {
           skip_if(pkg == "RPostgreSQL")
           out <- dbGetInfo(con)
           expect_identical(out, con_info)
         })
 
-        test_that("dbGetInfo", {
+        test_that(glue("simple query {pkg}"), {
           result <- dbSendQuery(
             con,
             glue("SELECT * FROM {airlines_table} LIMIT 4")
@@ -299,23 +299,23 @@ for (pkg in names(db_pkgs)) {
         })
 
         # dbExistsTable ====
-        test_that("dbGetInfo", {
+        test_that(glue("dbExistsTable {pkg}"), {
           expect_true(table_exists <- dbExistsTable(con, airlines_table_obj))
           expect_false(table_does_not_exist <- dbExistsTable(con, doesnotexist_table_obj))
         })
 
         # dbWriteTable ====
-        test_that("dbWriteTable", {
+        test_that(glue("dbWriteTable {pkg}"), {
           expect_true(dbWriteTable(con, "mtcars", mtcars))
         })
 
         # dbRemoveTable ====
-        test_that("dbRemoveTable", {
+        test_that(glue("dbRemoveTable {pkg}"), {
           expect_true(dbRemoveTable(con, "mtcars"))
         })
 
         # capturing with dplyr + a string ----
-        test_that("capturing with dplyr + a string", {
+        test_that(glue("dplyr + a string {pkg}"), {
           if (pkg == "RPostgreSQL") {
             out <- tbl(con, Id(flights_table_obj)) %>%
               filter(dest == "ORD") %>%
@@ -330,7 +330,7 @@ for (pkg in names(db_pkgs)) {
         })
 
         # joins with df ====
-        test_that("a join", {
+        test_that(glue("a join {pkg}"), {
           local_df <- nycflights13::airlines
           local_df$name_cleaned <- gsub(" Inc.", "", local_df$name)
           local_df$name <- NULL
@@ -346,7 +346,7 @@ for (pkg in names(db_pkgs)) {
         })
 
         # query with redaction ----
-        test_that("a redacted query is what we expect", {
+        test_that(glue("a redacted query is what we expect {pkg}"), {
           # the output of the recorded query is _not_ redacted, so we'll need to
           # redact them before checking
           redacted_flights <- unredacted_flights
