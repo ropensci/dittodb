@@ -2,7 +2,7 @@
 #' @export
 setMethod(
   "dbBegin",
-  "DBIMockRPostgresConnection",
+  "DBIMockConnection",
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
   })
@@ -11,7 +11,7 @@ setMethod(
 #' @export
 setMethod(
   "dbCommit",
-  "DBIMockRPostgresConnection",
+  "DBIMockConnection",
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
   })
@@ -21,7 +21,7 @@ setMethod(
 #' @export
 setMethod(
   "dbRollback",
-  "DBIMockRPostgresConnection",
+  "DBIMockConnection",
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
   })
