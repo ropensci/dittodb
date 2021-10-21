@@ -38,7 +38,6 @@
 \alias{dbCommit,DBIMockRPostgresConnection-method}
 \alias{dbRollback,DBIMockRPostgresConnection-method}
 \alias{dbGetRowsAffected,DBIMockResult-method}
-\alias{db_analyze.DBIMockConnection}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
@@ -100,8 +99,6 @@
 \S4method{dbRollback}{DBIMockRPostgresConnection}(conn, ..., name = NULL)
 
 \S4method{dbGetRowsAffected}{DBIMockResult}(res, ...)
-
-\method{db_analyze}{DBIMockConnection}(con, table, ...)
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should
