@@ -34,9 +34,9 @@
 \alias{dbQuoteString,DBIMockRPostgresConnection,SQL-method}
 \alias{dbQuoteString,DBIMockMariaDBConnection,character-method}
 \alias{dbQuoteString,DBIMockMariaDBConnection,SQL-method}
-\alias{dbBegin,DBIMockRPostgresConnection-method}
-\alias{dbCommit,DBIMockRPostgresConnection-method}
-\alias{dbRollback,DBIMockRPostgresConnection-method}
+\alias{dbBegin,DBIMockConnection-method}
+\alias{dbCommit,DBIMockConnection-method}
+\alias{dbRollback,DBIMockConnection-method}
 \alias{dbGetRowsAffected,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
@@ -92,11 +92,11 @@
 
 \S4method{dbQuoteString}{DBIMockMariaDBConnection,SQL}(conn, x, ...)
 
-\S4method{dbBegin}{DBIMockRPostgresConnection}(conn, ..., name = NULL)
+\S4method{dbBegin}{DBIMockConnection}(conn, ..., name = NULL)
 
-\S4method{dbCommit}{DBIMockRPostgresConnection}(conn, ..., name = NULL)
+\S4method{dbCommit}{DBIMockConnection}(conn, ..., name = NULL)
 
-\S4method{dbRollback}{DBIMockRPostgresConnection}(conn, ..., name = NULL)
+\S4method{dbRollback}{DBIMockConnection}(conn, ..., name = NULL)
 
 \S4method{dbGetRowsAffected}{DBIMockResult}(res, ...)
 }
