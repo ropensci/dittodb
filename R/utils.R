@@ -209,7 +209,7 @@ sanitize_table_id <- function(id, ...) {
     id <- c(dots, id)
   }
 
-  return(paste0(id, collapse = "."))
+  return(paste0(gsub("\"", "", id), collapse = "."))
 }
 
 # borrowed from Neal borrowing from Hadley
