@@ -243,7 +243,7 @@ dbGetInfoConTrace <- quote({
 dbGetInfoResultTrace <- quote({
   thing <- returnValue()
   # TODO: would this be better if we traced the methods individually?
-  if (inherits(dbObj, c("MariaDBResult", "PqResult"))) {
+  if (inherits(dbObj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
     hash <- hash(dbObj@sql)
   } else if (inherits(dbObj, "OdbcResult")) {
     hash <- hash(dbObj@statement)
@@ -273,7 +273,7 @@ dbColumnInfoTrace <- quote({
   if (inherits(res, "PostgreSQLResult")) {
     result_info <- RPostgreSQL::postgresqlResultInfo(res)
     hash <- hash(result_info$statement)
-  } else if (inherits(res, c("MariaDBResult", "PqResult"))) {
+  } else if (inherits(res, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
     hash <- hash(res@sql)
   } else if (inherits(res, "OdbcResult")) {
     hash <- hash(res@statement)
@@ -290,7 +290,7 @@ dbGetRowsAffectedTrace <- quote({
   if (inherits(res, "PostgreSQLResult")) {
     result_info <- RPostgreSQL::postgresqlResultInfo(res)
     hash <- hash(result_info$statement)
-  } else if (inherits(res, c("MariaDBResult", "PqResult"))) {
+  } else if (inherits(res, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
     hash <- hash(res@sql)
   } else if (inherits(res, "OdbcResult")) {
     hash <- hash(res@statement)
