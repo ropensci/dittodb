@@ -59,7 +59,12 @@ setMethod("dbSendQuery", signature("DBIMockConnection", "character"), db_send_qu
 #' @rdname mock-db-methods
 #' @importFrom methods setMethod new
 #' @export
-setMethod("dbSendQuery", signature("DBIMockConnection", "sql"), db_send_query)
+setMethod("dbSendQuery", signature("DBIMockConnection", "SQL"), db_send_query)
+
+#' @rdname mock-db-methods
+#' @importFrom methods setMethod new
+#' @export
+setMethod("dbSendStatement", signature("DBIMockConnection", "character"), db_send_query)
 
 mock_fetch <- function(res, n, ...) {
   if (n != -1) {

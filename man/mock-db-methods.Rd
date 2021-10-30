@@ -15,7 +15,8 @@
 \alias{dbListFields,DBIMockConnection,ANY-method}
 \alias{DBIMockResult-class}
 \alias{dbSendQuery,DBIMockConnection,character-method}
-\alias{dbSendQuery,DBIMockConnection,sql-method}
+\alias{dbSendQuery,DBIMockConnection,SQL-method}
+\alias{dbSendStatement,DBIMockConnection,character-method}
 \alias{dbFetch,DBIMockResult-method}
 \alias{fetch,DBIMockResult,ANY-method}
 \alias{fetch,DBIMockResult-method}
@@ -56,7 +57,9 @@
 
 \S4method{dbSendQuery}{DBIMockConnection,character}(conn, statement, ...)
 
-\S4method{dbSendQuery}{DBIMockConnection,sql}(conn, statement, ...)
+\S4method{dbSendQuery}{DBIMockConnection,SQL}(conn, statement, ...)
+
+\S4method{dbSendStatement}{DBIMockConnection,character}(conn, statement, ...)
 
 \S4method{dbFetch}{DBIMockResult}(res, n = -1, ...)
 
