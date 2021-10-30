@@ -25,13 +25,3 @@ setMethod(
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
   })
-
-# very hacky — to get around dbplyr's analyze of table
-#' @rdname mock-db-methods
-#' @export
-setMethod(
-  "dbGetRowsAffected",
-  "DBIMockResult",
-  function(res, ...) {
-    return(invisible(1))
-  })

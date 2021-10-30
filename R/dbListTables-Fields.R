@@ -3,7 +3,7 @@ list_helper <- function(kind, conn, ...) {
   return(read_file(find_file(path)))
 }
 
-# This is only strictly necesary for odbc, RPostgres, RPostgreSQL, and RMariaDB
+# This is only strictly necessary for odbc, RPostgres, RPostgreSQL, and RMariaDB
 # use standard queries to list tables.
 # TODO: investigate if it is better to have a special case for ODBC and use
 # the standard sql for the others or use this code for all.

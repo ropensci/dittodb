@@ -134,6 +134,11 @@ start_db_capturing <- function(path, redact_columns = NULL) {
     exit = dbColumnInfoTrace
   ))
 
+  quietly(trace_dbi(
+    "dbGetRowsAffected",
+    exit = dbGetRowsAffectedTrace
+  ))
+
   # TODO: for RPostgreSQL to work, we need to prevent RPostgreSQL's
   # `postgresqlCloseConnection` from calling `dbListResults` which over-writes
   # our fixture
@@ -261,6 +266,7 @@ dbGetInfoPsqlresultTrace <- quote({
   }
 })
 
+# TODO: rationalize these so that they are the same for any list/scalar?
 dbColumnInfoTrace <- quote({
   thing <- returnValue()
   # TODO: would this be better if we traced the methods using signature?
@@ -278,12 +284,30 @@ dbColumnInfoTrace <- quote({
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
+dbGetRowsAffectedTrace <- quote({
+  thing <- returnValue()
+  # TODO: would this be better if we traced the methods using signature?
+  if (inherits(res, "PostgreSQLResult")) {
+    result_info <- RPostgreSQL::postgresqlResultInfo(res)
+    hash <- hash(result_info$statement)
+  } else if (inherits(res, c("MariaDBResult", "PqResult"))) {
+    hash <- hash(res@sql)
+  } else if (inherits(res, "OdbcResult")) {
+    hash <- hash(res@statement)
+  } else {
+    # TODO: some default?
+  }
+  path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
+  dput(thing, path, control = c("all", "hexNumeric"))
+})
+
 #' @rdname capture_requests
 #' @export
 stop_db_capturing <- function() {
   for (func in c(
     "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
-    "dbExistsTable", "dbListFields", "dbColumnInfo", "dbGetInfo")) {
+    "dbExistsTable", "dbListFields", "dbColumnInfo", "dbGetInfo",
+    "dbGetRowsAffected")) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

@@ -174,6 +174,16 @@ for (pkg in names(db_pkgs)) {
           collect()
       }
 
+      # dbGetRowsAffected ====
+      res <- dbSendStatement(
+        con,
+        glue("CREATE TABLE new_one AS SELECT * FROM {airlines_table} LIMIT 4")
+      )
+      rows_affected <- dbGetRowsAffected(res)
+      dbClearResult(res)
+      # cleanup
+      dbClearResult(dbSendStatement(con, "DROP TABLE new_one"))
+
       dbDisconnect(con)
       stop_db_capturing()
 
@@ -343,6 +353,20 @@ for (pkg in names(db_pkgs)) {
           }
 
           expect_identical(out, airlines_and_cleaned)
+        })
+
+
+        # dbGetRowsAffected ====
+        test_that(glue("dbGetRowsAffected {pkg}"), {
+          res <- dbSendStatement(
+            con,
+            glue("CREATE TABLE new_one AS SELECT * FROM {airlines_table} LIMIT 4")
+          )
+          out <- dbGetRowsAffected(res)
+          expect_identical(out, rows_affected)
+          dbClearResult(res)
+          # cleanup
+          dbClearResult(dbSendStatement(con, "DROP TABLE new_one"))
         })
 
         # query with redaction ----

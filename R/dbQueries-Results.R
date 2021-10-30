@@ -82,7 +82,7 @@ setMethod("dbFetch", signature("DBIMockResult", "ANY"), mock_fetch)
 # use only fetch, so we need to mock both. The complication is that DBI's
 # dbFetch by default simply calls fetch which might lead to duplication
 
-# the @alaises shouldn't be necesary here, but neverthless is.
+# the @alaises shouldn't be necesary here, but nevertheless is.
 #' @rdname mock-db-methods
 #' @aliases fetch,DBIMockResult-method
 #' @export
@@ -125,3 +125,16 @@ setMethod(
     return(mock_fetch(res, -1))
   }
 )
+
+
+#' @rdname mock-db-methods
+#' @export
+setMethod(
+  "dbGetRowsAffected",
+  "DBIMockResult",
+  function(res, ...) {
+    path <- make_path(res@path, "dbGetRowsAffected", res@hash)
+    return(read_file(find_file(path)))
+  }
+)
+
