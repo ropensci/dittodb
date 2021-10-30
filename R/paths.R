@@ -32,6 +32,20 @@ hash <- function(string, n = 6) {
   return(substr(digest(as.character(string)), 1, n))
 }
 
+
+#' Clean a statement string
+#'
+#' SQL statement strings sometimes have characters and specifications that don't
+#' change the meaning or are determined at query time. To avoid this, before
+#' hashing a statement we clean/strip these from the statement
+#'
+#' @param string an SQL statement to clean
+#'
+#' @return the SQL statement stripped of extraneous bits
+#'
+#' @keywords internal
+#'
+#' @export
 clean_statement <- function(string) {
   string <- ignore_quotes(string)
   string <- ignore_dbplyr_unique_names(string)
