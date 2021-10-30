@@ -16,7 +16,6 @@ setMethod(
     return(invisible(TRUE))
   })
 
-
 #' @rdname mock-db-methods
 #' @export
 setMethod(

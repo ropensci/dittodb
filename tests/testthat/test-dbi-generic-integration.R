@@ -126,7 +126,7 @@ for (pkg in names(db_pkgs)) {
       if (pkg == "RMariaDB") {
         dot_name_regex <- "`name` REGEXP '\\.'"
       } else if (pkg == "RPostgres") {
-        dot_name_regex <- "\"name\" ~  E'\\.'"
+        dot_name_regex <- "\"name\" ~ E'\\.'"
       } else if (pkg %in% c("odbc", "RPostgreSQL")) {
         dot_name_regex <- "\"name\" ~ '\\.'"
       }
