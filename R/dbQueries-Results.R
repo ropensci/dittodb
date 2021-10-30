@@ -24,7 +24,13 @@ setClass("DBIMockResult",
 
 db_send_query <- function(conn, statement, ...) {
   # create a new mock result with the type and a hash of the statement.
-  if (dittodb_debug_level(1)) {
+  if (dittodb_debug_level(2)) {
+    message(
+      "Sending a query for the statement: \n", statement,
+      "\nwhich has been cleaned to: \n", clean_statement(statement),
+      "\nis being hased to: ", hash(statement)
+    )
+  } else if (dittodb_debug_level(1)) {
     message(
       "Sending a query for the statement: \n", statement,
       "\nis being hased to: ", hash(statement)
@@ -126,7 +132,6 @@ setMethod(
   }
 )
 
-
 #' @rdname mock-db-methods
 #' @export
 setMethod(
@@ -137,4 +142,3 @@ setMethod(
     return(read_file(find_file(path)))
   }
 )
-

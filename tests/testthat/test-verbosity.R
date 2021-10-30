@@ -62,8 +62,9 @@ capture_output({
         expect_message(
           dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
           paste0(
-            "The statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to:",
-            " f2090b"
+            "The statement: \nSELECT * FROM airlines LIMIT 2\n",
+            "which has been cleaned to: \nSELECT * FROM airlines LIMIT 2\n",
+            "is being hased to: f2090b"
           ),
           fixed = TRUE
         ),
@@ -71,8 +72,9 @@ capture_output({
           expect_message(
             dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
             paste0(
-              "The statement: \nSELECT * FROM airlines LIMIT 2\nis being hased to:",
-              " f2090b"
+              "The statement: \nSELECT * FROM airlines LIMIT 2\n",
+              "which has been cleaned to: \nSELECT * FROM airlines LIMIT 2\n",
+              "is being hased to: f2090b"
             ),
             fixed = TRUE
           )
@@ -86,8 +88,11 @@ capture_output({
         expect_message(
           dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
           paste0(
-            "Sending a query for the statement: \nSELECT * FROM airlines LIMIT",
-            " 2\nis being hased to: f2090b"
+            "Sending a query for the statement: \n",
+            "SELECT * FROM airlines LIMIT 2\n",
+            "which has been cleaned to: \n",
+            "SELECT * FROM airlines LIMIT 2\n",
+            "is being hased to: f2090b"
           ),
           fixed = TRUE
         )

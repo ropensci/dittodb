@@ -117,7 +117,14 @@ ignore_dbplyr_unique_names <- function(statement) {
 }
 
 ignore_quotes <- function(statement) {
-  return(gsub("(`|\"|')", "`", statement))
+  # remove all the quotes
+  # sometimes E' has a space before it, so add that in (not sure if this is from
+  # dbplyr or RPostgres)
+  # TODO: should we clean up white space separately?
+  statement <- gsub("(`|\"|'| ?E')", "`", statement)
+  # how could we even know how many \s will show up?
+  statement <- gsub("\\\\+", "\\\\", statement)
+  return(statement)
 }
 
 #' Set {dittodb}'s debug level

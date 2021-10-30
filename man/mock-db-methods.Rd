@@ -24,6 +24,7 @@
 \alias{dbClearResult,DBIMockResult-method}
 \alias{dbHasCompleted,DBIMockResult-method}
 \alias{dbGetQuery,DBIMockRPostgreSQLConnection,character-method}
+\alias{dbGetRowsAffected,DBIMockResult-method}
 \alias{dbGetInfo,DBIMockConnection-method}
 \alias{dbWriteTable,DBIMockConnection,character,data.frame-method}
 \alias{dbRemoveTable,DBIMockConnection,character-method}
@@ -38,7 +39,6 @@
 \alias{dbBegin,DBIMockConnection-method}
 \alias{dbCommit,DBIMockConnection-method}
 \alias{dbRollback,DBIMockConnection-method}
-\alias{dbGetRowsAffected,DBIMockResult-method}
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
@@ -73,6 +73,8 @@
 
 \S4method{dbGetQuery}{DBIMockRPostgreSQLConnection,character}(conn, statement, ...)
 
+\S4method{dbGetRowsAffected}{DBIMockResult}(res, ...)
+
 \S4method{dbGetInfo}{DBIMockConnection}(dbObj, ...)
 
 \S4method{dbWriteTable}{DBIMockConnection,character,data.frame}(conn, name, value, ...)
@@ -100,8 +102,6 @@
 \S4method{dbCommit}{DBIMockConnection}(conn, ..., name = NULL)
 
 \S4method{dbRollback}{DBIMockConnection}(conn, ..., name = NULL)
-
-\S4method{dbGetRowsAffected}{DBIMockResult}(res, ...)
 }
 \arguments{
 \item{conn}{a database connection (for dispatch with these methods, it should

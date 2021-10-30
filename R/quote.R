@@ -35,7 +35,6 @@ setMethod(
     return(x)
   })
 
-
 #' @rdname mock-db-methods
 #' @export
 setMethod(

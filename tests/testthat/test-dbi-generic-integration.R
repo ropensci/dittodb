@@ -122,13 +122,25 @@ for (pkg in names(db_pkgs)) {
       dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 2"))
       dbGetQuery(con, glue("SELECT * FROM {airlines_table} LIMIT 1"))
 
+      # dbGetQuery + regex ====
+      if (pkg == "RMariaDB") {
+        dot_name_regex <- "`name` REGEXP '\\.'"
+      } else if (pkg == "RPostgres") {
+        dot_name_regex <- "\"name\" ~  E'\\.'"
+      } else if (pkg %in% c("odbc", "RPostgreSQL")) {
+        dot_name_regex <- "\"name\" ~ '\\.'"
+      }
+      dot_names <- dbGetQuery(
+        con,
+        glue("SELECT * FROM {airlines_table} WHERE ({dot_name_regex}) LIMIT 3")
+      )
+
       # dbListTables ====
       tables <- dbListTables(con)
 
       # dbListFields ====
       # dbListFields is ever so slightly different for RPostgresql
       fields_flights <- dbListFields(con, flights_table_obj)
-
 
       # dbReadTable ====
       airlines_expected <- dbReadTable(con, airlines_table_obj)
@@ -149,7 +161,7 @@ for (pkg in names(db_pkgs)) {
       table_exists <- dbExistsTable(con, airlines_table_obj)
       table_does_not_exist <- dbExistsTable(con, doesnotexist_table_obj)
 
-      # capturing with dplyr + a string ----
+      # dplyr + a string ====
       require(dbplyr, quietly = TRUE)
       require(dplyr,  quietly = TRUE, warn.conflicts = FALSE)
       if (pkg == "RPostgreSQL") {
@@ -160,6 +172,18 @@ for (pkg in names(db_pkgs)) {
       } else {
         dest_ord <- tbl(con, flights_table_obj) %>%
           filter(dest == "ORD") %>%
+          collect()
+      }
+
+      # dplyr + a regex ====
+      if (pkg == "RPostgreSQL") {
+        # The _one_ place where RPostgreSQL needs `Id()` and not `c(schema, table)`
+        dot_names_dplyr <- tbl(con, Id(airlines_table_obj)) %>%
+          filter(str_detect(name, "\\.")) %>%
+          collect()
+      } else {
+        dot_names_dplyr <- tbl(con, airlines_table_obj) %>%
+          filter(str_detect(name, "\\.")) %>%
           collect()
       }
 
@@ -248,6 +272,15 @@ for (pkg in names(db_pkgs)) {
           )
         })
 
+
+        # dbGetQuery + regex ====
+        # dot_name_regex is from above
+        out <- dbGetQuery(
+          con,
+          glue("SELECT * FROM {airlines_table} WHERE ({dot_name_regex}) LIMIT 3")
+        )
+        expect_identical(out, dot_names)
+
         # dbListTables ====
         test_that(glue("dbListTables() {pkg}"), {
           out <- dbListTables(con)
@@ -324,7 +357,7 @@ for (pkg in names(db_pkgs)) {
           expect_true(dbRemoveTable(con, "mtcars"))
         })
 
-        # capturing with dplyr + a string ----
+        # dplyr + a string ----
         test_that(glue("dplyr + a string {pkg}"), {
           if (pkg == "RPostgreSQL") {
             out <- tbl(con, Id(flights_table_obj)) %>%
@@ -337,6 +370,24 @@ for (pkg in names(db_pkgs)) {
           }
 
           expect_identical(out, dest_ord)
+        })
+
+        # dplyr + a regex ====
+        test_that(glue("dplyr + a regex {pkg}"), {
+          if (pkg == "odbc") {
+            skip("odbc class inheritence isn't yet supported for dbplyr translations")
+          }
+          if (pkg == "RPostgreSQL") {
+            out <- tbl(con, Id(airlines_table_obj)) %>%
+              filter(str_detect(name, "\\.")) %>%
+              collect()
+          } else {
+            out <- tbl(con, airlines_table_obj) %>%
+              filter(str_detect(name, "\\.")) %>%
+              collect()
+          }
+
+          expect_identical(out, dot_names_dplyr)
         })
 
         # joins with df ====

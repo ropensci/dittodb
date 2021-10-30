@@ -188,7 +188,13 @@ dbConnectTrace <- quote({
 })
 
 dbSendQueryTrace <- quote({
-  if (dittodb_debug_level(1)) {
+  if (dittodb_debug_level(2)) {
+    message(
+      "The statement: \n", statement,
+      "\nwhich has been cleaned to: \n", clean_statement(statement),
+      "\nis being hased to: ", hash(statement)
+    )
+  } else if (dittodb_debug_level(1)) {
     message(
       "The statement: \n", statement,
       "\nis being hased to: ", hash(statement)
