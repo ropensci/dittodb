@@ -160,7 +160,7 @@ how dittodb works." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Methods for interacting with DB mocks instead of an actual database</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/dittodb/blob/main/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/ropensci/dittodb/blob/main/R/dbExistsTable.R'><code>R/dbExistsTable.R</code></a>, <a href='https://github.com/ropensci/dittodb/blob/main/R/dbListTables-Fields.R'><code>R/dbListTables-Fields.R</code></a>, and 3 more</small>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/dittodb/blob/main/R/connection.R'><code>R/connection.R</code></a>, <a href='https://github.com/ropensci/dittodb/blob/main/R/dbExistsTable.R'><code>R/dbExistsTable.R</code></a>, <a href='https://github.com/ropensci/dittodb/blob/main/R/dbListTables-Fields.R'><code>R/dbListTables-Fields.R</code></a>, and 4 more</small>
     <div class="hidden name"><code>mock-db-methods.Rd</code></div>
     </div>
 
@@ -196,8 +196,11 @@ how dittodb works.</p>
 <span class='co'># S4 method for DBIMockConnection,character</span>
 <span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for DBIMockConnection,sql</span>
+<span class='co'># S4 method for DBIMockConnection,SQL</span>
 <span class='fu'>dbSendQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection,character</span>
+<span class='fu'>dbSendStatement</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockResult</span>
 <span class='fu'>dbFetch</span>(<span class='no'>res</span>, <span class='kw'>n</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='no'>...</span>)
@@ -216,6 +219,9 @@ how dittodb works.</p>
 
 <span class='co'># S4 method for DBIMockRPostgreSQLConnection,character</span>
 <span class='fu'>dbGetQuery</span>(<span class='no'>conn</span>, <span class='no'>statement</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockResult</span>
+<span class='fu'>dbGetRowsAffected</span>(<span class='no'>res</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockConnection</span>
 <span class='fu'>dbGetInfo</span>(<span class='no'>dbObj</span>, <span class='no'>...</span>)
@@ -248,7 +254,16 @@ how dittodb works.</p>
 <span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for DBIMockMariaDBConnection,SQL</span>
-<span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>dbQuoteString</span>(<span class='no'>conn</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for DBIMockConnection</span>
+<span class='fu'>dbBegin</span>(<span class='no'>conn</span>, <span class='no'>...</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='co'># S4 method for DBIMockConnection</span>
+<span class='fu'>dbCommit</span>(<span class='no'>conn</span>, <span class='no'>...</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='co'># S4 method for DBIMockConnection</span>
+<span class='fu'>dbRollback</span>(<span class='no'>conn</span>, <span class='no'>...</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
