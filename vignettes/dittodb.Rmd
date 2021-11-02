@@ -247,4 +247,3 @@ df_fixt <- dplyr::filter(df_fixt, month <= 2 & day < 10)
 # save the fixture for use in tests
 dput(df_fixt, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))
 ```
-

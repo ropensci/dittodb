@@ -81,6 +81,7 @@ Collate:
     'paths.R'
     'quote.R'
     'redact.R'
+    'transactions.R'
     'use-dittodb.R'
     'utils.R'
 RdMacros: lifecycle

@@ -16,5 +16,5 @@ test_that("quoting works", {
   expect_identical(dbQuoteIdentifier(con_rpostgres, "foo"), SQL('"foo"'))
   # However, MariaDB is slightly different (we haven't redefined it, since it
   # doesn't communicate with the DB first)
-  expect_identical(dbQuoteIdentifier(con_mockmaria, "foo"), SQL('`foo`'))
+  expect_identical(dbQuoteIdentifier(con_mockmaria, "foo"), SQL("`foo`"))
 })
