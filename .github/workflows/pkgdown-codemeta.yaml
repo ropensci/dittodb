@@ -26,7 +26,7 @@ jobs:
                   -e 'install.packages("ps")' \
                   -e 'remotes::install_github("ropensci/codemetar")' \
                   -e 'remotes::install_deps(dependencies = TRUE)' \
-                  -e 'remotes::install_github("jonkeane/pkgdown@jk-fork")'
+                  -e 'remotes::install_github("r-lib/pkgdown")'
       - name: Install package
         run: R CMD INSTALL .
       - name: Git setup
@@ -43,4 +43,4 @@ jobs:
 
       - name: Deploy pkgdown site
         run: |
-          Rscript -e "options('pkgdown.default.branch' = 'main'); pkgdown::deploy_to_branch(new_process = FALSE)"
+          Rscript -e "pkgdown::deploy_to_branch(new_process = FALSE)"
