@@ -25,7 +25,6 @@
 #' @param expr the expression to execute
 #'
 #' @return nothing
-#' @importFrom testthat with_mock
 #' @export
 #'
 #' @name mockdb
