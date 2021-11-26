@@ -86,7 +86,7 @@
       <img src="" class="logo" alt=""><h1>Developing {dittodb}</h1>
                         <h4 data-toc-skip class="author">Jonathan Keane</h4>
             
-            <h4 data-toc-skip class="date">2021-11-07</h4>
+            <h4 data-toc-skip class="date">2021-11-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/HEAD/vignettes/developing-dittodb.Rmd" class="external-link"><code>vignettes/developing-dittodb.Rmd</code></a></small>
       <div class="d-none name"><code>developing-dittodb.Rmd</code></div>
@@ -158,15 +158,15 @@
 <div class="section level3">
 <h3 id="using-a-mocked-database">Using a mocked database<a class="anchor" aria-label="anchor" href="#using-a-mocked-database"></a>
 </h3>
-<p>When using fixtures (i.e. with a mocked database), we use <code><a href="https://testthat.r-lib.org/reference/with_mock.html" class="external-link">testthat::with_mock()</a></code> and some internals to mock the <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect()</a></code> function and replace the true connection with a special mock connection class from {dittodb} (<code>DBIMockConnection</code>, though there are specific sub-classes for some drivers, e.g. <code>DBIMockRPostgresConnection</code>). Then {dittodb} relies on standard S4 method dispatch to find the appropriate fixture for queries being run during testing.</p>
+<p>When using fixtures (i.e. with a mocked database), we use some internals to mock the <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect()</a></code> function and replace the true connection with a special mock connection class from {dittodb} (<code>DBIMockConnection</code>, though there are specific sub-classes for some drivers, e.g. <code>DBIMockRPostgresConnection</code>). Then {dittodb} relies on standard S4 method dispatch to find the appropriate fixture for queries being run during testing.</p>
 </div>
 </div>
   </div>
- <div class="col-md-3" id="pkgdown-sidebar">
-        <nav id="toc"><h2>On this page</h2>
+  <div class="col-md-3" id="pkgdown-sidebar">
+    <nav id="toc"><h2>On this page</h2>
     </nav>
 </div>
-
+  
 </div>
 
 

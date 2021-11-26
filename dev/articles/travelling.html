@@ -86,7 +86,7 @@
       <img src="" class="logo" alt=""><h1>Recording queries with {dittodb} for travelling</h1>
                         <h4 data-toc-skip class="author">Mauricio Vargas</h4>
             
-            <h4 data-toc-skip class="date">2021-11-07</h4>
+            <h4 data-toc-skip class="date">2021-11-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/HEAD/vignettes/travelling.Rmd" class="external-link"><code>vignettes/travelling.Rmd</code></a></small>
       <div class="d-none name"><code>travelling.Rmd</code></div>
@@ -206,11 +206,11 @@
 <p>One thing to note is that when using <code>dbplyr</code>, we need to be a bit careful that we wrap the entire interaction in with the database objects in <code>with_mock_db</code> if we are taking advantage of <code>dbplyr</code>’s lazy evaluation (which is by default) and use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect()</a></code> to return the results when you want them recorded. Because <code>dbplyr</code> waits until the last possible second to request the data, if you don’t have a <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect()</a></code> call (or a call the will implicitly send the query) there won’t be a query called, and {dittodb} won’t see be able to record the response from that query.</p>
 </div>
   </div>
- <div class="col-md-3" id="pkgdown-sidebar">
-        <nav id="toc"><h2>On this page</h2>
+  <div class="col-md-3" id="pkgdown-sidebar">
+    <nav id="toc"><h2>On this page</h2>
     </nav>
 </div>
-
+  
 </div>
 
 

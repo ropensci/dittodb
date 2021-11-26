@@ -1,12 +1,12 @@
 pandoc: 2.7.3
 pkgdown: 1.9000.9000.9000
-pkgdown_sha: 8122179c440692487eda000d6542d7734a37d36d
+pkgdown_sha: a8a962ad53d1eddf17f3def2f839221c07c04a32
 articles:
   developing-dittodb: developing-dittodb.html
   dittodb: dittodb.html
   nycflights: nycflights.html
   travelling: travelling.html
-last_built: 2021-11-07T19:35Z
+last_built: 2021-11-26T15:48Z
 urls:
   reference: https://dittodb.jonkeane.com/reference
   article: https://dittodb.jonkeane.com/articles
