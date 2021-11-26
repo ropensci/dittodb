@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "dittodb",
-  "description": "Testing and documenting code that communicates with remote\n  databases can be painful. Although the interaction with R is usually relatively \n  simple (e.g. data(frames) passed to and from a database), because they rely on \n  a separate service and the data there, testing them can be difficult to set up,\n  unsustainable in a continuous integration environment, or impossible without \n  replicating an entire production cluster. This package addresses that by \n  allowing you to make recordings from your database interactions and then play \n  them back while testing (or in other contexts) all without needing to spin up \n  or have access to the database your code would typically connect to.",
+  "description": "Testing and documenting code that communicates with remote databases can be painful. Although the interaction with R is usually relatively simple (e.g. data(frames) passed to and from a database), because they rely on a separate service and the data there, testing them can be difficult to set up, unsustainable in a continuous integration environment, or impossible without replicating an entire production cluster. This package addresses that by allowing you to make recordings from your database interactions and then play them back while testing (or in other contexts) all without needing to spin up or have access to the database your code would typically connect to.",
   "name": "dittodb: A Test Environment for Database Requests",
   "codeRepository": "https://github.com/ropensci/dittodb",
   "relatedLink": [
@@ -196,6 +196,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "withr",
       "name": "withr",
       "provider": {
@@ -281,18 +293,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "testthat",
-      "name": "testthat",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
@@ -311,7 +311,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
-  "fileSize": "729.687KB",
+  "fileSize": "729.594KB",
   "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://codecov.io/gh/ropensci/dittodb?branch=main"],
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing",
   "provider": {
