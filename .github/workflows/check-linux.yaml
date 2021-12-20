@@ -67,7 +67,7 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v1
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: remotes, rcmdcheck, httptest
 
