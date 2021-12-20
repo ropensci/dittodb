@@ -26,9 +26,9 @@ jobs:
       RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
@@ -36,7 +36,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         id: rlibcache
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -67,7 +67,7 @@ jobs:
         if: contains(runner.os, 'linux')
 
       - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v1
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: remotes, rcmdcheck, httptest
 
