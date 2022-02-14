@@ -26,19 +26,21 @@
 </script>
 </head>
 <body>
-    <a href="#container" class="visually-hidden-focusable">Skip to contents</a>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
     <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary"><div class="container">
+    
     <a class="navbar-brand me-2" href="../index.html">dittodb</a>
 
     <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.3.9000</small>
 
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item">
   <a class="nav-link" href="../articles/dittodb.html">Get started</a>
@@ -78,15 +80,19 @@
 </li>
       </ul>
 </div>
+
+    
   </div>
-</nav><div class="container template-article" id="container">
+</nav><div class="container template-article">
+
+
+
 <script src="dittodb_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
+  <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Getting Started with {dittodb}</h1>
                         <h4 data-toc-skip class="author">Jonathan Keane</h4>
             
-            <h4 data-toc-skip class="date">2021-11-26</h4>
+            <h4 data-toc-skip class="date">2022-02-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/HEAD/vignettes/dittodb.Rmd" class="external-link"><code>vignettes/dittodb.Rmd</code></a></small>
       <div class="d-none name"><code>dittodb.Rmd</code></div>
@@ -95,21 +101,13 @@
     
     
 <p>{dittodb} is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.</p>
-<div class="section level2 tabset">
-<h2 id="our-function-mean_delays">Our function <code>mean_delays()</code><a class="anchor" aria-label="anchor" href="#our-function-mean_delays"></a>
-</h2>
+<div class="section level3">
+<h3 id="our-function-mean_delays">Our function <code>mean_delays()</code><a class="anchor" aria-label="anchor" href="#our-function-mean_delays"></a>
+</h3>
 <p>To get started, imagine that we are working on a package that queries a database that consists of the <a href="nycflights.html">nycflights13 data</a>. We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.</p>
-
-
-
-<ul class="nav nav-tabs" id="our-function-mean_delays" role="tablist">
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#rmariadb" id="rmariadb-tab" type="button" role="tab" aria-controls="rmariadb" aria-selected="true" class="active nav-link">RMariaDB</button></li>
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#rpostgres" id="rpostgres-tab" type="button" role="tab" aria-controls="rpostgres" aria-selected="false" class="nav-link">RPostgres</button></li>
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#rsqlite" id="rsqlite-tab" type="button" role="tab" aria-controls="rsqlite" aria-selected="false" class="nav-link">RSQLite</button></li>
-</ul>
-<div class="tab-content">
-<div class="active  tab-pane" id="rmariadb" role="tabpanel" aria-labelledby="rmariadb-tab">
-
+<div class="section level4">
+<h4 id="rmariadb">RMariaDB<a class="anchor" aria-label="anchor" href="#rmariadb"></a>
+</h4>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span>
 
@@ -128,8 +126,9 @@
   <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html" class="external-link">dbGetQuery</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">query</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 </div>
-<div class="tab-pane" id="rpostgres" role="tabpanel" aria-labelledby="rpostgres-tab">
-
+<div class="section level4">
+<h4 id="rpostgres">RPostgres<a class="anchor" aria-label="anchor" href="#rpostgres"></a>
+</h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span>
 
@@ -148,8 +147,9 @@
   <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html" class="external-link">dbGetQuery</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">query</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 </div>
-<div class="tab-pane" id="rsqlite" role="tabpanel" aria-labelledby="rsqlite-tab">
-
+<div class="section level4">
+<h4 id="rsqlite">RSQLite<a class="anchor" aria-label="anchor" href="#rsqlite"></a>
+</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span>
 
@@ -166,9 +166,8 @@
 <span class="op">}</span></code></pre></div>
 </div>
 </div>
-</div>
-<div class="section level2 unlisted unnumbered">
-<h2 id="section"></h2>
+<div class="section level3">
+<h3 id="section"></h3>
 <p>If we give it the column <code>"month"</code>, we get the following dataframe:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mean_delays</span><span class="op">(</span><span class="st">"month"</span><span class="op">)</span></code></pre></div>
@@ -196,9 +195,9 @@
 <span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>And this works just fine if we only ever run your tests locally, but if we want to <a href="http://r-pkgs.had.co.nz/check.html#check" class="external-link">run our tests with a Continuous Integration system</a> (and yes, we want to do that!), this won’t work without first setting up our production database of flights. For our tests, we don’t actually need to connect to the database and get new data (and, in fact, that would make some tests fail erroneously suddenly if the underlying changed). Instead, what we want is to take a snapshot of what happens when running the test code, and then be able to use that snapshot when we run tests later. These snapshots are frequently called fixtures (though you might hear people use other names like stubs or mocks).</p>
 </div>
-<div class="section level1">
-<h1 id="recording-fixtures">Recording fixtures<a class="anchor" aria-label="anchor" href="#recording-fixtures"></a>
-</h1>
+<div class="section level2">
+<h2 id="recording-fixtures">Recording fixtures<a class="anchor" aria-label="anchor" href="#recording-fixtures"></a>
+</h2>
 <p>We can record fixtures of the database interactions with the commands <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>, run the functions we want to record, and then stop recording with <code><a href="../reference/capture_requests.html">stop_db_capturing()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/capture_requests.html">start_db_capturing</a></span><span class="op">(</span><span class="op">)</span>
@@ -206,10 +205,10 @@
 <span class="fu"><a href="../reference/capture_requests.html">stop_db_capturing</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>This will write a new folder (by default in <code>./tests/testthat/</code>) with the name of the database (here: <code>nycflights</code>) and then write one file with the name <code>SELECT-e53189.R</code> which is the fixture for this example. This <code>SELECT-*</code> file contains the data that was received from the database for use in tests.</p>
 </div>
-<div class="section level1">
-<h1 id="with_mock_db">
+<div class="section level2">
+<h2 id="with_mock_db">
 <code>with_mock_db()</code><a class="anchor" aria-label="anchor" href="#with_mock_db"></a>
-</h1>
+</h2>
 <p>Now that we have a fixture, we can use that fixture by wrapping our call that includes a database interaction with the function <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This will look for fixtures and use those.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/mockdb.html">with_mock_db</a></span><span class="op">(</span>
@@ -240,7 +239,7 @@
     <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html" class="external-link">expect_equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
   <span class="op">}</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; <span style="color: #00BB00;">Test passed</span> 😸</span>
+<span class="co">#&gt; <span style="color: #00BB00;">Test passed</span> 🌈</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p>When placed inside of <code>with_mock_db(...)</code> a call to <code>mean_delays("month")</code> will return what we saved as our fixture <em>as if it had actually connected to the database</em> without needing the database to be installed, reachable, operational, or to exist at all anywhere.</p>
 <p>If we wanted to test that a day-based aggregation works, we can! Although we will have to make a new fixture. First we would run the following interactively:</p>
@@ -257,50 +256,50 @@
     <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html" class="external-link">expect_equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">31</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
   <span class="op">}</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; <span style="color: #00BB00;">Test passed</span> 🎊</span>
+<span class="co">#&gt; <span style="color: #00BB00;">Test passed</span> 😸</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="getting-setup-to-use-dittodb">Getting setup to use {dittodb}<a class="anchor" aria-label="anchor" href="#getting-setup-to-use-dittodb"></a>
-</h1>
+<div class="section level2">
+<h2 id="getting-setup-to-use-dittodb">Getting setup to use {dittodb}<a class="anchor" aria-label="anchor" href="#getting-setup-to-use-dittodb"></a>
+</h2>
 <p>Use the function <code><a href="../reference/use_dittodb.html">dittodb::use_dittodb()</a></code> to easily get started using {dittodb}. It will add {dittodb} to <code>Suggests</code> in the <code>DESCRIPTION</code> file and add <code><a href="https://dittodb.jonkeane.com/">library(dittodb)</a></code> to <code>tests/testthat/helper.R</code>.</p>
 </div>
-<div class="section level1">
-<h1 id="things-to-be-careful-about">Things to be careful about<a class="anchor" aria-label="anchor" href="#things-to-be-careful-about"></a>
-</h1>
-<p>There are a few things to be careful about when using dittodb.</p>
 <div class="section level2">
-<h2 id="when-to-call-dbconnect">When to call <code>dbConnect()</code><a class="anchor" aria-label="anchor" href="#when-to-call-dbconnect"></a>
+<h2 id="things-to-be-careful-about">Things to be careful about<a class="anchor" aria-label="anchor" href="#things-to-be-careful-about"></a>
 </h2>
+<p>There are a few things to be careful about when using dittodb.</p>
+<div class="section level3">
+<h3 id="when-to-call-dbconnect">When to call <code>dbConnect()</code><a class="anchor" aria-label="anchor" href="#when-to-call-dbconnect"></a>
+</h3>
 <p>Always call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect()</a></code> inside of <code>with_mock_db(...)</code>. You can make as many calls as you want to the mock database inside of a <code>with_mock_db(...)</code>, but you should always make sure that you connect to the database inside of and not outside of <code>with_mock_db(...)</code>. This is because when you “connect” to the mock database, a few variables are set that tell dittodb where to look for mocks. It’s less important (though still a good idea) to call <code><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect()</a></code> inside of <code><a href="../reference/mockdb.html">with_mock_db()</a></code>. This is also true when recording fixtures with <code>start_db_recording()</code>, you should start the recording and then call <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect()</a></code>.</p>
 </div>
-<div class="section level2">
-<h2 id="query-size">Query size<a class="anchor" aria-label="anchor" href="#query-size"></a>
-</h2>
+<div class="section level3">
+<h3 id="query-size">Query size<a class="anchor" aria-label="anchor" href="#query-size"></a>
+</h3>
 <p>Recording fixtures saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you’ll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren’t relevant to the test (you don’t have to change the way data is represented if it’s not important to what you’re testing) and it makes your tests run faster.</p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="advanced-uses">Advanced uses<a class="anchor" aria-label="anchor" href="#advanced-uses"></a>
-</h1>
-<p>There are a number of advanced features that might be useful. However they take a bit of configuration to use.</p>
 <div class="section level2">
-<h2 id="specify-a-new-path">Specify a new path<a class="anchor" aria-label="anchor" href="#specify-a-new-path"></a>
+<h2 id="advanced-uses">Advanced uses<a class="anchor" aria-label="anchor" href="#advanced-uses"></a>
 </h2>
+<p>There are a number of advanced features that might be useful. However they take a bit of configuration to use.</p>
+<div class="section level3">
+<h3 id="specify-a-new-path">Specify a new path<a class="anchor" aria-label="anchor" href="#specify-a-new-path"></a>
+</h3>
 <p>You can control where mocks are read from (when you’re using <code>with_mock_db(...)</code>) as well as where they are written to (when using <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code>). To do this, use the function <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>.</p>
 <p>You can see what paths are being used by calling <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code> with no arguments. dittodb will look for mocks in each path starting with the first one. When recording mocks, dittodb always uses the first path that is returned by <code><a href="../reference/mockPaths.html">db_mock_paths()</a></code>.</p>
 <p>You can add a new path by calling <code>db_mock_paths("new/path/here")</code> which will add the path provided to the top of the list of paths to use.</p>
 </div>
-<div class="section level2">
-<h2 id="redacting">Redacting<a class="anchor" aria-label="anchor" href="#redacting"></a>
-</h2>
+<div class="section level3">
+<h3 id="redacting">Redacting<a class="anchor" aria-label="anchor" href="#redacting"></a>
+</h3>
 <p>Sometimes (much? most? of the time!) there is sensitive data in your database that you don’t actually want to put into your test fixtures. {dittodb} allows you to specify columns that should always be redacted by specifying them like so:</p>
 <pre><code><span class="fu"><a href="../reference/capture_requests.html">start_db_capturing</a></span><span class="op">(</span>redact_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sensitive_column"</span>, <span class="st">"other_sensitive_column"</span><span class="op">)</span><span class="op">)</span></code></pre>
 <p>This will always redact the columns “sensitive_column” and “other_sensitive_column” every time a query is recorded that includes either. The redactor replaces every value in the column with a standard value (for example “[redacted]” for characters, <code>9</code> for numerics, <code>1988-10-11T17:00:00</code> for date times) see <code><a href="../reference/redact_columns.html">redact_columns()</a></code> for more information.</p>
 </div>
-<div class="section level2">
-<h2 id="you-too-can-write-a-fixture">You, too, can write a fixture!<a class="anchor" aria-label="anchor" href="#you-too-can-write-a-fixture"></a>
-</h2>
+<div class="section level3">
+<h3 id="you-too-can-write-a-fixture">You, too, can write a fixture!<a class="anchor" aria-label="anchor" href="#you-too-can-write-a-fixture"></a>
+</h3>
 <p>When we use <code>start_db_recording()</code> to record fixtures, we are creating what some people call fixtures (though other terms for these abound). These are files that are used during testing to represent and provide some data or state necessary to execute the test. In the case of dittodb, these files contain the data that dittodb uses when it pretends to be a live database. During recording, each query that is sent to the database gets a unique identifier (the first 6 digits of the hash of the query) and when the response is received, that response is saved to a file with the first SQL (Structured Query Language) verb (e.g. <code>SELECT</code>), a dash, and the hash using the <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> function. This lets you craft a fixture that tests exactly what you need to without having extraneous rows or columns that might not be relevant.</p>
 <p>You can save our own responses for queries by getting figuring out the hash (the easiest way to do this now is to write the test that you want to create a fixture for, run it and see the error message that looks something like “Couldn’t find the file nycflights/SELECT-16d120.R in any of the mock directories.” and use the filename from there.) and then saving the dataframe that you want the test to use with the command <code>dput(df, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))</code> (if the dataframe you want to save is <code>df</code> and we are using the path we saw in the example error message). And you’ve created your own fixture!</p>
 <p>You can also take the approach of recording fixtures and then editing them manually to pare them down. The workflow for that would be something like:</p>
@@ -315,12 +314,8 @@
 <span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">df_fixt</span>, file <span class="op">=</span> <span class="st">"nycflights/SELECT-16d120.R"</span>, control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"hexNumeric"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-  </div>
-  <div class="col-md-3" id="pkgdown-sidebar">
-    <nav id="toc"><h2>On this page</h2>
-    </nav>
-</div>
-  
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
@@ -332,7 +327,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
     </footer>

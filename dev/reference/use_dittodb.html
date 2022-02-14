@@ -17,19 +17,21 @@ test suite."><meta name="robots" content="noindex"><!-- mathjax --><script src="
 
   gtag('config', 'UA-150741105-1');
 </script></head><body>
-    <a href="#container" class="visually-hidden-focusable">Skip to contents</a>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
     <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary"><div class="container">
+    
     <a class="navbar-brand me-2" href="../index.html">dittodb</a>
 
     <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.3.9000</small>
 
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/dittodb.html">Get started</a>
 </li>
@@ -64,11 +66,12 @@ test suite."><meta name="robots" content="noindex"><!-- mathjax --><script src="
   </a>
 </li>
       </ul></div>
+
+    
   </div>
-</nav><div class="container template-reference-topic" id="container">
+</nav><div class="container template-reference-topic">
 <div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Use dittodb in your tests</h1>
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/HEAD/R/use-dittodb.R" class="external-link"><code>R/use-dittodb.R</code></a></small>
       <div class="d-none name"><code>use_dittodb.Rd</code></div>
@@ -82,12 +85,11 @@ add dittodb to Suggests in the package DESCRIPTION and loads it in
 test suite.</p>
     </div>
 
-    <div class="ref-usage section level2 sourceCode">
-    <h2>Usage</h2>
-    <pre class="sourceCode r"><code><span class="fu">use_dittodb</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre>
+    <div class="section level2">
+    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">use_dittodb</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre></div>
     </div>
 
-    <div id="ref-sections">
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>path</dt>
@@ -107,21 +109,17 @@ current working directory</p></li>
 <li><p>add <code><a href="https://dittodb.jonkeane.com/">library(dittodb)</a></code> to the file <code>tests/testthat/helper.R</code> (creating it
 if it doesn't already exist)</p></li>
 </ul></div>
-    </div>
 
-    <div id="examples">
-    <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">use_dittodb</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">use_dittodb</span><span class="op">(</span><span class="st">"/path/to/package"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
-  </div>
-  <div class="col-md-3" id="pkgdown-sidebar">
-    <nav id="toc"><h2>On this page</h2>
-    </nav></div>
-</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
@@ -129,7 +127,7 @@ if it doesn't already exist)</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
     </footer></div>
