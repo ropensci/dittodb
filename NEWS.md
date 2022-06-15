@@ -1,4 +1,6 @@
-# dittodb (development version)
+# dittodb 0.1.4
+* Allow support for mocking when transactions are on (full support for transactions with different mock directories is still planned for the future)
+* Add support for quoting with Postgres
 
 # dittodb 0.1.3
 * Minor CRAN update that makes vignette execution conditional when `Suggests` packages are not available.
