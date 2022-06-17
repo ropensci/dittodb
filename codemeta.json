@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/dittodb",
   "issueTracker": "https://github.com/ropensci/dittodb/issues",
   "license": "https://spdx.org/licenses/Apache-2.0",
-  "version": "0.1.3.9000",
+  "version": "0.1.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.2.0 (2022-04-22)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -307,9 +307,8 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "729.576KB",
+  "fileSize": "671.524KB",
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
-  "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://codecov.io/gh/ropensci/dittodb?branch=main"],
-  "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing"
+  "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://app.codecov.io/gh/ropensci/dittodb?branch=main"]
 }
