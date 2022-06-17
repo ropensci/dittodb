@@ -4,14 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="dittodb">
 <title>Developing {dittodb} • dittodb</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><script src="../extra.js"></script><meta property="og:title" content="Developing {dittodb}">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Developing {dittodb}">
 <meta property="og:description" content="dittodb">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -24,98 +24,77 @@
   gtag('config', 'UA-150741105-1');
 </script>
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">dittodb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../articles/dittodb.html">Get started</a>
+    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">dittodb</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.4</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../articles/dittodb.html">Get started</a>
 </li>
-<li>
-  <a href="../reference/">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/dittodb.html">Getting Started with dittodb</a>
-    </li>
-    <li>
-      <a href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
-    </li>
-    <li>
-      <a href="../articles/nycflights.html">nycflights data</a>
-    </li>
-    <li>
-      <a href="../articles/developing-dittodb.html">Developing dittodb</a>
-    </li>
-  </ul>
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/dittodb.html">Getting Started with dittodb</a>
+    <a class="dropdown-item" href="../articles/travelling.html">Recording SQL queries with dittodb for travelling</a>
+    <a class="dropdown-item" href="../articles/nycflights.html">nycflights data</a>
+    <a class="dropdown-item" href="../articles/developing-dittodb.html">Developing dittodb</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../news/index.html">Changelog</a>
-    </li>
-    <li class="divider">
-    <li class="dropdown-header">Blog posts</li>
-    <li>
-      <a href="https://jonkeane.com/blog/introducing_dittodb/">dittodb 0.1.0</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <a class="dropdown-item" href="../news/index.html">Changelog</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Blog posts</h6>
+    <a class="external-link dropdown-item" href="https://jonkeane.com/blog/introducing_dittodb/">dittodb 0.1.0</a>
+  </div>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/ropensci/dittodb/">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/ropensci/dittodb/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="developing-dittodb_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Developing {dittodb}</h1>
-                        <h4 class="author">Jonathan Keane</h4>
+
+<script src="developing-dittodb_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="" class="logo" alt=""><h1>Developing {dittodb}</h1>
+                        <h4 data-toc-skip class="author">Jonathan Keane</h4>
             
-            <h4 class="date">2020-10-08</h4>
+            <h4 data-toc-skip class="date">2022-06-17</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/main/vignettes/developing-dittodb.Rmd"><code>vignettes/developing-dittodb.Rmd</code></a></small>
-      <div class="hidden name"><code>developing-dittodb.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/HEAD/vignettes/developing-dittodb.Rmd" class="external-link"><code>vignettes/developing-dittodb.Rmd</code></a></small>
+      <div class="d-none name"><code>developing-dittodb.Rmd</code></div>
     </div>
 
     
@@ -126,23 +105,23 @@
 <li>setting up all of the databases to fully test recording is complicated (which is in some ways the exact reason {dittodb} exists, so you don’t have to do this!)</li>
 <li>some of the mechanisms that make {dittodb} work aren’t commonly used in other R packages.</li>
 </ol>
-<div id="setting-up-databases" class="section level2">
-<h2 class="hasAnchor">
-<a href="#setting-up-databases" class="anchor"></a>Setting up databases</h2>
+<div class="section level2">
+<h2 id="setting-up-databases">Setting up databases<a class="anchor" aria-label="anchor" href="#setting-up-databases"></a>
+</h2>
 <p>In order to fully test that {dittodb} works, we aim to have full coverage and test as many database backends as possible for both recording and using as a mocked database. To do this on continuous integration (CI for short) can be finicky to get working (and on the CI front, we did it once, so that you can use {dittodb} and you won’t have to setup your own database backend just to run tests!). Frankly, even doing this set up locally on a second computer can be a pain! We include in the repository a few scripts that make it (relatively) easy to setup testing database backends, as well as some scripts that we use to setup database backends on GitHub Actions.</p>
-<div id="what-we-test" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-we-test" class="anchor"></a>What we test</h3>
+<div class="section level3">
+<h3 id="what-we-test">What we test<a class="anchor" aria-label="anchor" href="#what-we-test"></a>
+</h3>
 <p>We currently test against the following database backends with GitHub Actions for CI:</p>
 <ul>
-<li>Postgres (with drivers: <a href="https://CRAN.R-project.org/package=RPostgres">RPostgres</a>, <a href="https://CRAN.R-project.org/package=RPostgreSQL">RPostgreSQL</a>, and <a href="https://CRAN.R-project.org/package=odbc">odbc</a>)</li>
-<li>MariaDB (with driver: <a href="https://CRAN.R-project.org/package=RMariaDB">RMariaDB</a>)</li>
-<li>SQLite (with driver: <a href="https://CRAN.R-project.org/package=RSQLite">RSQLite</a>)</li>
+<li>Postgres (with drivers: <a href="https://CRAN.R-project.org/package=RPostgres" class="external-link">RPostgres</a>, <a href="https://CRAN.R-project.org/package=RPostgreSQL" class="external-link">RPostgreSQL</a>, and <a href="https://CRAN.R-project.org/package=odbc" class="external-link">odbc</a>)</li>
+<li>MariaDB (with driver: <a href="https://CRAN.R-project.org/package=RMariaDB" class="external-link">RMariaDB</a>)</li>
+<li>SQLite (with driver: <a href="https://CRAN.R-project.org/package=RSQLite" class="external-link">RSQLite</a>)</li>
 </ul>
 </div>
-<div id="how-to-setup-test-databases-locally" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-setup-test-databases-locally" class="anchor"></a>How to setup test databases locally</h3>
+<div class="section level3">
+<h3 id="how-to-setup-test-databases-locally">How to setup test databases locally<a class="anchor" aria-label="anchor" href="#how-to-setup-test-databases-locally"></a>
+</h3>
 <p>All of these (with the exception of SQLite) are tested in the test file <code>test-dbi-generic-integration.R</code>. However, tests for each database are only run if specific environment variables are set that trigger them. The reason for this is so that it is easy to test locally without needing to setup databases, but we are covered by these tests being run on GitHub Actions. If you would like to run these tests locally, you can set the following environment variables and run tests as usual (e.g. with <code>R CMD check</code>, <code>devtools::check()</code>, <code>devtools::test()</code>)</p>
 <ul>
 <li>if <code>DITTODB_ENABLE_PG_TESTS</code> is <code>TRUE</code>, then Postgres-based tests will be run</li>
@@ -166,52 +145,49 @@
 <code>db-setup/populate-dbs.sh</code> uses the above scripts to populate the databases on GitHub Actions.</li>
 </ul>
 </div>
-<div id="what-not-to-run-️" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-not-to-run-%EF%B8%8F" class="anchor"></a>☠️ What not to run ☠️</h3>
+<div class="section level3">
+<h3 id="what-not-to-run-️">☠️ What not to run ☠️<a class="anchor" aria-label="anchor" href="#what-not-to-run-%EF%B8%8F"></a>
+</h3>
 <p>The other scripts (e.g. <code>db-setup/[mariadb|postgres]-brew.sh</code> and <code>db-setup/[mariadb|postgres]-docker-container-only.sh</code>) are only intended for use on GitHub Actions and should not be run locally. They include commands that will remove files necessary to reset database setups that allow for tests to be run. Running them locally will delete files that you might care about.</p>
 </div>
 </div>
-<div id="some-of-the-tricky-bits-that-dittodb-uses" class="section level2">
-<h2 class="hasAnchor">
-<a href="#some-of-the-tricky-bits-that-dittodb-uses" class="anchor"></a>Some of the tricky bits that {dittodb} uses</h2>
+<div class="section level2">
+<h2 id="some-of-the-tricky-bits-that-dittodb-uses">Some of the tricky bits that {dittodb} uses<a class="anchor" aria-label="anchor" href="#some-of-the-tricky-bits-that-dittodb-uses"></a>
+</h2>
 <p>In order to provide a seamless experience between using a real database connection and using the mocked version of the database {dittodb} uses some features of R that are pretty uncommon. This is not intended to be a comprehensive description of {dittodb}’s architecture, but a few things that are uncommon or a little strange.</p>
-<div id="recording" class="section level3">
-<h3 class="hasAnchor">
-<a href="#recording" class="anchor"></a>Recording</h3>
-<p>In order to record fixtures while using a real database connection, we use <code><a href="https://rdrr.io/r/base/trace.html">base::trace()</a></code> to add code that inspects the queries (to define unique hashes) and saves the results so that they can be used later. This tracing only happens when using the <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code> functions and should generally not be used during testing by packages that use {dittodb}. Rather, this functionality should generally be used to see what interactions a piece of code to be tested is having with a database and either use or edit and use the fixtures it produces in testing.</p>
+<div class="section level3">
+<h3 id="recording">Recording<a class="anchor" aria-label="anchor" href="#recording"></a>
+</h3>
+<p>In order to record fixtures while using a real database connection, we use <code><a href="https://rdrr.io/r/base/trace.html" class="external-link">base::trace()</a></code> to add code that inspects the queries (to define unique hashes) and saves the results so that they can be used later. This tracing only happens when using the <code><a href="../reference/capture_requests.html">start_db_capturing()</a></code> functions and should generally not be used during testing by packages that use {dittodb}. Rather, this functionality should generally be used to see what interactions a piece of code to be tested is having with a database and either use or edit and use the fixtures it produces in testing.</p>
 </div>
-<div id="using-a-mocked-database" class="section level3">
-<h3 class="hasAnchor">
-<a href="#using-a-mocked-database" class="anchor"></a>Using a mocked database</h3>
-<p>When using fixtures (i.e. with a mocked database), we use <code><a href="https://testthat.r-lib.org/reference/with_mock.html">testthat::with_mock()</a></code> and some internals to mock the <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">DBI::dbConnect()</a></code> function and replace the true connection with a special mock connection class from {dittodb} (<code>DBIMockConnection</code>, though there are specific sub-classes for some drivers, e.g. <code>DBIMockRPostgresConnection</code>). Then {dittodb} relies on standard S4 method dispatch to find the appropriate fixture for queries being run during testing.</p>
+<div class="section level3">
+<h3 id="using-a-mocked-database">Using a mocked database<a class="anchor" aria-label="anchor" href="#using-a-mocked-database"></a>
+</h3>
+<p>When using fixtures (i.e. with a mocked database), we use some internals to mock the <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect()</a></code> function and replace the true connection with a special mock connection class from {dittodb} (<code>DBIMockConnection</code>, though there are specific sub-classes for some drivers, e.g. <code>DBIMockRPostgresConnection</code>). Then {dittodb} relies on standard S4 method dispatch to find the appropriate fixture for queries being run during testing.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by <a href="https://jonkeane.com/">Jonathan Keane</a>, <a href="https://pacha.dev/">Mauricio Vargas</a>.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by <a href="https://jonkeane.com/" class="external-link">Jonathan Keane</a>, <a href="https://pacha.dev/" class="external-link">Mauricio Vargas</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
