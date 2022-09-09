@@ -83,7 +83,7 @@ with_mock_db({
   )
   
   test_that("We get one airline", {
-    one_airline <- get_an_airline()
+    one_airline <- get_an_airline(con)
     expect_s3_class(one_airline, "data.frame")
     expect_equal(nrow(one_airline), 1)
     expect_equal(one_airline$carrier, "9E")
@@ -101,7 +101,7 @@ with_mock_db({
   )
   
   test_that("We get one airline", {
-    one_airline <- get_an_airline()
+    one_airline <- get_an_airline(con)
     expect_s3_class(one_airline, "data.frame")
     expect_equal(nrow(one_airline), 1)
     expect_equal(one_airline$carrier, "9E")
@@ -116,7 +116,7 @@ with_mock_db({
   con <- DBI::dbConnect(RSQLite::SQLite())
   
   test_that("We get one airline", {
-    one_airline <- get_an_airline()
+    one_airline <- get_an_airline(con)
     expect_s3_class(one_airline, "data.frame")
     expect_equal(nrow(one_airline), 1)
     expect_equal(one_airline$carrier, "9E")
