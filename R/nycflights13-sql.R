@@ -47,7 +47,7 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
     weather = list(c("year", "month", "day"), "origin")
   )
 
-  if (inherits(con, "SQLiteConnection") | schema == "") {
+  if (inherits(con, "SQLiteConnection") || schema == "") {
     # we don't have schema information or it's not compatible, proceed without.
     remote_tables <- dbListTables(con)
   } else {

@@ -45,8 +45,6 @@ navbar:
       menu:
       - text: Getting Started with dittodb
         href: articles/dittodb.html
-      - text: Recording SQL queries with dittodb for travelling
-        href: articles/travelling.html
       - text: nycflights data
         href: articles/nycflights.html
       - text: Developing dittodb
