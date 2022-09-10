@@ -1,1 +1,2 @@
-linters: with_defaults(line_length_linter(100), object_name_linter = lintr::object_name_linter(styles = c("snake_case", "camelCase")), object_usage_linter = NULL, cyclocomp_linter = cyclocomp_linter(22))
+linters: linters_with_defaults(line_length_linter(100), object_name_linter = lintr::object_name_linter(styles = c("snake_case", "camelCase")), object_usage_linter = NULL, cyclocomp_linter = cyclocomp_linter(22))
+exclusions: list("vignettes/dittodb.R", "vignettes/dittodb")
