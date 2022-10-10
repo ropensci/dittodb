@@ -84,6 +84,9 @@ jobs:
           mysql -h 127.0.0.1 -u root -e "source db-setup/mariadb-nycflights.sql"
 
           Rscript -e 'devtools::test()'
+        env:
+          PGPASSWORD: ${{ env.DBROOTPASS }}
+          MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: Test coverage
         if: contains(matrix.config.r, 'release')
