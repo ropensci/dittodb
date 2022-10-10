@@ -88,7 +88,11 @@ with_mock_db <- function(expr) {
 start_mock_db <- function() {
   trace_dbi(
     "dbConnect",
-    tracer = quote({thingy_out <- dbMockConnect(drv, ...); standardGeneric <- function(...) return(thingy_out)}),
+    # This changes the result of standardGeneric to be our mocked connection, rather than real S4 dispatch
+    tracer = quote({
+      mock_connection <- dbMockConnect(drv, ...)
+      standardGeneric <- function(...) return(mock_connection)
+    }),
     where_list = list(sys.frame(), asNamespace("DBI"))
   )
 }
