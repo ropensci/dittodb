@@ -69,7 +69,7 @@ jobs:
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: remotes, rcmdcheck, httptest
+          extra-packages: remotes, rcmdcheck, httptest, devtools
 
       - name: Install dev rmarkdown
         run: Rscript -e "remotes::install_github('rstudio/rmarkdown')"
