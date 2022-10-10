@@ -73,6 +73,11 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
 
+      - name: "devtools::test() check"
+        shell: Rscript {0}
+        run: |
+          devtools::test()
+
       - name: Test coverage
         if: contains(matrix.config.r, 'release')
         run: |
