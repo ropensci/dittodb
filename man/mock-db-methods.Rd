@@ -7,6 +7,7 @@
 \alias{mock-db-methods}
 \alias{DBIMockConnection-class}
 \alias{dbDisconnect,DBIMockConnection-method}
+\alias{dbMockConnect}
 \alias{dbExistsTable,DBIMockConnection,character-method}
 \alias{dbExistsTable,DBIMockConnection,Id-method}
 \alias{dbListTables,DBIMockConnection-method}
@@ -42,6 +43,8 @@
 \title{Methods for interacting with DB mocks instead of an actual database}
 \usage{
 \S4method{dbDisconnect}{DBIMockConnection}(conn, ...)
+
+dbMockConnect(drv, ...)
 
 \S4method{dbExistsTable}{DBIMockConnection,character}(conn, name, ...)
 
@@ -108,6 +111,8 @@
 be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
+
+\item{drv}{a DB driver for use in \code{\link{dbConnect}}}
 
 \item{name}{name of the table (for \code{\link{dbListFields}}, \code{\link{dbWriteTable}},
 \code{\link{dbRemoveTable}})}

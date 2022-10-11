@@ -83,44 +83,41 @@ with_mock_db <- function(expr) {
   return(eval(expr, parent.frame()))
 }
 
-#' @useDynLib dittodb, .registration = TRUE
-NULL
-
 #' @rdname mockdb
 #' @export
 start_mock_db <- function() {
-  # store the original function for DBI::dbConnect() for use by stop_mock_db()
-  .dittodb_env$orig_dbi_dbconnect <- .Call(
-    duplicate_,
-    get("dbConnect", envir = asNamespace("DBI"), mode = "function")
+  trace_dbi(
+    "dbConnect",
+    # This changes the result of standardGeneric to be our mocked connection,
+    # rather than real S4 dispatch
+    tracer = quote({
+      mock_connection <- dbMockConnect(drv, ...)
+      standardGeneric <- function(...) return(mock_connection)
+    }),
+    where_list = list(sys.frame(), asNamespace("DBI"))
   )
-
-  # TODO: mention which directories are going to be looked in?
-
-  mock_dbconnect(function(...) dbMockConnect(...))
 }
 
 #' @rdname mockdb
 #' @export
 stop_mock_db <- function() {
-  if (is.null(.dittodb_env$orig_dbi_dbconnect)) {
+  mocked_already <- any(
+    inherits(
+      try(get("dbConnect", sys.frame()), silent = TRUE),
+      c("functionWithTrace", "standardGenericWithTrace")
+    ), inherits(
+      try(get("dbConnect", asNamespace("DBI")), silent = TRUE),
+      c("functionWithTrace", "standardGenericWithTrace")
+    )
+  )
+
+  if (!mocked_already) {
     message("There is no mock database being used.")
     return(invisible(NULL))
   }
 
-  mock_dbconnect(.dittodb_env$orig_dbi_dbconnect)
+  safe_untrace("dbConnect", sys.frame())
+  safe_untrace("dbConnect", asNamespace("DBI"))
 
-  # "unset" the orig_dbi_dbconnec, not strictly necesary, but could be a good
-  # check if there is a mock db going.
-  .dittodb_env$orig_dbi_dbconnect <- NULL
-}
-
-mock_dbconnect <- function(new_func) {
-  .Call(
-    reassign_function,
-    as.name("dbConnect"),
-    asNamespace("DBI"),
-    get("dbConnect", envir = asNamespace("DBI"), mode = "function"),
-    new_func
-  )
+  return(invisible(NULL))
 }

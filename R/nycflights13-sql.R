@@ -108,8 +108,6 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
       con,
       table_name,
       df,
-      # unique_indexes = unique_index[[table]],
-      # indexes = index[[table]],
       temporary = FALSE,
       row.names = FALSE,
       overwrite = TRUE

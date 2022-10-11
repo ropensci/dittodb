@@ -19,6 +19,7 @@
 #' @param dbObj a database object (a connection, result, etc.) for use in
 #'   [`dbGetInfo`]
 #' @param value a value (generally a `data.frame`) for use in [`dbWriteTable`]
+#' @param drv a DB driver for use in [`dbConnect`]
 #'
 #' @name mock-db-methods
 NULL
@@ -46,6 +47,8 @@ setMethod(
 # connection? During tests those won't matter, but for setup and interactive
 # debugging it could be helpful to try and fallback to a real connection if
 # the mock connection isn't working for some reason.
+#' @rdname mock-db-methods
+#' @export
 dbMockConnect <- function(drv, ...) {
   # find a place to store the data
   dots <- list(...)
