@@ -48,6 +48,7 @@ setMethod(
 # debugging it could be helpful to try and fallback to a real connection if
 # the mock connection isn't working for some reason.
 #' @rdname mock-db-methods
+#' @importFrom utils getFromNamespace
 #' @export
 dbMockConnect <- function(drv, ...) {
   # find a place to store the data
