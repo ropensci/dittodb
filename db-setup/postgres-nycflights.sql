@@ -182,17 +182,18 @@ ALTER TABLE rpostgres.airports OWNER TO travis;
 
 --
 -- Name: flights; Type: TABLE; Schema: rpostgres; Owner: travis
+-- times are bigints so that we get more type coverage (especially with bit64)
 --
 
 CREATE TABLE rpostgres.flights (
     year integer,
     month integer,
     day integer,
-    dep_time integer,
-    sched_dep_time integer,
+    dep_time bigint,
+    sched_dep_time bigint,
     dep_delay real,
-    arr_time integer,
-    sched_arr_time integer,
+    arr_time bigint,
+    sched_arr_time bigint,
     arr_delay real,
     carrier text,
     flight integer,
