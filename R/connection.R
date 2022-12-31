@@ -48,6 +48,7 @@ setMethod(
 # debugging it could be helpful to try and fallback to a real connection if
 # the mock connection isn't working for some reason.
 #' @rdname mock-db-methods
+#' @importFrom utils getFromNamespace
 #' @export
 dbMockConnect <- function(drv, ...) {
   # find a place to store the data
@@ -79,6 +80,20 @@ dbMockConnect <- function(drv, ...) {
   }
 
   path <- get_dbname(dots)
+
+  # retrieve the dbplyr_edition for the original connection, if it exists (and
+  # if dbplyr is installed)
+  if (requireNamespace("dbplyr", quietly = TRUE)) {
+    orig_dbplyr_edition <- tryCatch(
+      getFromNamespace(paste0("dbplyr_edition.", original_class), "dbplyr"),
+      error = function(e) {
+        getFromNamespace("dbplyr_edition.default", "dbplyr")
+      }
+    )
+
+    # register dbplyr_edition
+    s3_register("dbplyr::dbplyr_edition", mock_class, method = orig_dbplyr_edition)
+  }
 
   return(new(mock_class, path = path, original_class = original_class))
 }

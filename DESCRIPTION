@@ -41,6 +41,7 @@ Imports:
     digest,
     glue,
     methods,
+    rlang,
     utils,
     lifecycle
 Suggests: 
@@ -84,4 +85,5 @@ Collate:
     'transactions.R'
     'use-dittodb.R'
     'utils.R'
+    'vctrs_s3_register.R'
 RdMacros: lifecycle
