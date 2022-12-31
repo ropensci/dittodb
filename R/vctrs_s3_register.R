@@ -1,3 +1,10 @@
+# Vendored from r-lib/vctrs to avoid taking the dependency
+
+# This source code file is licensed under the unlicense license
+# https://unlicense.org
+
+# nocov start
+
 s3_register <- function(generic, class, method = NULL) {
   stopifnot(is.character(generic), length(generic) == 1)
   stopifnot(is.character(class), length(class) == 1)
@@ -123,3 +130,5 @@ s3_register <- function(generic, class, method = NULL) {
 
   stop(sprintf("Internal error in rlang shims: Unknown function `%s()`.", fn))
 }
+
+# nocov end
