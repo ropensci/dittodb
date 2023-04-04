@@ -39,20 +39,23 @@ check_for_pkg <- function(package, func = stop) {
 #' Get the `dbname` from a connection call
 #'
 #' @param dots from the argument being passed to the connection
+#' @param drv from the argument being passed to the connection
 #'
 #' @return the name, sanitized if needed
 #'
 #' @keywords internal
 #'
 #' @export
-get_dbname <- function(dots) {
+get_dbname <- function(dots, drv = NULL) {
   # look through dots to grab either dbname or the first unnammed argument
   named_dbname <- !is.null(dots$dbname) && dots$dbname != ""
+  dbname_is_empty <- is.null(dots$dbname) || dots$dbname == ""
   named_database <- !is.null(dots$Database) && dots$Database != ""
   named_dsn <- !is.null(dots$dsn) && dots$dsn != ""
   unnamed_dbname <- length(dots) > 0 &&
     (is.null(names(dots[1])) || names(dots[1]) == "")
-  # if there is no name, or it's empty
+  drv_is_SQLite <- !is.null(drv) && inherits(drv, "SQLiteDriver")
+
   if (named_dbname) {
     path <- dots$dbname
   } else if (named_database) {
@@ -61,7 +64,11 @@ get_dbname <- function(dots) {
     path <- dots$dsn
   } else if (unnamed_dbname) {
     path <- dots[[1]]
+  } else if (drv_is_SQLite && dbname_is_empty) {
+    # RSQLite will create an ephemeral connection here
+    path <- "ephemeral_sqlite"
   } else {
+    # if there is no name, or it's empty
     stop("There was no dbname, so I don't know where to look for mocks.")
   }
   return(db_path_sanitize(path))

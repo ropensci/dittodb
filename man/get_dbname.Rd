@@ -4,10 +4,12 @@
 \alias{get_dbname}
 \title{Get the \code{dbname} from a connection call}
 \usage{
-get_dbname(dots)
+get_dbname(dots, drv = NULL)
 }
 \arguments{
 \item{dots}{from the argument being passed to the connection}
+
+\item{drv}{from the argument being passed to the connection}
 }
 \value{
 the name, sanitized if needed

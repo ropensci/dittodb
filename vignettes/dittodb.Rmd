@@ -46,7 +46,7 @@ stop_db_capturing()
 ```
 
 ## Our function `mean_delays()` {.tabset}
-To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights.html). We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
+To get started, imagine that we are working on a package that queries a database that consists of the [nycflights13 data](nycflights.html)[^1]. We have the following function which takes a column to aggregate by and returns a dataframe with that column and the mean delay for groups based on the values in the column name given.
 
 ### RMariaDB
 ```{r mean_delays}
@@ -93,7 +93,10 @@ mean_delays <- function(group_col) {
 library(DBI)
 
 mean_delays <- function(group_col) {
-  con <- dbConnect(RSQLite::SQLite())
+  con <- dbConnect(
+    RSQLite::SQLite(),
+    dbname = "nycflights"
+  )
   on.exit(dbDisconnect(con))
 
   query <- glue::glue(
@@ -247,3 +250,6 @@ df_fixt <- dplyr::filter(df_fixt, month <= 2 & day < 10)
 # save the fixture for use in tests
 dput(df_fixt, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))
 ```
+
+
+[^1]: These code snippets won't work right out of the box — you will need to make sure the database you're connecting to has the [nycflights13 data](nycflights.html) data in it. You could do this with SQLite by running `nycflights13_create_sqlite(location = "nycflights")` before the rest of the commands here.
