@@ -5,6 +5,8 @@ setMethod(
   "dbQuoteIdentifier",
   c("DBIMockRPostgresConnection", "character"),
   function(conn, x, ...) {
+    # double up any quotes we see before quoting
+    x <- gsub('"', '""', x)
     return(SQL(glue('"{x}"'), names = names(x)))
   })
 
