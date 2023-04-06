@@ -49,6 +49,10 @@ navbar:
         href: articles/nycflights.html
       - text: Developing dittodb
         href: articles/developing-dittodb.html
+news:
+  releases:
+  - text: "Version 1.0.0"
+    href: https://jonkeane.com/blog/introducing_dittodb/
 
 authors:
   Jonathan Keane:
