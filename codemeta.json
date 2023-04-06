@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
+  "runtimePlatform": "R version 4.2.3 (2023-03-15)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -319,7 +319,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "631.812KB",
+  "fileSize": "633.422KB",
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
   "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://app.codecov.io/gh/ropensci/dittodb?branch=main"],
