@@ -65,17 +65,6 @@ with_mock_db({
 
 
   test_that("Error handling", {
-    expect_error(
-      dbConnect(RSQLite::SQLite()),
-      "There was no dbname, so I don't know where to look for mocks."
-    )
-
-    expect_error(
-      dbConnect(RSQLite::SQLite(), dbname = ""),
-      "There was no dbname, so I don't know where to look for mocks."
-    )
-
-
     result <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
     expect_warning(
       dbFetch(result, n = 1),

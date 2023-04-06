@@ -167,4 +167,7 @@ test_that("get_dbname() works", {
   expect_error(get_dbname(list()))
   # Legitimate error
   expect_error(get_dbname(list(bogus = "oops")))
+  # Empty argument, but that's ok for SQLite
+  expect_equal(get_dbname(list(), drv = RSQLite::SQLite()), "ephemeral_sqlite")
+  expect_equal(get_dbname(list(dbname = ""), drv = RSQLite::SQLite()), "ephemeral_sqlite")
 })

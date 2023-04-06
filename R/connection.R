@@ -79,7 +79,7 @@ dbMockConnect <- function(drv, ...) {
     original_class <- "DBIConnection"
   }
 
-  path <- get_dbname(dots)
+  path <- get_dbname(dots, drv = drv)
 
   # retrieve the dbplyr_edition for the original connection, if it exists (and
   # if dbplyr is installed)

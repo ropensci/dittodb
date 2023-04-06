@@ -182,7 +182,7 @@ recordFetch <- quote({
 dbConnectTrace <- quote({
   .dittodb_env$db_path <- file.path(
     db_mock_paths()[1],
-    get_dbname(list(...))
+    get_dbname(list(...), drv = drv)
   )
   dir.create(.dittodb_env$db_path, showWarnings = FALSE, recursive = TRUE)
 })
