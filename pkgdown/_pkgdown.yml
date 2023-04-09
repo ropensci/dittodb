@@ -36,27 +36,23 @@ reference:
 navbar:
   title: dittodb
   type: default
-  left:
-    - text: Get started
-      href: articles/dittodb.html
-    - text: Reference
-      href: reference/
-    - text: Articles
-      menu:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+  components:
+   articles:
+    text: Articles
+    menu:
       - text: Getting Started with dittodb
         href: articles/dittodb.html
       - text: nycflights data
         href: articles/nycflights.html
       - text: Developing dittodb
         href: articles/developing-dittodb.html
-    - text: News
-      menu:
-      - text: "Changelog"
-        href: news/index.html
-      - text: "------------------"
-      - text: "Blog posts"
-      - text: "dittodb 0.1.0"
-        href: https://jonkeane.com/blog/introducing_dittodb/
+news:
+  releases:
+  - text: "Version 1.0.0"
+    href: https://jonkeane.com/blog/introducing_dittodb/
 
 authors:
   Jonathan Keane:
