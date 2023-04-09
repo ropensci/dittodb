@@ -54,7 +54,7 @@ get_dbname <- function(dots, drv = NULL) {
   named_dsn <- !is.null(dots$dsn) && dots$dsn != ""
   unnamed_dbname <- length(dots) > 0 &&
     (is.null(names(dots[1])) || names(dots[1]) == "")
-  drv_is_SQLite <- !is.null(drv) && inherits(drv, "SQLiteDriver")
+  drv_is_sqlite <- !is.null(drv) && inherits(drv, "SQLiteDriver")
 
   if (named_dbname) {
     path <- dots$dbname
@@ -64,7 +64,7 @@ get_dbname <- function(dots, drv = NULL) {
     path <- dots$dsn
   } else if (unnamed_dbname) {
     path <- dots[[1]]
-  } else if (drv_is_SQLite && dbname_is_empty) {
+  } else if (drv_is_sqlite && dbname_is_empty) {
     # RSQLite will create an ephemeral connection here
     path <- "ephemeral_sqlite"
   } else {
