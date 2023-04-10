@@ -319,7 +319,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "633.422KB",
+  "fileSize": "633.493KB",
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
   "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://app.codecov.io/gh/ropensci/dittodb?branch=main"],
