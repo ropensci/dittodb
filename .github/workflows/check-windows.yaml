@@ -1,4 +1,7 @@
-on: [push, pull_request]
+on:
+  push:
+    branches: main
+  pull_request:
 
 name: check-windows
 
@@ -35,7 +38,7 @@ jobs:
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Cache Windows Chocolatey downloads
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: contains(runner.os, 'windows')
         with:
           path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey

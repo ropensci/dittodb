@@ -61,7 +61,7 @@ stop_db_capturing()
 ```r
 start_db_capturing()
 
-con <- DBI::dbConnect(RSQLite::SQLite())
+con <- DBI::dbConnect(RSQLite::SQLite(), "nycflights")
 
 get_an_airline(con)
 DBI::dbDisconnect(con)
@@ -113,7 +113,7 @@ with_mock_db({
 ### RSQLite
 ```r
 with_mock_db({
-  con <- DBI::dbConnect(RSQLite::SQLite())
+  con <- DBI::dbConnect(RSQLite::SQLite(), "nycflights")
   
   test_that("We get one airline", {
     one_airline <- get_an_airline(con)

@@ -32,7 +32,7 @@ with_mock_db({
   test_that("And that RSQLite, without anything works", {
     con <- dbConnect(RSQLite::SQLite())
     expect_s4_class(con, "DBIMockConnection")
-    # expect_identical(con@path, "memory")
+    expect_identical(con@path, "ephemeral_sqlite")
     expect_identical(con@original_class, "SQLiteConnection")
 
     dbDisconnect(con)

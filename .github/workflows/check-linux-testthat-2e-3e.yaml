@@ -1,4 +1,7 @@
-on: [push, pull_request]
+on:
+  push:
+    branches: main
+  pull_request:
 
 name: check-linux-testthat-2e-3e
 
@@ -36,7 +39,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Cache R packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: rlibcache
         with:
           path: ${{ env.R_LIBS_USER }}
