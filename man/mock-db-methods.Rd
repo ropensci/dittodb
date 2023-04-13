@@ -33,7 +33,6 @@
 \alias{dbGetInfo,DBIMockResult-method}
 \alias{dbQuoteIdentifier,DBIMockRPostgresConnection,character-method}
 \alias{dbQuoteIdentifier,DBIMockRPostgresConnection,SQL-method}
-\alias{dbQuoteIdentifier,DBIMockRPostgresConnection,ident-method}
 \alias{dbQuoteString,DBIMockRPostgresConnection,character-method}
 \alias{dbQuoteString,DBIMockRPostgresConnection,SQL-method}
 \alias{dbQuoteString,DBIMockMariaDBConnection,character-method}
@@ -92,8 +91,6 @@ dbMockConnect(drv, ...)
 \S4method{dbQuoteIdentifier}{DBIMockRPostgresConnection,character}(conn, x, ...)
 
 \S4method{dbQuoteIdentifier}{DBIMockRPostgresConnection,SQL}(conn, x, ...)
-
-\S4method{dbQuoteIdentifier}{DBIMockRPostgresConnection,ident}(conn, x, ...)
 
 \S4method{dbQuoteString}{DBIMockRPostgresConnection,character}(conn, x, ...)
 

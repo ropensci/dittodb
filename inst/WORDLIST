@@ -25,4 +25,8 @@ RSQLiteConnection
 standardised
 tabset
 testthat
-
+duckdb
+hacky
+pkgdown
+sqlite
+travelling

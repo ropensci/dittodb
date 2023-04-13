@@ -1,5 +1,18 @@
 # dittodb (development version)
 
+# dittodb 0.1.5
+* There is now better support for {dbplyr} editions: mocks should transparently use whatever the backend supports now (#169)
+* Improved `bigint` support (thanks to @majazaloznik for reporting this issue, #168)
+* Quoting should be more reliable (e.g. quotes are doubled with RPostgres drivers), uncovered by a change in {dbplyr} query optimizations (#172)
+* SQLite databases
+* Removed the "travelling" vignette since there are much better ways to do something like that now (e.g. {duckdb})
+
+## Internals
+* Switched from a semi-hacky C-based approach for creating mock connections, that now uses tracing like capturing already did (#167)
+* Various test improvements (thanks @majazaloznik)
+* Removed `expect_silent()` in one test to satisfy an R devel bug (#172)
+* The pkgdown site should render more correctly (thanks to @maelle, #173)
+
 # dittodb 0.1.4
 * Allow support for mocking when transactions are on (full support for transactions with different mock directories is still planned for the future)
 * Add support for quoting with Postgres
