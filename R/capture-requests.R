@@ -176,7 +176,9 @@ recordFetch <- quote({
     message("Writing to ", .dittodb_env$curr_file_path)
   }
   out <- redact_columns(ans, columns = get_redactor())
-  dput(out, .dittodb_env$curr_file_path, control = c("all", "digits17"))
+  out <- serialize_bit64(out)
+  # Control here is similar to c("all", "hexNumeric"), only without quoting
+  dput(out, .dittodb_env$curr_file_path, control = c("keepInteger", "showAttributes", "useSource", "warnIncomplete", "keepNA", "niceNames", "hexNumeric"))
 })
 
 dbConnectTrace <- quote({
@@ -212,7 +214,7 @@ dbListTablesTrace <- quote({
   dput(
     thing,
     file.path(.dittodb_env$db_path, "dbListTables.R"),
-    control = c("all", "digits17")
+    control = c("all", "hexNumeric")
   )
 })
 
@@ -222,7 +224,7 @@ dbListFieldsTrace <- quote({
   dput(
     thing,
     file.path(.dittodb_env$db_path, glue::glue("dbListFields-{name}.R")),
-    control = c("all", "digits17")
+    control = c("all", "hexNumeric")
   )
 })
 
@@ -232,7 +234,7 @@ dbExistsTableTrace <- quote({
   dput(
     thing,
     file.path(.dittodb_env$db_path, glue::glue("dbExistsTable-{name}.R")),
-    control = c("all", "digits17")
+    control = c("all", "hexNumeric")
   )
 })
 
@@ -242,7 +244,7 @@ dbGetInfoConTrace <- quote({
   if (length(path) > 0) {
     # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
     # dbGetInfo in the connection process, don't record mocks then.
-    dput(thing, path, control = c("all", "digits17"))
+    dput(thing, path, control = c("all", "hexNumeric"))
   }
 })
 
@@ -257,7 +259,7 @@ dbGetInfoResultTrace <- quote({
     # TODO: some default?
   }
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
-  dput(thing, path, control = c("all", "digits17"))
+  dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetInfoPsqlresultTrace <- quote({
@@ -268,7 +270,7 @@ dbGetInfoPsqlresultTrace <- quote({
   if (length(path) > 0) {
     # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
     # dbGetInfo in the connection process, don't record mocks then.
-    dput(thing, path, control = c("all", "digits17"))
+    dput(thing, path, control = c("all", "hexNumeric"))
   }
 })
 
@@ -287,7 +289,7 @@ dbColumnInfoTrace <- quote({
     # TODO: some default?
   }
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
-  dput(thing, path, control = c("all", "digits17"))
+  dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetRowsAffectedTrace <- quote({
@@ -304,7 +306,7 @@ dbGetRowsAffectedTrace <- quote({
     # TODO: some default?
   }
   path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
-  dput(thing, path, control = c("all", "digits17"))
+  dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 #' @rdname capture_requests
