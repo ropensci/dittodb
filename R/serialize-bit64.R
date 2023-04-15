@@ -29,12 +29,14 @@ serialize_bit64 <- function(df_in) {
   replacements <- lapply(
     df_in[int64_indicators],
     function(x) {
-      str2lang(
-        paste0(
+      # equivalent to str2lang(), which is available >= R 3.6
+      parse(
+        text = paste0(
           c("unserialize(", utils::capture.output(dput(serialize(x, NULL))), ")"),
           collapse = ""
-        )
-      )
+        ),
+        keep.source=FALSE
+      )[[1]]
     }
   )
 
