@@ -1,6 +1,6 @@
 Package: dittodb
 Title: A Test Environment for Database Requests
-Version: 0.1.5
+Version: 0.1.5.9000
 Authors@R: c(
     person(given = "Jonathan",
            family = "Keane",
@@ -45,6 +45,7 @@ Imports:
     utils,
     lifecycle
 Suggests: 
+    bit64,
     callr,
     covr,
     dplyr,
@@ -82,6 +83,7 @@ Collate:
     'paths.R'
     'quote.R'
     'redact.R'
+    'serialize-bit64.R'
     'transactions.R'
     'use-dittodb.R'
     'utils.R'
