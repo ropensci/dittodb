@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dittodb</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.4.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.5.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,6 +69,21 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dittodb-development-version">dittodb (development version)<a class="anchor" aria-label="anchor" href="#dittodb-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.5" id="dittodb-015">dittodb 0.1.5<a class="anchor" aria-label="anchor" href="#dittodb-015"></a></h2><p class="text-muted">CRAN release: 2023-04-13</p>
+<ul><li>There is now better support for {dbplyr} editions: mocks should transparently use whatever the backend supports now (<a href="https://github.com/ropensci/dittodb/issues/169" class="external-link">#169</a>)</li>
+<li>Improved <code>bigint</code> support (thanks to <a href="https://github.com/majazaloznik" class="external-link">@majazaloznik</a> for reporting this issue, <a href="https://github.com/ropensci/dittodb/issues/168" class="external-link">#168</a>)</li>
+<li>Quoting should be more reliable (e.g. quotes are doubled with RPostgres drivers), uncovered by a change in {dbplyr} query optimizations (<a href="https://github.com/ropensci/dittodb/issues/172" class="external-link">#172</a>)</li>
+<li>SQLite databases</li>
+<li>Removed the “travelling” vignette since there are much better ways to do something like that now (e.g. {duckdb})</li>
+</ul><div class="section level3">
+<h3 id="internals-0-1-5">Internals<a class="anchor" aria-label="anchor" href="#internals-0-1-5"></a></h3>
+<ul><li>Switched from a semi-hacky C-based approach for creating mock connections, that now uses tracing like capturing already did (<a href="https://github.com/ropensci/dittodb/issues/167" class="external-link">#167</a>)</li>
+<li>Various test improvements (thanks <a href="https://github.com/majazaloznik" class="external-link">@majazaloznik</a>)</li>
+<li>Removed <code><a href="https://testthat.r-lib.org/reference/expect_silent.html" class="external-link">expect_silent()</a></code> in one test to satisfy an R devel bug (<a href="https://github.com/ropensci/dittodb/issues/172" class="external-link">#172</a>)</li>
+<li>The pkgdown site should render more correctly (thanks to <a href="https://github.com/maelle" class="external-link">@maelle</a>, <a href="https://github.com/ropensci/dittodb/issues/173" class="external-link">#173</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.4" id="dittodb-014">dittodb 0.1.4<a class="anchor" aria-label="anchor" href="#dittodb-014"></a></h2><p class="text-muted">CRAN release: 2022-06-17</p>

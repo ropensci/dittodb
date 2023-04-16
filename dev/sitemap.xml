@@ -100,6 +100,9 @@
     <loc>https://dittodb.jonkeane.com/dev/reference/sanitize_table_id.html</loc>
   </url>
   <url>
+    <loc>https://dittodb.jonkeane.com/dev/reference/serialize_bit64.html</loc>
+  </url>
+  <url>
     <loc>https://dittodb.jonkeane.com/dev/reference/set_dittodb_debug_level.html</loc>
   </url>
   <url>
