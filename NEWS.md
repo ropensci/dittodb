@@ -1,5 +1,8 @@
 # dittodb (development version)
 
+# dittodb 0.1.6
+* Bugfix for `integer64` roundtrips. Instead of falling back to non-hexNumeric output, we serialize first and maintain hexNumeric output.
+
 # dittodb 0.1.5
 * There is now better support for {dbplyr} editions: mocks should transparently use whatever the backend supports now (#169)
 * Improved `bigint` support (thanks to @majazaloznik for reporting this issue, #168)

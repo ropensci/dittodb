@@ -1,9 +1,9 @@
-This submission allows support for mocking when transactions are on, adds support for quoting with Postgres, and corrects a vignette that failed to compile.
+This submission fixes an issue with M1 macs and builds with no long doubles available.
 
 ## Test environments
 * local R installation, R 4.2.3
 * ubuntu 18.04 (on GitHub actions), R 3.5-4.2, devel
-* macOS (on GitHub actions), R 4.1, 4.2
+* macOS (on GitHub actions), R 4.1, 4.2 as well as 4.2 on an M1
 * windows (on GitHub actions), R 4.2
 
 ## R CMD check results

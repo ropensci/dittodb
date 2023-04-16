@@ -10,15 +10,15 @@
 |collate  |en_US.UTF-8                            |
 |ctype    |en_US.UTF-8                            |
 |tz       |America/Chicago                        |
-|date     |2023-04-12                             |
+|date     |2023-04-16                             |
 |rstudio  |2023.03.0+386 Cherry Blossom (desktop) |
-|pandoc   |3.1 @ /usr/local/bin/ (via rmarkdown)  |
+|pandoc   |3.1 @ /usr/local/bin/pandoc            |
 
 # Dependencies
 
 |package   |old    |new    |Δ  |
 |:---------|:------|:------|:--|
-|dittodb   |0.1.4  |0.1.5  |*  |
+|dittodb   |0.1.5  |0.1.6  |*  |
 |cli       |3.6.1  |3.6.1  |   |
 |DBI       |1.1.3  |1.1.3  |   |
 |digest    |0.6.31 |0.6.31 |   |
