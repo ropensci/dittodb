@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dittodb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +71,11 @@
 <h2 class="pkg-version" data-toc-text="development version" id="dittodb-development-version">dittodb (development version)<a class="anchor" aria-label="anchor" href="#dittodb-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.5" id="dittodb-015">dittodb 0.1.5<a class="anchor" aria-label="anchor" href="#dittodb-015"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1.6" id="dittodb-016">dittodb 0.1.6<a class="anchor" aria-label="anchor" href="#dittodb-016"></a></h2>
+<ul><li>Bugfix for <code>integer64</code> roundtrips. Instead of falling back to non-hexNumeric output, we serialize first and maintain hexNumeric output.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.5" id="dittodb-015">dittodb 0.1.5<a class="anchor" aria-label="anchor" href="#dittodb-015"></a></h2><p class="text-muted">CRAN release: 2023-04-13</p>
 <ul><li>There is now better support for {dbplyr} editions: mocks should transparently use whatever the backend supports now (<a href="https://github.com/ropensci/dittodb/issues/169" class="external-link">#169</a>)</li>
 <li>Improved <code>bigint</code> support (thanks to <a href="https://github.com/majazaloznik" class="external-link">@majazaloznik</a> for reporting this issue, <a href="https://github.com/ropensci/dittodb/issues/168" class="external-link">#168</a>)</li>
 <li>Quoting should be more reliable (e.g. quotes are doubled with RPostgres drivers), uncovered by a change in {dbplyr} query optimizations (<a href="https://github.com/ropensci/dittodb/issues/172" class="external-link">#172</a>)</li>
