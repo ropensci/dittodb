@@ -35,7 +35,7 @@ serialize_bit64 <- function(df_in) {
           c("unserialize(", utils::capture.output(dput(serialize(x, NULL))), ")"),
           collapse = ""
         ),
-        keep.source=FALSE
+        keep.source = FALSE
       )[[1]]
     }
   )

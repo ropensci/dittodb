@@ -178,7 +178,19 @@ recordFetch <- quote({
   out <- redact_columns(ans, columns = get_redactor())
   out <- serialize_bit64(out)
   # Control here is similar to c("all", "hexNumeric"), only without quoting
-  dput(out, .dittodb_env$curr_file_path, control = c("keepInteger", "showAttributes", "useSource", "warnIncomplete", "keepNA", "niceNames", "hexNumeric"))
+  dput(
+    out,
+    .dittodb_env$curr_file_path,
+    control = c(
+      "keepInteger",
+      "showAttributes",
+      "useSource",
+      "warnIncomplete",
+      "keepNA",
+      "niceNames",
+      "hexNumeric"
+    )
+  )
 })
 
 dbConnectTrace <- quote({
