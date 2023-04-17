@@ -16,7 +16,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dittodb</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.5.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.6.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dittodb-development-version">dittodb (development version)<a class="anchor" aria-label="anchor" href="#dittodb-development-version"></a></h2>
 </div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.6" id="dittodb-016">dittodb 0.1.6<a class="anchor" aria-label="anchor" href="#dittodb-016"></a></h2><p class="text-muted">CRAN release: 2023-04-17</p>
+<ul><li>Bugfix for <code>integer64</code> roundtrips. Instead of falling back to non-hexNumeric output, we serialize first and maintain hexNumeric output.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.5" id="dittodb-015">dittodb 0.1.5<a class="anchor" aria-label="anchor" href="#dittodb-015"></a></h2><p class="text-muted">CRAN release: 2023-04-13</p>
 <ul><li>There is now better support for {dbplyr} editions: mocks should transparently use whatever the backend supports now (<a href="https://github.com/ropensci/dittodb/issues/169" class="external-link">#169</a>)</li>
