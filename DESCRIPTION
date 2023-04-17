@@ -1,6 +1,6 @@
 Package: dittodb
 Title: A Test Environment for Database Requests
-Version: 0.1.6
+Version: 0.1.6.9000
 Authors@R: c(
     person(given = "Jonathan",
            family = "Keane",
