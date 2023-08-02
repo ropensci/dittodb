@@ -106,7 +106,7 @@ for (pkg in names(db_pkgs)) {
       }
       expect_true(all(
         c("airlines", "airports", "flights", "planes", "weather") %in%
-          dbListTables(con))
+          dbListTables(con, schema_name = schema))
       )
     })
 
@@ -136,7 +136,7 @@ for (pkg in names(db_pkgs)) {
       )
 
       # dbListTables ====
-      tables <- dbListTables(con)
+      tables <- dbListTables(con, schema_name = schema)
 
       # dbListFields ====
       # dbListFields is ever so slightly different for RPostgresql
@@ -283,7 +283,7 @@ for (pkg in names(db_pkgs)) {
 
         # dbListTables ====
         test_that(glue("dbListTables() {pkg}"), {
-          out <- dbListTables(con)
+          out <- dbListTables(con, schema_name = schema)
           expect_identical(out, tables)
         })
 
