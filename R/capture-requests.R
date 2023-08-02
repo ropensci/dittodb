@@ -268,7 +268,11 @@ dbGetInfoResultTrace <- quote({
   } else if (inherits(dbObj, "OdbcResult")) {
     hash <- hash(dbObj@statement)
   } else {
-    # TODO: some default?
+    # Stringify the dbObj to get a hash is better than nothing
+    # If no hash is found, there is an error:
+    # Error in paste0(type, "-", hash, ".R") :
+    #   cannot coerce type 'closure' to vector of type 'character'
+    hash <- hash(toString(dbObj))
   }
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
@@ -298,7 +302,11 @@ dbColumnInfoTrace <- quote({
   } else if (inherits(res, "OdbcResult")) {
     hash <- hash(res@statement)
   } else {
-    # TODO: some default?
+    # Stringify the result to get a hash is better than nothing
+    # If no hash is found, there is an error:
+    # Error in paste0(type, "-", hash, ".R") :
+    #   cannot coerce type 'closure' to vector of type 'character'
+    hash <- hash(toString(res))
   }
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
@@ -315,7 +323,11 @@ dbGetRowsAffectedTrace <- quote({
   } else if (inherits(res, "OdbcResult")) {
     hash <- hash(res@statement)
   } else {
-    # TODO: some default?
+    # Stringify the result to get a hash is better than nothing
+    # If no hash is found, there is an error:
+    # Error in paste0(type, "-", hash, ".R") :
+    #   cannot coerce type 'closure' to vector of type 'character'
+    hash <- hash(toString(res))
   }
   path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
