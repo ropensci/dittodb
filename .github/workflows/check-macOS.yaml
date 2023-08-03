@@ -57,6 +57,8 @@ jobs:
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
       - name: Build RMariaDB from source (oldrel only)
+        # This shouldn't be necessary, but in the 4.2 runners on GitHub with the
+        # binary the results from the database come back as numbers and not strings.
         shell: Rscript {0}
         if: contains(matrix.config.r, 'oldrel')
         run: |
