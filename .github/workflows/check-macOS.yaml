@@ -56,6 +56,12 @@ jobs:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
 
+      - name: Build RMariaDB from source (oldrel only)
+        shell: Rscript {0}
+        if: contains(matrix.config.r, 'oldrel')
+        run: |
+          install.packages("RMariaDB", type = "source")
+
       - name: Check
         shell: Rscript {0}
         run: |
