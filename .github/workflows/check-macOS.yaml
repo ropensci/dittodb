@@ -33,16 +33,6 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
-      - name: Create symlink to Rscript
-        # A bug in CRAN installers < 4.1
-        # https://stackoverflow.com/questions/67324807/r-command-not-found/67452876
-        if: contains(matrix.config.r, 'oldrel')
-        run: |
-          cd /usr/local/bin
-          if [ ! -f ./Rscript ]; then
-            sudo ln -s /Library/Frameworks/R.framework/Resources/bin/Rscript .
-          fi
-
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-tinytex@v2
