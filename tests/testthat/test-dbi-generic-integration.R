@@ -97,17 +97,24 @@ for (pkg in names(db_pkgs)) {
       )
 
       # we check just that the tables are there since other tests will add other
-      # tables For some reason, RPostgres responds that there are 0 tables with
+      # tables. For some reason, RPostgres responds that there are 0 tables with
       # dbListTables() even though there are and other functions work (including
       # the subsequent calls later) Skipping for now, since there isn't much
       # doubt that RPostgres is setup ok given our other tests.
       if (pkg == "RPostgres") {
         skip("RPostgres has something funny with dbListTables()")
       }
-      expect_true(all(
-        c("airlines", "airports", "flights", "planes", "weather") %in%
-          dbListTables(con))
-      )
+      if (pkg == "RPostgreSQL") {
+        expect_true(all(
+          c("airlines", "airports", "flights", "planes", "weather") %in%
+            dbListTables(con))
+        )
+      } else {
+        expect_true(all(
+          c("airlines", "airports", "flights", "planes", "weather") %in%
+            dbListTables(con, schema_name = schema))
+        )
+      }
     })
 
     dbDisconnect(con)
@@ -136,7 +143,11 @@ for (pkg in names(db_pkgs)) {
       )
 
       # dbListTables ====
-      tables <- dbListTables(con)
+      if (pkg == "RPostgreSQL") {
+        tables <- dbListTables(con)
+      } else {
+        tables <- dbListTables(con, schema_name = schema)
+      }
 
       # dbListFields ====
       # dbListFields is ever so slightly different for RPostgresql
@@ -283,7 +294,11 @@ for (pkg in names(db_pkgs)) {
 
         # dbListTables ====
         test_that(glue("dbListTables() {pkg}"), {
-          out <- dbListTables(con)
+          if (pkg == "RPostgreSQL") {
+            out <- dbListTables(con)
+          } else {
+            out <- dbListTables(con, schema_name = schema)
+          }
           expect_identical(out, tables)
         })
 
