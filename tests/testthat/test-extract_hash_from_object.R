@@ -50,6 +50,10 @@ test_that("extract_hash_from_object s4 DBIMockUnknownDBResult work", {
     return("DBIMockUnknownDBResult")
   })
 
+  setMethod("as.character", "DBIMockUnknownDBResult", function(x) {
+    return("DBIMockUnknownDBResult")
+  })
+
   # create S4-Object for testing
   obj <- new("DBIMockUnknownDBResult")
   obj@m_sOperation <- "Select * from my_table"
