@@ -262,26 +262,14 @@ dbGetInfoConTrace <- quote({
 
 dbGetInfoResultTrace <- quote({
   thing <- returnValue()
-  # TODO: would this be better if we traced the methods individually?
-  if (inherits(dbObj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(dbObj@sql)
-  } else if (inherits(dbObj, "OdbcResult")) {
-    hash <- hash(dbObj@statement)
-  } else {
-    # Stringify the dbObj to get a hash is better than nothing
-    # If no hash is found, there is an error:
-    # Error in paste0(type, "-", hash, ".R") :
-    #   cannot coerce type 'closure' to vector of type 'character'
-    hash <- hash(toString(dbObj))
-  }
+  hash <- extractHashFromObject(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetInfoPsqlresultTrace <- quote({
   thing <- returnValue()
-  result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
-  hash <- hash(result_info$statement)
+  hash <- extractHashFromObject(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   if (length(path) > 0) {
     # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
@@ -293,45 +281,37 @@ dbGetInfoPsqlresultTrace <- quote({
 # TODO: rationalize these so that they are the same for any list/scalar?
 dbColumnInfoTrace <- quote({
   thing <- returnValue()
-  # TODO: would this be better if we traced the methods using signature?
-  if (inherits(res, "PostgreSQLResult")) {
-    result_info <- RPostgreSQL::postgresqlResultInfo(res)
-    hash <- hash(result_info$statement)
-  } else if (inherits(res, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(res@sql)
-  } else if (inherits(res, "OdbcResult")) {
-    hash <- hash(res@statement)
-  } else {
-    # Stringify the result to get a hash is better than nothing
-    # If no hash is found, there is an error:
-    # Error in paste0(type, "-", hash, ".R") :
-    #   cannot coerce type 'closure' to vector of type 'character'
-    hash <- hash(toString(res))
-  }
+  hash <- extractHashFromObject(res)
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetRowsAffectedTrace <- quote({
   thing <- returnValue()
+  hash <- extractHashFromObject(res)
+  path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
+  dput(thing, path, control = c("all", "hexNumeric"))
+})
+
+extractHashFromObject <- function(obj) {
   # TODO: would this be better if we traced the methods using signature?
-  if (inherits(res, "PostgreSQLResult")) {
-    result_info <- RPostgreSQL::postgresqlResultInfo(res)
+  if (inherits(obj, "PostgreSQLResult")) {
+    result_info <- RPostgreSQL::postgresqlResultInfo(obj)
     hash <- hash(result_info$statement)
-  } else if (inherits(res, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(res@sql)
-  } else if (inherits(res, "OdbcResult")) {
-    hash <- hash(res@statement)
+  } else if (inherits(obj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
+    hash <- hash(obj@sql)
+  } else if (inherits(obj, "OdbcResult")) {
+    hash <- hash(obj@statement)
   } else {
     # Stringify the result to get a hash is better than nothing
     # If no hash is found, there is an error:
     # Error in paste0(type, "-", hash, ".R") :
     #   cannot coerce type 'closure' to vector of type 'character'
-    hash <- hash(toString(res))
+    hash <- hash(toString(obj))
   }
-  path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
-  dput(thing, path, control = c("all", "hexNumeric"))
-})
+
+  return(hash)
+}
 
 #' @rdname capture_requests
 #' @export
