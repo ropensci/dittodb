@@ -260,6 +260,16 @@ dbGetInfoConTrace <- quote({
   }
 })
 
+#' Extract a hash from a (result) object
+#'
+#' This function should generally not be used, but must be exported for the
+#' query recording function to work properly
+#'
+#' @param obj the DBI result object to hash
+#'
+#' @return hash for the object
+#' @export
+#' @keywords internal
 extract_hash_from_object <- function(obj) {
   # TODO: would this be better if we traced the methods using signature?
   if (inherits(obj, "PostgreSQLResult")) {

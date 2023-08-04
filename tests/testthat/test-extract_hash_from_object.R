@@ -6,35 +6,39 @@ test_that("extract_hash_from_object string objects work", {
 })
 
 test_that("extract_hash_from_object s4 MariaDBResult work", {
-  # create S4-Object for testing
-  obj <- new("MariaDBResult")
-  obj@sql <- "Select * from my_table"
-  expect_identical(extract_hash_from_object(obj), "e00bce")
-
+  if (requireNamespace("RMariaDB", quietly = TRUE)) {
+    # create S4-Object for testing
+    obj <- new("MariaDBResult")
+    obj@sql <- "Select * from my_table"
+    expect_identical(extract_hash_from_object(obj), "e00bce")
+  }
 })
 
 test_that("extract_hash_from_object s4 PqResult work", {
-  # create S4-Object for testing
-  obj <- new("PqResult")
-  obj@sql <- "Select * from my_table"
-  expect_identical(extract_hash_from_object(obj), "e00bce")
-
+  if (requireNamespace("RPostgres", quietly = TRUE)) {
+    # create S4-Object for testing
+    obj <- new("PqResult")
+    obj@sql <- "Select * from my_table"
+    expect_identical(extract_hash_from_object(obj), "e00bce")
+  }
 })
 
 test_that("extract_hash_from_object s4 SQLiteResult work", {
-  # create S4-Object for testing
-  obj <- new("SQLiteResult")
-  obj@sql <- "Select * from my_table"
-  expect_identical(extract_hash_from_object(obj), "e00bce")
-
+  if (requireNamespace("RSQLite", quietly = TRUE)) {
+    # create S4-Object for testing
+    obj <- new("SQLiteResult")
+    obj@sql <- "Select * from my_table"
+    expect_identical(extract_hash_from_object(obj), "e00bce")
+  }
 })
 
 test_that("extract_hash_from_object s4 OdbcResult work", {
-  # create S4-Object for testing
-  obj <- new("OdbcResult")
-  obj@statement <- "Select * from my_table"
-  expect_identical(extract_hash_from_object(obj), "e00bce")
-
+  if (requireNamespace("odbc", quietly = TRUE)) {
+    # create S4-Object for testing
+    obj <- new("OdbcResult")
+    obj@statement <- "Select * from my_table"
+    expect_identical(extract_hash_from_object(obj), "e00bce")
+  }
 })
 
 test_that("extract_hash_from_object s4 DBIMockUnknownDBResult work", {
