@@ -260,6 +260,26 @@ dbGetInfoConTrace <- quote({
   }
 })
 
+extract_hash_from_object <- function(obj) {
+  # TODO: would this be better if we traced the methods using signature?
+  if (inherits(obj, "PostgreSQLResult")) {
+    result_info <- RPostgreSQL::postgresqlResultInfo(obj)
+    hash <- hash(result_info$statement)
+  } else if (inherits(obj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
+    hash <- hash(obj@sql)
+  } else if (inherits(obj, "OdbcResult")) {
+    hash <- hash(obj@statement)
+  } else {
+    # Stringify the result to get a hash is better than nothing
+    # If no hash is found, there is an error:
+    # Error in paste0(type, "-", hash, ".R") :
+    #   cannot coerce type 'closure' to vector of type 'character'
+    hash <- hash(toString(obj))
+  }
+
+  return(hash)
+}
+
 dbGetInfoResultTrace <- quote({
   thing <- returnValue()
   hash <- extract_hash_from_object(dbObj)
@@ -292,26 +312,6 @@ dbGetRowsAffectedTrace <- quote({
   path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
-
-extract_hash_from_object <- function(obj) {
-  # TODO: would this be better if we traced the methods using signature?
-  if (inherits(obj, "PostgreSQLResult")) {
-    result_info <- RPostgreSQL::postgresqlResultInfo(obj)
-    hash <- hash(result_info$statement)
-  } else if (inherits(obj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(obj@sql)
-  } else if (inherits(obj, "OdbcResult")) {
-    hash <- hash(obj@statement)
-  } else {
-    # Stringify the result to get a hash is better than nothing
-    # If no hash is found, there is an error:
-    # Error in paste0(type, "-", hash, ".R") :
-    #   cannot coerce type 'closure' to vector of type 'character'
-    hash <- hash(toString(obj))
-  }
-
-  return(hash)
-}
 
 #' @rdname capture_requests
 #' @export
