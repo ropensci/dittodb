@@ -24,6 +24,7 @@ jobs:
       DBROOTPASS: r2N5y7V*
       DITTODB_ENABLE_PG_TESTS: true
       DITTODB_ENABLE_MARIA_TESTS: true
+      ODBCSYSINI: /usr/local/etc/
 
     steps:
       - uses: actions/checkout@v3
@@ -31,16 +32,6 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
-
-      - name: Create symlink to Rscript
-        # A bug in CRAN installers < 4.1
-        # https://stackoverflow.com/questions/67324807/r-command-not-found/67452876
-        if: contains(matrix.config.r, 'oldrel')
-        run: |
-          cd /usr/local/bin
-          if [ ! -f ./Rscript ]; then
-            sudo ln -s /Library/Frameworks/R.framework/Resources/bin/Rscript .
-          fi
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -64,6 +55,14 @@ jobs:
         env:
           PGPASSWORD: ${{ env.DBROOTPASS }}
           MYSQL_PWD: ${{ env.DBROOTPASS }}
+
+      - name: Build RMariaDB from source (oldrel only)
+        # This shouldn't be necessary, but in the 4.2 runners on GitHub with the
+        # binary the results from the database come back as numbers and not strings.
+        shell: Rscript {0}
+        if: contains(matrix.config.r, 'oldrel')
+        run: |
+          install.packages("RMariaDB", type = "source")
 
       - name: Check
         shell: Rscript {0}

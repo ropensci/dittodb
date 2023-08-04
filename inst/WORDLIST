@@ -1,10 +1,12 @@
 ️
 Codecov
+Bugfix
 dbplyr
 dbplyr's
 dsn
 erroring
 fs
+hexNumeric
 httptest
 ie
 invisibily
@@ -17,6 +19,7 @@ ODBC
 ORD
 Postgres
 prepopulated
+roundtrips
 RMariaDB
 RPostgres
 RPostgreSQL
