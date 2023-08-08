@@ -281,9 +281,6 @@ hash_db_object <- function(obj) {
     hash <- hash(obj@statement)
   } else {
     # Stringify the result to get a hash is better than nothing
-    # If no hash is found, there is an error:
-    # Error in paste0(type, "-", hash, ".R") :
-    #   cannot coerce type 'closure' to vector of type 'character'
     hash <- hash(toString(obj))
   }
 
