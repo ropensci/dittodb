@@ -270,7 +270,7 @@ dbGetInfoConTrace <- quote({
 #' @return hash for the object
 #' @export
 #' @keywords internal
-extract_hash_from_object <- function(obj) {
+hash_db_object <- function(obj) {
   # TODO: would this be better if we traced the methods using signature?
   if (inherits(obj, "PostgreSQLResult")) {
     result_info <- RPostgreSQL::postgresqlResultInfo(obj)
@@ -292,14 +292,14 @@ extract_hash_from_object <- function(obj) {
 
 dbGetInfoResultTrace <- quote({
   thing <- returnValue()
-  hash <- extract_hash_from_object(dbObj)
+  hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetInfoPsqlresultTrace <- quote({
   thing <- returnValue()
-  hash <- extract_hash_from_object(dbObj)
+  hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   if (length(path) > 0) {
     # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
@@ -311,14 +311,14 @@ dbGetInfoPsqlresultTrace <- quote({
 # TODO: rationalize these so that they are the same for any list/scalar?
 dbColumnInfoTrace <- quote({
   thing <- returnValue()
-  hash <- extract_hash_from_object(res)
+  hash <- hash_db_object(res)
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetRowsAffectedTrace <- quote({
   thing <- returnValue()
-  hash <- extract_hash_from_object(res)
+  hash <- hash_db_object(res)
   path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
