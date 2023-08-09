@@ -137,10 +137,10 @@ test_that("hash_db_object s4 DBIMockUnknownDBResult work", {
   # For the test to run successfully the test object needs these methods to simulate a DBResult object.
   setClass("DBIMockUnknownDBResult",
            slots = c(
-             m_sOperation = "character"
+             m_statement = "character"
            ),
            prototype = list(
-             m_sOperation = NA_character_
+             m_statement = NA_character_
            )
   )
   setMethod("toString", "DBIMockUnknownDBResult", function(x) {
@@ -153,7 +153,7 @@ test_that("hash_db_object s4 DBIMockUnknownDBResult work", {
 
   # create S4-Object for testing
   obj <- new("DBIMockUnknownDBResult")
-  obj@m_sOperation <- "Select * from my_table"
+  obj@m_statement <- "Select * from my_table"
   expect_identical(hash_db_object(obj), "10a362")
 })
 
