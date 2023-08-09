@@ -280,8 +280,13 @@ hash_db_object <- function(obj) {
   } else if (inherits(obj, "OdbcResult")) {
     hash <- hash(obj@statement)
   } else {
-    # Stringify the result to get a hash is better than nothing
-    hash <- hash(toString(obj))
+    if ("m_sOperation" %in% slotNames(obj)) {
+      # This is propably a teradata result object, so we can use m_sOperation as hash input.
+      hash <- hash(obj@m_sOperation)
+    } else {
+      # Stringify the result to get a hash is better than nothing
+      hash <- hash(toString(obj))
+    }
   }
 
   return(hash)

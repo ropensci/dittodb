@@ -156,3 +156,30 @@ test_that("hash_db_object s4 DBIMockUnknownDBResult work", {
   obj@m_sOperation <- "Select * from my_table"
   expect_identical(hash_db_object(obj), "10a362")
 })
+
+test_that("hash_db_object s4 DBIMockTeradataResult work", {
+  # create a teradata S4-Object for testing the default case with m_sOperation slot name in hash_db_object
+  # The 'hash_db_object' function uses 'toString' to stringify the object.
+  # In addition, the 'hash' function also uses 'as.character'.
+  # For the test to run successfully the test object needs these methods to simulate a DBResult object.
+  setClass("DBIMockTeradataResult",
+           slots = c(
+             m_sOperation = "character"
+           ),
+           prototype = list(
+             m_sOperation = NA_character_
+           )
+  )
+  setMethod("toString", "DBIMockTeradataResult", function(x) {
+    return("DBIMockUnknownDBResult")
+  })
+
+  setMethod("as.character", "DBIMockTeradataResult", function(x) {
+    return("DBIMockUnknownDBResult")
+  })
+
+  # create S4-Object for testing
+  obj <- new("DBIMockTeradataResult")
+  obj@m_sOperation <- "Select * from my_table"
+  expect_identical(hash_db_object(obj), "e00bce")
+})
