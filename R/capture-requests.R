@@ -260,24 +260,46 @@ dbGetInfoConTrace <- quote({
   }
 })
 
+#' Extract a hash from a (result) object
+#'
+#' This function should generally not be used, but must be exported for the
+#' query recording function to work properly
+#'
+#' @param obj the DBI result object to hash
+#'
+#' @return hash for the object
+#' @export
+#' @keywords internal
+hash_db_object <- function(obj) {
+  # TODO: would this be better if we traced the methods using signature?
+  if (inherits(obj, "PostgreSQLResult")) {
+    result_info <- RPostgreSQL::postgresqlResultInfo(obj)
+    hash <- hash(result_info$statement)
+  } else if (inherits(obj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
+    hash <- hash(obj@sql)
+  } else if (inherits(obj, "OdbcResult")) {
+    hash <- hash(obj@statement)
+  } else if (isS4(obj) && "m_sOperation" %in% methods::slotNames(obj)) {
+      # This is propably a teradata result object, so we can use m_sOperation as hash input.
+      hash <- hash(obj@m_sOperation)
+  } else {
+    # Stringify the result to get a hash is better than nothing
+    hash <- hash(toString(obj))
+  }
+
+  return(hash)
+}
+
 dbGetInfoResultTrace <- quote({
   thing <- returnValue()
-  # TODO: would this be better if we traced the methods individually?
-  if (inherits(dbObj, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(dbObj@sql)
-  } else if (inherits(dbObj, "OdbcResult")) {
-    hash <- hash(dbObj@statement)
-  } else {
-    # TODO: some default?
-  }
+  hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetInfoPsqlresultTrace <- quote({
   thing <- returnValue()
-  result_info <- RPostgreSQL::postgresqlResultInfo(dbObj)
-  hash <- hash(result_info$statement)
+  hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
   if (length(path) > 0) {
     # generally .dittodb_env$db_path is not-null, but RPostgreSQL uses
@@ -289,34 +311,14 @@ dbGetInfoPsqlresultTrace <- quote({
 # TODO: rationalize these so that they are the same for any list/scalar?
 dbColumnInfoTrace <- quote({
   thing <- returnValue()
-  # TODO: would this be better if we traced the methods using signature?
-  if (inherits(res, "PostgreSQLResult")) {
-    result_info <- RPostgreSQL::postgresqlResultInfo(res)
-    hash <- hash(result_info$statement)
-  } else if (inherits(res, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(res@sql)
-  } else if (inherits(res, "OdbcResult")) {
-    hash <- hash(res@statement)
-  } else {
-    # TODO: some default?
-  }
+  hash <- hash_db_object(res)
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
 
 dbGetRowsAffectedTrace <- quote({
   thing <- returnValue()
-  # TODO: would this be better if we traced the methods using signature?
-  if (inherits(res, "PostgreSQLResult")) {
-    result_info <- RPostgreSQL::postgresqlResultInfo(res)
-    hash <- hash(result_info$statement)
-  } else if (inherits(res, c("MariaDBResult", "PqResult", "SQLiteResult"))) {
-    hash <- hash(res@sql)
-  } else if (inherits(res, "OdbcResult")) {
-    hash <- hash(res@statement)
-  } else {
-    # TODO: some default?
-  }
+  hash <- hash_db_object(res)
   path <- make_path(.dittodb_env$db_path, "dbGetRowsAffected", hash)
   dput(thing, path, control = c("all", "hexNumeric"))
 })
