@@ -1,4 +1,5 @@
-# dittodb (development version)
+# dittodb 0.1.7
+* Added better capture support for unknown databases including better capture support for Teradata databases. (#176, @sandstumpen)
 
 # dittodb 0.1.6
 * Bugfix for `integer64` roundtrips. Instead of falling back to non-hexNumeric output, we serialize first and maintain hexNumeric output.
