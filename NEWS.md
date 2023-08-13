@@ -1,3 +1,5 @@
+# dittodb (development version)
+
 # dittodb 0.1.7
 * Added better capture support for unknown databases including better capture support for Teradata databases. (#176, @sandstumpen)
 
