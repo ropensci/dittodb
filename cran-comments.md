@@ -1,10 +1,8 @@
-This submission fixes an issue with M1 macs and builds with no long doubles available.
-
 ## Test environments
-* local R installation, R 4.2.3
-* ubuntu 18.04 (on GitHub actions), R 3.5-4.2, devel
-* macOS (on GitHub actions), R 4.1, 4.2 as well as 4.2 on an M1
-* windows (on GitHub actions), R 4.2
+* local R installation MacOS 12.6.8, R 4.3.0
+* ubuntu 20.04 (on GitHub actions), R 3.6-4.3, devel
+* macOS (on GitHub actions), R 4.2, 4.3
+* windows (on GitHub actions), R 4.3
 
 ## R CMD check results
 
