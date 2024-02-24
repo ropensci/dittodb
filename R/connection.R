@@ -27,20 +27,23 @@ NULL
 #' @import DBI
 #' @rdname mock-db-methods
 #' @export
-setClass("DBIMockConnection",
-         slots = c(
-           # TODO: change path to dbname to better reflect what's going on
-           path = "character",
-           original_class = "character"
-         ),
-         contains = "DBIConnection"
+setClass(
+  "DBIMockConnection",
+  slots = c(
+    # TODO: change path to dbname to better reflect what's going on
+    path = "character",
+    original_class = "character"
+  ),
+  contains = "DBIConnection"
 )
 
 #' @rdname mock-db-methods
 #' @export
 setMethod(
   "dbDisconnect", signature("DBIMockConnection"),
-  function(conn, ...) return(NULL)
+  function(conn, ...) {
+    return(NULL)
+  }
 )
 
 # TODO: should this function also include some specifications of the original

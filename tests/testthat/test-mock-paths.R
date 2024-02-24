@@ -22,15 +22,18 @@ with_mock_path(path = "new_mock_path", {
 })
 
 withr::with_options(
-  c(dittodb.mock.paths = "new_one"), {
+  c(dittodb.mock.paths = "new_one"),
+  {
     test_that("dittodb.mock.paths is used", {
       expect_identical(db_mock_paths(), "new_one")
     })
-  })
+  }
+)
 
 with_mock_path(
   c("new_one"),
-  replace = TRUE, {
+  replace = TRUE,
+  {
     test_that("the one mockpath is used", {
       expect_identical(db_mock_paths(), "new_one")
     })

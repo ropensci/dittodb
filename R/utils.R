@@ -187,7 +187,9 @@ dittodb_debug_level <- function(level) {
 #' @export
 #'
 #' @keywords internal
-get_type <- function(statement) return(strsplit(statement, " ")[[1]][1])
+get_type <- function(statement) {
+  return(strsplit(statement, " ")[[1]][1])
+}
 
 #' Sanitize Table id
 #'

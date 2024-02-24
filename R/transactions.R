@@ -5,7 +5,8 @@ setMethod(
   "DBIMockConnection",
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -14,7 +15,8 @@ setMethod(
   "DBIMockConnection",
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -23,4 +25,5 @@ setMethod(
   "DBIMockConnection",
   function(conn, ..., name = NULL) {
     return(invisible(TRUE))
-  })
+  }
+)

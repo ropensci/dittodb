@@ -4,22 +4,23 @@ NULL
 #' @rdname mock-db-methods
 #' @import DBI
 #' @export
-setClass("DBIMockResult",
-         slots = c(
-           type = "character",
-           hash = "character",
-           path = "character",
-           statement = "character",
-           fetched = "logical"
-         ),
-         prototype = list(
-           type = NA_character_,
-           hash = NA_character_,
-           path = NA_character_,
-           statement = NA_character_,
-           fetched = FALSE
-         ),
-         contains = "DBIResult"
+setClass(
+  "DBIMockResult",
+  slots = c(
+    type = "character",
+    hash = "character",
+    path = "character",
+    statement = "character",
+    fetched = "logical"
+  ),
+  prototype = list(
+    type = NA_character_,
+    hash = NA_character_,
+    path = NA_character_,
+    statement = NA_character_,
+    fetched = FALSE
+  ),
+  contains = "DBIResult"
 )
 
 db_send_query <- function(conn, statement, ...) {
@@ -104,7 +105,9 @@ setMethod("fetch", signature("DBIMockResult", "missing"), mock_fetch)
 setMethod(
   "dbClearResult",
   signature("DBIMockResult"),
-  function(res, n, ...) return(invisible(TRUE))
+  function(res, n, ...) {
+    return(invisible(TRUE))
+  }
 )
 
 # TODO: this should be smarter than just always saying things are done
@@ -113,7 +116,9 @@ setMethod(
 setMethod(
   "dbHasCompleted",
   signature("DBIMockResult"),
-  function(res, ...) return(invisible(TRUE))
+  function(res, ...) {
+    return(invisible(TRUE))
+  }
 )
 
 #' @rdname mock-db-methods

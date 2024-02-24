@@ -4,7 +4,9 @@ test_that("redact year", {
   expected$year <- 2020
 
   expect_identical(
-    redact(df, list(year = function(x) return(2020))),
+    redact(df, list(year = function(x) {
+      return(2020)
+    })),
     expected
   )
 })
@@ -13,7 +15,9 @@ test_that("redact year", {
   expected$tailnum <- "tail number"
 
   expect_identical(
-    redact(df, list(tailnum = function(x) return("tail number"))),
+    redact(df, list(tailnum = function(x) {
+      return("tail number")
+    })),
     expected
   )
 })

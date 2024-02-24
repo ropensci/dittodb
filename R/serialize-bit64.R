@@ -1,4 +1,3 @@
-
 #' Make a data.frame with pre-serialized integer64 columns
 #'
 #' `integer64` types do not `dput` wells with `hexNumeric`. Instead, we serialize and

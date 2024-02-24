@@ -1,6 +1,8 @@
 skip_env <- function(which) {
-  if (any(c("RPostgres", "RPostgreSQL", "odbc") %in% which) &&
-      tolower(Sys.getenv("DITTODB_ENABLE_PG_TESTS")) != "true") {
+  if (
+    any(c("RPostgres", "RPostgreSQL", "odbc") %in% which) &&
+      tolower(Sys.getenv("DITTODB_ENABLE_PG_TESTS")) != "true"
+  ) {
     skip("Skipping tests that need functioning Postgres.")
   }
 
@@ -12,8 +14,10 @@ skip_env <- function(which) {
     skip("Skipping odbc tests on 32bit windows.")
   }
 
-  if ("RMariaDB" %in% which &&
-      tolower(Sys.getenv("DITTODB_ENABLE_MARIA_TESTS")) != "true") {
+  if (
+    "RMariaDB" %in% which &&
+      tolower(Sys.getenv("DITTODB_ENABLE_MARIA_TESTS")) != "true"
+  ) {
     skip("Skipping tests that need functioning MariaDB.")
   }
 

@@ -73,7 +73,8 @@ test_that("debugging helper", {
   expect_false(dittodb_debug_level(2))
   expect_false(dittodb_debug_level(3))
   withr::with_options(
-    c("dittodb.debug" = 2), {
+    c("dittodb.debug" = 2),
+    {
       expect_true(dittodb_debug_level(-1))
       expect_true(dittodb_debug_level(0))
       expect_true(dittodb_debug_level(1))
@@ -138,7 +139,8 @@ test_that("testing_port", {
     list(
       "DITTODB_MARIA_TEST_PORT" = NA,
       "DITTODB_PG_TEST_PORT" = NA
-    ), {
+    ),
+    {
       expect_identical(testing_port("maria"), 3306L)
       expect_identical(testing_port("postgres"), 5432L)
     }
@@ -149,7 +151,8 @@ test_that("testing_port", {
     list(
       "DITTODB_MARIA_TEST_PORT" = "6033",
       "DITTODB_PG_TEST_PORT" = "2345"
-    ), {
+    ),
+    {
       expect_identical(testing_port("maria"), 6033L)
       expect_identical(testing_port("postgres"), 2345L)
     }

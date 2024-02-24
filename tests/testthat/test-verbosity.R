@@ -53,10 +53,12 @@ capture_output({
       "dittodb.debug" = 2,
       dittodb.mock.paths = file.path(temp_dir, "verbosity_mock")
     ), {
-      suppressMessages(expect_message({
+      suppressMessages(expect_message(
+        {
           start_db_capturing()
           con <- nycflights13_create_sqlite()
-        }, ".*Tracing.*"
+        },
+        ".*Tracing.*"
       ))
       testthat_transition(
         expect_message(

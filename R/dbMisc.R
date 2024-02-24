@@ -20,14 +20,18 @@ setMethod("dbGetInfo", signature("DBIMockConnection"), function(dbObj, ...) {
 #' @export
 setMethod(
   "dbWriteTable", signature("DBIMockConnection", "character", "data.frame"),
-  function(conn, name, value, ...) return(TRUE)
+  function(conn, name, value, ...) {
+    return(TRUE)
+  }
 )
 
 #' @rdname mock-db-methods
 #' @export
 setMethod(
   "dbRemoveTable", signature("DBIMockConnection", "character"),
-  function(conn, name, ...) return(TRUE)
+  function(conn, name, ...) {
+    return(TRUE)
+  }
 )
 
 # This is only strictly necesary for odbc, RPostgres, RPostgreSQL, and RMariaDB
