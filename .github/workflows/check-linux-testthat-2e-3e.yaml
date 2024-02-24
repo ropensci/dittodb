@@ -72,7 +72,7 @@ jobs:
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: remotes, rcmdcheck, httptest
+          extra-packages: rcmdcheck, httptest
 
       - name: Set the testthat edition
         run: |
