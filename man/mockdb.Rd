@@ -71,10 +71,10 @@ if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
 
   # using `start_mock_db()` and `stop_mock_db()`
   start_mock_db()
-    con <- dbConnect(
-      RSQLite::SQLite(),
-      dbname = "nycflights"
-    )
+  con <- dbConnect(
+    RSQLite::SQLite(),
+    dbname = "nycflights"
+  )
 
   testthat::test_that("We get one airline", {
     one_airline <- dbGetQuery(

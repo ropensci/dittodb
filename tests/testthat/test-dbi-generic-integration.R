@@ -15,14 +15,6 @@ db_pkgs <- list(
     password = "",
     port = testing_port("maria")
   )),
-  "RPostgreSQL" = quote(dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    dbname = "nycflights",
-    host = "127.0.0.1",
-    user = db_user,
-    password = db_pass,
-    port = testing_port("postgres")
-  )),
   "odbc" = quote(dbConnect(
     odbc::odbc(),
     Driver = odbc_driver,
@@ -31,6 +23,14 @@ db_pkgs <- list(
     UID = db_user,
     PWD = db_pass,
     Port = testing_port("postgres")
+  )),
+  "RPostgreSQL" = quote(dbConnect(
+    RPostgreSQL::PostgreSQL(),
+    dbname = "nycflights",
+    host = "127.0.0.1",
+    user = db_user,
+    password = db_pass,
+    port = testing_port("postgres")
   )),
   "RPostgres" = quote(dbConnect(
     RPostgres::Postgres(),

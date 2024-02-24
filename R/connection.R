@@ -71,7 +71,7 @@ dbMockConnect <- function(drv, ...) {
     mock_class <- "DBIMockMariaDBConnection"
     original_class <- "MariaDBConnection"
   } else if (inherits(drv, "OdbcDriver")) {
-    mock_class <- "DBIMockConnection"
+    mock_class <- "DBIMockOdbcConnection"
     original_class <- "OdbcConnection"
   } else {
     warning(
@@ -100,7 +100,7 @@ dbMockConnect <- function(drv, ...) {
     # If we have an odbc connection, pretend that it is postgres for the purposes
     # of db_supports_table_alias_with_as
     if (original_class == "OdbcConnection") {
-      s3_register("dbplyr::db_supports_table_alias_with_as", mock_class, method = function(con) TRUE)
+      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockOdbcConnection", method = function(con) TRUE)
     }
   }
 
