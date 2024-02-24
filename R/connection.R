@@ -96,6 +96,12 @@ dbMockConnect <- function(drv, ...) {
 
     # register dbplyr_edition
     s3_register("dbplyr::dbplyr_edition", mock_class, method = orig_dbplyr_edition)
+
+    # If we have an odbc connection, pretend that it is postgres for the purposes
+    # of db_supports_table_alias_with_as
+    if (original_class == "OdbcConnection") {
+      s3_register("dbplyr::db_supports_table_alias_with_as", mock_class, method = function(con) TRUE)
+    }
   }
 
   return(new(mock_class, path = path, original_class = original_class))
