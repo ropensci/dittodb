@@ -15,12 +15,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: ubuntu-20.04, r: 'oldrel-4' }
-        - { os: ubuntu-20.04, r: 'oldrel-3' }
-        - { os: ubuntu-20.04, r: 'oldrel-2' }
-        - { os: ubuntu-20.04, r: 'oldrel-1' }
-        - { os: ubuntu-20.04, r: 'release' }
-        - { os: ubuntu-20.04, r: 'devel', http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
+        - { os: ubuntu-22.04, r: 'oldrel-3' }
+        - { os: ubuntu-22.04, r: 'oldrel-4' }
+        - { os: ubuntu-22.04, r: 'oldrel-2' }
+        - { os: ubuntu-22.04, r: 'oldrel-1' }
+        - { os: ubuntu-22.04, r: 'release' }
+        - { os: ubuntu-22.04, r: 'devel', http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
 
     env:
       CRAN: ${{ matrix.config.cran }}

@@ -15,8 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: ubuntu-20.04, r: 'release', testhat_e: '2'  }
-        - { os: ubuntu-20.04, r: 'release', testhat_e: '3'  }
+        - { os: ubuntu-22.04, r: 'release', testhat_e: '2'  }
+        - { os: ubuntu-22.04, r: 'release', testhat_e: '3'  }
 
     env:
       CRAN: ${{ matrix.config.cran }}
