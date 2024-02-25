@@ -76,7 +76,7 @@ dbMockConnect <- function(drv, ...) {
     # If we have an odbc connection, pretend that it is postgres for the purposes
     # of db_supports_table_alias_with_as
     if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIConnection", method = function(con) TRUE)
+      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockConnection", method = function(con) TRUE)
     }
   } else {
     warning(

@@ -28,15 +28,6 @@ setMethod(
 #' @rdname mock-db-methods
 #' @export
 setMethod(
-  "dbWriteTable", signature("DBIMockConnection", "ANY", "data.frame"),
-  function(conn, name, value, ...) {
-    return(TRUE)
-  }
-)
-
-#' @rdname mock-db-methods
-#' @export
-setMethod(
   "dbRemoveTable", signature("DBIMockConnection", "character"),
   function(conn, name, ...) {
     return(TRUE)
