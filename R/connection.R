@@ -63,28 +63,44 @@ dbMockConnect <- function(drv, ...) {
     original_class <- "SQLiteConnection"
 
     if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockSQLiteConnection", method = function(con) TRUE)
+      s3_register(
+        "dbplyr::db_supports_table_alias_with_as",
+        "DBIMockSQLiteConnection",
+        method = function(con) TRUE
+      )
     }
   } else if (inherits(drv, "PostgreSQLDriver")) {
     mock_class <- "DBIMockRPostgreSQLConnection"
     original_class <- "PostgreSQLConnection"
 
     if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockRPostgreSQLConnection", method = function(con) FALSE)
+      s3_register(
+        "dbplyr::db_supports_table_alias_with_as",
+        "DBIMockRPostgreSQLConnection",
+        method = function(con) FALSE
+      )
     }
   } else if (inherits(drv, "PqDriver")) {
     mock_class <- "DBIMockRPostgresConnection"
     original_class <- "PqConnection"
 
     if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockRPostgresConnection", method = function(con) TRUE)
+      s3_register(
+        "dbplyr::db_supports_table_alias_with_as",
+        "DBIMockRPostgresConnection",
+        method = function(con) TRUE
+      )
     }
   } else if (inherits(drv, "MariaDBDriver")) {
     mock_class <- "DBIMockMariaDBConnection"
     original_class <- "MariaDBConnection"
 
     if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockMariaDBConnection", method = function(con) FALSE)
+      s3_register(
+        "dbplyr::db_supports_table_alias_with_as",
+        "DBIMockMariaDBConnection",
+        method = function(con) FALSE
+      )
     }
   } else if (inherits(drv, "OdbcDriver")) {
     mock_class <- "DBIMockConnection"
@@ -93,7 +109,11 @@ dbMockConnect <- function(drv, ...) {
     # If we have an odbc connection, pretend that it is postgres for the purposes
     # of db_supports_table_alias_with_as
     if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockConnection", method = function(con) TRUE)
+      s3_register(
+        "dbplyr::db_supports_table_alias_with_as",
+        "DBIMockConnection",
+        method = function(con) TRUE
+      )
     }
   } else {
     warning(
