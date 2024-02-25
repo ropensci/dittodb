@@ -61,18 +61,35 @@ dbMockConnect <- function(drv, ...) {
   if (inherits(drv, "SQLiteDriver")) {
     mock_class <- "DBIMockSQLiteConnection"
     original_class <- "SQLiteConnection"
+
+    if (requireNamespace("dbplyr", quietly = TRUE)) {
+      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockSQLiteConnection", method = function(con) TRUE)
+    }
   } else if (inherits(drv, "PostgreSQLDriver")) {
     mock_class <- "DBIMockRPostgreSQLConnection"
     original_class <- "PostgreSQLConnection"
+
+    if (requireNamespace("dbplyr", quietly = TRUE)) {
+      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockRPostgreSQLConnection", method = function(con) FALSE)
+    }
   } else if (inherits(drv, "PqDriver")) {
     mock_class <- "DBIMockRPostgresConnection"
     original_class <- "PqConnection"
+
+    if (requireNamespace("dbplyr", quietly = TRUE)) {
+      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockRPostgresConnection", method = function(con) TRUE)
+    }
   } else if (inherits(drv, "MariaDBDriver")) {
     mock_class <- "DBIMockMariaDBConnection"
     original_class <- "MariaDBConnection"
+
+    if (requireNamespace("dbplyr", quietly = TRUE)) {
+      s3_register("dbplyr::db_supports_table_alias_with_as", "DBIMockMariaDBConnection", method = function(con) FALSE)
+    }
   } else if (inherits(drv, "OdbcDriver")) {
     mock_class <- "DBIMockConnection"
     original_class <- "DBIConnection"
+
     # If we have an odbc connection, pretend that it is postgres for the purposes
     # of db_supports_table_alias_with_as
     if (requireNamespace("dbplyr", quietly = TRUE)) {
