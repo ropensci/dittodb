@@ -7,7 +7,6 @@
 \alias{DBIMockRPostgreSQLConnection-class}
 \alias{DBIMockRPostgresConnection-class}
 \alias{DBIMockMariaDBConnection-class}
-\alias{DBIMockOdbcConnection-class}
 \title{Driver-specific mock classes}
 \description{
 Each of the drivers that are supported have their own mock connection class.

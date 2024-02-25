@@ -25,10 +25,6 @@ setClass("DBIMockRPostgresConnection")
 #' @export
 setClass("DBIMockMariaDBConnection")
 
-#' @rdname driver-specifc-mock-connections
-#' @export
-setClass("DBIMockOdbcConnection")
-
 .onLoad <- function(libname, pkgname) {
   custom_classes <- list(
     list(
@@ -50,11 +46,6 @@ setClass("DBIMockOdbcConnection")
       pkg = "RMariaDB",
       mock_conn = "DBIMockMariaDBConnection",
       real_conn = "MariaDBConnection"
-    ),
-    list(
-      pkg = "odbc",
-      mock_conn = "DBIMockOdbcConnection",
-      real_conn = "OdbcConnection"
     )
   )
 

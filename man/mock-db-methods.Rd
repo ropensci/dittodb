@@ -28,7 +28,7 @@
 \alias{dbGetRowsAffected,DBIMockResult-method}
 \alias{dbGetInfo,DBIMockConnection-method}
 \alias{dbWriteTable,DBIMockConnection,character,data.frame-method}
-\alias{dbWriteTable,DBIMockOdbcConnection,character,data.frame-method}
+\alias{dbWriteTable,DBIMockConnection,ANY,data.frame-method}
 \alias{dbRemoveTable,DBIMockConnection,character-method}
 \alias{dbColumnInfo,DBIMockResult-method}
 \alias{dbGetInfo,DBIMockResult-method}
@@ -38,10 +38,6 @@
 \alias{dbQuoteString,DBIMockRPostgresConnection,SQL-method}
 \alias{dbQuoteString,DBIMockMariaDBConnection,character-method}
 \alias{dbQuoteString,DBIMockMariaDBConnection,SQL-method}
-\alias{dbQuoteIdentifier,DBIMockOdbcConnection,character-method}
-\alias{dbQuoteIdentifier,DBIMockOdbcConnection,SQL-method}
-\alias{dbQuoteString,DBIMockOdbcConnection,character-method}
-\alias{dbQuoteString,DBIMockOdbcConnection,SQL-method}
 \alias{dbBegin,DBIMockConnection-method}
 \alias{dbCommit,DBIMockConnection-method}
 \alias{dbRollback,DBIMockConnection-method}
@@ -87,7 +83,7 @@ dbMockConnect(drv, ...)
 
 \S4method{dbWriteTable}{DBIMockConnection,character,data.frame}(conn, name, value, ...)
 
-\S4method{dbWriteTable}{DBIMockOdbcConnection,character,data.frame}(conn, name, value, ...)
+\S4method{dbWriteTable}{DBIMockConnection,ANY,data.frame}(conn, name, value, ...)
 
 \S4method{dbRemoveTable}{DBIMockConnection,character}(conn, name, ...)
 
