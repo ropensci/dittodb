@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.1 (2023-06-16)",
+  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -238,18 +238,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "lintr",
-      "name": "lintr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=lintr"
     }
   ],
   "softwareRequirements": {
@@ -331,7 +319,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "641.844KB",
+  "fileSize": "638.617KB",
   "releaseNotes": "https://github.com/ropensci/dittodb/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/dittodb/blob/main/README.md",
   "contIntegration": ["https://github.com/ropensci/dittodb/actions?workflow=check-macOS", "https://github.com/ropensci/dittodb/actions?workflow=check-linux", "https://github.com/ropensci/dittodb/actions?workflow=check-windows", "https://app.codecov.io/gh/ropensci/dittodb?branch=main"],
