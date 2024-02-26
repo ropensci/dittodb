@@ -8,7 +8,8 @@ setMethod(
     # double up any quotes we see before quoting
     x <- gsub('"', '""', x)
     return(SQL(glue('"{x}"'), names = names(x)))
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -17,7 +18,8 @@ setMethod(
   c("DBIMockRPostgresConnection", "SQL"),
   function(conn, x, ...) {
     return(x)
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -26,7 +28,8 @@ setMethod(
   c("DBIMockRPostgresConnection", "character"),
   function(conn, x, ...) {
     return(SQL(glue("'{x}'"), names = names(x)))
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -35,7 +38,8 @@ setMethod(
   c("DBIMockRPostgresConnection", "SQL"),
   function(conn, x, ...) {
     return(x)
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -44,7 +48,8 @@ setMethod(
   c("DBIMockMariaDBConnection", "character"),
   function(conn, x, ...) {
     return(SQL(glue("'{x}'"), names = names(x)))
-  })
+  }
+)
 
 #' @rdname mock-db-methods
 #' @export
@@ -53,4 +58,5 @@ setMethod(
   c("DBIMockMariaDBConnection", "SQL"),
   function(conn, x, ...) {
     return(x)
-  })
+  }
+)

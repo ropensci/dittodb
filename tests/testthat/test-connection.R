@@ -8,12 +8,13 @@ test_that("Error handling", {
 })
 
 test_that("And that RSQLite, without anything captures", {
-  capture_db_requests({
-    con <- dbConnect(RSQLite::SQLite())
-    expect_identical(.dittodb_env$db_path, file.path(temp_dir, "ephemeral_sqlite"))
-    dbDisconnect(con)
-  },
-  path = temp_dir
+  capture_db_requests(
+    {
+      con <- dbConnect(RSQLite::SQLite())
+      expect_identical(.dittodb_env$db_path, file.path(temp_dir, "ephemeral_sqlite"))
+      dbDisconnect(con)
+    },
+    path = temp_dir
   )
 })
 

@@ -15,8 +15,10 @@ test_that("add to desc adds Suggests if present but empty", {
 
 test_that("add to desc adds Suggests inline", {
   expect_identical(test_add_to_desc("Suggests: pkg"), "dittodb, pkg")
-  expect_identical(test_add_to_desc("Suggests: pkg, alpha (>= 2.0.0)"),
-                   "alpha (>= 2.0.0), dittodb, pkg")
+  expect_identical(
+    test_add_to_desc("Suggests: pkg, alpha (>= 2.0.0)"),
+    "alpha (>= 2.0.0), dittodb, pkg"
+  )
 })
 
 desc_suggests_one_multiline <- "Title: Foo
@@ -34,18 +36,26 @@ Suggests: pkg,
 "
 
 test_that("add to desc adds Suggests multiline", {
-  expect_identical(test_add_to_desc(desc_suggests_one_multiline),
-                   "\n    dittodb,\n    pkg")
-  expect_identical(test_add_to_desc(desc_suggests_two_multiline),
-                   "\n    alpha (>= 2.0.0),\n    dittodb,\n    pkg")
-  expect_identical(test_add_to_desc(desc_suggests_two_uneven),
-                   "alpha (>= 2.0.0),\n    dittodb,\n    pkg")
+  expect_identical(
+    test_add_to_desc(desc_suggests_one_multiline),
+    "\n    dittodb,\n    pkg"
+  )
+  expect_identical(
+    test_add_to_desc(desc_suggests_two_multiline),
+    "\n    alpha (>= 2.0.0),\n    dittodb,\n    pkg"
+  )
+  expect_identical(
+    test_add_to_desc(desc_suggests_two_uneven),
+    "alpha (>= 2.0.0),\n    dittodb,\n    pkg"
+  )
 })
 
 test_that("add to desc doesn't add if already present", {
   expect_identical(test_add_to_desc("Suggests: dittodb", msg = NA), "dittodb")
-  expect_identical(test_add_to_desc("Suggests: pkg, dittodb", msg = NA),
-                   "pkg, dittodb")
+  expect_identical(
+    test_add_to_desc("Suggests: pkg, dittodb", msg = NA),
+    "pkg, dittodb"
+  )
 })
 
 expect_added_to_helper <- function(str, msg = "Adding library\\(dittodb\\)") {

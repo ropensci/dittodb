@@ -280,8 +280,8 @@ hash_db_object <- function(obj) {
   } else if (inherits(obj, "OdbcResult")) {
     hash <- hash(obj@statement)
   } else if (isS4(obj) && "m_sOperation" %in% methods::slotNames(obj)) {
-      # This is propably a teradata result object, so we can use m_sOperation as hash input.
-      hash <- hash(obj@m_sOperation)
+    # This is propably a teradata result object, so we can use m_sOperation as hash input.
+    hash <- hash(obj@m_sOperation)
   } else {
     # Stringify the result to get a hash is better than nothing
     hash <- hash(toString(obj))
@@ -329,7 +329,8 @@ stop_db_capturing <- function() {
   for (func in c(
     "dbSendQuery", "dbFetch", "dbConnect", "fetch", "dbListTables",
     "dbExistsTable", "dbListFields", "dbColumnInfo", "dbGetInfo",
-    "dbGetRowsAffected")) {
+    "dbGetRowsAffected"
+  )) {
     # make sure we untrace the function:
     # * from the DBI namespace
     # * from the DBI environment

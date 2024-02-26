@@ -28,15 +28,16 @@ test_that("odbc", {
   test_that("DBI, with a new schema creation and odbc package", {
     expect_message(
       nycflights13_create_sql(con_odbc, schema = "new_schema"),
-      paste0(c(
-        "Creating the testing database from nycflights13",
-        "Creating table: airlines",
-        "Creating table: airports",
-        "Creating table: flights",
-        "Creating table: planes",
-        "Creating table: weather"
-      ),
-      collapse = "|"
+      paste0(
+        c(
+          "Creating the testing database from nycflights13",
+          "Creating table: airlines",
+          "Creating table: airports",
+          "Creating table: flights",
+          "Creating table: planes",
+          "Creating table: weather"
+        ),
+        collapse = "|"
       )
     )
   })
@@ -67,15 +68,16 @@ test_that("RPostgreSQL", {
   test_that("DBI, with a new schema creation and rpostgresql package", {
     expect_message(
       nycflights13_create_sql(con_rpostgresql, schema = "new_schema_rpostgresql"),
-      paste0(c(
-        "Creating the testing database from nycflights13",
-        "Creating table: airlines",
-        "Creating table: airports",
-        "Creating table: flights",
-        "Creating table: planes",
-        "Creating table: weather"
-      ),
-      collapse = "|"
+      paste0(
+        c(
+          "Creating the testing database from nycflights13",
+          "Creating table: airlines",
+          "Creating table: airports",
+          "Creating table: flights",
+          "Creating table: planes",
+          "Creating table: weather"
+        ),
+        collapse = "|"
       )
     )
   })
@@ -106,15 +108,16 @@ test_that("RPostgres", {
   test_that("DBI, with a new schema creation and rpostgres package", {
     expect_message(
       nycflights13_create_sql(con_rpostgres, schema = "new_schema"),
-      paste0(c(
-        "Creating the testing database from nycflights13",
-        "Creating table: airlines",
-        "Creating table: airports",
-        "Creating table: flights",
-        "Creating table: planes",
-        "Creating table: weather"
-      ),
-      collapse = "|"
+      paste0(
+        c(
+          "Creating the testing database from nycflights13",
+          "Creating table: airlines",
+          "Creating table: airports",
+          "Creating table: flights",
+          "Creating table: planes",
+          "Creating table: weather"
+        ),
+        collapse = "|"
       )
     )
   })

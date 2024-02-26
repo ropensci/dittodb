@@ -53,8 +53,9 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
   } else {
     remote_schemas <- DBI::dbGetQuery(
       con,
-      glue::glue_sql("SELECT schema_name FROM information_schema.schemata",
-                     .con = con
+      glue::glue_sql(
+        "SELECT schema_name FROM information_schema.schemata",
+        .con = con
       )
     )
 
@@ -63,8 +64,9 @@ nycflights13_create_sql <- function(con, schema = "", ...) {
     if (!(schema %in% remote_schemas)) {
       DBI::dbExecute(
         con,
-        glue::glue_sql("CREATE SCHEMA {`schema`}",
-                       .con = con
+        glue::glue_sql(
+          "CREATE SCHEMA {`schema`}",
+          .con = con
         )
       )
     }

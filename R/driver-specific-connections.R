@@ -29,9 +29,9 @@ setClass("DBIMockMariaDBConnection")
   custom_classes <- list(
     list(
       pkg = "RSQLite",
-            mock_conn = "DBIMockSQLiteConnection",
-            real_conn = "SQLiteConnection"
-      ),
+      mock_conn = "DBIMockSQLiteConnection",
+      real_conn = "SQLiteConnection"
+    ),
     list(
       pkg = "RPostgreSQL",
       mock_conn = "DBIMockRPostgreSQLConnection",

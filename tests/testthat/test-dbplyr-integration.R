@@ -1,5 +1,5 @@
 require(dbplyr, quietly = TRUE)
-require(dplyr,  quietly = TRUE, warn.conflicts = FALSE)
+require(dplyr, quietly = TRUE, warn.conflicts = FALSE)
 
 temp_path <- file.path(temp_dir, "dbplyr_integration")
 

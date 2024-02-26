@@ -107,13 +107,13 @@ for (pkg in names(db_pkgs)) {
       if (pkg == "RPostgreSQL") {
         expect_true(all(
           c("airlines", "airports", "flights", "planes", "weather") %in%
-            dbListTables(con))
-        )
+            dbListTables(con)
+        ))
       } else {
         expect_true(all(
           c("airlines", "airports", "flights", "planes", "weather") %in%
-            dbListTables(con, schema_name = schema))
-        )
+            dbListTables(con, schema_name = schema)
+        ))
       }
     })
 
@@ -174,7 +174,7 @@ for (pkg in names(db_pkgs)) {
 
       # dplyr + a string ====
       require(dbplyr, quietly = TRUE)
-      require(dplyr,  quietly = TRUE, warn.conflicts = FALSE)
+      require(dplyr, quietly = TRUE, warn.conflicts = FALSE)
       if (pkg == "RPostgreSQL") {
         # The _one_ place where RPostgreSQL needs `Id()` and not `c(schema, table)`
         dest_ord <- tbl(con, Id(flights_table_obj)) %>%

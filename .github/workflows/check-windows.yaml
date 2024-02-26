@@ -63,7 +63,7 @@ jobs:
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: remotes, rcmdcheck, httptest
+          extra-packages: rcmdcheck, httptest
 
       - name: Setup databases
         run: bash db-setup/populate-dbs.sh

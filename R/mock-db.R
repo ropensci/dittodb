@@ -57,10 +57,10 @@
 #'
 #'   # using `start_mock_db()` and `stop_mock_db()`
 #'   start_mock_db()
-#'     con <- dbConnect(
-#'       RSQLite::SQLite(),
-#'       dbname = "nycflights"
-#'     )
+#'   con <- dbConnect(
+#'     RSQLite::SQLite(),
+#'     dbname = "nycflights"
+#'   )
 #'
 #'   testthat::test_that("We get one airline", {
 #'     one_airline <- dbGetQuery(
@@ -92,7 +92,9 @@ start_mock_db <- function() {
     # rather than real S4 dispatch
     tracer = quote({
       mock_connection <- dbMockConnect(drv, ...)
-      standardGeneric <- function(...) return(mock_connection)
+      standardGeneric <- function(...) {
+        return(mock_connection)
+      }
     }),
     where_list = list(sys.frame(), asNamespace("DBI"))
   )

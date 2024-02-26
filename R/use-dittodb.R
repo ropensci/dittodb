@@ -57,7 +57,7 @@ add_dittodb_to_desc <- function(file) {
     sep <- sub("^([[:blank:]\n]*).*", "\\1", suggested_pkgs)
     suggested_pkgs <- sort(c(trimws(suggested_pkgs), "dittodb"))
     extra_sep <- tail(unique(sep), 1)
-    if (length(extra_sep)  == 0 || nchar(extra_sep) == 0) {
+    if (length(extra_sep) == 0 || nchar(extra_sep) == 0) {
       extra_sep <- " "
     }
     sep <- c(sep, extra_sep)
