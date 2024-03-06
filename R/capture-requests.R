@@ -202,7 +202,15 @@ dbConnectTrace <- quote({
 })
 
 dbSendQueryTrace <- quote({
-  if (dittodb_debug_level(2)) {
+  if (is.null(.dittodb_env$db_path)) {
+    rlang::abort(
+      message = c("Database capture failed",
+                  "*" = "The database connection object was created before calling 'start_db_capturing()'",
+                  "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'."),
+      call = NULL
+    )
+  }
+  if (dittodb_debug_level(2)) {get_dbname(list(...), drv = drv)
     message(
       "The statement: \n", statement,
       "\nwhich has been cleaned to: \n", clean_statement(statement),
@@ -222,6 +230,10 @@ dbSendQueryTrace <- quote({
 })
 
 dbListTablesTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   dput(
     thing,
@@ -231,6 +243,10 @@ dbListTablesTrace <- quote({
 })
 
 dbListFieldsTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -241,6 +257,10 @@ dbListFieldsTrace <- quote({
 })
 
 dbExistsTableTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -251,6 +271,10 @@ dbExistsTableTrace <- quote({
 })
 
 dbGetInfoConTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   path <- make_path(.dittodb_env$db_path, "conInfo", "")
   if (length(path) > 0) {
@@ -291,6 +315,10 @@ hash_db_object <- function(obj) {
 }
 
 dbGetInfoResultTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
@@ -298,6 +326,10 @@ dbGetInfoResultTrace <- quote({
 })
 
 dbGetInfoPsqlresultTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
@@ -310,6 +342,10 @@ dbGetInfoPsqlresultTrace <- quote({
 
 # TODO: rationalize these so that they are the same for any list/scalar?
 dbColumnInfoTrace <- quote({
+  if (is.null(.dittodb_env$db_path)) {
+    # Inherits the error call from dbSendQueryTrace
+    return(invisible())
+  }
   thing <- returnValue()
   hash <- hash_db_object(res)
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
