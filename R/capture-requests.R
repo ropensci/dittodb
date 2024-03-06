@@ -271,10 +271,6 @@ dbExistsTableTrace <- quote({
 })
 
 dbGetInfoConTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   path <- make_path(.dittodb_env$db_path, "conInfo", "")
   if (length(path) > 0) {
