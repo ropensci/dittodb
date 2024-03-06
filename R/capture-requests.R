@@ -230,10 +230,6 @@ dbSendQueryTrace <- quote({
 })
 
 dbListTablesTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   dput(
     thing,
@@ -243,10 +239,6 @@ dbListTablesTrace <- quote({
 })
 
 dbListFieldsTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -257,10 +249,6 @@ dbListFieldsTrace <- quote({
 })
 
 dbExistsTableTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
