@@ -441,6 +441,15 @@ get_redactor <- function() {
   return(NULL)
 }
 
+#' Check dittodb env path
+#'
+#' This function should generally not be used, but must be exported for the
+#' query recording function to work properly
+#'
+#' @param .dittodb_env Environment object
+#'
+#' @return NULL, invisibly.
+#' @export
 check_db_path <- function(.dittodb_env) {
   if (is.null(.dittodb_env$db_path)) {
     # Fake trace object to avoid "Run `rlang::last_trace()` to see where the error occurred." from printing
