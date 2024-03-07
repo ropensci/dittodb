@@ -230,10 +230,7 @@ dbSendQueryTrace <- quote({
 })
 
 dbListTablesTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
+  check_db_path(.dittodb_env)
   thing <- returnValue()
   dput(
     thing,
@@ -243,10 +240,7 @@ dbListTablesTrace <- quote({
 })
 
 dbListFieldsTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
+  check_db_path(.dittodb_env)
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -257,10 +251,7 @@ dbListFieldsTrace <- quote({
 })
 
 dbExistsTableTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
+  check_db_path(.dittodb_env)
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -311,10 +302,6 @@ hash_db_object <- function(obj) {
 }
 
 dbGetInfoResultTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
@@ -322,10 +309,6 @@ dbGetInfoResultTrace <- quote({
 })
 
 dbGetInfoPsqlresultTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   hash <- hash_db_object(dbObj)
   path <- make_path(.dittodb_env$db_path, "resultInfo", hash)
@@ -338,10 +321,6 @@ dbGetInfoPsqlresultTrace <- quote({
 
 # TODO: rationalize these so that they are the same for any list/scalar?
 dbColumnInfoTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    # Inherits the error call from dbSendQueryTrace
-    return(invisible())
-  }
   thing <- returnValue()
   hash <- hash_db_object(res)
   path <- make_path(.dittodb_env$db_path, "columnInfo", hash)
@@ -460,4 +439,21 @@ get_redactor <- function() {
   }
 
   return(NULL)
+}
+
+check_db_path <- function(.dittodb_env) {
+  if (is.null(.dittodb_env$db_path)) {
+    # Fake trace object to avoid "Run `rlang::last_trace()` to see where the error occurred." from printing
+    silent_trace <- structure(
+      "",
+      class = c("rlang_trace", "rlib_trace", "tbl", "data.frame")
+    )
+    rlang::abort(
+      message = c(""),
+      call = NULL,
+      trace = silent_trace
+    )
+  }
+
+  return(invisible())
 }
