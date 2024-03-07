@@ -210,7 +210,7 @@ dbSendQueryTrace <- quote({
       call = NULL
     )
   }
-  if (dittodb_debug_level(2)) {get_dbname(list(...), drv = drv)
+  if (dittodb_debug_level(2)) {
     message(
       "The statement: \n", statement,
       "\nwhich has been cleaned to: \n", clean_statement(statement),
