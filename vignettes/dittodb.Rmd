@@ -211,6 +211,9 @@ Always call `dbConnect()` inside of `with_mock_db(...)`. You can make as many ca
 
 Recording fixtures saves the whole query to disk in a relatively inefficient way (from a data storage perspective), so be careful with what you save. And you'll want to not save extremely large results if at all possible. This is also a best-practice for writing tests anyway: you should have mocks that are as minimal as possible to test the functionality you need to. Minimal mocks make it easier to change things that aren't relevant to the test (you don't have to change the way data is represented if it's not important to what you're testing) and it makes your tests run faster.
 
+## Non-ASCII characters in the responses
+
+Internally `dittodb` uses `dput()` to record the database responses, which only allows for ASCII text representation. If your database responses contain non-ASCII characters this can lead to issues downstream, so it is recommended that you manually replace any non-ASCII characters in the mock files with their unicode representations. You can use `stringi::stri_escape_unicode(str)` to get the appropriate code to use as a replacement (use only a single backslash character).
 
 ## Advanced uses
 
