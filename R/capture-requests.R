@@ -202,14 +202,8 @@ dbConnectTrace <- quote({
 })
 
 dbSendQueryTrace <- quote({
-  if (is.null(.dittodb_env$db_path)) {
-    rlang::abort(
-      message = c("Database capture failed",
-                  "*" = "The database connection object was created before calling 'start_db_capturing()'",
-                  "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'."),
-      call = NULL
-    )
-  }
+  check_db_path(.dittodb_env)
+
   if (dittodb_debug_level(2)) {
     message(
       "The statement: \n", statement,
@@ -230,7 +224,7 @@ dbSendQueryTrace <- quote({
 })
 
 dbListTablesTrace <- quote({
-  check_db_path(.dittodb_env)
+  check_db_path(.dittodb_env, n = 2)
   thing <- returnValue()
   dput(
     thing,
@@ -240,7 +234,7 @@ dbListTablesTrace <- quote({
 })
 
 dbListFieldsTrace <- quote({
-  check_db_path(.dittodb_env)
+  check_db_path(.dittodb_env, n = 2)
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -251,7 +245,7 @@ dbListFieldsTrace <- quote({
 })
 
 dbExistsTableTrace <- quote({
-  check_db_path(.dittodb_env)
+  check_db_path(.dittodb_env, n = 2)
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -441,28 +435,38 @@ get_redactor <- function() {
   return(NULL)
 }
 
-#' Check dittodb env path
+#' Check dittodb environment path
 #'
 #' This function should generally not be used, but must be exported for the
 #' query recording function to work properly
 #'
 #' @param .dittodb_env Environment object
+#' @param n Integer. Type of error to throw.
 #'
 #' @return NULL, invisibly.
 #' @export
-check_db_path <- function(.dittodb_env) {
-  if (is.null(.dittodb_env$db_path)) {
-    # Fake trace object to avoid "Run `rlang::last_trace()` to see where the error occurred." from printing
-    silent_trace <- structure(
-      "",
+check_db_path <- function(.dittodb_env, n = 1L) {
+  if (n == 1L) {
+    msg <- c("Database capture failed",
+             "*" = "The database connection object was created before calling 'start_db_capturing()'",
+             "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'.")
+
+    trc <- NULL
+  } else {
+    msg <- ""
+
+    trc <- structure(
+      .Data = "",
       class = c("rlang_trace", "rlib_trace", "tbl", "data.frame")
     )
-    rlang::abort(
-      message = c(""),
-      call = NULL,
-      trace = silent_trace
-    )
   }
+
+  rlang::abort(
+    message = msg,
+    call = NULL,
+    trace = trc,
+    n = n
+  )
 
   return(invisible())
 }

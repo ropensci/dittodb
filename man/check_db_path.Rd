@@ -2,16 +2,19 @@
 % Please edit documentation in R/capture-requests.R
 \name{check_db_path}
 \alias{check_db_path}
-\title{Check dittodb env path}
+\title{Check dittodb environment path}
 \usage{
-check_db_path(.dittodb_env)
+check_db_path(.dittodb_env, n = 1L)
 }
 \arguments{
 \item{.dittodb_env}{Environment object}
+
+\item{n}{Integer. Type of error to throw.}
 }
 \value{
 NULL, invisibly.
 }
 \description{
-This is a function to help validate the correct steps are taken when running \code{\link[=start_db_capturing]{start_db_capturing()}}.
+This function should generally not be used, but must be exported for the
+query recording function to work properly
 }
