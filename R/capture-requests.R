@@ -446,27 +446,29 @@ get_redactor <- function() {
 #' @return NULL, invisibly.
 #' @export
 check_db_path <- function(.dittodb_env, n = 1L) {
-  if (n == 1L) {
-    msg <- c("Database capture failed",
-             "*" = "The database connection object was created before calling 'start_db_capturing()'",
-             "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'.")
+  if(is.null(.dittodb_env$db_path)) {
+    if (n == 1L) {
+      msg <- c("Database capture failed",
+               "*" = "The database connection object was created before calling 'start_db_capturing()'",
+               "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'.")
 
-    trc <- NULL
-  } else {
-    msg <- ""
+      trc <- NULL
+    } else {
+      msg <- ""
 
-    trc <- structure(
-      .Data = "",
-      class = c("rlang_trace", "rlib_trace", "tbl", "data.frame")
+      trc <- structure(
+        .Data = "",
+        class = c("rlang_trace", "rlib_trace", "tbl", "data.frame")
+      )
+    }
+
+    rlang::abort(
+      message = msg,
+      call = rlang::caller_env(),
+      trace = trc,
+      n = n
     )
   }
-
-  rlang::abort(
-    message = msg,
-    call = rlang::caller_env(),
-    trace = trc,
-    n = n
-  )
 
   return(invisible())
 }
