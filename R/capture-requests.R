@@ -463,7 +463,7 @@ check_db_path <- function(.dittodb_env, n = 1L) {
 
   rlang::abort(
     message = msg,
-    call = NULL,
+    call = rlang::caller_env(2),
     trace = trc,
     n = n
   )
