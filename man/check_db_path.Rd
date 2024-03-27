@@ -4,15 +4,13 @@
 \alias{check_db_path}
 \title{Check dittodb environment path}
 \usage{
-check_db_path(.dittodb_env, n = 1L)
+check_db_path(.dittodb_env)
 }
 \arguments{
 \item{.dittodb_env}{Environment object}
-
-\item{n}{Integer. Type of error to throw.}
 }
 \value{
-NULL, invisibly.
+\code{NULL}, invisibly.
 }
 \description{
 This function should generally not be used, but must be exported for the
