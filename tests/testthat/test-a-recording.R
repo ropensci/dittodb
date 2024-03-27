@@ -85,20 +85,3 @@ test_that("dbGetQuery error checking", {
   suppressWarnings(dbDisconnect(con))
   stop_db_capturing()
 })
-
-# test_that("dbListTables error checking ", {
-#   # Check to make sure con was not created before start_db_capturing()
-#   suppressMessages(con <- nycflights13_create_sqlite(verbose = FALSE))
-#
-#   start_db_capturing()
-#
-#   # Testthat sets this to "tests/testthat//_memory_"
-#   # Setting this to NULL so it will mimic a developers experience
-#   .dittodb_env$db_path <- NULL
-#
-#   x <- expect_error(expect_error(dbListTables(con)))
-#   expect_equal(x$n, 2)
-#
-#   suppressWarnings(dbDisconnect(con))
-#   stop_db_capturing()
-# })
