@@ -3,6 +3,7 @@
 export(.db_mock_paths)
 export(.dittodb_env)
 export(capture_db_requests)
+export(check_db_path)
 export(check_for_pkg)
 export(clean_statement)
 export(dbMockConnect)
