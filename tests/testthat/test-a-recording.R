@@ -58,7 +58,7 @@ test_that("dbGetQuery error checking", {
 
   error_get_query <- expect_error(
     object = dbGetQuery(con, "SELECT * FROM airlines"),
-    regexp = "^Database capture failed"
+    regexp = regex_db
   )
 
   testthat_transition(
