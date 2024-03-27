@@ -441,33 +441,19 @@ get_redactor <- function() {
 #' query recording function to work properly
 #'
 #' @param .dittodb_env Environment object
-#' @param n Integer. Type of error to throw.
 #'
-#' @return NULL, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
-check_db_path <- function(.dittodb_env, n = 1L) {
-  if(is.null(.dittodb_env$db_path)) {
-    if (n == 1L) {
-      msg <- c("Database capture failed",
-               "*" = "The database connection object was created before calling 'start_db_capturing()'",
-               "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'.")
-
-      trc <- NULL
-    } else {
-      msg <- ""
-
-      trc <- structure(
-        .Data = "",
-        class = c("rlang_trace", "rlib_trace", "tbl", "data.frame")
+check_db_path <- function(.dittodb_env) {
+  check_db_path <- function(.dittodb_env) {
+    if(is.null(.dittodb_env$db_path)) {
+      rlang::abort(
+        message = c("Database capture failed",
+                    "*" = "The database connection object was created before calling 'start_db_capturing()'",
+                    "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'."),
+        call = rlang::caller_env()
       )
     }
-
-    rlang::abort(
-      message = msg,
-      call = rlang::caller_env(),
-      trace = trc,
-      n = n
-    )
   }
 
   return(invisible())
