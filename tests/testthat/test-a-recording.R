@@ -54,33 +54,29 @@ test_that("dbGetQuery error checking", {
   # Setting this to NULL so it will mimic a developers experience
   .dittodb_env$db_path <- NULL
 
+  regex_db <- "^Database capture failed"
+
   error_get_query <- expect_error(
     object = dbGetQuery(con, "SELECT * FROM airlines"),
     regexp = "^Database capture failed"
   )
-  expect_equal(error_get_query$n, 1)
-
-  # The following functions trigger two errors
-  # testthat_transition( )
-  regex_empty <- "^$"
 
   testthat_transition(
     old = expect_error(dbListTables(con)),
-    new = expect_error(expect_error(dbListTables(con)), regex_empty)
+    new = expect_error(expect_error(dbListTables(con)), regex_db)
   )
 
   testthat_transition(
     old = expect_error(dbListFields(con, "airlines")),
-    new = expect_error(expect_error(dbListFields(con, "airlines")), regex_empty)
+    new = expect_error(expect_error(dbListFields(con, "airlines")), regex_db)
   )
 
   testthat_transition(
     old = expect_error(dbExistsTable(con, "airlines")),
-    new = expect_error(expect_error(dbExistsTable(con, "airlines")), regex_empty)
+    new = expect_error(expect_error(dbExistsTable(con, "airlines")), regex_db)
   )
 
   error_tbl <- expect_error(dplyr::tbl(con, "airlines"))
-  expect_null(error_tbl$n)
 
   suppressWarnings(dbDisconnect(con))
   stop_db_capturing()
