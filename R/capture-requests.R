@@ -450,7 +450,7 @@ check_db_path <- function(.dittodb_env) {
       rlang::abort(
         message = c("Database capture failed",
           "*" = "The database connection object was created before calling 'start_db_capturing()'",
-          "*" = "Please close the connection and ensure it's created after calling 'start_db_capturing()'."
+          "*" = "Please ensure the connection is created after calling 'start_db_capturing()'."
         ),
         call = rlang::caller_env()
       )
