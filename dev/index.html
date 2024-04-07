@@ -148,7 +148,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/capture_requests.html">start_db_capturing</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"nycflights"</span><span class="op">)</span></span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"nycflights"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_an_airline</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span>
@@ -209,7 +209,7 @@
 
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mockdb.html">with_mock_db</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>  <span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"nycflights"</span><span class="op">)</span></span>
+<span>  <span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"nycflights"</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu">test_that</span><span class="op">(</span><span class="st">"We get one airline"</span>, <span class="op">{</span></span>
 <span>    <span class="va">one_airline</span> <span class="op">&lt;-</span> <span class="fu">get_an_airline</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span>
@@ -234,7 +234,7 @@
 <h3 id="installing-a-development-version">Installing a development version<a class="anchor" aria-label="anchor" href="#installing-a-development-version"></a>
 </h3>
 <p>If you would like to use the development version, you can install from GitHub with: <code>remotes::install_github("ropensci/dittodb")</code></p>
-<p><em>Note</em> You may need to add <code>@main</code> at the end if you are using a version of {remotes} prior to 2.2.0. Alternatively, you can use <code><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">remotes::install_git()</a></code> directly: <code>remotes::install_git("https://github.com/ropensci/dittodb.git")</code></p>
+<p><em>Note</em> You may need to add <code>@main</code> at the end if you are using a version of {remotes} prior to 2.2.0. Alternatively, you can use <code><a href="https://rdrr.io/pkg/remotes/man/install_git.html" class="external-link">remotes::install_git()</a></code> directly: <code>remotes::install_git("https://github.com/ropensci/dittodb.git")</code></p>
 </div>
 </div>
 <div class="section level2">
