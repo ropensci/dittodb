@@ -44,6 +44,7 @@ test_that("we can remove the unique dbplyr names", {
   with_unique <- "SELECT *\nFROM `airlines` AS `zzz26`"
   with_dbplyr <- "SELECT *\nFROM `airlines` AS `dbplyr_009`"
   with_dbplyr2 <- "SELECT *\nFROM `airlines` AS `q01`"
+  with_dbplyr3 <- "SELECT *\nFROM `airlines` AS `dbplyr_K614OHb94V`"
   no_unique <- "SELECT *\nFROM `airlines` AS `my_special_airlines_table`"
   with_quotes <- "SELECT *\nFROM \"airlines\" AS \"zzz16\""
   with_unique_long <- "SELECT *\nFROM `airlines` AS `zzz26666`"
@@ -54,6 +55,7 @@ test_that("we can remove the unique dbplyr names", {
   expect_identical(ignore_dbplyr_unique_names(with_unique), expected)
   expect_identical(ignore_dbplyr_unique_names(with_dbplyr), expected)
   expect_identical(ignore_dbplyr_unique_names(with_dbplyr2), expected)
+  expect_identical(ignore_dbplyr_unique_names(with_dbplyr3), expected)
   expect_identical(ignore_dbplyr_unique_names(no_unique), no_unique)
   expect_identical(ignore_dbplyr_unique_names(with_unique_long), expected)
   expect_identical(
