@@ -62,21 +62,21 @@ test_that("dbGetQuery error checking", {
   )
 
   testthat_transition(
-    old = expect_error(dbListTables(con)),
+    old = expect_error(dbListTables(con), regex_db),
     new = expect_error(expect_error(dbListTables(con)), regex_db)
   )
 
   testthat_transition(
-    old = expect_error(dbListFields(con, "airlines")),
+    old = expect_error(dbListFields(con, "airlines"), regex_db),
     new = expect_error(expect_error(dbListFields(con, "airlines")), regex_db)
   )
 
   testthat_transition(
-    old = expect_error(dbExistsTable(con, "airlines")),
+    old = expect_error(dbExistsTable(con, "airlines"), regex_db),
     new = expect_error(expect_error(dbExistsTable(con, "airlines")), regex_db)
   )
 
-  error_tbl <- expect_error(dplyr::tbl(con, "airlines"))
+  error_tbl <- expect_error(dplyr::tbl(con, "airlines"), regex_db)
 
   suppressWarnings(dbDisconnect(con))
   stop_db_capturing()
