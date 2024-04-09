@@ -2,7 +2,7 @@
 % Please edit documentation in R/use-dittodb.R
 \name{use_dittodb}
 \alias{use_dittodb}
-\title{Use {dittodb} in your tests}
+\title{Use \code{dittodb} in your tests}
 \usage{
 use_dittodb(path = ".")
 }
@@ -13,20 +13,20 @@ use_dittodb(path = ".")
 Nothing: called for file system side effects.
 }
 \description{
-If you would like to use {dittodb} in your package, and you are already using
+If you would like to use \code{dittodb} in your package, and you are already using
 \href{https://CRAN.R-project.org/package=testthat}{{testthat}}, use this function to
-add {dittodb} to Suggests in the package DESCRIPTION and loads it in
+add \code{dittodb} to Suggests in the package DESCRIPTION and loads it in
 \code{tests/testthat/helper.R}. Call it once when you're setting up a new package
 test suite.
 }
 \details{
 This function should be called with the path to your package source as the
-\code{path} argument. The function is idempotent: if {dittodb} is already added to
+\code{path} argument. The function is idempotent: if \code{dittodb} is already added to
 these files, no additional changes will be made.
 
 It will:
 \itemize{
-\item add {dittodb} to the \code{Suggests} field of the DESCRIPTION file in the
+\item add \code{dittodb} to the \code{Suggests} field of the DESCRIPTION file in the
 current working directory
 \item add \code{library(dittodb)} to the file \code{tests/testthat/helper.R} (creating it
 if it doesn't already exist)

@@ -111,7 +111,7 @@ set_default_db_mock_paths <- function() {
 #' Run the DBI queries in an alternate mock directory
 #'
 #' When testing with dittodb, wrap your tests in `with_mock_path({})` to use the
-#' database fixtures located in other directories. {dittodb} will look for
+#' database fixtures located in other directories. `dittodb` will look for
 #' fixtures in the directory specified by the user, which can be a temporary
 #' or permanent location.
 #'

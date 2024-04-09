@@ -1,10 +1,10 @@
 ---
-title: "Getting Started with {dittodb}"
+title: "Getting Started with `dittodb`"
 author: "Jonathan Keane"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with {dittodb}}
+  %\VignetteIndexEntry{Getting Started with `dittodb`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 db_mock_paths("dittodb")
 ```
 
-{dittodb} is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
+`dittodb` is designed to make it easy and fun to test functions that interact with a database. It works by looking for mock responses for each query you send while you run your tests and will seamlessly pretend that those mocks were provided by the database connection without needing a connection at all.
 
 ```{r setup db, include = FALSE, eval = FALSE}
 # setup the DB used in the rest of the vignette
@@ -194,9 +194,9 @@ with_mock_db(
 )
 ```
 
-## Getting setup to use {dittodb}
-Use the function `dittodb::use_dittodb()` to easily get started using {dittodb}. 
-It will add {dittodb} to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
+## Getting setup to use `dittodb`
+Use the function `dittodb::use_dittodb()` to easily get started using `dittodb`. 
+It will add `dittodb` to `Suggests` in the `DESCRIPTION` file and add `library(dittodb)`
 to `tests/testthat/helper.R`.
 
 ## Things to be careful about
@@ -226,7 +226,7 @@ You can add a new path by calling `db_mock_paths("new/path/here")` which will ad
 
 ### Redacting
 
-Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test fixtures. {dittodb} allows you to specify columns that should always be redacted by specifying them like so: 
+Sometimes (much? most? of the time!) there is sensitive data in your database that you don't actually want to put into your test fixtures. `dittodb` allows you to specify columns that should always be redacted by specifying them like so: 
 ```
 start_db_capturing(redact_columns = c("sensitive_column", "other_sensitive_column"))
 ```
