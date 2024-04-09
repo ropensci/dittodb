@@ -435,7 +435,7 @@ get_redactor <- function() {
   return(NULL)
 }
 
-#' Check dittodb environment path
+#' Check for dittodb environment path
 #'
 #' This function should generally not be used, but must be exported for the
 #' query recording function to work properly
@@ -443,6 +443,7 @@ get_redactor <- function() {
 #' @param .dittodb_env Environment object
 #'
 #' @return `NULL`, invisibly.
+#' @keywords internal
 #' @export
 check_db_path <- function(.dittodb_env) {
   if (is.null(.dittodb_env$db_path)) {
