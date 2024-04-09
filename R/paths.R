@@ -64,5 +64,6 @@ find_file <- function(file_path) {
     }
   }
 
-  stop("Couldn't find the file ", file_path, " in any of the mock directories.")
+  error_msg <- glue::glue("Couldn't find the file {file_path} in any of the mock directories.")
+  rlang::abort(error_msg)
 }
