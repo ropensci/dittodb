@@ -1,5 +1,5 @@
 ## Test environments
-* local R installation MacOS 12.6.8, R 4.3.0
+* local R installation MacOS 14.4.1, R 4.3.3
 * ubuntu 22.04 (on GitHub actions), R 3.6-4.3, devel
 * macOS (on GitHub actions), R 4.2, 4.3
 * windows (on GitHub actions), R 4.3

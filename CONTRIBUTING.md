@@ -1,7 +1,7 @@
-# Contributing to {dittodb}
+# Contributing to `dittodb`
 
-This outlines how to propose a change to {dittodb}. For detailed information 
-about developing {dittodb} see the [developing {dittodb} vignette](articles/developing-dittodb.html).
+This outlines how to propose a change to `dittodb`. For detailed information 
+about developing `dittodb` see the [developing `dittodb` vignette](articles/developing-dittodb.html).
 
 
 ### Fixing typos
@@ -36,5 +36,5 @@ your PR.
 
 ### Code of Conduct
 
-Please note that the {dittodb} project is released with a  [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
+Please note that the `dittodb` project is released with a  [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
 By contributing to this project, you agree to abide by its terms.

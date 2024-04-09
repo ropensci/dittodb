@@ -21,7 +21,7 @@ data, with the columns specified in \code{columns} duly redacted
 }
 \description{
 This function redacts the columns specified in \code{columns} in the data given in
-\code{data} using {dittodb}'s standard redactors.
+\code{data} using \code{dittodb}'s standard redactors.
 }
 \details{
 The column names given in the \code{columns} argument are treated as regular

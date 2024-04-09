@@ -1,5 +1,5 @@
-# dittodb (development version)
-* Improved error messages for connections made before running `start_db_capture()`. (#183)
+# dittodb 0.1.8
+* Improved error messages for connections made before running `start_db_capture()`. (@KoderKow, #183)
 * Added to the `dbplyr` unique table names that are ignored to work with the newest `dbplyr` table names. (#188)
 
 # dittodb 0.1.7

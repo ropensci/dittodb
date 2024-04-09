@@ -17,7 +17,7 @@ the first word in the statement
 }
 \description{
 Tables are identified and specified with a large number of ways across
-drivers. For the purposes of {dittodb}, the details are less important since
+drivers. For the purposes of \code{dittodb}, the details are less important since
 we almost always just want a flat representation (\emph{ie} for filenames). This
 takes the various formats and returns a string with various elements
 separated by dots.

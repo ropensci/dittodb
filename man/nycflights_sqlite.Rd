@@ -10,12 +10,12 @@ nycflights_sqlite()
 an RSQLiteConnection
 }
 \description{
-Included with {dittodb} is a small subset of
+Included with \code{dittodb} is a small subset of
 \href{https://CRAN.R-project.org/package=nycflights13}{\code{nycflights13}}
 prepopulated into a \code{sqlite} database.
 }
 \details{
-This database is helpful for getting to know {dittodb} and running example
+This database is helpful for getting to know \code{dittodb} and running example
 code. It contains a small subset of the data in nycflights13: namely only the
 flights and planes that had a destination of ORD or MDW (the codes for the
 two major airports in Chicago) in February of 2013. The airports table has
