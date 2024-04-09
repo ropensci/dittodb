@@ -43,3 +43,41 @@ test_that("We can specify the path when starting capture", {
   dbDisconnect(con)
   stop_db_capturing()
 })
+
+test_that("dbGetQuery error checking", {
+  # Check to make sure con was not created before start_db_capturing()
+  suppressMessages(con <- nycflights13_create_sqlite(verbose = FALSE))
+
+  start_db_capturing()
+
+  # Testthat sets this to "tests/testthat//_memory_"
+  # Setting this to NULL so it will mimic a developers experience
+  .dittodb_env$db_path <- NULL
+
+  regex_db <- "^Database capture failed"
+
+  error_get_query <- expect_error(
+    object = dbGetQuery(con, "SELECT * FROM airlines"),
+    regexp = regex_db
+  )
+
+  testthat_transition(
+    old = expect_error(dbListTables(con), regex_db),
+    new = expect_error(expect_error(dbListTables(con)), regex_db)
+  )
+
+  testthat_transition(
+    old = expect_error(dbListFields(con, "airlines"), regex_db),
+    new = expect_error(expect_error(dbListFields(con, "airlines")), regex_db)
+  )
+
+  testthat_transition(
+    old = expect_error(dbExistsTable(con, "airlines"), regex_db),
+    new = expect_error(expect_error(dbExistsTable(con, "airlines")), regex_db)
+  )
+
+  error_tbl <- expect_error(dplyr::tbl(con, "airlines"), regex_db)
+
+  suppressWarnings(dbDisconnect(con))
+  stop_db_capturing()
+})

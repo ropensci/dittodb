@@ -202,6 +202,8 @@ dbConnectTrace <- quote({
 })
 
 dbSendQueryTrace <- quote({
+  check_db_path(.dittodb_env)
+
   if (dittodb_debug_level(2)) {
     message(
       "The statement: \n", statement,
@@ -222,6 +224,7 @@ dbSendQueryTrace <- quote({
 })
 
 dbListTablesTrace <- quote({
+  check_db_path(.dittodb_env)
   thing <- returnValue()
   dput(
     thing,
@@ -231,6 +234,7 @@ dbListTablesTrace <- quote({
 })
 
 dbListFieldsTrace <- quote({
+  check_db_path(.dittodb_env)
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -241,6 +245,7 @@ dbListFieldsTrace <- quote({
 })
 
 dbExistsTableTrace <- quote({
+  check_db_path(.dittodb_env)
   thing <- returnValue()
   name <- sanitize_table_id(name, ...)
   dput(
@@ -428,4 +433,27 @@ get_redactor <- function() {
   }
 
   return(NULL)
+}
+
+#' Check dittodb environment path
+#'
+#' This function should generally not be used, but must be exported for the
+#' query recording function to work properly
+#'
+#' @param .dittodb_env Environment object
+#'
+#' @return `NULL`, invisibly.
+#' @export
+check_db_path <- function(.dittodb_env) {
+  if (is.null(.dittodb_env$db_path)) {
+    rlang::abort(
+      message = c("Database capture failed",
+        "*" = "The database connection object was created before calling 'start_db_capturing()'",
+        "*" = "Please ensure the connection is created after calling 'start_db_capturing()'."
+      ),
+      call = rlang::caller_env()
+    )
+  }
+
+  return(invisible())
 }
