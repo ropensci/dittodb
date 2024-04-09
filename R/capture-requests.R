@@ -435,7 +435,7 @@ get_redactor <- function() {
   return(NULL)
 }
 
-#' Check dittodb environment path
+#' Check for dittodb environment path
 #'
 #' This function should generally not be used, but must be exported for the
 #' query recording function to work properly
@@ -443,13 +443,14 @@ get_redactor <- function() {
 #' @param .dittodb_env Environment object
 #'
 #' @return `NULL`, invisibly.
+#' @keywords internal
 #' @export
 check_db_path <- function(.dittodb_env) {
   if (is.null(.dittodb_env$db_path)) {
     rlang::abort(
       message = c("Database capture failed",
-        "*" = "The database connection object was created before calling 'start_db_capturing()'",
-        "*" = "Please ensure the connection is created after calling 'start_db_capturing()'."
+                  "*" = "The database connection object was created before calling 'start_db_capturing()'",
+                  "*" = "Please ensure the connection is created after calling 'start_db_capturing()'."
       ),
       call = rlang::caller_env()
     )

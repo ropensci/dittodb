@@ -2,7 +2,7 @@
 % Please edit documentation in R/capture-requests.R
 \name{check_db_path}
 \alias{check_db_path}
-\title{Check dittodb environment path}
+\title{Check for dittodb environment path}
 \usage{
 check_db_path(.dittodb_env)
 }
@@ -16,3 +16,4 @@ check_db_path(.dittodb_env)
 This function should generally not be used, but must be exported for the
 query recording function to work properly
 }
+\keyword{internal}

@@ -4,7 +4,7 @@
 #' [DBI](https://CRAN.R-project.org/package=DBI) methods of the same name.
 #' Instead of actually interacting with a database, they read in mock responses
 #' and the code proceeds after that. These aren't used directly, but are part of
-#' how {dittodb} works.
+#' how `dittodb` works.
 #'
 #' @param conn a database connection (for dispatch with these methods, it should
 #'   be of class `DBIMockConnection`)
