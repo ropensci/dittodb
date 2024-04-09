@@ -8,8 +8,8 @@
 <meta name="description" content="dittodb">
 <title>nycflights13 data • dittodb</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="nycflights13 data">
 <meta property="og:description" content="dittodb">
@@ -28,11 +28,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary" data-bs-theme="default"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">dittodb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Mauricio Vargas
 and Jonathan Keane</h4>
             
-            <h4 data-toc-skip class="date">2023-08-13</h4>
+            <h4 data-toc-skip class="date">2024-04-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/dittodb/blob/HEAD/vignettes/nycflights.Rmd" class="external-link"><code>vignettes/nycflights.Rmd</code></a></small>
       <div class="d-none name"><code>nycflights.Rmd</code></div>
@@ -100,7 +100,7 @@ and Jonathan Keane</h4>
 
     
     
-<p>{dittodb} uses the <a href="https://CRAN.R-project.org/package=nycflights13" class="external-link">{nycflights13}</a>
+<p><code>dittodb</code> uses the <a href="https://CRAN.R-project.org/package=nycflights13" class="external-link">{nycflights13}</a>
 dataset for testing and example purposes.</p>
 <div class="section level2">
 <h2 id="exploring-nycflights13">Exploring {nycflights13}<a class="anchor" aria-label="anchor" href="#exploring-nycflights13"></a>
@@ -109,26 +109,26 @@ dataset for testing and example purposes.</p>
 flights departing NYC in 2013. It also includes useful metadata on
 airlines, airports, weather, and planes.</p>
 <p>Have a look to the database schema:</p>
-<div class="figure">
-<img src="relational-nycflights.svg" alt=""><p class="caption">{nycflights13} relational diagram.</p>
+<div class="float">
+<img src="relational-nycflights.svg" alt="{nycflights13} relational diagram."><div class="figcaption">{nycflights13} relational diagram.</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="nycflights13-test-database">{nycflights13} test database<a class="anchor" aria-label="anchor" href="#nycflights13-test-database"></a>
 </h2>
-<p>{dittodb} comes with a small subset of {nycflights13} to be used in
-testing and examples. To access it, use the convenience function
-<code><a href="../reference/nycflights_sqlite.html">nycflights_sqlite()</a></code> which will return an
+<p><code>dittodb</code> comes with a small subset of {nycflights13} to
+be used in testing and examples. To access it, use the convenience
+function <code><a href="../reference/nycflights_sqlite.html">nycflights_sqlite()</a></code> which will return an
 <code>RSQLite</code> connection the the <code>nycflights.sqlite</code>
-file included with {dittodb}. Alternatively, you can connect to this
-file with
+file included with <code>dittodb</code>. Alternatively, you can connect
+to this file with
 <code>system.file("nycflights.sqlite", package = "dittodb")</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="adding-nycflights13-data-to-a-database">Adding {nycflights13} data to a database<a class="anchor" aria-label="anchor" href="#adding-nycflights13-data-to-a-database"></a>
 </h2>
-<p>{dittodb} has a few functions that make loading {nycflights13} data
-into a database easier.
+<p><code>dittodb</code> has a few functions that make loading
+{nycflights13} data into a database easier.
 <code>nycflights13_create_sql(con, schema = "nycflights")</code> will
 write the {nycflights13} data to the database connect to with
 <code>con</code> and write it to the schema <code>nycflights</code>.</p>
