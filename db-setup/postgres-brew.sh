@@ -3,6 +3,7 @@ rm -rf /usr/local/var/postgres
 # we might also need to install unixodbc here if it's not already installed
 # we might also need to install postgresql here if it's not already installed
 brew install postgresql psqlodbc
+brew services start postgresql@14
 cat <<EOT >> /usr/local/etc/odbcinst.ini
 [PostgreSQL Unicode]
 Description     = PostgreSQL ODBC driver (Unicode 9.2)
