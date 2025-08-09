@@ -11,7 +11,7 @@ Debug           = 0
 CommLog         = 1
 UsageCount      = 1
 EOT
-sudo initdb /usr/local/var/postgres
+initdb /usr/local/var/postgres
 pg_ctl -D /usr/local/var/postgres start
 createuser -s postgres
 sleep 10
