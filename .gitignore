@@ -7,3 +7,4 @@ inst/doc
 dittodb.Rcheck/
 dittodb*.tar.gz
 dittodb*.tgz
+revdep
