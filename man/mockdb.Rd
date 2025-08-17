@@ -39,7 +39,7 @@ step through tests interactively using \code{start_mock_db()}/\code{stop_mock_db
 Connections should be made after \code{start_mock_db()} if you're using that
 function or they should be made inside of \code{with_mock_db()} if you're using
 that function because \code{dittodb} uses the database name (given in \code{dbname} or
-\code{Database} argument of \code{\link{dbConnect}} depending on the driver) to separate
+\code{Database} argument of \code{\link[DBI:dbConnect]{DBI::dbConnect}} depending on the driver) to separate
 different fixtures. For ODBC connections with only a dsn provided, the dsn is
 used for this directory.
 }

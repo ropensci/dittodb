@@ -112,10 +112,10 @@ be of class \code{DBIMockConnection})}
 
 \item{...}{arguments passed on inside of the methods}
 
-\item{drv}{a DB driver for use in \code{\link{dbConnect}}}
+\item{drv}{a DB driver for use in \code{\link[DBI:dbConnect]{DBI::dbConnect}}}
 
-\item{name}{name of the table (for \code{\link{dbListFields}}, \code{\link{dbWriteTable}},
-\code{\link{dbRemoveTable}})}
+\item{name}{name of the table (for \code{\link[DBI:dbListFields]{DBI::dbListFields}}, \code{\link[DBI:dbWriteTable]{DBI::dbWriteTable}},
+\code{\link[DBI:dbRemoveTable]{DBI::dbRemoveTable}})}
 
 \item{statement}{an SQL statement to execute}
 
@@ -125,11 +125,11 @@ class \code{DBIMockResult})}
 \item{n}{number of results to fetch (ignored)}
 
 \item{dbObj}{a database object (a connection, result, etc.) for use in
-\code{\link{dbGetInfo}}}
+\code{\link[DBI:dbGetInfo]{DBI::dbGetInfo}}}
 
-\item{value}{a value (generally a \code{data.frame}) for use in \code{\link{dbWriteTable}}}
+\item{value}{a value (generally a \code{data.frame}) for use in \code{\link[DBI:dbWriteTable]{DBI::dbWriteTable}}}
 
-\item{x}{a name to quote (for \code{\link{dbQuoteIdentifier}})}
+\item{x}{a name to quote (for \code{\link[DBI:dbQuoteIdentifier]{DBI::dbQuoteIdentifier}})}
 }
 \description{
 Various methods (\code{dbSendQuery}, \code{dbFetchQuery}) that are mocks of the
