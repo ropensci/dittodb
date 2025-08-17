@@ -39,11 +39,13 @@ jobs:
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Setup tmate session
+        if: false
         uses: mxschmitt/action-tmate@v3
 
       - name: Install databases (macOS)
         run: |
-           brew update || brew update
+           brew update
+          brew upgrade
            bash db-setup/postgres-brew.sh
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')
