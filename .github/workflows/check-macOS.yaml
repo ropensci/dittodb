@@ -41,7 +41,7 @@ jobs:
       - name: Install databases (macOS)
         run: |
            brew update
-          brew upgrade
+           brew upgrade
            bash db-setup/postgres-brew.sh
            bash db-setup/mariadb-brew.sh
         if: contains(runner.os, 'macOS')
