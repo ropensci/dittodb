@@ -1,117 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/articles/developing-dittodb.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/articles/dittodb.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/articles/nycflights.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/capture_requests.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/check_for_pkg.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/clean_statement.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/db_path_sanitize.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/dittodb_debug_level.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/dot-dittodb_env.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/driver-specifc-mock-connections.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/expect_sql.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/get_dbname.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/get_redactor.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/get_type.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/hash.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/hash_db_object.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/make_path.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/mock-db-methods.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/mockPaths.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/mockdb.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/nycflights13_create_sql.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/nycflights13_create_sqlite.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/nycflights_sqlite.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/redact_columns.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/sanitize_table_id.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/serialize_bit64.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/set_dittodb_debug_level.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/use_dittodb.html</loc>
-  </url>
-  <url>
-    <loc>https://dittodb.jonkeane.com/dev/reference/with_mock_path.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://dittodb.jonkeane.com/dev/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/CONTRIBUTING.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/LICENSE.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/articles/developing-dittodb.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/articles/dittodb.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/articles/index.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/articles/nycflights.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/authors.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/index.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/news/index.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/capture_requests.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/check_db_path.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/check_for_pkg.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/clean_statement.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/db_path_sanitize.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/dittodb_debug_level.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/dot-dittodb_env.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/driver-specifc-mock-connections.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/expect_sql.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/get_dbname.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/get_redactor.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/get_type.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/hash.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/hash_db_object.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/index.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/make_path.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/mock-db-methods.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/mockPaths.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/mockdb.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/nycflights13_create_sql.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/nycflights13_create_sqlite.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/nycflights_sqlite.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/redact_columns.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/sanitize_table_id.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/serialize_bit64.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/set_dittodb_debug_level.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/use_dittodb.html</loc></url>
+<url><loc>https://dittodb.jonkeane.com/dev/reference/with_mock_path.html</loc></url>
 </urlset>
+
