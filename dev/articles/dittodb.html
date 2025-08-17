@@ -210,14 +210,14 @@ like:</p>
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html" class="external-link">expect_equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p>And this works just fine if we only ever run your tests locally, but
-if we want to <a href="http://r-pkgs.had.co.nz/check.html#check" class="external-link">run our
-tests with a Continuous Integration system</a> (and yes, we want to do
-that!), this won’t work without first setting up our production database
-of flights. For our tests, we don’t actually need to connect to the
-database and get new data (and, in fact, that would make some tests fail
-erroneously suddenly if the underlying changed). Instead, what we want
-is to take a snapshot of what happens when running the test code, and
-then be able to use that snapshot when we run tests later. These
+if we want to <a href="https://r-pkgs.org/software-development-practices.html#sec-sw-dev-practices-ci" class="external-link">run
+our tests with a Continuous Integration system</a> (and yes, we want to
+do that!), this won’t work without first setting up our production
+database of flights. For our tests, we don’t actually need to connect to
+the database and get new data (and, in fact, that would make some tests
+fail erroneously suddenly if the underlying changed). Instead, what we
+want is to take a snapshot of what happens when running the test code,
+and then be able to use that snapshot when we run tests later. These
 snapshots are frequently called fixtures (though you might hear people
 use other names like stubs or mocks).</p>
 </div>
