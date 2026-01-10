@@ -51,6 +51,11 @@ jobs:
           sudo apt install libcurl4-openssl-dev libmariadb-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
+      - name: Install unixodbc-dev for older R versions (linux)
+        run: |
+          sudo apt install unixodbc-dev
+        if: contains(runner.os, 'linux') && (matrix.config.r == 'oldrel-3' || matrix.config.r == 'oldrel-4')
+
       - name: Install databases and odbc manual adjustments (linux)
         run: |
           bash db-setup/postgres-docker-container-only.sh
