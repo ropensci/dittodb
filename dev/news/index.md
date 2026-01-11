@@ -2,6 +2,9 @@
 
 ## dittodb (development version)
 
+- Updated links to match CRAN checks
+  ([\#195](https://github.com/ropensci/dittodb/issues/195))
+
 ## dittodb 0.1.9
 
 CRAN release: 2025-08-18
