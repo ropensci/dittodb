@@ -51,9 +51,10 @@ jobs:
           sudo apt install libcurl4-openssl-dev libmariadb-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
 
-      - name: Install unixodbc-dev for older R versions (linux)
+      - name: Set CXX for older R versions (linux)
         run: |
-          sudo apt install unixodbc-dev
+          # CXX isn't set correctly for older R versions, leading to ODBC to complain about not having a compiler
+          echo "CXX=$(R CMD config CXX)" >> $GITHUB_ENV
         if: contains(runner.os, 'linux') && (matrix.config.r == 'oldrel-3' || matrix.config.r == 'oldrel-4')
 
       - name: Install databases and odbc manual adjustments (linux)
