@@ -31,7 +31,8 @@
 #' }
 use_dittodb <- function(path = ".") {
   if (!("DESCRIPTION" %in% dir(path))) {
-    stop(path, " is not an R package directory", call. = FALSE)
+    error_msg <- glue::glue("{path} is not an R package directory.")
+    rlang::abort(error_msg)
   }
   add_dittodb_to_desc(file.path(path, "DESCRIPTION"))
   # TODO: could allow helper.r too
