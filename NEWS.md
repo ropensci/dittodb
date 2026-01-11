@@ -1,4 +1,4 @@
-# dittodb (development version)
+# dittodb 0.1.10
 * Updated links to match CRAN checks (#195)
 
 # dittodb 0.1.9
