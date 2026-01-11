@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 db_mock_paths("dittodb")
 ```
 
-We welcome contributions from anyone, no matter how small or trivial. Documentation additions or typo fixes are especially welcome. For larger, more-functional changes, either see if there is an issue open on GitHub already, or open one with a proposal of the change you would like to make. Please also see our [code of conduct](../docs/CODE_OF_CONDUCT.html) and [contributing guide](../docs/CONTRIBUTING.html).
+We welcome contributions from anyone, no matter how small or trivial. Documentation additions or typo fixes are especially welcome. For larger, more-functional changes, either see if there is an issue open on GitHub already, or open one with a proposal of the change you would like to make.
 
 Developing `dittodb` requires is a bit more complication than developing other R packages for a few reasons: 
 

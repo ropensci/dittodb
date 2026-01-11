@@ -15,12 +15,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: ubuntu-22.04, r: 'oldrel-4' }
-        - { os: ubuntu-22.04, r: 'oldrel-3' }
-        - { os: ubuntu-22.04, r: 'oldrel-2' }
-        - { os: ubuntu-22.04, r: 'oldrel-1' }
-        - { os: ubuntu-22.04, r: 'release' }
-        - { os: ubuntu-22.04, r: 'devel', http-user-agent: 'R/4.0.0 (ubuntu-20.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
+        - { os: ubuntu-24.04, r: 'oldrel-4' }
+        - { os: ubuntu-24.04, r: 'oldrel-3' }
+        - { os: ubuntu-24.04, r: 'oldrel-2' }
+        - { os: ubuntu-24.04, r: 'oldrel-1' }
+        - { os: ubuntu-24.04, r: 'release' }
+        - { os: ubuntu-24.04, r: 'devel', http-user-agent: 'R/4.0.0 (ubuntu-24.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions' }
 
     env:
       CRAN: ${{ matrix.config.cran }}
@@ -30,7 +30,7 @@ jobs:
       DITTODB_ENABLE_MARIA_TESTS: true
       _R_CHECK_CRAN_INCOMING_: false
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
-      RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
+      RSPM: "https://packagemanager.posit.co/all/__linux__/noble/latest"
 
     steps:
       - uses: actions/checkout@v3
@@ -50,6 +50,12 @@ jobs:
           sudo apt install unixodbc unixodbc-dev --install-suggests
           sudo apt install libcurl4-openssl-dev libmariadb-dev postgresql-client libpq-dev odbc-postgresql
         if: contains(runner.os, 'linux')
+
+      - name: Set CXX for older R versions (linux)
+        run: |
+          # CXX isn't set correctly for older R versions, leading to ODBC to complain about not having a compiler
+          echo "CXX=$(R CMD config CXX)" >> $GITHUB_ENV
+        if: contains(runner.os, 'linux') && (matrix.config.r == 'oldrel-3' || matrix.config.r == 'oldrel-4')
 
       - name: Install databases and odbc manual adjustments (linux)
         run: |
