@@ -40,13 +40,12 @@ db_send_query <- function(conn, statement, ...) {
 
   # TDOO: if we are in expect_sql, then we should emit an error (or warning?) with SQL here
   if (is_expecting()) {
-    stop(
-      "Fixture: ",
-      make_path(conn@path, get_type(statement), hash(statement)),
-      "\n",
-      clean_statement(statement),
-      call. = FALSE
+    error_msg <- glue::glue(
+      "Fixture: {make_path(conn@path, get_type(statement), hash(statement))}
+      {clean_statement(statement)}"
     )
+
+    rlang::abort(error_msg)
   }
 
   return(new(
