@@ -381,7 +381,7 @@ safe_untrace <- function(what, where = sys.frame()) {
 
   if (inherits(
     try(get(what, env), silent = TRUE),
-    c("functionWithTrace", "standardGenericWithTrace")
+    c("functionWithTrace", "standardGenericWithTrace", "nonstandardGenericFunctionWithTrace")
   )) {
     quietly(untrace(what, where = where))
   }

@@ -106,10 +106,10 @@ stop_mock_db <- function() {
   mocked_already <- any(
     inherits(
       try(get("dbConnect", sys.frame()), silent = TRUE),
-      c("functionWithTrace", "standardGenericWithTrace")
+      c("functionWithTrace", "standardGenericWithTrace", "nonstandardGenericFunctionWithTrace")
     ), inherits(
       try(get("dbConnect", asNamespace("DBI")), silent = TRUE),
-      c("functionWithTrace", "standardGenericWithTrace")
+      c("functionWithTrace", "standardGenericWithTrace", "nonstandardGenericFunctionWithTrace")
     )
   )
 
