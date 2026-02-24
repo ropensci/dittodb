@@ -104,13 +104,8 @@ start_mock_db <- function() {
 #' @export
 stop_mock_db <- function() {
   mocked_already <- any(
-    inherits(
-      try(get("dbConnect", sys.frame()), silent = TRUE),
-      c("functionWithTrace", "standardGenericWithTrace")
-    ), inherits(
-      try(get("dbConnect", asNamespace("DBI")), silent = TRUE),
-      c("functionWithTrace", "standardGenericWithTrace")
-    )
+    is_traced(try(get("dbConnect", sys.frame()), silent = TRUE)),
+    is_traced(try(get("dbConnect", asNamespace("DBI")), silent = TRUE))
   )
 
   if (!mocked_already) {

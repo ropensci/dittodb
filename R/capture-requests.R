@@ -366,6 +366,14 @@ method_loaded <- Vectorize(function(method, signature) {
   return(any(grepl(signature, methods(method))))
 }, vectorize.args = "signature")
 
+# reused in a few places
+is_traced <- function(x) {
+  inherits(
+    x,
+    c("functionWithTrace", "standardGenericWithTrace", "nonstandardGenericFunctionWithTrace")
+  )
+}
+
 # borrowed from httptest
 safe_untrace <- function(what, where = sys.frame()) {
   ## If you attempt to untrace a function (1) that isn't exported from
@@ -379,10 +387,7 @@ safe_untrace <- function(what, where = sys.frame()) {
     env <- environment(where)
   }
 
-  if (inherits(
-    try(get(what, env), silent = TRUE),
-    c("functionWithTrace", "standardGenericWithTrace")
-  )) {
+  if (is_traced(try(get(what, env), silent = TRUE))) {
     quietly(untrace(what, where = where))
   }
 }
