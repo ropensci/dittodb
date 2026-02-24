@@ -1,3 +1,5 @@
+# dittodb (development version)
+
 # dittodb 0.1.11
 * Established compatibility with DBI 1.3.0 (#197)
 
