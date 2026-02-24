@@ -2,6 +2,17 @@
 
 ## dittodb (development version)
 
+## dittodb 0.1.11
+
+CRAN release: 2026-02-24
+
+- Established compatibility with DBI 1.3.0
+  ([\#197](https://github.com/ropensci/dittodb/issues/197))
+
+## dittodb 0.1.10
+
+CRAN release: 2026-01-11
+
 - Updated links to match CRAN checks
   ([\#195](https://github.com/ropensci/dittodb/issues/195))
 
