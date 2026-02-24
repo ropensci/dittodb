@@ -22,12 +22,12 @@ Source:
 [`DESCRIPTION`](https://github.com/ropensci/dittodb/blob/main/DESCRIPTION)
 
 Keane J, Vargas M (2026). *dittodb: A Test Environment for Database
-Requests*. R package version 0.1.10, <https://dittodb.jonkeane.com/>.
+Requests*. R package version 0.1.11, <https://dittodb.jonkeane.com/>.
 
     @Manual{,
       title = {dittodb: A Test Environment for Database Requests},
       author = {Jonathan Keane and Mauricio Vargas},
       year = {2026},
-      note = {R package version 0.1.10},
+      note = {R package version 0.1.11},
       url = {https://dittodb.jonkeane.com/},
     }
