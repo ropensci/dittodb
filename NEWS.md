@@ -1,3 +1,6 @@
+# dittodb 0.1.11
+* Established compatibility with DBI 1.3.0 (#197)
+
 # dittodb 0.1.10
 * Updated links to match CRAN checks (#195)
 
