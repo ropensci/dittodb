@@ -370,7 +370,7 @@ method_loaded <- Vectorize(function(method, signature) {
 is_traced <- function(x) {
   inherits(
     x,
-    c("functionWithTrace", "standardGenericWithTrace", "nonstandardGenericFunctionWithTrace")
+    "traceable"
   )
 }
 
