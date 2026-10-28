@@ -61,60 +61,26 @@ dbMockConnect <- function(drv, ...) {
   if (inherits(drv, "SQLiteDriver")) {
     mock_class <- "DBIMockSQLiteConnection"
     original_class <- "SQLiteConnection"
-
-    if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register(
-        "dbplyr::db_supports_table_alias_with_as",
-        "DBIMockSQLiteConnection",
-        method = function(con) TRUE
-      )
-    }
+    register_table_alias_with_as(mock_class, TRUE)
   } else if (inherits(drv, "PostgreSQLDriver")) {
     mock_class <- "DBIMockRPostgreSQLConnection"
     original_class <- "PostgreSQLConnection"
-
-    if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register(
-        "dbplyr::db_supports_table_alias_with_as",
-        "DBIMockRPostgreSQLConnection",
-        method = function(con) FALSE
-      )
-    }
+    register_table_alias_with_as(mock_class, FALSE)
   } else if (inherits(drv, "PqDriver")) {
     mock_class <- "DBIMockRPostgresConnection"
     original_class <- "PqConnection"
-
-    if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register(
-        "dbplyr::db_supports_table_alias_with_as",
-        "DBIMockRPostgresConnection",
-        method = function(con) TRUE
-      )
-    }
+    register_table_alias_with_as(mock_class, TRUE)
   } else if (inherits(drv, "MariaDBDriver")) {
     mock_class <- "DBIMockMariaDBConnection"
     original_class <- "MariaDBConnection"
-
-    if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register(
-        "dbplyr::db_supports_table_alias_with_as",
-        "DBIMockMariaDBConnection",
-        method = function(con) FALSE
-      )
-    }
+    register_table_alias_with_as(mock_class, FALSE)
   } else if (inherits(drv, "OdbcDriver")) {
     mock_class <- "DBIMockConnection"
     original_class <- "DBIConnection"
 
     # If we have an odbc connection, pretend that it is postgres for the purposes
     # of db_supports_table_alias_with_as
-    if (requireNamespace("dbplyr", quietly = TRUE)) {
-      s3_register(
-        "dbplyr::db_supports_table_alias_with_as",
-        "DBIMockConnection",
-        method = function(con) TRUE
-      )
-    }
+    register_table_alias_with_as(mock_class, TRUE)
   } else {
     warning(
       as.character(class(drv)),
@@ -127,12 +93,13 @@ dbMockConnect <- function(drv, ...) {
   path <- get_dbname(dots, drv = drv)
 
   # retrieve the dbplyr_edition for the original connection, if it exists (and
-  # if dbplyr is installed)
+  # if dbplyr is installed). Otherwise use the 2nd edition, since dbplyr >= 2.6.0
+  # no longer supports 1st edition backends.
   if (requireNamespace("dbplyr", quietly = TRUE)) {
     orig_dbplyr_edition <- tryCatch(
       getFromNamespace(paste0("dbplyr_edition.", original_class), "dbplyr"),
       error = function(e) {
-        getFromNamespace("dbplyr_edition.default", "dbplyr")
+        function(con) 2L
       }
     )
 
@@ -141,4 +108,22 @@ dbMockConnect <- function(drv, ...) {
   }
 
   return(new(mock_class, path = path, original_class = original_class))
+}
+
+# dbplyr >= 2.6.0 removed the db_supports_table_alias_with_as() generic (it is
+# now part of sql_dialect()), so only register it when dbplyr still has it.
+register_table_alias_with_as <- function(mock_class, supports) {
+  force(supports)
+  if (dbplyr_has_table_alias_with_as()) {
+    s3_register(
+      "dbplyr::db_supports_table_alias_with_as",
+      mock_class,
+      method = function(con) supports
+    )
+  }
+}
+
+dbplyr_has_table_alias_with_as <- function() {
+  requireNamespace("dbplyr", quietly = TRUE) &&
+    exists("db_supports_table_alias_with_as", asNamespace("dbplyr"))
 }

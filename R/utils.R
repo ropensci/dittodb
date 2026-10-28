@@ -110,8 +110,9 @@ ignore_dbplyr_unique_names <- function(statement) {
     "`removed_unique_dplyr_name`",
     statement
   )
+  # dbplyr >= 2.6.0 prefixes temporary table names with `dbplyr_tmp_`
   statement <- gsub(
-    "`dbplyr_[[:alnum:]]+`",
+    "`dbplyr_(tmp_)?[[:alnum:]]+`",
     "`removed_unique_dplyr_name`",
     statement
   )
