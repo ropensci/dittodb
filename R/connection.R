@@ -114,14 +114,16 @@ dbMockConnect <- function(drv, ...) {
 # now part of sql_dialect()), so only register it when dbplyr still has it.
 register_table_alias_with_as <- function(mock_class, supports) {
   force(supports)
-  if (
-    requireNamespace("dbplyr", quietly = TRUE) &&
-      exists("db_supports_table_alias_with_as", asNamespace("dbplyr"))
-  ) {
+  if (dbplyr_has_table_alias_with_as()) {
     s3_register(
       "dbplyr::db_supports_table_alias_with_as",
       mock_class,
       method = function(con) supports
     )
   }
+}
+
+dbplyr_has_table_alias_with_as <- function() {
+  requireNamespace("dbplyr", quietly = TRUE) &&
+    exists("db_supports_table_alias_with_as", asNamespace("dbplyr"))
 }
