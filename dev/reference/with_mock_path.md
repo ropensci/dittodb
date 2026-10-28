@@ -58,7 +58,7 @@ if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
     })
   )
 }
-#> Test passed with 4 successes 😸.
+#> Test passed with 4 successes 🌈.
 #>   carrier              name
 #> 1      9E Endeavor Air Inc.
 ```

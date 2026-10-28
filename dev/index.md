@@ -29,6 +29,7 @@ test.
 For example, we have the simple function that retrieves one airline:
 
 ``` r
+
 get_an_airline <- function(con) {
   return(dbGetQuery(con, "SELECT carrier, name FROM airlines LIMIT 1"))
 }
@@ -45,6 +46,7 @@ database:
 - RSQLite
 
 ``` r
+
 start_db_capturing()
 
 con <- DBI::dbConnect(
@@ -59,6 +61,7 @@ stop_db_capturing()
 ```
 
 ``` r
+
 start_db_capturing()
 
 con <- DBI::dbConnect(
@@ -73,6 +76,7 @@ stop_db_capturing()
 ```
 
 ``` r
+
 start_db_capturing()
 
 con <- DBI::dbConnect(RSQLite::SQLite(), "nycflights")
@@ -94,6 +98,7 @@ following:
 - RSQLite
 
 ``` r
+
 with_mock_db({
   con <- DBI::dbConnect(
     RMariaDB::MariaDB(),
@@ -111,6 +116,7 @@ with_mock_db({
 ```
 
 ``` r
+
 with_mock_db({
   con <- DBI::dbConnect(
     RPostgres::Postgres(),
@@ -128,6 +134,7 @@ with_mock_db({
 ```
 
 ``` r
+
 with_mock_db({
   con <- DBI::dbConnect(RSQLite::SQLite(), "nycflights")
   

@@ -98,5 +98,5 @@ if (check_for_pkg("RSQLite", message) & check_for_pkg("testthat", message)) {
   stop_mock_db()
 }
 #> Test passed with 4 successes 😀.
-#> Test passed with 4 successes 😸.
+#> Test passed with 4 successes 🥇.
 ```

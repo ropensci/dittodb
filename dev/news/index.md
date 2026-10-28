@@ -2,6 +2,12 @@
 
 ## dittodb (development version)
 
+- Compatibility with dbplyr 2.6.0: temporary table names
+  (`dbplyr_tmp_*`) are now ignored when hashing statements, mock
+  connections without a known dbplyr edition use the 2nd edition, and
+  `db_supports_table_alias_with_as()` methods are only registered when
+  dbplyr still has that generic.
+
 ## dittodb 0.1.11
 
 CRAN release: 2026-02-24

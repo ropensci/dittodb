@@ -10,8 +10,8 @@ needing a connection at all.
 
 To get started, imagine that we are working on a package that queries a
 database that consists of the [nycflights13
-data](https://dittodb.jonkeane.com/dev/articles/nycflights.md)[¹](#fn1).
-We have the following function which takes a column to aggregate by and
+data](https://dittodb.jonkeane.com/dev/articles/nycflights.md)[^1]. We
+have the following function which takes a column to aggregate by and
 returns a dataframe with that column and the mean delay for groups based
 on the values in the column name given.
 
@@ -22,6 +22,7 @@ on the values in the column name given.
 - RSQLite
 
 ``` r
+
 library(DBI)
 
 mean_delays <- function(group_col) {
@@ -41,6 +42,7 @@ mean_delays <- function(group_col) {
 ```
 
 ``` r
+
 library(DBI)
 
 mean_delays <- function(group_col) {
@@ -60,6 +62,7 @@ mean_delays <- function(group_col) {
 ```
 
 ``` r
+
 library(DBI)
 
 mean_delays <- function(group_col) {
@@ -83,6 +86,7 @@ mean_delays <- function(group_col) {
 If we give it the column `"month"`, we get the following dataframe:
 
 ``` r
+
 mean_delays("month")
 ```
 
@@ -104,6 +108,7 @@ Great, now that we have our function we want to test it to make sure it
 is operating as expected. Normally, we could write something like:
 
 ``` r
+
 library(testthat)
 
 test_that("mean_delays()", {
@@ -133,6 +138,7 @@ run the functions we want to record, and then stop recording with
 [`stop_db_capturing()`](https://dittodb.jonkeane.com/dev/reference/capture_requests.md).
 
 ``` r
+
 start_db_capturing()
 out <- mean_delays("month")
 stop_db_capturing()
@@ -152,6 +158,7 @@ that includes a database interaction with the function
 This will look for fixtures and use those.
 
 ``` r
+
 with_mock_db(
   mean_delays("month")
 )
@@ -173,6 +180,7 @@ with_mock_db(
 So, now we can write our tests like:
 
 ``` r
+
 library(testthat)
 library(dittodb)
 
@@ -197,6 +205,7 @@ Although we will have to make a new fixture. First we would run the
 following interactively:
 
 ``` r
+
 start_db_capturing()
 out <- mean_delays("day")
 stop_db_capturing()
@@ -210,6 +219,7 @@ will be used when called inside of `with_mock_db(...)`. So now, we could
 write our new test with:
 
 ``` r
+
 with_mock_db(
   test_that("mean_delays()", {
     out <- mean_delays("day")
@@ -334,6 +344,7 @@ them manually to pare them down. The workflow for that would be
 something like:
 
 ``` r
+
 # read in the recorded fixture
 df_fixt <- source("nycflights/SELECT-16d120.R", keep.source = FALSE)$value
 
@@ -344,10 +355,9 @@ df_fixt <- dplyr::filter(df_fixt, month <= 2 & day < 10)
 dput(df_fixt, file = "nycflights/SELECT-16d120.R", control = c("all", "hexNumeric"))
 ```
 
-------------------------------------------------------------------------
-
-1.  These code snippets won’t work right out of the box — you will need
-    to make sure the database you’re connecting to has the [nycflights13
+[^1]: These code snippets won’t work right out of the box — you will
+    need to make sure the database you’re connecting to has the
+    [nycflights13
     data](https://dittodb.jonkeane.com/dev/articles/nycflights.md) data
     in it. You could do this with SQLite by running
     `nycflights13_create_sqlite(location = "nycflights")` before the
