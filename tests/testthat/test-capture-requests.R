@@ -1,15 +1,18 @@
+.genericFunctionName <- as.character(class(getGeneric("==", mustFind = TRUE)))
+.genericFunctionWithTraceName <- paste0(.genericFunctionName, "WithTrace")
+
 with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   start_db_capturing()
 
   test_that("DBI and the top-most dbSenQuery has been traced", {
     # the first instance of dbSendQuery is mocked:
-    expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
+    expect_s4_class(getAnywhere("dbSendQuery")[1], .genericFunctionWithTraceName)
 
     # the DBI namespace instance of dbQuery is also mocked:
     dbi_ind <- which(getAnywhere("dbSendQuery")$where == "namespace:DBI")
     expect_s4_class(
       getAnywhere("dbSendQuery")[dbi_ind],
-      "standardGenericWithTrace"
+      .genericFunctionWithTraceName
     )
   })
 
@@ -23,8 +26,8 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
       # can't use expect_s4_class because standardGenericWithTrace inherits from
       # standardGeneric
       testthat_transition(
-        expect_equivalent(class(postCaptureDbSendQuery[i]), "standardGeneric"),
-        expect_equal(class(postCaptureDbSendQuery[i]), "standardGeneric", ignore_attr = TRUE)
+        expect_equivalent(class(postCaptureDbSendQuery[i]), .genericFunctionName),
+        expect_equal(class(postCaptureDbSendQuery[i]), .genericFunctionName, ignore_attr = TRUE)
       )
     })
   }
@@ -33,13 +36,13 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   start_db_capturing()
 
   # the first instance of dbSendQuery is mocked:
-  expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
+  expect_s4_class(getAnywhere("dbSendQuery")[1], .genericFunctionWithTraceName)
 
   # the DBI namespace instance of dbQuery is also mocked:
   dbi_ind <- which(getAnywhere("dbSendQuery")$where == "namespace:DBI")
   expect_s4_class(
     getAnywhere("dbSendQuery")[dbi_ind],
-    "standardGenericWithTrace"
+    .genericFunctionWithTraceName
   )
 
   stop_db_capturing()
@@ -47,13 +50,13 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   capture_db_requests({
     test_that("DBI and the top-most dbSenQuery has been traced", {
       # the first instance of dbSendQuery is mocked:
-      expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
+      expect_s4_class(getAnywhere("dbSendQuery")[1], .genericFunctionWithTraceName)
 
       # the DBI namespace instance of dbQuery is also mocked:
       dbi_ind <- which(getAnywhere("dbSendQuery")$where == "namespace:DBI")
       expect_s4_class(
         getAnywhere("dbSendQuery")[dbi_ind],
-        "standardGenericWithTrace"
+        .genericFunctionWithTraceName
       )
     })
   })
@@ -62,13 +65,13 @@ with_mock_path(path = file.path(temp_dir, "recording_tracing"), {
   capture_db_requests(path = tempdir(), {
     test_that("DBI and the top-most dbSenQuery has been traced", {
       # the first instance of dbSendQuery is mocked:
-      expect_s4_class(getAnywhere("dbSendQuery")[1], "standardGenericWithTrace")
+      expect_s4_class(getAnywhere("dbSendQuery")[1], .genericFunctionWithTraceName)
 
       # the DBI namespace instance of dbQuery is also mocked:
       dbi_ind <- which(getAnywhere("dbSendQuery")$where == "namespace:DBI")
       expect_s4_class(
         getAnywhere("dbSendQuery")[dbi_ind],
-        "standardGenericWithTrace"
+        .genericFunctionWithTraceName
       )
     })
   })
