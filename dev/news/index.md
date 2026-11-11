@@ -7,6 +7,11 @@
   connections without a known dbplyr edition use the 2nd edition, and
   `db_supports_table_alias_with_as()` methods are only registered when
   dbplyr still has that generic.
+  ([\#200](https://github.com/ropensci/dittodb/issues/200))
+- Prepared for the removal of the S4 classes `standardGeneric` and
+  `nonstandardGeneric` from {methods}.
+  ([@jaganmn](https://github.com/jaganmn),
+  [\#199](https://github.com/ropensci/dittodb/issues/199))
 
 ## dittodb 0.1.11
 
