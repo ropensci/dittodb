@@ -69,7 +69,8 @@ get_dbname <- function(dots, drv = NULL) {
     path <- "ephemeral_sqlite"
   } else {
     # if there is no name, or it's empty
-    stop("There was no dbname, so I don't know where to look for mocks.")
+    error_msg <- "There was no dbname, so I don't know where to look for mocks."
+    rlang::abort(error_msg)
   }
   return(db_path_sanitize(path))
 }
